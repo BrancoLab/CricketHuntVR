@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.6.3"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:io="clr-namespace:Bonsai.IO;assembly=Bonsai.System"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:cv="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision"
+                 xmlns:scr="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="GroupWorkflow">
+          <Name>ArduinoSensor</Name>
+          <Workflow>
+            <Nodes>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="io:CreateSerialPort">
+                  <io:Name>OpticalFlow</io:Name>
+                  <io:PortName>COM5</io:PortName>
+                  <io:BaudRate>115200</io:BaudRate>
+                  <io:Parity>None</io:Parity>
+                  <io:ParityReplace>63</io:ParityReplace>
+                  <io:DataBits>8</io:DataBits>
+                  <io:StopBits>One</io:StopBits>
+                  <io:Handshake>None</io:Handshake>
+                  <io:DiscardNull>false</io:DiscardNull>
+                  <io:DtrEnable>true</io:DtrEnable>
+                  <io:RtsEnable>false</io:RtsEnable>
+                  <io:ReadBufferSize>4096</io:ReadBufferSize>
+                  <io:WriteBufferSize>2048</io:WriteBufferSize>
+                  <io:ReceivedBytesThreshold>1</io:ReceivedBytesThreshold>
+                </Combinator>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="io:SerialStringRead">
+                  <io:PortName>OpticalFlow</io:PortName>
+                  <io:NewLine>\n</io:NewLine>
+                </Combinator>
+              </Expression>
+              <Expression xsi:type="Parse">
+                <Pattern>%i,%i</Pattern>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:Retry" />
+              </Expression>
+              <Expression xsi:type="MemberSelector">
+                <Selector>Item1</Selector>
+              </Expression>
+              <Expression xsi:type="rx:Accumulate" />
+              <Expression xsi:type="MemberSelector">
+                <Selector>Item2</Selector>
+              </Expression>
+              <Expression xsi:type="rx:Accumulate" />
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:TimeInterval" />
+              </Expression>
+            </Nodes>
+            <Edges>
+              <Edge From="1" To="2" Label="Source1" />
+              <Edge From="1" To="8" Label="Source1" />
+              <Edge From="2" To="3" Label="Source1" />
+              <Edge From="3" To="4" Label="Source1" />
+              <Edge From="3" To="6" Label="Source1" />
+              <Edge From="4" To="5" Label="Source1" />
+              <Edge From="6" To="7" Label="Source1" />
+            </Edges>
+          </Workflow>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>CameraOpticflow</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="cv:FileCapture">
+                <cv:FileName>C:\Users\neurogears\Downloads\sample.mp4</cv:FileName>
+                <cv:PlaybackRate>0</cv:PlaybackRate>
+                <cv:StartPosition>0</cv:StartPosition>
+                <cv:PositionUnits>Frames</cv:PositionUnits>
+                <cv:Loop>true</cv:Loop>
+                <cv:Playing>false</cv:Playing>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:DistinctUntilChanged" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="cv:Grayscale" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="cv:Crop">
+                <cv:RegionOfInterest>
+                  <cv:X>61</cv:X>
+                  <cv:Y>140</cv:Y>
+                  <cv:Width>95</cv:Width>
+                  <cv:Height>83</cv:Height>
+                </cv:RegionOfInterest>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="cv:Flip">
+                <cv:Mode>Vertical</cv:Mode>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="cv:Threshold">
+                <cv:ThresholdValue>162</cv:ThresholdValue>
+                <cv:MaxValue>255</cv:MaxValue>
+                <cv:ThresholdType>Binary</cv:ThresholdType>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="cv:GoodFeaturesToTrack">
+                <cv:MaxFeatures>100</cv:MaxFeatures>
+                <cv:QualityLevel>0.01</cv:QualityLevel>
+                <cv:MinDistance>0.1</cv:MinDistance>
+                <cv:RegionOfInterest>
+                  <cv:X>0</cv:X>
+                  <cv:Y>0</cv:Y>
+                  <cv:Width>0</cv:Width>
+                  <cv:Height>0</cv:Height>
+                </cv:RegionOfInterest>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="cv:SparseOpticalFlow">
+                <cv:WindowSize>
+                  <cv:Width>31</cv:Width>
+                  <cv:Height>31</cv:Height>
+                </cv:WindowSize>
+                <cv:Level>3</cv:Level>
+                <cv:MaxError xsi:nil="true" />
+                <cv:MaxIterations>20</cv:MaxIterations>
+                <cv:Epsilon>0.03</cv:Epsilon>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="scr:PythonTransform">
+              <scr:Script>import clr
+clr.AddReference("OpenCV.Net")
+clr.AddReference("Bonsai.Vision")
+from System import Tuple
+from OpenCV.Net import CV, Scalar, Size, Point2f
+from Bonsai.Vision import KeyPointCollection
+from math import sin, cos, pi, isnan, sqrt, atan2
+
+
+
+# clr.AddReference("Bonsai.Vision")
+# from Bonsai.Vision import ConnectedComponent
+# from OpenCV.Net import *
+
+
+
+#@returns(Tuple[Point2f,float])
+@returns(Tuple[float,float,float])
+def process(value):
+  previous = value.PreviousKeyPoints
+  current = value.CurrentKeyPoints
+  TotalDisplacement = Point2f(0.0,0.0)
+  TotalDisplacementX = 0.0
+  TotalDisplacementY = 0.0
+  TotalRotation = 0.0
+
+  for cur,prev in zip(current,previous):
+    TotalDisplacementX += (cur.X - prev.X)
+    TotalDisplacementY += (cur.Y - prev.Y)
+
+    Displacement = cur - prev
+    TotalDisplacement += Displacement
+
+    Center = Point2f(current.Image.Width/2.0, current.Image.Height/2.0)
+
+    # assuming rotation around the center of the image, another possibility would
+    # be to offset the center taking in acount the displacement in X,Y
+    cur2 = cur - Center
+    prev2 = prev - Center
+    TotalRotation += atan2(crossProduct(cur2,prev2), dotProduct(cur2,prev2))
+
+
+
+  if (current.Count&gt; 0):
+    TotalDisplacementX /= current.Count
+    TotalDisplacementY /= current.Count
+    TotalRotation /= current.Count
+
+  TotalRotation *= 225
+
+  return Tuple.Create(TotalDisplacementX,TotalDisplacementY,TotalRotation)
+
+
+
+
+def mul(a,U):
+  return Point2f(a*U.X,a*U.Y)
+
+
+def norm(U):
+  return (sqrt((U.X*U.X)+(U.Y*U.Y)))
+
+
+def crossProduct(U,V):
+  return (U.X*V.Y-U.Y*V.X)
+
+
+def dotProduct(U,V):
+  return (U.X*V.X+U.Y*V.Y)</scr:Script>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new(
+it.Item1 as TotalDisplacementX,
+it.Item2 as TotalDisplacementY,
+it.Item3 as TotalRotation)</scr:Expression>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="5" To="6" Label="Source1" />
+            <Edge From="6" To="7" Label="Source1" />
+            <Edge From="7" To="8" Label="Source1" />
+            <Edge From="8" To="9" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+    </Nodes>
+    <Edges />
+  </Workflow>
+</WorkflowBuilder>
