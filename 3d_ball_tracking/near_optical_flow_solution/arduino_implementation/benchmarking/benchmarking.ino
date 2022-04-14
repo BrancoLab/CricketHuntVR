@@ -14,7 +14,6 @@
 #define OF1_CS_PIN 9
 // define interrupt motion_ready pin
 #define OF1_MOTION_PIN 2
-#define OF1_TRIGGER_MOTION_PIN 3
 // define sensor reset pin (only used if NRESET pin is not connected to 3.3V)
 #define OF1_RESET_PIN 5
 
@@ -36,8 +35,7 @@ void motionRead() {
 }
 
 void setup() {
-  pinMode(OF1_TRIGGER_MOTION_PIN, OUTPUT);
-  pinMode(OF1_MOTION_PIN, INPUT);
+  pinMode(OF1_MOTION_PIN, INPUT_PULLUP);
   Serial.begin(57600);
   SPI.begin();
   // Remove if NRESET pin is connected to 3.3V (e.g. in Pimoroni board)
@@ -58,7 +56,6 @@ void setup() {
   delay(1000);
   of1_xy[0] = 0;
   of1_xy[1] = 0;
-  tone(OF1_TRIGGER_MOTION_PIN,200);
 }
 void loop() {
   uint32_t t = millis();
