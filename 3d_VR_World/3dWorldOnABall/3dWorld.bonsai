@@ -8,6 +8,8 @@
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:scr="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting"
                  xmlns:p1="clr-namespace:;assembly=Extensions"
+                 xmlns:bv="clr-namespace:BonVision;assembly=BonVision"
+                 xmlns:p2="clr-namespace:OpenTK;assembly=OpenTK"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Workflow>
     <Nodes>
@@ -115,6 +117,10 @@
               <gl:Name>cube</gl:Name>
               <gl:FileName>resources\cube.obj</gl:FileName>
             </gl:MeshConfiguration>
+            <gl:MeshConfiguration xsi:type="gl:TexturedModel">
+              <gl:Name>cricket</gl:Name>
+              <gl:FileName>resources\cricket.obj</gl:FileName>
+            </gl:MeshConfiguration>
           </gl:Meshes>
         </Combinator>
       </Expression>
@@ -176,7 +182,7 @@
                   </Expression>
                   <Expression xsi:type="Multiply">
                     <Operand xsi:type="FloatProperty">
-                      <Value>1</Value>
+                      <Value>0.1</Value>
                     </Operand>
                   </Expression>
                   <Expression xsi:type="PublishSubject">
@@ -212,7 +218,7 @@
                   </Expression>
                   <Expression xsi:type="Multiply">
                     <Operand xsi:type="FloatProperty">
-                      <Value>1</Value>
+                      <Value>0.1</Value>
                     </Operand>
                   </Expression>
                   <Expression xsi:type="PublishSubject">
@@ -248,7 +254,7 @@
                   </Expression>
                   <Expression xsi:type="Multiply">
                     <Operand xsi:type="FloatProperty">
-                      <Value>1</Value>
+                      <Value>0.1</Value>
                     </Operand>
                   </Expression>
                   <Expression xsi:type="PublishSubject">
@@ -378,6 +384,25 @@
                 </Edges>
               </Workflow>
             </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawText.bonsai">
+              <Text />
+              <Font>Microsoft Sans Serif, 13.875pt</Font>
+              <Alignment>Center</Alignment>
+              <LineAlignment>Center</LineAlignment>
+              <TextRenderingHint>AntiAliasGridFit</TextRenderingHint>
+              <Color>
+                <Val0>255</Val0>
+                <Val1>255</Val1>
+                <Val2>255</Val2>
+                <Val3>255</Val3>
+              </Color>
+              <ExtentX>1</ExtentX>
+              <ExtentY>1</ExtentY>
+              <LocationX>0</LocationX>
+              <LocationY>0</LocationY>
+              <Layer>0</Layer>
+              <Angle>0</Angle>
+            </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="FloatProperty">
                 <Value>0</Value>
@@ -471,25 +496,26 @@
             </Expression>
           </Nodes>
           <Edges>
-            <Edge From="1" To="2" Label="Source1" />
-            <Edge From="3" To="4" Label="Source1" />
-            <Edge From="5" To="6" Label="Source1" />
-            <Edge From="7" To="10" Label="Source2" />
-            <Edge From="8" To="9" Label="Source1" />
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="6" To="7" Label="Source1" />
+            <Edge From="8" To="11" Label="Source2" />
             <Edge From="9" To="10" Label="Source1" />
             <Edge From="10" To="11" Label="Source1" />
             <Edge From="11" To="12" Label="Source1" />
-            <Edge From="13" To="16" Label="Source2" />
-            <Edge From="14" To="15" Label="Source1" />
+            <Edge From="12" To="13" Label="Source1" />
+            <Edge From="14" To="17" Label="Source2" />
             <Edge From="15" To="16" Label="Source1" />
             <Edge From="16" To="17" Label="Source1" />
             <Edge From="17" To="18" Label="Source1" />
-            <Edge From="19" To="22" Label="Source2" />
-            <Edge From="20" To="21" Label="Source1" />
+            <Edge From="18" To="19" Label="Source1" />
+            <Edge From="20" To="23" Label="Source2" />
             <Edge From="21" To="22" Label="Source1" />
             <Edge From="22" To="23" Label="Source1" />
             <Edge From="23" To="24" Label="Source1" />
-            <Edge From="25" To="26" Label="Source1" />
+            <Edge From="24" To="25" Label="Source1" />
+            <Edge From="26" To="27" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -498,9 +524,9 @@
       </Expression>
       <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.PerspectiveView.bonsai">
         <Light>
-          <X>0</X>
-          <Y>0</Y>
-          <Z>0</Z>
+          <X>1</X>
+          <Y>1</Y>
+          <Z>1</Z>
         </Light>
         <FieldOfView>45</FieldOfView>
         <Eye>
@@ -528,30 +554,10 @@
         <Name>Draw3DStim</Name>
       </Expression>
       <Expression xsi:type="IncludeWorkflow" Path="Extensions\MonitorViewWindow.bonsai">
-        <X>1</X>
-        <Y>0</Y>
-        <Z>0</Z>
-        <Angle>3.14</Angle>
-        <Gain_El>0</Gain_El>
-        <Gain_Az>0</Gain_Az>
-      </Expression>
-      <Expression xsi:type="PublishSubject">
-        <Name>3dView</Name>
-      </Expression>
-      <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.DrawViewport.bonsai">
-        <X>0</X>
-        <Y>0</Y>
-        <Width>0.25</Width>
-        <Height>1</Height>
-      </Expression>
-      <Expression xsi:type="SubscribeSubject">
-        <Name>Draw3DStim</Name>
-      </Expression>
-      <Expression xsi:type="IncludeWorkflow" Path="Extensions\MonitorViewWindow.bonsai">
         <X>0</X>
         <Y>0</Y>
         <Z>0</Z>
-        <Angle>1.57</Angle>
+        <Angle>-1.57</Angle>
         <Gain_El>0</Gain_El>
         <Gain_Az>0</Gain_Az>
       </Expression>
@@ -559,7 +565,7 @@
         <Name>3dView</Name>
       </Expression>
       <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.DrawViewport.bonsai">
-        <X>0.25</X>
+        <X>0</X>
         <Y>0</Y>
         <Width>0.25</Width>
         <Height>1</Height>
@@ -579,6 +585,26 @@
         <Name>3dView</Name>
       </Expression>
       <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.DrawViewport.bonsai">
+        <X>0.25</X>
+        <Y>0</Y>
+        <Width>0.25</Width>
+        <Height>1</Height>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>Draw3DStim</Name>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="Extensions\MonitorViewWindow.bonsai">
+        <X>0</X>
+        <Y>0</Y>
+        <Z>0</Z>
+        <Angle>1.57</Angle>
+        <Gain_El>0</Gain_El>
+        <Gain_Az>0</Gain_Az>
+      </Expression>
+      <Expression xsi:type="MulticastSubject">
+        <Name>3dView</Name>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.DrawViewport.bonsai">
         <X>0.5</X>
         <Y>0</Y>
         <Width>0.25</Width>
@@ -591,11 +617,11 @@
         <X>0</X>
         <Y>0</Y>
         <Z>0</Z>
-        <Angle>-1.57</Angle>
+        <Angle>3.14</Angle>
         <Gain_El>0</Gain_El>
         <Gain_Az>0</Gain_Az>
       </Expression>
-      <Expression xsi:type="MulticastSubject">
+      <Expression xsi:type="PublishSubject">
         <Name>3dView</Name>
       </Expression>
       <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.DrawViewport.bonsai">
@@ -608,59 +634,483 @@
         <Name>3dView</Name>
       </Expression>
       <Expression xsi:type="IncludeWorkflow" Path="Extensions\TranslateView.bonsai" />
-      <Expression xsi:type="GroupWorkflow">
-        <Name>scene</Name>
-        <Workflow>
-          <Nodes>
-            <Expression xsi:type="WorkflowInput">
-              <Name>Source1</Name>
-            </Expression>
-            <Expression xsi:type="MemberSelector">
-              <Selector>ViewMatrix</Selector>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="gl:Translate">
-                <gl:Order>Prepend</gl:Order>
-                <gl:X>0</gl:X>
-                <gl:Y>0</gl:Y>
-                <gl:Z>0</gl:Z>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="glr:UpdateViewMatrix">
-                <glr:SceneName>scene</glr:SceneName>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:WithLatestFrom" />
-            </Expression>
-            <Expression xsi:type="MemberSelector">
-              <Selector>Item2.ProjectionMatrix</Selector>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="glr:UpdateProjectionMatrix">
-                <glr:SceneName>scene</glr:SceneName>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="glr:DrawScene">
-                <glr:SceneName>scene</glr:SceneName>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="WorkflowOutput" />
-          </Nodes>
-          <Edges>
-            <Edge From="0" To="1" Label="Source1" />
-            <Edge From="0" To="4" Label="Source2" />
-            <Edge From="1" To="2" Label="Source1" />
-            <Edge From="2" To="3" Label="Source1" />
-            <Edge From="3" To="4" Label="Source1" />
-            <Edge From="4" To="5" Label="Source1" />
-            <Edge From="5" To="6" Label="Source1" />
-            <Edge From="6" To="7" Label="Source1" />
-            <Edge From="7" To="8" Label="Source1" />
-          </Edges>
-        </Workflow>
+      <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
+        <TranslationX>0</TranslationX>
+        <TranslationY>0</TranslationY>
+        <TranslationZ>0</TranslationZ>
+        <ScaleX>1</ScaleX>
+        <ScaleY>1</ScaleY>
+        <ScaleZ>1</ScaleZ>
+        <MeshName>cricket</MeshName>
+        <Ambient>
+          <X>1</X>
+          <Y>1</Y>
+          <Z>1</Z>
+        </Ambient>
+        <Diffuse>
+          <X>1</X>
+          <Y>1</Y>
+          <Z>1</Z>
+        </Diffuse>
+        <Specular>
+          <X>1</X>
+          <Y>1</Y>
+          <Z>1</Z>
+        </Specular>
+        <SpecularExponent>10</SpecularExponent>
+        <RotationZ>0</RotationZ>
+        <RotationY>0</RotationY>
+        <RotationX>0</RotationX>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="GroupWorkflow">
+          <Workflow>
+            <Nodes>
+              <Expression xsi:type="WorkflowInput">
+                <Name>Source1</Name>
+              </Expression>
+              <Expression xsi:type="ExternalizedMapping">
+                <Property Name="Value" DisplayName="X" />
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="FloatProperty">
+                  <Value>4</Value>
+                </Combinator>
+              </Expression>
+              <Expression xsi:type="ExternalizedMapping">
+                <Property Name="Value" DisplayName="Y" />
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="FloatProperty">
+                  <Value>0</Value>
+                </Combinator>
+              </Expression>
+              <Expression xsi:type="ExternalizedMapping">
+                <Property Name="Value" DisplayName="Z" />
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="FloatProperty">
+                  <Value>2</Value>
+                </Combinator>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:Zip" />
+              </Expression>
+              <Expression xsi:type="PropertyMapping">
+                <PropertyMappings>
+                  <Property Name="TranslationX" Selector="Item1" />
+                  <Property Name="TranslationY" Selector="Item2" />
+                  <Property Name="TranslationZ" Selector="Item3" />
+                </PropertyMappings>
+              </Expression>
+              <Expression xsi:type="GroupWorkflow">
+                <Name>DrawTexturedModel</Name>
+                <Description>Draws a textured and transformed 3D model stimulus.</Description>
+                <Workflow>
+                  <Nodes>
+                    <Expression xsi:type="WorkflowInput">
+                      <Name>Source1</Name>
+                    </Expression>
+                    <Expression xsi:type="MemberSelector">
+                      <Selector>ViewMatrix</Selector>
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="X" DisplayName="TranslationX" />
+                      <Property Name="Y" DisplayName="TranslationY" />
+                      <Property Name="Z" DisplayName="TranslationZ" />
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="gl:Translate">
+                        <gl:Order>Prepend</gl:Order>
+                        <gl:X>4</gl:X>
+                        <gl:Y>0</gl:Y>
+                        <gl:Z>2</gl:Z>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="X" DisplayName="ScaleX" />
+                      <Property Name="Y" DisplayName="ScaleY" />
+                      <Property Name="Z" DisplayName="ScaleZ" />
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="MeshName" />
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Ambient" Description="The amount and color of the ambient light reflected by the material." Category="Model Material" />
+                      <Property Name="Diffuse" Description="The amount and color of the diffuse light reflected by the material.&#xD;&#xA;" Category="Model Material" />
+                      <Property Name="Specular" Description="The amount and color of the specular light reflected by the material.&#xD;&#xA;" Category="Model Material" />
+                      <Property Name="SpecularExponent" Description="The exponent used to compute the specular response of the material." Category="Model Material" />
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Value" DisplayName="RotationZ" Description="The rotation about the z-axis." />
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="bv:AngleProperty">
+                        <bv:Value>0</bv:Value>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="PropertyMapping">
+                      <PropertyMappings>
+                        <Property Name="Angle" />
+                      </PropertyMappings>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="gl:RotateZ">
+                        <gl:Order>Prepend</gl:Order>
+                        <gl:Angle>0</gl:Angle>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Value" DisplayName="RotationY" Description="The rotation about the y-axis." />
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="bv:AngleProperty">
+                        <bv:Value>0</bv:Value>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="PropertyMapping">
+                      <PropertyMappings>
+                        <Property Name="Angle" />
+                      </PropertyMappings>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="gl:RotateY">
+                        <gl:Order>Prepend</gl:Order>
+                        <gl:Angle>0</gl:Angle>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Value" DisplayName="RotationX" Description="The rotation about the x-axis." />
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="bv:AngleProperty">
+                        <bv:Value>0</bv:Value>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="PropertyMapping">
+                      <PropertyMappings>
+                        <Property Name="Angle" />
+                      </PropertyMappings>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="gl:RotateX">
+                        <gl:Order>Prepend</gl:Order>
+                        <gl:Angle>0</gl:Angle>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="gl:Scale">
+                        <gl:Order>Prepend</gl:Order>
+                        <gl:X>10</gl:X>
+                        <gl:Y>10</gl:Y>
+                        <gl:Z>10</gl:Z>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="gl:UpdateUniform">
+                        <gl:UniformName>modelview</gl:UniformName>
+                        <gl:ShaderName>TexturedModel</gl:ShaderName>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="gl:NormalMatrix" />
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="gl:UpdateUniform">
+                        <gl:UniformName>normalMatrix</gl:UniformName>
+                        <gl:ShaderName>TexturedModel</gl:ShaderName>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="MemberSelector">
+                      <Selector>ProjectionMatrix</Selector>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="gl:UpdateUniform">
+                        <gl:UniformName>projection</gl:UniformName>
+                        <gl:ShaderName>TexturedModel</gl:ShaderName>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="MemberSelector">
+                      <Selector>Light</Selector>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="gl:UpdateUniform">
+                        <gl:UniformName>light</gl:UniformName>
+                        <gl:ShaderName>TexturedModel</gl:ShaderName>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="rx:Zip" />
+                    </Expression>
+                    <Expression xsi:type="GroupWorkflow">
+                      <Name>UpdateMaterial</Name>
+                      <Workflow>
+                        <Nodes>
+                          <Expression xsi:type="WorkflowInput">
+                            <Name>Source1</Name>
+                          </Expression>
+                          <Expression xsi:type="ExternalizedMapping">
+                            <Property Name="Value" DisplayName="Ambient" />
+                          </Expression>
+                          <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p2:Vector3">
+                            <MemberName>Eye</MemberName>
+                            <Value>
+                              <X>1</X>
+                              <Y>1</Y>
+                              <Z>1</Z>
+                            </Value>
+                          </Expression>
+                          <Expression xsi:type="InputMapping">
+                            <PropertyMappings>
+                              <Property Name="X" Selector="X" />
+                              <Property Name="Y" Selector="Y" />
+                              <Property Name="Z" Selector="Z" />
+                            </PropertyMappings>
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="gl:CreateVector4">
+                              <gl:X>1</gl:X>
+                              <gl:Y>1</gl:Y>
+                              <gl:Z>1</gl:Z>
+                              <gl:W>1</gl:W>
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="gl:UpdateUniform">
+                              <gl:UniformName>colorAmbient</gl:UniformName>
+                              <gl:ShaderName>TexturedModel</gl:ShaderName>
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="ExternalizedMapping">
+                            <Property Name="Value" DisplayName="Diffuse" />
+                          </Expression>
+                          <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p2:Vector3">
+                            <MemberName>Eye</MemberName>
+                            <Value>
+                              <X>1</X>
+                              <Y>1</Y>
+                              <Z>1</Z>
+                            </Value>
+                          </Expression>
+                          <Expression xsi:type="InputMapping">
+                            <PropertyMappings>
+                              <Property Name="X" Selector="X" />
+                              <Property Name="Y" Selector="Y" />
+                              <Property Name="Z" Selector="Z" />
+                            </PropertyMappings>
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="gl:CreateVector4">
+                              <gl:X>1</gl:X>
+                              <gl:Y>1</gl:Y>
+                              <gl:Z>1</gl:Z>
+                              <gl:W>1</gl:W>
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="gl:UpdateUniform">
+                              <gl:UniformName>colorDiffuse</gl:UniformName>
+                              <gl:ShaderName>TexturedModel</gl:ShaderName>
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="ExternalizedMapping">
+                            <Property Name="Value" DisplayName="Specular" />
+                          </Expression>
+                          <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p2:Vector3">
+                            <MemberName>Eye</MemberName>
+                            <Value>
+                              <X>1</X>
+                              <Y>1</Y>
+                              <Z>1</Z>
+                            </Value>
+                          </Expression>
+                          <Expression xsi:type="InputMapping">
+                            <PropertyMappings>
+                              <Property Name="X" Selector="X" />
+                              <Property Name="Y" Selector="Y" />
+                              <Property Name="Z" Selector="Z" />
+                            </PropertyMappings>
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="gl:CreateVector4">
+                              <gl:X>1</gl:X>
+                              <gl:Y>1</gl:Y>
+                              <gl:Z>1</gl:Z>
+                              <gl:W>1</gl:W>
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="gl:UpdateUniform">
+                              <gl:UniformName>colorSpecular</gl:UniformName>
+                              <gl:ShaderName>TexturedModel</gl:ShaderName>
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="ExternalizedMapping">
+                            <Property Name="Value" DisplayName="SpecularExponent" />
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="FloatProperty">
+                              <Value>10</Value>
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="gl:UpdateUniform">
+                              <gl:UniformName>shininess</gl:UniformName>
+                              <gl:ShaderName>TexturedModel</gl:ShaderName>
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="WorkflowOutput" />
+                        </Nodes>
+                        <Edges>
+                          <Edge From="0" To="2" Label="Source1" />
+                          <Edge From="1" To="2" Label="Source2" />
+                          <Edge From="2" To="3" Label="Source1" />
+                          <Edge From="3" To="4" Label="Source1" />
+                          <Edge From="4" To="5" Label="Source1" />
+                          <Edge From="5" To="7" Label="Source1" />
+                          <Edge From="6" To="7" Label="Source2" />
+                          <Edge From="7" To="8" Label="Source1" />
+                          <Edge From="8" To="9" Label="Source1" />
+                          <Edge From="9" To="10" Label="Source1" />
+                          <Edge From="10" To="12" Label="Source1" />
+                          <Edge From="11" To="12" Label="Source2" />
+                          <Edge From="12" To="13" Label="Source1" />
+                          <Edge From="13" To="14" Label="Source1" />
+                          <Edge From="14" To="15" Label="Source1" />
+                          <Edge From="15" To="17" Label="Source1" />
+                          <Edge From="16" To="17" Label="Source2" />
+                          <Edge From="17" To="18" Label="Source1" />
+                          <Edge From="18" To="19" Label="Source1" />
+                        </Edges>
+                      </Workflow>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="gl:DrawMesh">
+                        <gl:ShaderName>TexturedModel</gl:ShaderName>
+                        <gl:MeshName>cricket</gl:MeshName>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="WorkflowOutput" />
+                  </Nodes>
+                  <Edges>
+                    <Edge From="0" To="1" Label="Source1" />
+                    <Edge From="0" To="23" Label="Source1" />
+                    <Edge From="0" To="25" Label="Source1" />
+                    <Edge From="1" To="3" Label="Source1" />
+                    <Edge From="2" To="3" Label="Source2" />
+                    <Edge From="3" To="10" Label="Source1" />
+                    <Edge From="4" To="19" Label="Source2" />
+                    <Edge From="5" To="29" Label="Source2" />
+                    <Edge From="6" To="28" Label="Source2" />
+                    <Edge From="7" To="8" Label="Source1" />
+                    <Edge From="8" To="9" Label="Source1" />
+                    <Edge From="9" To="10" Label="Source2" />
+                    <Edge From="10" To="14" Label="Source1" />
+                    <Edge From="11" To="12" Label="Source1" />
+                    <Edge From="12" To="13" Label="Source1" />
+                    <Edge From="13" To="14" Label="Source2" />
+                    <Edge From="14" To="18" Label="Source1" />
+                    <Edge From="15" To="16" Label="Source1" />
+                    <Edge From="16" To="17" Label="Source1" />
+                    <Edge From="17" To="18" Label="Source2" />
+                    <Edge From="18" To="19" Label="Source1" />
+                    <Edge From="19" To="20" Label="Source1" />
+                    <Edge From="20" To="21" Label="Source1" />
+                    <Edge From="21" To="22" Label="Source1" />
+                    <Edge From="22" To="27" Label="Source1" />
+                    <Edge From="23" To="24" Label="Source1" />
+                    <Edge From="24" To="27" Label="Source2" />
+                    <Edge From="25" To="26" Label="Source1" />
+                    <Edge From="26" To="27" Label="Source3" />
+                    <Edge From="27" To="28" Label="Source1" />
+                    <Edge From="28" To="29" Label="Source1" />
+                    <Edge From="29" To="30" Label="Source1" />
+                  </Edges>
+                </Workflow>
+              </Expression>
+              <Expression xsi:type="WorkflowOutput" />
+            </Nodes>
+            <Edges>
+              <Edge From="0" To="9" Label="Source1" />
+              <Edge From="0" To="2" Label="Source1" />
+              <Edge From="0" To="4" Label="Source1" />
+              <Edge From="0" To="6" Label="Source1" />
+              <Edge From="1" To="2" Label="Source2" />
+              <Edge From="2" To="7" Label="Source1" />
+              <Edge From="3" To="4" Label="Source2" />
+              <Edge From="4" To="7" Label="Source2" />
+              <Edge From="5" To="6" Label="Source2" />
+              <Edge From="6" To="7" Label="Source3" />
+              <Edge From="7" To="8" Label="Source1" />
+              <Edge From="7" To="10" Label="Source1" />
+              <Edge From="8" To="9" Label="Source2" />
+            </Edges>
+          </Workflow>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="SubscribeSubject">
+          <Name>3dView</Name>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="IncludeWorkflow" Path="Extensions\TranslateView.bonsai" />
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="GroupWorkflow">
+          <Name>scene</Name>
+          <Workflow>
+            <Nodes>
+              <Expression xsi:type="WorkflowInput">
+                <Name>Source1</Name>
+              </Expression>
+              <Expression xsi:type="MemberSelector">
+                <Selector>ViewMatrix</Selector>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="gl:Translate">
+                  <gl:Order>Prepend</gl:Order>
+                  <gl:X>0</gl:X>
+                  <gl:Y>0</gl:Y>
+                  <gl:Z>0</gl:Z>
+                </Combinator>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="glr:UpdateViewMatrix">
+                  <glr:SceneName>scene</glr:SceneName>
+                </Combinator>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:WithLatestFrom" />
+              </Expression>
+              <Expression xsi:type="MemberSelector">
+                <Selector>Item2.ProjectionMatrix</Selector>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="glr:UpdateProjectionMatrix">
+                  <glr:SceneName>scene</glr:SceneName>
+                </Combinator>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="glr:DrawScene">
+                  <glr:SceneName>scene</glr:SceneName>
+                </Combinator>
+              </Expression>
+              <Expression xsi:type="WorkflowOutput" />
+            </Nodes>
+            <Edges>
+              <Edge From="0" To="1" Label="Source1" />
+              <Edge From="0" To="4" Label="Source2" />
+              <Edge From="1" To="2" Label="Source1" />
+              <Edge From="2" To="3" Label="Source1" />
+              <Edge From="3" To="4" Label="Source1" />
+              <Edge From="4" To="5" Label="Source1" />
+              <Edge From="5" To="6" Label="Source1" />
+              <Edge From="6" To="7" Label="Source1" />
+              <Edge From="7" To="8" Label="Source1" />
+            </Edges>
+          </Workflow>
+        </Builder>
       </Expression>
       <Expression xsi:type="Disable">
         <Builder xsi:type="SubscribeSubject">
@@ -703,8 +1153,8 @@
                 <TranslationX>0</TranslationX>
                 <TranslationY>0</TranslationY>
                 <TranslationZ>0</TranslationZ>
-                <ScaleX>10</ScaleX>
-                <ScaleY>10</ScaleY>
+                <ScaleX>1</ScaleX>
+                <ScaleY>1</ScaleY>
                 <ScaleZ>8</ScaleZ>
                 <MeshName>Plane</MeshName>
                 <Ambient>
@@ -739,65 +1189,17 @@
           </Workflow>
         </Builder>
       </Expression>
-      <Expression xsi:type="Disable">
-        <Builder xsi:type="SubscribeSubject">
-          <Name>3dView</Name>
-        </Builder>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>z_pos</Name>
       </Expression>
-      <Expression xsi:type="Disable">
-        <Builder xsi:type="IncludeWorkflow" Path="Extensions\TranslateView.bonsai" />
+      <Expression xsi:type="SubscribeSubject">
+        <Name>y_pos</Name>
       </Expression>
-      <Expression xsi:type="Disable">
-        <Builder xsi:type="Combinator">
-          <Combinator xsi:type="gl:CreateVector3">
-            <gl:X>0</gl:X>
-            <gl:Y>0</gl:Y>
-            <gl:Z>0</gl:Z>
-          </Combinator>
-        </Builder>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>x_pos</Name>
       </Expression>
-      <Expression xsi:type="Disable">
-        <Builder xsi:type="Combinator">
-          <Combinator xsi:type="rx:Zip" />
-        </Builder>
-      </Expression>
-      <Expression xsi:type="Disable">
-        <Builder xsi:type="scr:ExpressionTransform">
-          <scr:Expression>new(
-Item1.ViewMatrix as ViewMatrix,
-Item1.ProjectionMatrix as ProjectionMatrix,
-Item2 as Light)</scr:Expression>
-        </Builder>
-      </Expression>
-      <Expression xsi:type="Disable">
-        <Builder xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-          <TranslationX>0</TranslationX>
-          <TranslationY>0</TranslationY>
-          <TranslationZ>0</TranslationZ>
-          <ScaleX>1</ScaleX>
-          <ScaleY>1</ScaleY>
-          <ScaleZ>1</ScaleZ>
-          <MeshName>monkey</MeshName>
-          <Ambient>
-            <X>1</X>
-            <Y>1</Y>
-            <Z>1</Z>
-          </Ambient>
-          <Diffuse>
-            <X>1</X>
-            <Y>1</Y>
-            <Z>1</Z>
-          </Diffuse>
-          <Specular>
-            <X>1</X>
-            <Y>1</Y>
-            <Z>1</Z>
-          </Specular>
-          <SpecularExponent>10</SpecularExponent>
-          <RotationZ>0</RotationZ>
-          <RotationY>0</RotationY>
-          <RotationX>0</RotationX>
-        </Builder>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:CombineLatest" />
       </Expression>
     </Nodes>
     <Edges>
@@ -824,14 +1226,14 @@ Item2 as Light)</scr:Expression>
       <Edge From="26" To="27" Label="Source1" />
       <Edge From="28" To="29" Label="Source1" />
       <Edge From="29" To="30" Label="Source1" />
-      <Edge From="31" To="32" Label="Source1" />
+      <Edge From="30" To="31" Label="Source1" />
       <Edge From="32" To="33" Label="Source1" />
-      <Edge From="34" To="35" Label="Source1" />
+      <Edge From="33" To="34" Label="Source1" />
       <Edge From="35" To="36" Label="Source1" />
-      <Edge From="35" To="37" Label="Source1" />
-      <Edge From="36" To="37" Label="Source2" />
-      <Edge From="37" To="38" Label="Source1" />
-      <Edge From="38" To="39" Label="Source1" />
+      <Edge From="36" To="37" Label="Source1" />
+      <Edge From="38" To="41" Label="Source3" />
+      <Edge From="39" To="41" Label="Source2" />
+      <Edge From="40" To="41" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
