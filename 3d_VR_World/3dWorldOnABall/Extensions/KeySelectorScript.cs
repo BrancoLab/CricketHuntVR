@@ -12,16 +12,13 @@ using OpenTK.Input;
 
 public class KeySelectorScript
 {
-    public Key[] KeyFilter { get; set; }
+    public Key KeyFilter { get; set; }
     public IObservable<KeyboardState> Process(IObservable<KeyboardState> source)
     {
         return source.Where(value =>
         {
-            foreach (Key thisKey in KeyFilter)
-            {
-                if (value[thisKey])
-                    return true;
-            }
+            if (value[KeyFilter])
+                return true;
             return false;
         });
     }
