@@ -837,18 +837,6 @@ it.Item2 as LatestHarpTS
           </Edges>
         </Workflow>
       </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="rx:Timer">
-          <rx:DueTime>PT0S</rx:DueTime>
-          <rx:Period>PT0.01S</rx:Period>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="wie:KeyDown">
-          <wie:Filter>None</wie:Filter>
-          <wie:SuppressRepetitions>true</wie:SuppressRepetitions>
-        </Combinator>
-      </Expression>
     </Nodes>
     <Edges>
       <Edge From="7" To="8" Label="Source1" />
