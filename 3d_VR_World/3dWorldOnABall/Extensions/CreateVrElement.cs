@@ -49,16 +49,6 @@ namespace CricketVR
 
 
         /// <summary>
-        /// Initializes a VR_Element an incoming VR_Element
-        /// </summary>
-        public IObservable<VrElement> Generate(IObservable<VrElement> source)
-        {
-            return source.Select(input =>{
-                return input;
-            });
-        }
-
-        /// <summary>
         /// Initializes a VR_Element from a Tuple of a pair of Vector3 [Position, Orientation]
         /// </summary>
         public IObservable<VrElement> Generate(IObservable<Tuple<Vector3, Vector3>> source)

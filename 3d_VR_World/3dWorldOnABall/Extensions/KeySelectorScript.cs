@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using OpenTK.Input;
+namespace CricketVR{
 
 [Combinator]
 [Description("")]
@@ -22,4 +23,5 @@ public class KeySelectorScript
             return false;
         });
     }
+}
 }

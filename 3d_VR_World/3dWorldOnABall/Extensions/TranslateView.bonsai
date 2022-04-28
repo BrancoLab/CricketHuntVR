@@ -22,16 +22,15 @@
             </Expression>
             <Expression xsi:type="ExternalizedMapping">
               <Property Name="Order" />
-              <Property Name="X" />
             </Expression>
             <Expression xsi:type="SubscribeSubject">
-              <Name>Position</Name>
+              <Name>RodentPosition</Name>
             </Expression>
             <Expression xsi:type="PropertyMapping">
               <PropertyMappings>
-                <Property Name="X" Selector="X" />
-                <Property Name="Y" Selector="Y" />
-                <Property Name="Z" Selector="Z" />
+                <Property Name="X" Selector="Position.X" />
+                <Property Name="Y" Selector="Position.Y" />
+                <Property Name="Z" Selector="Position.Z" />
               </PropertyMappings>
             </Expression>
             <Expression xsi:type="Combinator">
