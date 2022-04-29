@@ -1,0 +1,493 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.6.3"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:gl="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders"
+                 xmlns:res="clr-namespace:Bonsai.Resources;assembly=Bonsai.System"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:gli="clr-namespace:Bonsai.Shaders.Input;assembly=Bonsai.Shaders"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="gl:CreateWindow">
+          <gl:Width>640</gl:Width>
+          <gl:Height>480</gl:Height>
+          <gl:VSync>On</gl:VSync>
+          <gl:SwapSync>false</gl:SwapSync>
+          <gl:ClearColor>Gray</gl:ClearColor>
+          <gl:ClearMask>DepthBufferBit ColorBufferBit</gl:ClearMask>
+          <gl:CursorVisible>true</gl:CursorVisible>
+          <gl:Location xsi:nil="true" />
+          <gl:WindowBorder>Resizable</gl:WindowBorder>
+          <gl:WindowState>Fullscreen</gl:WindowState>
+          <gl:DisplayDevice>First</gl:DisplayDevice>
+          <gl:TargetRenderFrequency>60</gl:TargetRenderFrequency>
+          <gl:TargetUpdateFrequency xsi:nil="true" />
+          <gl:RenderState />
+          <gl:GraphicsMode>
+            <gl:ColorFormat>
+              <gl:Red>8</gl:Red>
+              <gl:Green>8</gl:Green>
+              <gl:Blue>8</gl:Blue>
+              <gl:Alpha>8</gl:Alpha>
+            </gl:ColorFormat>
+            <gl:Depth>16</gl:Depth>
+            <gl:Stencil>0</gl:Stencil>
+            <gl:Samples>0</gl:Samples>
+            <gl:AccumulatorFormat>
+              <gl:Red>0</gl:Red>
+              <gl:Green>0</gl:Green>
+              <gl:Blue>0</gl:Blue>
+              <gl:Alpha>0</gl:Alpha>
+            </gl:AccumulatorFormat>
+            <gl:Buffers>2</gl:Buffers>
+            <gl:Stereo>false</gl:Stereo>
+          </gl:GraphicsMode>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.BonVisionResources.bonsai" />
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="res:LoadResources" />
+      </Expression>
+      <Expression xsi:type="WorkflowOutput" />
+      <Expression xsi:type="GroupWorkflow">
+        <Name>DebugScreenCalibration</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="gl:RenderFrame" />
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.OrthographicView.bonsai">
+              <Left>-180</Left>
+              <Right>180</Right>
+              <Bottom>-90</Bottom>
+              <Top>90</Top>
+            </Expression>
+            <Expression xsi:type="PublishSubject">
+              <Name>DrawDebug</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.SphereMapping.bonsai">
+              <FaceSize xsi:nil="true" />
+              <ClearColor>Gray</ClearColor>
+              <Width xsi:nil="true" />
+              <Height xsi:nil="true" />
+              <RotationZ>0</RotationZ>
+              <RotationY>0</RotationY>
+              <RotationX>0</RotationX>
+            </Expression>
+            <Expression xsi:type="MulticastSubject">
+              <Name>Environment</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>DrawDebug</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawCheckerboard.bonsai">
+              <NumberColumns>36</NumberColumns>
+              <NumberRows>18</NumberRows>
+              <Phase>0</Phase>
+              <ExtentX>360</ExtentX>
+              <ExtentY>180</ExtentY>
+              <LocationX>0</LocationX>
+              <LocationY>0</LocationY>
+              <Layer>0</Layer>
+              <Angle>0</Angle>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>DrawDebug</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.RangeAnimation.bonsai">
+              <Duration>15</Duration>
+              <RangeBegin>-180.35</RangeBegin>
+              <RangeEnd>180.35</RangeEnd>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Repeat" />
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="LocationX" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawCircle.bonsai">
+              <LocationX>-35.6692238</LocationX>
+              <LocationY>0</LocationY>
+              <Layer>0</Layer>
+              <Diameter>3</Diameter>
+              <ColorR>1</ColorR>
+              <ColorG>1</ColorG>
+              <ColorB>0</ColorB>
+              <ColorA>1</ColorA>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>DrawDebug</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawCircle.bonsai">
+              <LocationX>90</LocationX>
+              <LocationY>0</LocationY>
+              <Layer>0</Layer>
+              <Diameter>1</Diameter>
+              <ColorR>1</ColorR>
+              <ColorG>0</ColorG>
+              <ColorB>0</ColorB>
+              <ColorA>1</ColorA>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>DrawDebug</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawCircle.bonsai">
+              <LocationX>-90</LocationX>
+              <LocationY>0</LocationY>
+              <Layer>0</Layer>
+              <Diameter>1</Diameter>
+              <ColorR>0</ColorR>
+              <ColorG>1</ColorG>
+              <ColorB>0</ColorB>
+              <ColorA>1</ColorA>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>DrawDebug</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.RangeAnimation.bonsai">
+              <Duration>5</Duration>
+              <RangeBegin>-46.35</RangeBegin>
+              <RangeEnd>-46.35</RangeEnd>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Repeat" />
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="LocationX" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawCircle.bonsai">
+              <LocationX>-46.35</LocationX>
+              <LocationY>0</LocationY>
+              <Layer>0</Layer>
+              <Diameter>3</Diameter>
+              <ColorR>1</ColorR>
+              <ColorG>1</ColorG>
+              <ColorB>0</ColorB>
+              <ColorA>1</ColorA>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="5" To="6" Label="Source1" />
+            <Edge From="7" To="11" Label="Source1" />
+            <Edge From="8" To="9" Label="Source1" />
+            <Edge From="9" To="10" Label="Source1" />
+            <Edge From="10" To="11" Label="Source2" />
+            <Edge From="12" To="13" Label="Source1" />
+            <Edge From="14" To="15" Label="Source1" />
+            <Edge From="16" To="20" Label="Source1" />
+            <Edge From="17" To="18" Label="Source1" />
+            <Edge From="18" To="19" Label="Source1" />
+            <Edge From="19" To="20" Label="Source2" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="BehaviorSubject" TypeArguments="gl:Texture">
+        <Name>Environment</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="gli:KeyDown">
+          <gli:Key>S</gli:Key>
+          <gli:Modifiers xsi:nil="true" />
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>CalibrateFront</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Width" Category="Screen Dimensions" />
+              <Property Name="Height" Category="Screen Dimensions" />
+              <Property Name="Rotation" Category="Screen Position" />
+              <Property Name="Translation" Category="Screen Position" />
+            </Expression>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.ViewWindow.bonsai">
+              <Width>0.543744</Width>
+              <Height>0.302616</Height>
+              <Rotation>
+                <X>0</X>
+                <Y>0</Y>
+                <Z>0</Z>
+              </Rotation>
+              <Translation>
+                <X>0</X>
+                <Y>0</Y>
+                <Z>-0.3</Z>
+              </Translation>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source2</Name>
+            </Expression>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="ExtrinsicsFileName" />
+              <Property Name="IntrinsicsFileName" />
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\SaveCalibration .bonsai">
+              <ExtrinsicsFileName>Calibration/front_extrinsics.yml</ExtrinsicsFileName>
+              <IntrinsicsFileName>Calibration/front_intrinsics.yml</IntrinsicsFileName>
+              <Width>0.543744</Width>
+              <Height>0.302616</Height>
+              <Rotation>
+                <X>0</X>
+                <Y>0</Y>
+                <Z>0</Z>
+              </Rotation>
+              <Translation>
+                <X>0</X>
+                <Y>0</Y>
+                <Z>-0.3</Z>
+              </Translation>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="2" Label="Source2" />
+            <Edge From="0" To="6" Label="Source2" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="4" To="6" Label="Source1" />
+            <Edge From="5" To="6" Label="Source3" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.DrawViewport.bonsai">
+        <X>0.25</X>
+        <Y>0</Y>
+        <Width>0.25</Width>
+        <Height>1</Height>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>CalibrateRight</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Width" Category="Screen Dimensions" />
+              <Property Name="Height" Category="Screen Dimensions" />
+              <Property Name="Rotation" Category="Screen Position" />
+              <Property Name="Translation" Category="Screen Position" />
+            </Expression>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.ViewWindow.bonsai">
+              <Width>0.543744</Width>
+              <Height>0.302616</Height>
+              <Rotation>
+                <X>0</X>
+                <Y>-90</Y>
+                <Z>0</Z>
+              </Rotation>
+              <Translation>
+                <X>0.3</X>
+                <Y>0</Y>
+                <Z>0</Z>
+              </Translation>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source2</Name>
+            </Expression>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="ExtrinsicsFileName" />
+              <Property Name="IntrinsicsFileName" />
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\SaveCalibration .bonsai">
+              <ExtrinsicsFileName>Calibration/right_extrinsics.yml</ExtrinsicsFileName>
+              <IntrinsicsFileName>Calibration/right_intrinsics.yml</IntrinsicsFileName>
+              <Width>0.543744</Width>
+              <Height>0.302616</Height>
+              <Rotation>
+                <X>0</X>
+                <Y>-1.5707963267948966</Y>
+                <Z>0</Z>
+              </Rotation>
+              <Translation>
+                <X>0.3</X>
+                <Y>0</Y>
+                <Z>0</Z>
+              </Translation>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="2" Label="Source2" />
+            <Edge From="0" To="6" Label="Source2" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="4" To="6" Label="Source1" />
+            <Edge From="5" To="6" Label="Source3" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.DrawViewport.bonsai">
+        <X>0.5</X>
+        <Y>0</Y>
+        <Width>0.25</Width>
+        <Height>1</Height>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>CalibrateBack</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Width" Category="Screen Dimensions" />
+              <Property Name="Height" Category="Screen Dimensions" />
+              <Property Name="Rotation" Category="Screen Position" />
+              <Property Name="Translation" Category="Screen Position" />
+            </Expression>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.ViewWindow.bonsai">
+              <Width>0.543744</Width>
+              <Height>0.302616</Height>
+              <Rotation>
+                <X>0</X>
+                <Y>180</Y>
+                <Z>0</Z>
+              </Rotation>
+              <Translation>
+                <X>0</X>
+                <Y>0</Y>
+                <Z>0.3</Z>
+              </Translation>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source2</Name>
+            </Expression>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="ExtrinsicsFileName" />
+              <Property Name="IntrinsicsFileName" />
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\SaveCalibration .bonsai">
+              <ExtrinsicsFileName>Calibration/back_extrinsics.yml</ExtrinsicsFileName>
+              <IntrinsicsFileName>Calibration/back_intrinsics.yml</IntrinsicsFileName>
+              <Width>0.543744</Width>
+              <Height>0.302616</Height>
+              <Rotation>
+                <X>0</X>
+                <Y>3.1415926535897931</Y>
+                <Z>0</Z>
+              </Rotation>
+              <Translation>
+                <X>0</X>
+                <Y>0</Y>
+                <Z>0.3</Z>
+              </Translation>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="2" Label="Source2" />
+            <Edge From="0" To="6" Label="Source2" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="4" To="6" Label="Source1" />
+            <Edge From="5" To="6" Label="Source3" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.DrawViewport.bonsai">
+        <X>0.75</X>
+        <Y>0</Y>
+        <Width>0.25</Width>
+        <Height>1</Height>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>CalibrateLeft</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Width" Category="Screen Dimensions" />
+              <Property Name="Height" Category="Screen Dimensions" />
+              <Property Name="Rotation" Category="Screen Position" />
+              <Property Name="Translation" Category="Screen Position" />
+            </Expression>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.ViewWindow.bonsai">
+              <Width>0.543744</Width>
+              <Height>0.302616</Height>
+              <Rotation>
+                <X>0</X>
+                <Y>90</Y>
+                <Z>0</Z>
+              </Rotation>
+              <Translation>
+                <X>-0.3</X>
+                <Y>0</Y>
+                <Z>0</Z>
+              </Translation>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source2</Name>
+            </Expression>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="ExtrinsicsFileName" />
+              <Property Name="IntrinsicsFileName" />
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\SaveCalibration .bonsai">
+              <ExtrinsicsFileName>Calibration/left_extrinsics.yml</ExtrinsicsFileName>
+              <IntrinsicsFileName>Calibration/left_intrinsics.yml</IntrinsicsFileName>
+              <Width>0.543744</Width>
+              <Height>0.302616</Height>
+              <Rotation>
+                <X>0</X>
+                <Y>1.5707963267948966</Y>
+                <Z>0</Z>
+              </Rotation>
+              <Translation>
+                <X>-0.3</X>
+                <Y>0</Y>
+                <Z>0</Z>
+              </Translation>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="2" Label="Source2" />
+            <Edge From="0" To="6" Label="Source2" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="4" To="6" Label="Source1" />
+            <Edge From="5" To="6" Label="Source3" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.DrawViewport.bonsai">
+        <X>0</X>
+        <Y>0</Y>
+        <Width>0.25</Width>
+        <Height>1</Height>
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge From="0" To="1" Label="Source1" />
+      <Edge From="1" To="2" Label="Source1" />
+      <Edge From="2" To="3" Label="Source1" />
+      <Edge From="5" To="7" Label="Source1" />
+      <Edge From="5" To="9" Label="Source1" />
+      <Edge From="5" To="11" Label="Source1" />
+      <Edge From="5" To="13" Label="Source1" />
+      <Edge From="6" To="13" Label="Source2" />
+      <Edge From="6" To="7" Label="Source2" />
+      <Edge From="6" To="9" Label="Source2" />
+      <Edge From="6" To="11" Label="Source2" />
+      <Edge From="7" To="8" Label="Source1" />
+      <Edge From="9" To="10" Label="Source1" />
+      <Edge From="11" To="12" Label="Source1" />
+      <Edge From="13" To="14" Label="Source1" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>
