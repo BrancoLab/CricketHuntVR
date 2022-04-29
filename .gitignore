@@ -8,6 +8,8 @@ Packages
 *.dll
 *.exe
 *.exe.settings
+*.blend
 
 # Environments
 winpython
+
