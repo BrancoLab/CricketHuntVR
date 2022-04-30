@@ -2,7 +2,7 @@ using OpenTK;
 
 namespace CricketVR
 {
-    public struct VrElement
+    public class VrElement
     {
         public Vector3 Position;
         public Vector3 Orientation;
