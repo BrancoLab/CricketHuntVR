@@ -8,7 +8,6 @@
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:gli="clr-namespace:Bonsai.Shaders.Input;assembly=Bonsai.Shaders"
                  xmlns:scr="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting"
-                 xmlns:p2="clr-namespace:;assembly=Extensions"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Workflow>
     <Nodes>
@@ -639,7 +638,7 @@
                       <p1:Position>
                         <p1:X>0</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>-1</p1:Z>
+                        <p1:Z>1</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
@@ -867,7 +866,6 @@
               <Property Name="ScaleX" />
               <Property Name="ScaleY" />
               <Property Name="ScaleZ" />
-              <Property Name="SpecularExponent" />
             </Expression>
             <Expression xsi:type="ExternalizedMapping">
               <Property Name="Position" />
@@ -882,7 +880,7 @@
                 </p1:Position>
                 <p1:Orientation>
                   <p1:X>0</p1:X>
-                  <p1:Y>0</p1:Y>
+                  <p1:Y>1.65</p1:Y>
                   <p1:Z>0</p1:Z>
                 </p1:Orientation>
               </Combinator>
@@ -925,26 +923,13 @@
               </Specular>
               <SpecularExponent>10</SpecularExponent>
               <RotationZ>0</RotationZ>
-              <RotationY>0</RotationY>
+              <RotationY>94.53803</RotationY>
               <RotationX>0</RotationX>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="p1:CreateVrElement">
-                <p1:Position>
-                  <p1:X>0</p1:X>
-                  <p1:Y>0</p1:Y>
-                  <p1:Z>1</p1:Z>
-                </p1:Position>
-                <p1:Orientation>
-                  <p1:X>0</p1:X>
-                  <p1:Y>0</p1:Y>
-                  <p1:Z>1</p1:Z>
-                </p1:Orientation>
-              </Combinator>
             </Expression>
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
+            <Edge From="0" To="4" Label="Source2" />
             <Edge From="1" To="7" Label="Source1" />
             <Edge From="2" To="7" Label="Source2" />
             <Edge From="3" To="4" Label="Source1" />
@@ -969,73 +954,103 @@
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="p2:CalculateDistance" />
+        <Combinator xsi:type="p1:CalculateDistance" />
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>PositionCricket</Name>
       </Expression>
       <Expression xsi:type="SubscribeSubject">
         <Name>RodentPosition</Name>
       </Expression>
-      <Expression xsi:type="SubscribeSubject">
-        <Name>Draw3DStim</Name>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:CombineLatest" />
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="rx:WithLatestFrom" />
-      </Expression>
-      <Expression xsi:type="MemberSelector">
-        <Selector>Item2</Selector>
+        <Combinator xsi:type="p1:CalculateAngle" />
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="p1:CreateVrElement">
-          <p1:Position>
-            <p1:X>0</p1:X>
-            <p1:Y>0</p1:Y>
-            <p1:Z>0</p1:Z>
-          </p1:Position>
-          <p1:Orientation>
-            <p1:X>0</p1:X>
-            <p1:Y>0</p1:Y>
-            <p1:Z>0</p1:Z>
-          </p1:Orientation>
-        </Combinator>
+        <Combinator xsi:type="p1:CalculateDistance" />
       </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="rx:Zip" />
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="p2:CalculateDistance" />
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="p1:CreateVrElement">
-          <p1:Position>
-            <p1:X>0</p1:X>
-            <p1:Y>0</p1:Y>
-            <p1:Z>0</p1:Z>
-          </p1:Position>
-          <p1:Orientation>
-            <p1:X>0</p1:X>
-            <p1:Y>0</p1:Y>
-            <p1:Z>0</p1:Z>
-          </p1:Orientation>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="p1:CreateVrElement">
-          <p1:Position>
-            <p1:X>0</p1:X>
-            <p1:Y>0</p1:Y>
-            <p1:Z>0</p1:Z>
-          </p1:Position>
-          <p1:Orientation>
-            <p1:X>0</p1:X>
-            <p1:Y>0</p1:Y>
-            <p1:Z>0</p1:Z>
-          </p1:Orientation>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="rx:Zip" />
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="p2:CalculateDistance" />
+      <Expression xsi:type="GroupWorkflow">
+        <Name>Floor</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Draw3DStim</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\TranslateView.bonsai" />
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="ScaleX" />
+              <Property Name="ScaleY" />
+              <Property Name="ScaleZ" />
+            </Expression>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Position" />
+              <Property Name="Orientation" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p1:CreateVrElement">
+                <p1:Position>
+                  <p1:X>0</p1:X>
+                  <p1:Y>0</p1:Y>
+                  <p1:Z>0</p1:Z>
+                </p1:Position>
+                <p1:Orientation>
+                  <p1:X>0</p1:X>
+                  <p1:Y>0</p1:Y>
+                  <p1:Z>0</p1:Z>
+                </p1:Orientation>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="TranslationX" Selector="Position.X" />
+                <Property Name="TranslationY" Selector="Position.Y" />
+                <Property Name="TranslationZ" Selector="Position.Z" />
+                <Property Name="RotationX" Selector="Orientation.X" />
+                <Property Name="RotationY" Selector="Orientation.Y" />
+                <Property Name="RotationZ" Selector="Orientation.Z" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
+              <TranslationX>0</TranslationX>
+              <TranslationY>0</TranslationY>
+              <TranslationZ>0</TranslationZ>
+              <ScaleX>1</ScaleX>
+              <ScaleY>1</ScaleY>
+              <ScaleZ>1</ScaleZ>
+              <MeshName>Plane</MeshName>
+              <Ambient>
+                <X>0.2</X>
+                <Y>0.2</Y>
+                <Z>0.2</Z>
+              </Ambient>
+              <Diffuse>
+                <X>0.8</X>
+                <Y>0.8</Y>
+                <Z>0.8</Z>
+              </Diffuse>
+              <Specular>
+                <X>0.8</X>
+                <Y>0.8</Y>
+                <Z>0.8</Z>
+              </Specular>
+              <SpecularExponent>10</SpecularExponent>
+              <RotationZ>0</RotationZ>
+              <RotationY>0</RotationY>
+              <RotationX>0</RotationX>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="0" To="4" Label="Source2" />
+            <Edge From="1" To="6" Label="Source1" />
+            <Edge From="2" To="6" Label="Source2" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="5" To="6" Label="Source3" />
+          </Edges>
+        </Workflow>
       </Expression>
     </Nodes>
     <Edges>
@@ -1045,13 +1060,7 @@
       <Edge From="8" To="10" Label="Source2" />
       <Edge From="9" To="10" Label="Source1" />
       <Edge From="10" To="11" Label="Source1" />
-      <Edge From="11" To="12" Label="Source1" />
-      <Edge From="11" To="13" Label="Source2" />
-      <Edge From="12" To="13" Label="Source1" />
-      <Edge From="13" To="14" Label="Source1" />
-      <Edge From="15" To="17" Label="Source2" />
-      <Edge From="16" To="17" Label="Source1" />
-      <Edge From="17" To="18" Label="Source1" />
+      <Edge From="10" To="12" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
