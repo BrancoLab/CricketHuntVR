@@ -313,7 +313,7 @@
                 <gl:WindowBorder>Fixed</gl:WindowBorder>
                 <gl:WindowState>Fullscreen</gl:WindowState>
                 <gl:DisplayDevice>Second</gl:DisplayDevice>
-                <gl:TargetRenderFrequency>238</gl:TargetRenderFrequency>
+                <gl:TargetRenderFrequency>237</gl:TargetRenderFrequency>
                 <gl:TargetUpdateFrequency xsi:nil="true" />
                 <gl:RenderState />
                 <gl:GraphicsMode>
@@ -374,8 +374,8 @@
               <Phase>0</Phase>
               <ExtentX>1100</ExtentX>
               <ExtentY>1100</ExtentY>
-              <LocationX>0</LocationX>
-              <LocationY>0</LocationY>
+              <LocationX>-0.808</LocationX>
+              <LocationY>-1.338</LocationY>
               <Layer>0</Layer>
               <Angle>0</Angle>
             </Expression>
@@ -413,7 +413,7 @@
               </PropertyMappings>
             </Expression>
             <Expression xsi:type="io:CsvWriter">
-              <io:FileName>C:\Data\ScreenBenchmarking\05_10_2022_18_19_43\computerVision.csv</io:FileName>
+              <io:FileName>C:\Data\ScreenBenchmarking\05_11_2022_15_33_44\computerVision.csv</io:FileName>
               <io:Append>false</io:Append>
               <io:Overwrite>false</io:Overwrite>
               <io:Suffix>None</io:Suffix>
@@ -436,7 +436,7 @@
               </PropertyMappings>
             </Expression>
             <Expression xsi:type="io:CsvWriter">
-              <io:FileName>C:\Data\ScreenBenchmarking\05_10_2022_18_19_43\MouseOutput.csv</io:FileName>
+              <io:FileName>C:\Data\ScreenBenchmarking\05_11_2022_15_33_44\MouseOutput.csv</io:FileName>
               <io:Append>false</io:Append>
               <io:Overwrite>false</io:Overwrite>
               <io:Suffix>None</io:Suffix>
@@ -463,7 +463,7 @@
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="cv:VideoWriter">
-                <cv:FileName>C:\Data\ScreenBenchmarking\05_10_2022_18_19_43\CameraSide.avi</cv:FileName>
+                <cv:FileName>C:\Data\ScreenBenchmarking\05_11_2022_15_33_44\CameraSide.avi</cv:FileName>
                 <cv:Suffix>None</cv:Suffix>
                 <cv:Buffered>true</cv:Buffered>
                 <cv:Overwrite>false</cv:Overwrite>
@@ -496,7 +496,7 @@
               </PropertyMappings>
             </Expression>
             <Expression xsi:type="io:CsvWriter">
-              <io:FileName>C:\Data\ScreenBenchmarking\05_10_2022_18_19_43\ClosedLoopScreenLag.csv</io:FileName>
+              <io:FileName>C:\Data\ScreenBenchmarking\05_11_2022_15_33_44\ClosedLoopScreenLag.csv</io:FileName>
               <io:Append>false</io:Append>
               <io:Overwrite>false</io:Overwrite>
               <io:Suffix>None</io:Suffix>
@@ -769,7 +769,7 @@
               <Combinator xsi:type="dsp:Abs" />
             </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="dsp:Sum" />
+              <Combinator xsi:type="dsp:Average" />
             </Expression>
             <Expression xsi:type="MemberSelector">
               <Selector>Val0</Selector>
@@ -797,7 +797,7 @@
               <Combinator xsi:type="dsp:Abs" />
             </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="dsp:Sum" />
+              <Combinator xsi:type="dsp:Average" />
             </Expression>
             <Expression xsi:type="MemberSelector">
               <Selector>Val0</Selector>
