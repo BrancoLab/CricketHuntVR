@@ -15,18 +15,57 @@
         <Name>ScreenConfiguration</Name>
         <Workflow>
           <Nodes>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="Combinator">
+                <Combinator xsi:type="gl:CreateWindow">
+                  <gl:Width>7680</gl:Width>
+                  <gl:Height>1080</gl:Height>
+                  <gl:VSync>On</gl:VSync>
+                  <gl:SwapSync>false</gl:SwapSync>
+                  <gl:ClearColor>Gray</gl:ClearColor>
+                  <gl:ClearMask>DepthBufferBit ColorBufferBit</gl:ClearMask>
+                  <gl:CursorVisible>true</gl:CursorVisible>
+                  <gl:Location xsi:nil="true" />
+                  <gl:WindowBorder>Fixed</gl:WindowBorder>
+                  <gl:WindowState>Fullscreen</gl:WindowState>
+                  <gl:DisplayDevice>Second</gl:DisplayDevice>
+                  <gl:TargetRenderFrequency>60</gl:TargetRenderFrequency>
+                  <gl:TargetUpdateFrequency xsi:nil="true" />
+                  <gl:RenderState />
+                  <gl:GraphicsMode>
+                    <gl:ColorFormat>
+                      <gl:Red>8</gl:Red>
+                      <gl:Green>8</gl:Green>
+                      <gl:Blue>8</gl:Blue>
+                      <gl:Alpha>8</gl:Alpha>
+                    </gl:ColorFormat>
+                    <gl:Depth>16</gl:Depth>
+                    <gl:Stencil>0</gl:Stencil>
+                    <gl:Samples>0</gl:Samples>
+                    <gl:AccumulatorFormat>
+                      <gl:Red>0</gl:Red>
+                      <gl:Green>0</gl:Green>
+                      <gl:Blue>0</gl:Blue>
+                      <gl:Alpha>0</gl:Alpha>
+                    </gl:AccumulatorFormat>
+                    <gl:Buffers>2</gl:Buffers>
+                    <gl:Stereo>false</gl:Stereo>
+                  </gl:GraphicsMode>
+                </Combinator>
+              </Builder>
+            </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="gl:CreateWindow">
-                <gl:Width>7680</gl:Width>
-                <gl:Height>1080</gl:Height>
+                <gl:Width>500</gl:Width>
+                <gl:Height>500</gl:Height>
                 <gl:VSync>On</gl:VSync>
                 <gl:SwapSync>false</gl:SwapSync>
                 <gl:ClearColor>Gray</gl:ClearColor>
                 <gl:ClearMask>DepthBufferBit ColorBufferBit</gl:ClearMask>
                 <gl:CursorVisible>true</gl:CursorVisible>
                 <gl:Location xsi:nil="true" />
-                <gl:WindowBorder>Fixed</gl:WindowBorder>
-                <gl:WindowState>Fullscreen</gl:WindowState>
+                <gl:WindowBorder>Resizable</gl:WindowBorder>
+                <gl:WindowState>Normal</gl:WindowState>
                 <gl:DisplayDevice>Second</gl:DisplayDevice>
                 <gl:TargetRenderFrequency>60</gl:TargetRenderFrequency>
                 <gl:TargetUpdateFrequency xsi:nil="true" />
@@ -69,6 +108,19 @@
                     <gl:ColorType>Unchanged</gl:ColorType>
                     <gl:FlipMode>Vertical</gl:FlipMode>
                   </gl:TextureConfiguration>
+                  <gl:TextureConfiguration xsi:type="gl:ImageTexture">
+                    <gl:Name>mybox</gl:Name>
+                    <gl:Width xsi:nil="true" />
+                    <gl:Height xsi:nil="true" />
+                    <gl:InternalFormat>Rgba</gl:InternalFormat>
+                    <gl:WrapS>Repeat</gl:WrapS>
+                    <gl:WrapT>Repeat</gl:WrapT>
+                    <gl:MinFilter>Linear</gl:MinFilter>
+                    <gl:MagFilter>Linear</gl:MagFilter>
+                    <gl:FileName>resources\uv.png</gl:FileName>
+                    <gl:ColorType>Unchanged</gl:ColorType>
+                    <gl:FlipMode>Vertical</gl:FlipMode>
+                  </gl:TextureConfiguration>
                   <gl:TextureConfiguration xsi:type="gl:ImageCubemap">
                     <gl:Name>cube</gl:Name>
                     <gl:FaceSize xsi:nil="true" />
@@ -94,6 +146,19 @@
                     <gl:MinFilter>Linear</gl:MinFilter>
                     <gl:MagFilter>Linear</gl:MagFilter>
                     <gl:FileName>resources\Brown.png</gl:FileName>
+                    <gl:ColorType>Unchanged</gl:ColorType>
+                    <gl:FlipMode>Vertical</gl:FlipMode>
+                  </gl:TextureConfiguration>
+                  <gl:TextureConfiguration xsi:type="gl:ImageTexture">
+                    <gl:Name>plaid</gl:Name>
+                    <gl:Width>600</gl:Width>
+                    <gl:Height>800</gl:Height>
+                    <gl:InternalFormat>Rgba</gl:InternalFormat>
+                    <gl:WrapS>Repeat</gl:WrapS>
+                    <gl:WrapT>Repeat</gl:WrapT>
+                    <gl:MinFilter>Linear</gl:MinFilter>
+                    <gl:MagFilter>Linear</gl:MagFilter>
+                    <gl:FileName>Textures\plaid.jpg</gl:FileName>
                     <gl:ColorType>Unchanged</gl:ColorType>
                     <gl:FlipMode>Vertical</gl:FlipMode>
                   </gl:TextureConfiguration>
@@ -131,6 +196,10 @@
                   <gl:MeshConfiguration xsi:type="gl:TexturedModel">
                     <gl:Name>cube</gl:Name>
                     <gl:FileName>resources\cube.obj</gl:FileName>
+                  </gl:MeshConfiguration>
+                  <gl:MeshConfiguration xsi:type="gl:TexturedModel">
+                    <gl:Name>Box</gl:Name>
+                    <gl:FileName>resources\mybox.obj</gl:FileName>
                   </gl:MeshConfiguration>
                   <gl:MeshConfiguration xsi:type="gl:TexturedModel">
                     <gl:Name>cricket</gl:Name>
@@ -186,7 +255,7 @@
                 <Y>0</Y>
                 <Z>0</Z>
               </Eye>
-              <NearClip>0.3</NearClip>
+              <NearClip>0.001</NearClip>
               <FarClip>1000</FarClip>
               <Light>
                 <X>0</X>
@@ -445,22 +514,23 @@
             <Edge From="4" To="5" Label="Source1" />
             <Edge From="5" To="6" Label="Source1" />
             <Edge From="6" To="7" Label="Source1" />
-            <Edge From="8" To="9" Label="Source1" />
-            <Edge From="10" To="11" Label="Source1" />
+            <Edge From="7" To="8" Label="Source1" />
+            <Edge From="9" To="10" Label="Source1" />
             <Edge From="11" To="12" Label="Source1" />
             <Edge From="12" To="13" Label="Source1" />
-            <Edge From="13" To="22" Label="Source2" />
-            <Edge From="13" To="23" Label="Source2" />
-            <Edge From="13" To="24" Label="Source2" />
-            <Edge From="13" To="25" Label="Source2" />
-            <Edge From="14" To="15" Label="Source1" />
-            <Edge From="15" To="23" Label="Source1" />
-            <Edge From="16" To="17" Label="Source1" />
-            <Edge From="17" To="24" Label="Source1" />
-            <Edge From="18" To="19" Label="Source1" />
-            <Edge From="19" To="25" Label="Source1" />
-            <Edge From="20" To="21" Label="Source1" />
+            <Edge From="13" To="14" Label="Source1" />
+            <Edge From="14" To="23" Label="Source2" />
+            <Edge From="14" To="24" Label="Source2" />
+            <Edge From="14" To="25" Label="Source2" />
+            <Edge From="14" To="26" Label="Source2" />
+            <Edge From="15" To="16" Label="Source1" />
+            <Edge From="16" To="24" Label="Source1" />
+            <Edge From="17" To="18" Label="Source1" />
+            <Edge From="18" To="25" Label="Source1" />
+            <Edge From="19" To="20" Label="Source1" />
+            <Edge From="20" To="26" Label="Source1" />
             <Edge From="21" To="22" Label="Source1" />
+            <Edge From="22" To="23" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -586,7 +656,7 @@
                     <Combinator xsi:type="gl:CreateVector3">
                       <gl:X>0</gl:X>
                       <gl:Y>0</gl:Y>
-                      <gl:Z>1</gl:Z>
+                      <gl:Z>-1</gl:Z>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -598,7 +668,7 @@
                     <Combinator xsi:type="gl:CreateVector3">
                       <gl:X>0</gl:X>
                       <gl:Y>0</gl:Y>
-                      <gl:Z>-1</gl:Z>
+                      <gl:Z>1</gl:Z>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -636,9 +706,9 @@
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>0</p1:X>
+                        <p1:X>-1</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>1</p1:Z>
+                        <p1:Z>0</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
@@ -862,6 +932,14 @@
               <Name>Draw3DStim</Name>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\TranslateView.bonsai" />
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="gl:BindTexture">
+                <gl:TextureSlot>Texture0</gl:TextureSlot>
+                <gl:ShaderName>TexturedModel</gl:ShaderName>
+                <gl:TextureName>shelter</gl:TextureName>
+                <gl:TextureTarget>Texture2D</gl:TextureTarget>
+              </Combinator>
+            </Expression>
             <Expression xsi:type="ExternalizedMapping">
               <Property Name="ScaleX" />
               <Property Name="ScaleY" />
@@ -929,13 +1007,14 @@
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
-            <Edge From="0" To="4" Label="Source2" />
-            <Edge From="1" To="7" Label="Source1" />
-            <Edge From="2" To="7" Label="Source2" />
-            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="0" To="5" Label="Source2" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="8" Label="Source1" />
+            <Edge From="3" To="8" Label="Source2" />
             <Edge From="4" To="5" Label="Source1" />
             <Edge From="5" To="6" Label="Source1" />
-            <Edge From="6" To="7" Label="Source3" />
+            <Edge From="6" To="7" Label="Source1" />
+            <Edge From="7" To="8" Label="Source3" />
           </Edges>
         </Workflow>
       </Expression>
@@ -979,63 +1058,43 @@
               <Name>Draw3DStim</Name>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\TranslateView.bonsai" />
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="gl:BindTexture">
+                <gl:TextureSlot>Texture0</gl:TextureSlot>
+                <gl:ShaderName>TexturedModel</gl:ShaderName>
+                <gl:TextureName>mybox</gl:TextureName>
+                <gl:TextureTarget>Texture2D</gl:TextureTarget>
+              </Combinator>
+            </Expression>
             <Expression xsi:type="ExternalizedMapping">
               <Property Name="ScaleX" />
               <Property Name="ScaleY" />
               <Property Name="ScaleZ" />
             </Expression>
-            <Expression xsi:type="ExternalizedMapping">
-              <Property Name="Position" />
-              <Property Name="Orientation" />
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="p1:CreateVrElement">
-                <p1:Position>
-                  <p1:X>0</p1:X>
-                  <p1:Y>0</p1:Y>
-                  <p1:Z>0</p1:Z>
-                </p1:Position>
-                <p1:Orientation>
-                  <p1:X>0</p1:X>
-                  <p1:Y>0</p1:Y>
-                  <p1:Z>0</p1:Z>
-                </p1:Orientation>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="PropertyMapping">
-              <PropertyMappings>
-                <Property Name="TranslationX" Selector="Position.X" />
-                <Property Name="TranslationY" Selector="Position.Y" />
-                <Property Name="TranslationZ" Selector="Position.Z" />
-                <Property Name="RotationX" Selector="Orientation.X" />
-                <Property Name="RotationY" Selector="Orientation.Y" />
-                <Property Name="RotationZ" Selector="Orientation.Z" />
-              </PropertyMappings>
-            </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
               <TranslationX>0</TranslationX>
               <TranslationY>0</TranslationY>
               <TranslationZ>0</TranslationZ>
-              <ScaleX>1</ScaleX>
-              <ScaleY>1</ScaleY>
-              <ScaleZ>1</ScaleZ>
-              <MeshName>Plane</MeshName>
+              <ScaleX>0.3</ScaleX>
+              <ScaleY>0.15</ScaleY>
+              <ScaleZ>0.3</ScaleZ>
+              <MeshName>Box</MeshName>
               <Ambient>
-                <X>0.2</X>
-                <Y>0.2</Y>
-                <Z>0.2</Z>
+                <X>1</X>
+                <Y>1</Y>
+                <Z>1</Z>
               </Ambient>
               <Diffuse>
-                <X>0.8</X>
-                <Y>0.8</Y>
-                <Z>0.8</Z>
+                <X>1</X>
+                <Y>1</Y>
+                <Z>1</Z>
               </Diffuse>
               <Specular>
-                <X>0.8</X>
-                <Y>0.8</Y>
-                <Z>0.8</Z>
+                <X>0.1</X>
+                <Y>0.1</Y>
+                <Z>0.1</Z>
               </Specular>
-              <SpecularExponent>10</SpecularExponent>
+              <SpecularExponent>0.011</SpecularExponent>
               <RotationZ>0</RotationZ>
               <RotationY>0</RotationY>
               <RotationX>0</RotationX>
@@ -1043,12 +1102,9 @@
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
-            <Edge From="0" To="4" Label="Source2" />
-            <Edge From="1" To="6" Label="Source1" />
-            <Edge From="2" To="6" Label="Source2" />
-            <Edge From="3" To="4" Label="Source1" />
-            <Edge From="4" To="5" Label="Source1" />
-            <Edge From="5" To="6" Label="Source3" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="4" Label="Source1" />
+            <Edge From="3" To="4" Label="Source2" />
           </Edges>
         </Workflow>
       </Expression>
