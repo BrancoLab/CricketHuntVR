@@ -564,8 +564,8 @@ it.Item1 * Math.Sin(it.Item2) as Y)
               </PropertyMappings>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawCircle.bonsai">
-              <LocationX>0</LocationX>
-              <LocationY>0</LocationY>
+              <LocationX>0.0230786111</LocationX>
+              <LocationY>-0.0505351126</LocationY>
               <Layer>0</Layer>
               <Diameter>0.025</Diameter>
               <ColorR>0</ColorR>
@@ -587,8 +587,8 @@ it.Item1 * Math.Sin(it.Item2) as Y)
               </PropertyMappings>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawText.bonsai">
-              <Text>M = 0.000
-Θ = 0.000</Text>
+              <Text>M = 0.056
+Θ = 5.141</Text>
               <Font>Microsoft Sans Serif, 24pt</Font>
               <Alignment>Center</Alignment>
               <LineAlignment>Center</LineAlignment>
@@ -729,7 +729,7 @@ it.Item3 as Angle)</scr:Expression>
                     <Combinator xsi:type="rx:WithLatestFrom" />
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Data\ArmBenchmarking\05_16_2022_15_28_38\ArmCoords.csv</io:FileName>
+                    <io:FileName>C:\Data\ArmBenchmarking\05_31_2022_08_55_28\ArmCoords.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -751,7 +751,7 @@ it.Item3 as Angle)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Equal">
                           <Operand xsi:type="IntProperty">
-                            <Value>34</Value>
+                            <Value>49</Value>
                           </Operand>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
@@ -784,7 +784,7 @@ it.Item3 as Angle)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Data\ArmBenchmarking\05_31_2022_08_26_14\ArmFallingEdgeDetection.csv</io:FileName>
+                    <io:FileName>C:\Data\ArmBenchmarking\05_31_2022_08_55_28\ArmFallingEdgeDetection.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -836,7 +836,7 @@ it.Item1[1] as Angle)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Data\ArmBenchmarking\05_31_2022_08_26_14\ArmCoords_input.csv</io:FileName>
+                    <io:FileName>C:\Data\ArmBenchmarking\05_31_2022_08_55_28\ArmCoords_input.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -872,7 +872,7 @@ it.Item1[1] as Angle)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Data\ArmBenchmarking\05_31_2022_08_26_14\ADD_49.csv</io:FileName>
+                    <io:FileName>C:\Data\ArmBenchmarking\05_31_2022_08_55_28\ADD_49.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -966,7 +966,7 @@ it.Item1[1] as Angle)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="cv:VideoWriter">
-                      <cv:FileName>C:\Data\ArmBenchmarking\05_31_2022_08_26_14\TopVideo.avi</cv:FileName>
+                      <cv:FileName>C:\Data\ArmBenchmarking\05_31_2022_08_55_28\TopVideo.avi</cv:FileName>
                       <cv:Suffix>None</cv:Suffix>
                       <cv:Buffered>true</cv:Buffered>
                       <cv:Overwrite>false</cv:Overwrite>
@@ -1224,7 +1224,7 @@ it.Item4 as FrameID,
 it.Item5 as FrameTimestamp)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Data\ArmBenchmarking\05_31_2022_08_26_14\CameraCentroid.csv</io:FileName>
+                    <io:FileName>C:\Data\ArmBenchmarking\05_31_2022_08_55_28\CameraCentroid.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -1363,7 +1363,7 @@ it.Item2 as ParsedMessage)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Data\ArmBenchmarking\05_31_2022_08_26_14\BehaviorSynchPulse.csv</io:FileName>
+                    <io:FileName>C:\Data\ArmBenchmarking\05_31_2022_08_55_28\BehaviorSynchPulse.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -1402,7 +1402,7 @@ it.Item2 as ParsedMessage)</scr:Expression>
                     <Combinator xsi:type="rx:WithLatestFrom" />
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Data\ArmBenchmarking\05_31_2022_08_26_14\BehaviorSynchPulse_timestamped.csv</io:FileName>
+                    <io:FileName>C:\Data\ArmBenchmarking\05_31_2022_08_55_28\BehaviorSynchPulse_timestamped.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
