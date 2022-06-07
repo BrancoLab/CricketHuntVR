@@ -9,8 +9,9 @@
                  xmlns:p1="clr-namespace:OpenTK;assembly=OpenTK"
                  xmlns:scr="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting"
                  xmlns:p2="clr-namespace:CricketVR;assembly=Extensions"
-                 xmlns:gli="clr-namespace:Bonsai.Shaders.Input;assembly=Bonsai.Shaders"
                  xmlns:p3="clr-namespace:;assembly=Extensions"
+                 xmlns:gli="clr-namespace:Bonsai.Shaders.Input;assembly=Bonsai.Shaders"
+                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Workflow>
     <Nodes>
@@ -518,9 +519,9 @@
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="gl:CreateVector3">
-                <gl:X>10</gl:X>
-                <gl:Y>1</gl:Y>
-                <gl:Z>10</gl:Z>
+                <gl:X>1</gl:X>
+                <gl:Y>0.3</gl:Y>
+                <gl:Z>1</gl:Z>
               </Combinator>
             </Expression>
             <Expression xsi:type="PropertyMapping">
@@ -628,9 +629,9 @@
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:Scale">
                       <gl:Order>Prepend</gl:Order>
-                      <gl:X>10</gl:X>
-                      <gl:Y>1</gl:Y>
-                      <gl:Z>10</gl:Z>
+                      <gl:X>1</gl:X>
+                      <gl:Y>0.3</gl:Y>
+                      <gl:Z>1</gl:Z>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -871,15 +872,17 @@
               <scr:Expression>new(
 it.Item2.X + it.Item1.X as Bound_P_X,
 -it.Item2.X + it.Item1.X as Bound_N_X,
+it.Item2.Y + it.Item1.Y as Bound_P_Y,
+-it.Item2.Y + it.Item1.Y as Bound_N_Y,
 it.Item2.Z + it.Item1.Z as Bound_P_Z,
 -it.Item2.Z + it.Item1.Z as Bound_N_Z
 )
 </scr:Expression>
             </Expression>
             <Expression xsi:type="MemberSelector">
-              <Selector>Bound_P_X,Bound_N_X,Bound_P_Z,Bound_N_Z</Selector>
+              <Selector>Bound_P_X,Bound_N_X,Bound_P_Y,Bound_N_Y,Bound_P_Z,Bound_N_Z</Selector>
             </Expression>
-            <Expression xsi:type="BehaviorSubject">
+            <Expression xsi:type="MulticastSubject">
               <Name>ArenaBounds</Name>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -977,7 +980,59 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="rx:Merge" />
             </Expression>
-            <Expression xsi:type="rx:Accumulate" />
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="rx:Accumulate" />
+            </Expression>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="MulticastSubject">
+                <Name>RodentPosition</Name>
+              </Builder>
+            </Expression>
+            <Expression xsi:type="Scan">
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Accumulation</Selector>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Value</Selector>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>ArenaBounds</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Item2</Selector>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Zip" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="p3:ClampPositionUpdate">
+                      <p3:NumericCorrectionFactor>0.99</p3:NumericCorrectionFactor>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="0" To="2" Label="Source1" />
+                  <Edge From="1" To="6" Label="Source1" />
+                  <Edge From="2" To="6" Label="Source2" />
+                  <Edge From="2" To="4" Label="Source1" />
+                  <Edge From="3" To="4" Label="Source2" />
+                  <Edge From="4" To="5" Label="Source1" />
+                  <Edge From="5" To="6" Label="Source3" />
+                  <Edge From="6" To="7" Label="Source1" />
+                  <Edge From="7" To="8" Label="Source1" />
+                </Edges>
+              </Workflow>
+            </Expression>
             <Expression xsi:type="MulticastSubject">
               <Name>RodentPosition</Name>
             </Expression>
@@ -1076,9 +1131,9 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p2:CreateVrElement">
                       <p2:Position>
-                        <p2:X>0</p2:X>
+                        <p2:X>-1</p2:X>
                         <p2:Y>0</p2:Y>
-                        <p2:Z>1</p2:Z>
+                        <p2:Z>0</p2:Z>
                       </p2:Position>
                       <p2:Orientation>
                         <p2:X>0</p2:X>
@@ -1199,6 +1254,9 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
                 </Edges>
               </Workflow>
             </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>ArenaBounds</Name>
+            </Expression>
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
@@ -1211,7 +1269,9 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
             <Edge From="7" To="8" Label="Source1" />
             <Edge From="8" To="9" Label="Source2" />
             <Edge From="9" To="10" Label="Source1" />
+            <Edge From="9" To="12" Label="Source1" />
             <Edge From="10" To="11" Label="Source1" />
+            <Edge From="12" To="13" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -1375,20 +1435,6 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
               <RotationY>0</RotationY>
               <RotationX>0</RotationX>
             </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="p2:CreateVrElement">
-                <p2:Position>
-                  <p2:X>0</p2:X>
-                  <p2:Y>0</p2:Y>
-                  <p2:Z>1</p2:Z>
-                </p2:Position>
-                <p2:Orientation>
-                  <p2:X>0</p2:X>
-                  <p2:Y>0</p2:Y>
-                  <p2:Z>1</p2:Z>
-                </p2:Orientation>
-              </Combinator>
-            </Expression>
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
@@ -1509,6 +1555,9 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
       </Expression>
       <Expression xsi:type="SubscribeSubject">
         <Name>RodentPosition</Name>
+      </Expression>
+      <Expression xsi:type="BehaviorSubject" TypeArguments="sys:Tuple(sys:Single,sys:Single,sys:Single,sys:Single,sys:Single,sys:Single)">
+        <Name>ArenaBounds</Name>
       </Expression>
     </Nodes>
     <Edges>
