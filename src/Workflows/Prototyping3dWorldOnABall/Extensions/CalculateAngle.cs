@@ -6,7 +6,8 @@ using System.Linq;
 using System.Reactive.Linq;
 using CricketVR;
 using OpenTK;
-
+namespace CricketVR
+{
 [Combinator]
 [Description("")]
 [WorkflowElementCategory(ElementCategory.Transform)]
@@ -38,4 +39,5 @@ public class CalculateAngle
         });
     }
 
+}
 }
