@@ -14,7 +14,8 @@ namespace CricketVR
 
         private float numericCorrectionFactor = 0.99f;
         [Description("Correction factor to adjust the numeric bounds. [0:1]")]
-        public float NumericCorrectionFactor {
+        public float NumericCorrectionFactor
+        {
             get
             {
                 return numericCorrectionFactor;
@@ -22,12 +23,13 @@ namespace CricketVR
             set
             {
                 numericCorrectionFactor = value;
-         }
+            }
         }
 
         public IObservable<VrElement> Process(IObservable<Tuple<VrElement, VrElement, Tuple<float, float, float, float, float, float>>> source)
         {
-            return source.Select(value => {
+            return source.Select(value =>
+            {
 
                 var Accumulation = value.Item1;
                 var Update = value.Item2;
@@ -55,10 +57,11 @@ namespace CricketVR
             });
         }
 
-        public static float ClampPosition(float In, float max, float min){
+        public static float ClampPosition(float In, float max, float min)
+        {
             if (In < min) return min;
-            else if(In > max) return max;
+            else if (In > max) return max;
             else return In;
-            }
+        }
     }
 }
