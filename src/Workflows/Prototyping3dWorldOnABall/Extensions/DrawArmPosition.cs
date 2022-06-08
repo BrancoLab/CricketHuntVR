@@ -21,12 +21,28 @@ namespace CricketVR
             get { return ImSize_px; }
             set { ImSize_px = value; }
         }
+
+        private float fullSize = 0.5f;
+        public float FullSize
+        {
+            get { return fullSize; }
+            set { fullSize = value; }
+        }
+        private float arenaSize = 0.3f;
+        public float ArenaSize
+        {
+            get { return arenaSize; }
+            set { arenaSize = value; }
+        }
+        private float deadZoneSize = 0.15f;
+        public float DeadZoneSize
+        {
+            get { return deadZoneSize; }
+            set { deadZoneSize = value; }
+        }
+
         private Scalar CricketColor = Scalar.Rgb(255, 0, 0);
         private int CricketSize = 10;
-        private float FullSize = 0.5f;
-        private float ArenaSize = 0.3f;
-        private float DeadZoneSize = 0.15f;
-
 
         public IObservable<IplImage> Process(IObservable<Point2f> source)
         {
@@ -35,11 +51,11 @@ namespace CricketVR
                 Size ImSize = new Size(ImSize_px, ImSize_px);
                 var im_center = new Point(ImSize_px / 2, ImSize_px / 2);
                 //Calculate meter to pixel conversion
-                float ScalingFactor = (float)ImSize_px / (FullSize * 2);
+                float ScalingFactor = (float)ImSize_px / (fullSize * 2);
                 //Geometry size in pixels
-                var scaledFullSize = (int)(ScalingFactor * FullSize);
-                var scaledArenaSize = (int)(ScalingFactor * ArenaSize);
-                var scaledDeadZoneSize = (int)(ScalingFactor * DeadZoneSize);
+                var scaledFullSize = (int)(ScalingFactor * fullSize);
+                var scaledArenaSize = (int)(ScalingFactor * arenaSize);
+                var scaledDeadZoneSize = (int)(ScalingFactor * deadZoneSize);
 
                 //Create Image
                 var inputImage = new IplImage(ImSize, IplDepth.U8, 3);
