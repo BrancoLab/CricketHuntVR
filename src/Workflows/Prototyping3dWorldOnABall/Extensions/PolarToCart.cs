@@ -11,16 +11,16 @@ namespace CricketVR
     [Combinator]
     [Description("")]
     [WorkflowElementCategory(ElementCategory.Transform)]
-    public class CartToPolar
+    public class PolarToCart
     {
 
         public IObservable<Point2f> Process(IObservable<Tuple<float, float>> source)
         {
             return source.Select(value =>
             {
-                return new Point2f(
-                    (float) (value.Item1 * Math.Cos(value.Item2)),
-                    (float) (value.Item1 * Math.Sin(value.Item2)));
+                var Magnitude = (float)(Math.Sqrt(value.Item1 * value.Item1 + value.Item2 * value.Item2));
+                var Angle = (float)(Math.Atan2(value.Item1, value.Item2));
+                return new Point2f(Magnitude, Angle);
             });
 
         }
@@ -29,9 +29,9 @@ namespace CricketVR
         {
             return source.Select(value =>
             {
-                return new Point2f(
-                    (float) (value.Item1 * Math.Cos(value.Item2)),
-                    (float) (value.Item1 * Math.Sin(value.Item2)));
+                var Magnitude = (float) (Math.Sqrt(value.Item1 * value.Item1 + value.Item2 * value.Item2));
+                var Angle = (float) Math.Atan2(value.Item1, value.Item2);
+                return new Point2f(Magnitude, Angle);
             });
 
         }
@@ -40,9 +40,9 @@ namespace CricketVR
         {
             return source.Select(value =>
             {
-                return new Point2f(
-                    (float) (value.X * Math.Cos(value.Y)),
-                    (float) (value.X * Math.Sin(value.Y)));
+                var Magnitude = (float)(Math.Sqrt(value.X * value.X + value.Y * value.Y));
+                var Angle = (float)Math.Atan2(value.X, value.Y);
+                return new Point2f(Magnitude, Angle);
             });
         }
 
