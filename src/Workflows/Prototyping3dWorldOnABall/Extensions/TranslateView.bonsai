@@ -26,29 +26,57 @@
             <Expression xsi:type="SubscribeSubject">
               <Name>RodentPosition</Name>
             </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Position</Selector>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>X</Selector>
+            </Expression>
+            <Expression xsi:type="Multiply">
+              <Operand xsi:type="FloatProperty">
+                <Value>-1</Value>
+              </Operand>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Y</Selector>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Z</Selector>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Zip" />
+            </Expression>
             <Expression xsi:type="PropertyMapping">
               <PropertyMappings>
-                <Property Name="X" Selector="Position.X" />
-                <Property Name="Y" Selector="Position.Y" />
-                <Property Name="Z" Selector="Position.Z" />
+                <Property Name="X" Selector="it.Item1" />
+                <Property Name="Y" Selector="it.Item2" />
+                <Property Name="Z" Selector="it.Item3" />
               </PropertyMappings>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="gl:Translate">
                 <gl:Order>Prepend</gl:Order>
-                <gl:X>0</gl:X>
+                <gl:X>0.270000041</gl:X>
                 <gl:Y>0</gl:Y>
-                <gl:Z>0</gl:Z>
+                <gl:Z>0.349999934</gl:Z>
               </Combinator>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
           </Nodes>
           <Edges>
-            <Edge From="0" To="4" Label="Source1" />
-            <Edge From="1" To="4" Label="Source3" />
+            <Edge From="0" To="10" Label="Source1" />
+            <Edge From="1" To="10" Label="Source3" />
             <Edge From="2" To="3" Label="Source1" />
-            <Edge From="3" To="4" Label="Source2" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="3" To="6" Label="Source1" />
+            <Edge From="3" To="7" Label="Source1" />
             <Edge From="4" To="5" Label="Source1" />
+            <Edge From="5" To="8" Label="Source1" />
+            <Edge From="6" To="8" Label="Source2" />
+            <Edge From="7" To="8" Label="Source3" />
+            <Edge From="8" To="9" Label="Source1" />
+            <Edge From="9" To="10" Label="Source2" />
+            <Edge From="10" To="11" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>

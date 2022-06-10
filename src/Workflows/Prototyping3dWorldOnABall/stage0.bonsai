@@ -1073,9 +1073,9 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p1:CreateVrElement">
                 <p1:Position>
-                  <p1:X>0.99</p1:X>
+                  <p1:X>-0.09999997</p1:X>
                   <p1:Y>0</p1:Y>
-                  <p1:Z>0.99</p1:Z>
+                  <p1:Z>1.49011612E-08</p1:Z>
                 </p1:Position>
                 <p1:Orientation>
                   <p1:X>0</p1:X>
@@ -1103,7 +1103,7 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
-                      <gl:X>1</gl:X>
+                      <gl:X>-1</gl:X>
                       <gl:Y>0</gl:Y>
                       <gl:Z>0</gl:Z>
                     </Combinator>
@@ -1115,7 +1115,7 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
-                      <gl:X>-1</gl:X>
+                      <gl:X>1</gl:X>
                       <gl:Y>0</gl:Y>
                       <gl:Z>0</gl:Z>
                     </Combinator>
@@ -1179,7 +1179,7 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>1</p1:X>
+                        <p1:X>-1</p1:X>
                         <p1:Y>0</p1:Y>
                         <p1:Z>0</p1:Z>
                       </p1:Position>
@@ -1276,7 +1276,7 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
                 <p1:Position>
                   <p1:X>0</p1:X>
                   <p1:Y>0</p1:Y>
-                  <p1:Z>1</p1:Z>
+                  <p1:Z>0</p1:Z>
                 </p1:Position>
                 <p1:Orientation>
                   <p1:X>0</p1:X>
@@ -1301,7 +1301,7 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
             <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
               <TranslationX>0</TranslationX>
               <TranslationY>0</TranslationY>
-              <TranslationZ>1</TranslationZ>
+              <TranslationZ>0</TranslationZ>
               <ScaleX>1</ScaleX>
               <ScaleY>1</ScaleY>
               <ScaleZ>1</ScaleZ>
@@ -1641,9 +1641,82 @@ it.Item3 as Angle)</scr:Expression>
           </Workflow>
         </Builder>
       </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>RodentPosition</Name>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>PositionCricket</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:CombineLatest" />
+      </Expression>
+      <Expression xsi:type="Subtract" />
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Zip" />
+      </Expression>
+      <Expression xsi:type="scr:ExpressionTransform">
+        <scr:Expression>new(
+it.Item1 as Rodent,
+it.Item2 as DisplacementVector)</scr:Expression>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Rodent</Selector>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Orientation</Selector>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Y</Selector>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>DisplacementVector</Selector>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Position</Selector>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Xz</Selector>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="p1:CartToPolar" />
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>X</Selector>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Y</Selector>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Zip" />
+      </Expression>
+      <Expression xsi:type="scr:ExpressionTransform">
+        <scr:Expression>new(
+it.Item1 as RodentOrientation,
+it.Item2 as DisplacementMagnitude,
+it.Item3 as DisplacementAngle)</scr:Expression>
+      </Expression>
     </Nodes>
     <Edges>
       <Edge From="1" To="2" Label="Source1" />
+      <Edge From="7" To="9" Label="Source2" />
+      <Edge From="7" To="11" Label="Source1" />
+      <Edge From="8" To="9" Label="Source1" />
+      <Edge From="9" To="10" Label="Source1" />
+      <Edge From="10" To="11" Label="Source2" />
+      <Edge From="11" To="12" Label="Source1" />
+      <Edge From="12" To="13" Label="Source1" />
+      <Edge From="12" To="16" Label="Source1" />
+      <Edge From="13" To="14" Label="Source1" />
+      <Edge From="14" To="15" Label="Source1" />
+      <Edge From="15" To="22" Label="Source1" />
+      <Edge From="16" To="17" Label="Source1" />
+      <Edge From="17" To="18" Label="Source1" />
+      <Edge From="18" To="19" Label="Source1" />
+      <Edge From="19" To="20" Label="Source1" />
+      <Edge From="19" To="21" Label="Source1" />
+      <Edge From="20" To="22" Label="Source2" />
+      <Edge From="21" To="22" Label="Source3" />
+      <Edge From="22" To="23" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
