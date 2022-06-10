@@ -6,7 +6,6 @@ using System.Reactive.Linq;
 using OpenCV.Net;
 using OpenTK;
 
-
 namespace CricketVR
 {
     [Combinator]
@@ -19,9 +18,9 @@ namespace CricketVR
         {
             return source.Select(value =>
             {
-                return new Point2f(
-                    (float) (value.Item1 * Math.Cos(value.Item2)),
-                    (float) (value.Item1 * Math.Sin(value.Item2)));
+                var Magnitude = (float)(Math.Sqrt(value.Item1 * value.Item1 + value.Item2 * value.Item2));
+                var Angle = (float)(Math.Atan2(value.Item2, value.Item1));
+                return new Point2f(Magnitude, Angle);
             });
 
         }
@@ -30,9 +29,9 @@ namespace CricketVR
         {
             return source.Select(value =>
             {
-                return new Point2f(
-                    (float) (value.Item1 * Math.Cos(value.Item2)),
-                    (float) (value.Item1 * Math.Sin(value.Item2)));
+                var Magnitude = (float) (Math.Sqrt(value.Item1 * value.Item1 + value.Item2 * value.Item2));
+                var Angle = (float) Math.Atan2(value.Item2, value.Item1);
+                return new Point2f(Magnitude, Angle);
             });
 
         }
@@ -41,19 +40,18 @@ namespace CricketVR
         {
             return source.Select(value =>
             {
-                return new Point2f(
-                    (float) (value.X * Math.Cos(value.Y)),
-                    (float) (value.X * Math.Sin(value.Y)));
+                var Magnitude = (float)(Math.Sqrt(value.X * value.X + value.Y * value.Y));
+                var Angle = (float)Math.Atan2(value.Y, value.X);
+                return new Point2f(Magnitude, Angle);
             });
         }
-
         public IObservable<Point2f> Process(IObservable<Vector2> source)
         {
             return source.Select(value =>
             {
-                return new Point2f(
-                    (float) (value.X * Math.Cos(value.Y)),
-                    (float) (value.X * Math.Sin(value.Y)));
+                var Magnitude = (float)(Math.Sqrt(value.X * value.X + value.Y * value.Y));
+                var Angle = (float)Math.Atan2(value.Y, value.X);
+                return new Point2f(Magnitude, Angle);
             });
         }
 
