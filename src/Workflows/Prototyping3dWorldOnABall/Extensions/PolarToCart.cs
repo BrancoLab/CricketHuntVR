@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
 using OpenCV.Net;
-
+using OpenTK;
 
 namespace CricketVR
 {
@@ -45,6 +45,16 @@ namespace CricketVR
                 return new Point2f(Magnitude, Angle);
             });
         }
+        public IObservable<Point2f> Process(IObservable<Vector2> source)
+        {
+            return source.Select(value =>
+            {
+                var Magnitude = (float)(Math.Sqrt(value.X * value.X + value.Y * value.Y));
+                var Angle = (float)Math.Atan2(value.X, value.Y);
+                return new Point2f(Magnitude, Angle);
+            });
+        }
+
 
     }
 }

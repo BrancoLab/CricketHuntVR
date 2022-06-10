@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
 using OpenCV.Net;
+using OpenTK;
 
 
 namespace CricketVR
@@ -45,6 +46,17 @@ namespace CricketVR
                     (float) (value.X * Math.Sin(value.Y)));
             });
         }
+
+        public IObservable<Point2f> Process(IObservable<Vector2> source)
+        {
+            return source.Select(value =>
+            {
+                return new Point2f(
+                    (float) (value.X * Math.Cos(value.Y)),
+                    (float) (value.X * Math.Sin(value.Y)));
+            });
+        }
+
 
     }
 }
