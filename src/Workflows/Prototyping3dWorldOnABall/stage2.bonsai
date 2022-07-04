@@ -1050,7 +1050,7 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
                       <gl:X>0</gl:X>
-                      <gl:Y>0</gl:Y>
+                      <gl:Y>1.57079637</gl:Y>
                       <gl:Z>0</gl:Z>
                     </Combinator>
                   </Expression>
@@ -1073,13 +1073,13 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p1:CreateVrElement">
                 <p1:Position>
-                  <p1:X>-0.009999359</p1:X>
+                  <p1:X>-0.480000466</p1:X>
                   <p1:Y>0</p1:Y>
-                  <p1:Z>-0.2700007</p1:Z>
+                  <p1:Z>0.180000678</p1:Z>
                 </p1:Position>
                 <p1:Orientation>
                   <p1:X>0</p1:X>
-                  <p1:Y>0</p1:Y>
+                  <p1:Y>1.57079637</p1:Y>
                   <p1:Z>0</p1:Z>
                 </p1:Orientation>
               </Combinator>
@@ -1275,7 +1275,7 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
               <Combinator xsi:type="p1:CreateVrElement">
                 <p1:Position>
                   <p1:X>0</p1:X>
-                  <p1:Y>0</p1:Y>
+                  <p1:Y>-0.05</p1:Y>
                   <p1:Z>0</p1:Z>
                 </p1:Position>
                 <p1:Orientation>
@@ -1300,7 +1300,7 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
               <TranslationX>0</TranslationX>
-              <TranslationY>0</TranslationY>
+              <TranslationY>-0.05</TranslationY>
               <TranslationZ>0</TranslationZ>
               <ScaleX>1</ScaleX>
               <ScaleY>1</ScaleY>
@@ -1329,6 +1329,7 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
+            <Edge From="0" To="5" Label="Source2" />
             <Edge From="1" To="2" Label="Source1" />
             <Edge From="2" To="8" Label="Source1" />
             <Edge From="3" To="8" Label="Source2" />
@@ -1544,6 +1545,7 @@ it.Item3 as Angle)</scr:Expression>
                           <p1:Y>0</p1:Y>
                           <p1:Z>0</p1:Z>
                         </p1:VRRodentPosition>
+                        <p1:VRRodentAngle>0</p1:VRRodentAngle>
                         <p1:VRCricketPosition>
                           <p1:X>0</p1:X>
                           <p1:Y>0</p1:Y>
@@ -1765,82 +1767,347 @@ it.Item3 as Angle)</scr:Expression>
           </Workflow>
         </Builder>
       </Expression>
-      <Expression xsi:type="SubscribeSubject">
-        <Name>RodentPosition</Name>
-      </Expression>
-      <Expression xsi:type="SubscribeSubject">
-        <Name>PositionCricket</Name>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="gl:RenderFrame" />
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="rx:CombineLatest" />
+        <Combinator xsi:type="rx:Slice">
+          <rx:Start>0</rx:Start>
+          <rx:Step>1</rx:Step>
+          <rx:Stop xsi:nil="true" />
+        </Combinator>
       </Expression>
-      <Expression xsi:type="Subtract" />
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="rx:Zip" />
+      <Expression xsi:type="GroupWorkflow">
+        <Name>DrawArm</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="IntProperty">
+                <Value>1000</Value>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="CanvasSize" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="FloatProperty">
+                <Value>1</Value>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="VRWorldSize" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="FloatProperty">
+                <Value>0.3</Value>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="MonitorBoundingBoxSize" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="FloatProperty">
+                <Value>0.15</Value>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="ArmDeadZoneRadius" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>RodentPosition</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Position</Selector>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="VRRodentPosition" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>PositionCricket</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Position</Selector>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="VRCricketPosition" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>CurrentArmPosition</Name>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="RealCricketPosition" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>RodentPosition</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Orientation.Y</Selector>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="VRRodentAngle" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p1:DrawFakeVRWorld">
+                <p1:CanvasSize>1000</p1:CanvasSize>
+                <p1:VRWorldSize>1</p1:VRWorldSize>
+                <p1:MonitorBoundingBoxSize>0.3</p1:MonitorBoundingBoxSize>
+                <p1:ArmDeadZoneRadius>0.15</p1:ArmDeadZoneRadius>
+                <p1:VRRodentPosition>
+                  <p1:X>-0.480000466</p1:X>
+                  <p1:Y>0</p1:Y>
+                  <p1:Z>0.180000678</p1:Z>
+                </p1:VRRodentPosition>
+                <p1:VRRodentAngle>1.57079637</p1:VRRodentAngle>
+                <p1:VRCricketPosition>
+                  <p1:X>0</p1:X>
+                  <p1:Y>-0.05</p1:Y>
+                  <p1:Z>0</p1:Z>
+                </p1:VRCricketPosition>
+                <p1:RealCricketPosition>
+                  <p1:X>0.3</p1:X>
+                  <p1:Y>0.3</p1:Y>
+                </p1:RealCricketPosition>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="cv:Flip">
+                <cv:Mode>Vertical</cv:Mode>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="20" Label="Source2" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="3" To="20" Label="Source3" />
+            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="5" To="20" Label="Source4" />
+            <Edge From="6" To="7" Label="Source1" />
+            <Edge From="7" To="20" Label="Source5" />
+            <Edge From="8" To="9" Label="Source1" />
+            <Edge From="9" To="10" Label="Source1" />
+            <Edge From="10" To="20" Label="Source6" />
+            <Edge From="11" To="12" Label="Source1" />
+            <Edge From="12" To="13" Label="Source1" />
+            <Edge From="13" To="20" Label="Source8" />
+            <Edge From="14" To="20" Label="Source1" />
+            <Edge From="15" To="16" Label="Source1" />
+            <Edge From="16" To="20" Label="Source9" />
+            <Edge From="17" To="18" Label="Source1" />
+            <Edge From="18" To="19" Label="Source1" />
+            <Edge From="19" To="20" Label="Source7" />
+            <Edge From="20" To="21" Label="Source1" />
+            <Edge From="21" To="22" Label="Source1" />
+          </Edges>
+        </Workflow>
       </Expression>
-      <Expression xsi:type="scr:ExpressionTransform">
-        <scr:Expression>new(
+      <Expression xsi:type="GroupWorkflow">
+        <Name>TrialLogic</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>GetOrientation</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>RodentPosition</Name>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>PositionCricket</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:CombineLatest" />
+                  </Expression>
+                  <Expression xsi:type="Subtract" />
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Zip" />
+                  </Expression>
+                  <Expression xsi:type="scr:ExpressionTransform">
+                    <scr:Expression>new(
 it.Item1 as Rodent,
 it.Item2 as DisplacementVector)</scr:Expression>
-      </Expression>
-      <Expression xsi:type="MemberSelector">
-        <Selector>Rodent</Selector>
-      </Expression>
-      <Expression xsi:type="MemberSelector">
-        <Selector>Orientation</Selector>
-      </Expression>
-      <Expression xsi:type="MemberSelector">
-        <Selector>Y</Selector>
-      </Expression>
-      <Expression xsi:type="MemberSelector">
-        <Selector>DisplacementVector</Selector>
-      </Expression>
-      <Expression xsi:type="MemberSelector">
-        <Selector>Position</Selector>
-      </Expression>
-      <Expression xsi:type="MemberSelector">
-        <Selector>Xz</Selector>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="p1:CartToPolar" />
-      </Expression>
-      <Expression xsi:type="MemberSelector">
-        <Selector>X</Selector>
-      </Expression>
-      <Expression xsi:type="MemberSelector">
-        <Selector>Y</Selector>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="rx:Zip" />
-      </Expression>
-      <Expression xsi:type="scr:ExpressionTransform">
-        <scr:Expression>new(
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Rodent</Selector>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Orientation</Selector>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Y</Selector>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>DisplacementVector</Selector>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Position</Selector>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Xz</Selector>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="p1:CartToPolar" />
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>X</Selector>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Y</Selector>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Zip" />
+                  </Expression>
+                  <Expression xsi:type="scr:ExpressionTransform">
+                    <scr:Expression>new(
 it.Item1 as RodentOrientation,
 it.Item2 as DisplacementMagnitude,
 it.Item3 as DisplacementAngle)</scr:Expression>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="2" Label="Source2" />
+                  <Edge From="0" To="4" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="2" To="3" Label="Source1" />
+                  <Edge From="3" To="4" Label="Source2" />
+                  <Edge From="4" To="5" Label="Source1" />
+                  <Edge From="5" To="6" Label="Source1" />
+                  <Edge From="5" To="9" Label="Source1" />
+                  <Edge From="6" To="7" Label="Source1" />
+                  <Edge From="7" To="8" Label="Source1" />
+                  <Edge From="8" To="15" Label="Source1" />
+                  <Edge From="9" To="10" Label="Source1" />
+                  <Edge From="10" To="11" Label="Source1" />
+                  <Edge From="11" To="12" Label="Source1" />
+                  <Edge From="12" To="13" Label="Source1" />
+                  <Edge From="12" To="14" Label="Source1" />
+                  <Edge From="13" To="15" Label="Source2" />
+                  <Edge From="14" To="15" Label="Source3" />
+                  <Edge From="15" To="16" Label="Source1" />
+                  <Edge From="16" To="17" Label="Source1" />
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>RodentOrientation,DisplacementMagnitude,DisplacementAngle</Selector>
+            </Expression>
+            <Expression xsi:type="BehaviorSubject">
+              <Name>ComputedOrientation</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="gli:KeyDown">
+                <gli:Key>F2</gli:Key>
+                <gli:Modifiers>Shift</gli:Modifiers>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="CreateObservable">
+                <Workflow>
+                  <Nodes>
+                    <Expression xsi:type="SubscribeSubject">
+                      <Name>ComputedOrientation</Name>
+                    </Expression>
+                    <Expression xsi:type="scr:ExpressionTransform">
+                      <scr:Expression>new(
+it.Item1 as RodentOrientation,
+it.Item2 as DisplacementMagnitude,
+it.Item3 as DisplacementAngle)</scr:Expression>
+                    </Expression>
+                    <Expression xsi:type="Unit" />
+                    <Expression xsi:type="scr:ExpressionTransform">
+                      <scr:Expression>new(
+Math.Pi/4.0 as MinThreshold,
+Math.Pi/4.0 as MaxThreshold,
+Math.Pi * 0 as StartingAngle,
+0.3 as StartingRadius,
+0.15 as FinalRadius, 
+0.001 as DecayConstant,
+TimeSpan.FromSeconds(1) as TimeToEat)</scr:Expression>
+                    </Expression>
+                    <Expression xsi:type="MemberSelector">
+                      <Selector>MinThreshold,MaxThreshold,StartingAngle,StartingRadius,FinalRadius,DecayConstant,TimeToEat</Selector>
+                    </Expression>
+                    <Expression xsi:type="ReplaySubject">
+                      <Name>TrialSettings</Name>
+                      <BufferSize xsi:nil="true" />
+                    </Expression>
+                    <Expression xsi:type="SubscribeSubject">
+                      <Name>RodentPositionUpdate</Name>
+                    </Expression>
+                    <Expression xsi:type="Condition">
+                      <Workflow>
+                        <Nodes>
+                          <Expression xsi:type="WorkflowInput">
+                            <Name>Source1</Name>
+                          </Expression>
+                          <Expression xsi:type="WorkflowOutput" />
+                        </Nodes>
+                        <Edges>
+                          <Edge From="0" To="1" Label="Source1" />
+                        </Edges>
+                      </Workflow>
+                    </Expression>
+                  </Nodes>
+                  <Edges>
+                    <Edge From="0" To="1" Label="Source1" />
+                    <Edge From="2" To="3" Label="Source1" />
+                    <Edge From="3" To="4" Label="Source1" />
+                    <Edge From="4" To="5" Label="Source1" />
+                    <Edge From="6" To="7" Label="Source1" />
+                  </Edges>
+                </Workflow>
+              </Builder>
+            </Expression>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="Combinator">
+                <Combinator xsi:type="rx:Switch" />
+              </Builder>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="4" To="5" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="cv:CreatePoint2f">
+          <cv:X>0.3</cv:X>
+          <cv:Y>0.3</cv:Y>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="BehaviorSubject">
+        <Name>CurrentArmPosition</Name>
       </Expression>
     </Nodes>
     <Edges>
       <Edge From="1" To="2" Label="Source1" />
-      <Edge From="7" To="9" Label="Source2" />
-      <Edge From="7" To="11" Label="Source1" />
+      <Edge From="7" To="8" Label="Source1" />
       <Edge From="8" To="9" Label="Source1" />
-      <Edge From="9" To="10" Label="Source1" />
-      <Edge From="10" To="11" Label="Source2" />
       <Edge From="11" To="12" Label="Source1" />
-      <Edge From="12" To="13" Label="Source1" />
-      <Edge From="12" To="16" Label="Source1" />
-      <Edge From="13" To="14" Label="Source1" />
-      <Edge From="14" To="15" Label="Source1" />
-      <Edge From="15" To="22" Label="Source1" />
-      <Edge From="16" To="17" Label="Source1" />
-      <Edge From="17" To="18" Label="Source1" />
-      <Edge From="18" To="19" Label="Source1" />
-      <Edge From="19" To="20" Label="Source1" />
-      <Edge From="19" To="21" Label="Source1" />
-      <Edge From="20" To="22" Label="Source2" />
-      <Edge From="21" To="22" Label="Source3" />
-      <Edge From="22" To="23" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>

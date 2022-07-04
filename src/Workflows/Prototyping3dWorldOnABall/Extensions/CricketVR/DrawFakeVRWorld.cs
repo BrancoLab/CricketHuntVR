@@ -5,18 +5,14 @@ using System.Linq;
 using System.Reactive.Linq;
 using OpenCV.Net;
 using OpenTK;
-
-
 namespace CricketVR
 {
     [Combinator]
     [Description("")]
     [WorkflowElementCategory(ElementCategory.Transform)]
 
-
     public class DrawFakeVRWorld
     {
-
         /// <summary>
         /// Sets the size (in pixels) of the to-be-drawn canvas.
         /// </summary>
@@ -40,7 +36,6 @@ namespace CricketVR
             get { return vRWorldSize; }
             set { vRWorldSize = value; }
         }
-
 
         /// <summary>
         /// Sets the size (in VR units) of the monitor bounding box square.
@@ -66,7 +61,6 @@ namespace CricketVR
             set { armDeadZoneRadius = value; }
         }
 
-
         /// <summary>
         /// Sets the position (in VR units) of the virtual subject.
         /// </summary>
@@ -78,6 +72,18 @@ namespace CricketVR
             get { return vRRodentPosition; }
             set { vRRodentPosition = value; }
         }
+
+        /// <summary>
+        /// Sets the angle of the virtual subject around the Y axis of rotation.
+        /// </summary>
+        private float vRRodentAngle = 0.0f;
+        [Description("Sets the angle of the virtual subject around the Y axis of rotation.")]
+        public float VRRodentAngle
+        {
+            get { return vRRodentAngle; }
+            set { vRRodentAngle = value; }
+        }
+
         /// <summary>
         /// Sets the position (in VR units) of the virtual cricket.
         /// </summary>
@@ -103,7 +109,6 @@ namespace CricketVR
             set { realCricketPosition = value; }
         }
 
-
         /// Virtual Cricket visualization properties
         private Scalar virtualCricketColor = Scalar.Rgb(255, 0, 0);
         private int virtualCricketSize = 10;
@@ -112,12 +117,13 @@ namespace CricketVR
         private Scalar realCricketColor = Scalar.Rgb(0, 255, 0);
         private int realCricketSize = 10;
 
-
+        /// Mouse visualization properties
+        private Scalar mouseColor = Scalar.Rgb(120, 120, 255);
+        private int mouseSize = 25;
         public IObservable<IplImage> Process<TSource>(IObservable<TSource> source)
         {
             return source.Select(value =>
             {
-
                 // Create the canvas
                 Size ImSize = new Size(canvasSize, canvasSize);
                 var im_center = new Point(canvasSize / 2, canvasSize / 2);
@@ -171,7 +177,19 @@ namespace CricketVR
                     realCricketSize,
                     realCricketColor, -1); //Should be relative to mouse VR position
 
+               //Draw the virtual mouse with orientation
+                var Pt1 = new Point(
+                    (int) (mouseSize * Math.Cos(vRRodentAngle)),
+                    (int) (mouseSize * Math.Sin(vRRodentAngle))) + mouse_ref;
+                var Pt2 = new Point(
+                    (int) (0.5 * mouseSize * Math.Cos(vRRodentAngle + (2.0/3.0)*Math.PI)),
+                    (int) (0.5 * mouseSize * Math.Sin(vRRodentAngle + (2.0/3.0)*Math.PI))) + mouse_ref;
+                var Pt3 = new Point(
+                    (int) (0.5 * mouseSize * Math.Cos(vRRodentAngle - (2.0/3.0)*Math.PI)),
+                    (int) (0.5 * mouseSize * Math.Sin(vRRodentAngle - (2.0/3.0)*Math.PI))) + mouse_ref;
+                Point[] Triangle = new Point[]{Pt1, Pt2, Pt3};
 
+                CV.FillPoly(inputImage, new Point[][] {Triangle}, mouseColor);
                 return inputImage;
             });
         }
