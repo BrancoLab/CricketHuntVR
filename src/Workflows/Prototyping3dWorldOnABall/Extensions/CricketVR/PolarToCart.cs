@@ -10,7 +10,7 @@ using OpenTK;
 namespace CricketVR
 {
     [Combinator]
-    [Description("")]
+    [Description("Magnitude, Angle")]
     [WorkflowElementCategory(ElementCategory.Transform)]
     public class PolarToCart
     {
