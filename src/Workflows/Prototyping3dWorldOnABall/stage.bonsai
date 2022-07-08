@@ -14,6 +14,7 @@
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
                  xmlns:cv="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision"
                  xmlns:p3="clr-namespace:OpenCV.Net;assembly=OpenCV.Net"
+                 xmlns:dsp="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Workflow>
     <Nodes>
@@ -933,6 +934,10 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
         <Name>Rodent</Name>
         <Workflow>
           <Nodes>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>RodentPosition</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
             <Expression xsi:type="GroupWorkflow">
               <Name>InitialPosition</Name>
               <Workflow>
@@ -1061,10 +1066,50 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
                       <gl:Z>0</gl:Z>
                     </Combinator>
                   </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="gli:MouseWheel" />
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>EventArgs.Value</Selector>
+                  </Expression>
+                  <Expression xsi:type="Mod">
+                    <Operand xsi:type="IntProperty">
+                      <Value>50</Value>
+                    </Operand>
+                  </Expression>
+                  <Expression xsi:type="scr:ExpressionTransform">
+                    <scr:Expression>((it / 50.0) * 2.0 * Math.Pi + 2.0*Math.Pi) % (2.0 * Math.Pi)</scr:Expression>
+                  </Expression>
+                  <Expression xsi:type="scr:ExpressionTransform">
+                    <scr:Expression>it &lt;= Math.Pi ? it : -1.0 * (2.0*Math.Pi - it)</scr:Expression>
+                  </Expression>
+                  <Expression xsi:type="InputMapping">
+                    <PropertyMappings>
+                      <Property Name="Y" Selector="it" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="gl:CreateVector3">
+                      <gl:X>0</gl:X>
+                      <gl:Y>-1.0053097</gl:Y>
+                      <gl:Z>0</gl:Z>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Merge" />
+                  </Expression>
                   <Expression xsi:type="WorkflowOutput" />
                 </Nodes>
                 <Edges>
-                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="0" To="8" Label="Source2" />
+                  <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="2" To="3" Label="Source1" />
+                  <Edge From="3" To="4" Label="Source1" />
+                  <Edge From="4" To="5" Label="Source1" />
+                  <Edge From="5" To="6" Label="Source1" />
+                  <Edge From="6" To="7" Label="Source1" />
+                  <Edge From="7" To="8" Label="Source1" />
+                  <Edge From="8" To="9" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -1080,13 +1125,13 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p1:CreateVrElement">
                 <p1:Position>
-                  <p1:X>0</p1:X>
+                  <p1:X>-0.2300007</p1:X>
                   <p1:Y>0</p1:Y>
-                  <p1:Z>0</p1:Z>
+                  <p1:Z>0.1399993</p1:Z>
                 </p1:Position>
                 <p1:Orientation>
                   <p1:X>0</p1:X>
-                  <p1:Y>1.57079637</p1:Y>
+                  <p1:Y>-1.0053097</p1:Y>
                   <p1:Z>0</p1:Z>
                 </p1:Orientation>
               </Combinator>
@@ -1200,12 +1245,6 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
                   <Expression xsi:type="MulticastSubject">
                     <Name>RodentPositionUpdate</Name>
                   </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="gli:MouseWheel" />
-                  </Expression>
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>EventArgs.Value</Selector>
-                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="0" To="1" Label="Source1" />
@@ -1229,33 +1268,28 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
                   <Edge From="13" To="14" Label="Source1" />
                   <Edge From="14" To="15" Label="Source1" />
                   <Edge From="15" To="16" Label="Source1" />
-                  <Edge From="17" To="18" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>RodentPosition</Name>
-            </Expression>
-            <Expression xsi:type="WorkflowOutput" />
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
             <Edge From="2" To="3" Label="Source1" />
-            <Edge From="3" To="9" Label="Source1" />
-            <Edge From="4" To="7" Label="Source1" />
-            <Edge From="4" To="6" Label="Source1" />
-            <Edge From="5" To="6" Label="Source2" />
-            <Edge From="6" To="7" Label="Source2" />
-            <Edge From="7" To="8" Label="Source1" />
+            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="5" To="11" Label="Source1" />
+            <Edge From="6" To="9" Label="Source1" />
+            <Edge From="6" To="8" Label="Source1" />
+            <Edge From="7" To="8" Label="Source2" />
             <Edge From="8" To="9" Label="Source2" />
             <Edge From="9" To="10" Label="Source1" />
-            <Edge From="10" To="11" Label="Source1" />
-            <Edge From="11" To="13" Label="Source1" />
-            <Edge From="12" To="13" Label="Source2" />
-            <Edge From="13" To="14" Label="Source1" />
-            <Edge From="14" To="15" Label="Source1" />
+            <Edge From="10" To="11" Label="Source2" />
+            <Edge From="11" To="12" Label="Source1" />
+            <Edge From="12" To="13" Label="Source1" />
+            <Edge From="13" To="15" Label="Source1" />
+            <Edge From="14" To="15" Label="Source2" />
             <Edge From="15" To="16" Label="Source1" />
-            <Edge From="18" To="19" Label="Source1" />
+            <Edge From="16" To="17" Label="Source1" />
+            <Edge From="17" To="18" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -1317,9 +1351,9 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="gl:CreateVector3">
-                <gl:X>0.15</gl:X>
+                <gl:X>-0.299899668</gl:X>
                 <gl:Y>-0.05</gl:Y>
-                <gl:Z>0</gl:Z>
+                <gl:Z>-4.528359E-08</gl:Z>
               </Combinator>
             </Expression>
             <Expression xsi:type="PropertyMapping">
@@ -1330,9 +1364,9 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p1:CreateVrElement">
                 <p1:Position>
-                  <p1:X>0.15</p1:X>
+                  <p1:X>-0.299899668</p1:X>
                   <p1:Y>-0.05</p1:Y>
-                  <p1:Z>0</p1:Z>
+                  <p1:Z>-4.528359E-08</p1:Z>
                 </p1:Position>
                 <p1:Orientation>
                   <p1:X>0</p1:X>
@@ -1410,9 +1444,9 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
               </Combinator>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-              <TranslationX>0.15</TranslationX>
+              <TranslationX>-0.299899668</TranslationX>
               <TranslationY>-0.05</TranslationY>
-              <TranslationZ>-0</TranslationZ>
+              <TranslationZ>4.528359E-08</TranslationZ>
               <ScaleX>1</ScaleX>
               <ScaleY>1</ScaleY>
               <ScaleZ>1</ScaleZ>
@@ -1947,19 +1981,19 @@ it.Item3 as Angle)</scr:Expression>
                 <p1:MonitorBoundingBoxSize>0.3</p1:MonitorBoundingBoxSize>
                 <p1:ArmDeadZoneRadius>0.15</p1:ArmDeadZoneRadius>
                 <p1:VRRodentPosition>
-                  <p1:X>0</p1:X>
+                  <p1:X>-0.2300007</p1:X>
                   <p1:Y>0</p1:Y>
-                  <p1:Z>0</p1:Z>
+                  <p1:Z>0.1399993</p1:Z>
                 </p1:VRRodentPosition>
-                <p1:VRRodentAngle>1.57079637</p1:VRRodentAngle>
+                <p1:VRRodentAngle>-1.0053097</p1:VRRodentAngle>
                 <p1:VRCricketPosition>
-                  <p1:X>0.15</p1:X>
+                  <p1:X>-0.299899668</p1:X>
                   <p1:Y>-0.05</p1:Y>
-                  <p1:Z>0</p1:Z>
+                  <p1:Z>-4.528359E-08</p1:Z>
                 </p1:VRCricketPosition>
                 <p1:RealCricketPosition>
-                  <p1:X>0.15</p1:X>
-                  <p1:Y>0</p1:Y>
+                  <p1:X>-0.299899668</p1:X>
+                  <p1:Y>-4.528359E-08</p1:Y>
                 </p1:RealCricketPosition>
               </Combinator>
             </Expression>
@@ -2014,8 +2048,11 @@ it.Item3 as Angle)</scr:Expression>
                     <Combinator xsi:type="rx:CombineLatest" />
                   </Expression>
                   <Expression xsi:type="Subtract" />
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Item1</Selector>
+                  </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:WithLatestFrom" />
+                    <Combinator xsi:type="rx:Zip" />
                   </Expression>
                   <Expression xsi:type="scr:ExpressionTransform">
                     <scr:Expression>new(
@@ -2062,25 +2099,26 @@ it.Item3 as DisplacementAngle)</scr:Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="0" To="2" Label="Source2" />
-                  <Edge From="0" To="4" Label="Source1" />
                   <Edge From="1" To="2" Label="Source1" />
                   <Edge From="2" To="3" Label="Source1" />
-                  <Edge From="3" To="4" Label="Source2" />
+                  <Edge From="2" To="4" Label="Source1" />
+                  <Edge From="3" To="5" Label="Source2" />
                   <Edge From="4" To="5" Label="Source1" />
                   <Edge From="5" To="6" Label="Source1" />
-                  <Edge From="5" To="9" Label="Source1" />
                   <Edge From="6" To="7" Label="Source1" />
+                  <Edge From="6" To="10" Label="Source1" />
                   <Edge From="7" To="8" Label="Source1" />
-                  <Edge From="8" To="15" Label="Source1" />
-                  <Edge From="9" To="10" Label="Source1" />
+                  <Edge From="8" To="9" Label="Source1" />
+                  <Edge From="9" To="16" Label="Source1" />
                   <Edge From="10" To="11" Label="Source1" />
                   <Edge From="11" To="12" Label="Source1" />
                   <Edge From="12" To="13" Label="Source1" />
-                  <Edge From="12" To="14" Label="Source1" />
-                  <Edge From="13" To="15" Label="Source2" />
-                  <Edge From="14" To="15" Label="Source3" />
-                  <Edge From="15" To="16" Label="Source1" />
+                  <Edge From="13" To="14" Label="Source1" />
+                  <Edge From="13" To="15" Label="Source1" />
+                  <Edge From="14" To="16" Label="Source2" />
+                  <Edge From="15" To="16" Label="Source3" />
                   <Edge From="16" To="17" Label="Source1" />
+                  <Edge From="17" To="18" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -2103,8 +2141,7 @@ it.Item3 as DisplacementAngle)</scr:Expression>
                   <Expression xsi:type="Unit" />
                   <Expression xsi:type="scr:ExpressionTransform">
                     <scr:Expression>new(
-Math.Pi/4.0 as MinThreshold,
-Math.Pi/4.0 as MaxThreshold,
+Math.Pi/4.0 as AngleThreshold,
 Math.Pi * 1.0 as StartingAngle,
 0.29 as StartingRadius,
 0.16 as FinalRadius, 
@@ -2112,7 +2149,7 @@ Math.Pi * 1.0 as StartingAngle,
 TimeSpan.FromSeconds(1) as TimeToEat)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="MemberSelector">
-                    <Selector>MinThreshold,MaxThreshold,StartingAngle,StartingRadius,FinalRadius,DecayConstant,TimeToEat</Selector>
+                    <Selector>AngleThreshold,StartingAngle,StartingRadius,FinalRadius,DecayConstant,TimeToEat</Selector>
                   </Expression>
                   <Expression xsi:type="ReplaySubject">
                     <Name>TrialSettings</Name>
@@ -2128,16 +2165,7 @@ TimeSpan.FromSeconds(1) as TimeToEat)</scr:Expression>
                         <Expression xsi:type="SubscribeSubject">
                           <Name>TrialSettings</Name>
                         </Expression>
-                        <Expression xsi:type="scr:ExpressionTransform">
-                          <scr:Expression>new(
-it.Item1 as MinThreshold,
-it.Item2 as MaxThreshold,
-it.Item3 as StartingAngle,
-it.Item4 as StartingRadius,
-it.Item5 as FinalRadius, 
-it.Item6 as DecayConstant,
-it.Item7 as TimeToEat)</scr:Expression>
-                        </Expression>
+                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\ParseTrialSettings.bonsai" />
                         <Expression xsi:type="InputMapping">
                           <PropertyMappings>
                             <Property Name="X" Selector="StartingRadius" />
@@ -2180,16 +2208,7 @@ it.Item7 as TimeToEat)</scr:Expression>
                         <Expression xsi:type="SubscribeSubject">
                           <Name>TrialSettings</Name>
                         </Expression>
-                        <Expression xsi:type="scr:ExpressionTransform">
-                          <scr:Expression>new(
-it.Item1 as MinThreshold,
-it.Item2 as MaxThreshold,
-it.Item3 as StartingAngle,
-it.Item4 as StartingRadius,
-it.Item5 as FinalRadius, 
-it.Item6 as DecayConstant,
-it.Item7 as TimeToEat)</scr:Expression>
-                        </Expression>
+                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\ParseTrialSettings.bonsai" />
                         <Expression xsi:type="MemberSelector">
                           <Selector>DecayConstant</Selector>
                         </Expression>
@@ -2238,16 +2257,7 @@ it.Item7 as TimeToEat)</scr:Expression>
                         <Expression xsi:type="SubscribeSubject">
                           <Name>TrialSettings</Name>
                         </Expression>
-                        <Expression xsi:type="scr:ExpressionTransform">
-                          <scr:Expression>new(
-it.Item1 as MinThreshold,
-it.Item2 as MaxThreshold,
-it.Item3 as StartingAngle,
-it.Item4 as StartingRadius,
-it.Item5 as FinalRadius, 
-it.Item6 as DecayConstant,
-it.Item7 as TimeToEat)</scr:Expression>
-                        </Expression>
+                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\ParseTrialSettings.bonsai" />
                         <Expression xsi:type="MemberSelector">
                           <Selector>FinalRadius</Selector>
                         </Expression>
@@ -2255,6 +2265,7 @@ it.Item7 as TimeToEat)</scr:Expression>
                           <Combinator xsi:type="rx:CombineLatest" />
                         </Expression>
                         <Expression xsi:type="Condition">
+                          <Name>CheckCricketDistance</Name>
                           <Workflow>
                             <Nodes>
                               <Expression xsi:type="WorkflowInput">
@@ -2281,6 +2292,75 @@ it.Item7 as TimeToEat)</scr:Expression>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>ComputedOrientation</Name>
+                        </Expression>
+                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\ParseComputedOrientation.bonsai" />
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>RodentPosition</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>TrialSettings</Name>
+                        </Expression>
+                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\ParseTrialSettings.bonsai" />
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:CombineLatest" />
+                        </Expression>
+                        <Expression xsi:type="Condition">
+                          <Name>WithinSightCone</Name>
+                          <Workflow>
+                            <Nodes>
+                              <Expression xsi:type="WorkflowInput">
+                                <Name>Source1</Name>
+                              </Expression>
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>Item1.DisplacementAngle</Selector>
+                              </Expression>
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>Item2.Orientation.Y</Selector>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="rx:Zip" />
+                              </Expression>
+                              <Expression xsi:type="Subtract" />
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="dsp:Abs" />
+                              </Expression>
+                              <Expression xsi:type="SubscribeSubject">
+                                <Name>TrialSettings</Name>
+                              </Expression>
+                              <Expression xsi:type="IncludeWorkflow" Path="Extensions\ParseTrialSettings.bonsai" />
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>AngleThreshold</Selector>
+                              </Expression>
+                              <Expression xsi:type="PropertyMapping">
+                                <PropertyMappings>
+                                  <Property Name="Value" />
+                                </PropertyMappings>
+                              </Expression>
+                              <Expression xsi:type="LessThan">
+                                <Operand xsi:type="FloatProperty">
+                                  <Value>0.7853982</Value>
+                                </Operand>
+                              </Expression>
+                              <Expression xsi:type="WorkflowOutput" />
+                            </Nodes>
+                            <Edges>
+                              <Edge From="0" To="1" Label="Source1" />
+                              <Edge From="0" To="2" Label="Source1" />
+                              <Edge From="1" To="3" Label="Source2" />
+                              <Edge From="2" To="3" Label="Source1" />
+                              <Edge From="3" To="4" Label="Source1" />
+                              <Edge From="4" To="5" Label="Source1" />
+                              <Edge From="5" To="10" Label="Source1" />
+                              <Edge From="6" To="7" Label="Source1" />
+                              <Edge From="7" To="8" Label="Source1" />
+                              <Edge From="8" To="9" Label="Source1" />
+                              <Edge From="9" To="10" Label="Source2" />
+                              <Edge From="10" To="11" Label="Source1" />
+                            </Edges>
+                          </Workflow>
+                        </Expression>
                       </Nodes>
                       <Edges>
                         <Edge From="0" To="5" Label="Source1" />
@@ -2303,6 +2383,12 @@ it.Item7 as TimeToEat)</scr:Expression>
                         <Edge From="17" To="18" Label="Source1" />
                         <Edge From="18" To="19" Label="Source1" />
                         <Edge From="19" To="20" Label="Source1" />
+                        <Edge From="21" To="22" Label="Source1" />
+                        <Edge From="22" To="26" Label="Source1" />
+                        <Edge From="23" To="26" Label="Source2" />
+                        <Edge From="24" To="25" Label="Source1" />
+                        <Edge From="25" To="26" Label="Source3" />
+                        <Edge From="26" To="27" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
@@ -2313,16 +2399,7 @@ it.Item7 as TimeToEat)</scr:Expression>
                         <Expression xsi:type="SubscribeSubject">
                           <Name>TrialSettings</Name>
                         </Expression>
-                        <Expression xsi:type="scr:ExpressionTransform">
-                          <scr:Expression>new(
-it.Item1 as MinThreshold,
-it.Item2 as MaxThreshold,
-it.Item3 as StartingAngle,
-it.Item4 as StartingRadius,
-it.Item5 as FinalRadius, 
-it.Item6 as DecayConstant,
-it.Item7 as TimeToEat)</scr:Expression>
-                        </Expression>
+                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\ParseTrialSettings.bonsai" />
                         <Expression xsi:type="MemberSelector">
                           <Selector>TimeToEat</Selector>
                         </Expression>
@@ -2354,12 +2431,7 @@ it.Item7 as TimeToEat)</scr:Expression>
                   <Expression xsi:type="SubscribeSubject">
                     <Name>ComputedOrientation</Name>
                   </Expression>
-                  <Expression xsi:type="scr:ExpressionTransform">
-                    <scr:Expression>new(
-it.Item1 as RodentOrientation,
-it.Item2 as DisplacementMagnitude,
-it.Item3 as DisplacementAngle)</scr:Expression>
-                  </Expression>
+                  <Expression xsi:type="IncludeWorkflow" Path="Extensions\ParseComputedOrientation.bonsai" />
                 </Nodes>
                 <Edges>
                   <Edge From="0" To="1" Label="Source1" />
