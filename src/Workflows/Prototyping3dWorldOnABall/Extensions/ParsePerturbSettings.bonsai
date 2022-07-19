@@ -9,16 +9,12 @@
         <Name>Source1</Name>
       </Expression>
       <Expression xsi:type="MemberSelector">
-        <Selector>Item1</Selector>
+        <Selector>Item2</Selector>
       </Expression>
       <Expression xsi:type="scr:ExpressionTransform">
         <scr:Expression>new(
-it.Item1 as AngleThreshold,
-it.Item2 as StartingAngle,
-it.Item3 as StartingRadius,
-it.Item4 as FinalRadius, 
-it.Item5 as DecayConstant,
-it.Item6 as TimeToEat)</scr:Expression>
+Item1 as PerturbAngle,
+Item2 as TriggerRadius)</scr:Expression>
       </Expression>
       <Expression xsi:type="WorkflowOutput" />
     </Nodes>
