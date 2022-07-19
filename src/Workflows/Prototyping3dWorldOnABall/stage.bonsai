@@ -3,17 +3,17 @@
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
                  xmlns:p1="clr-namespace:CricketVR;assembly=Extensions"
+                 xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
+                 xmlns:p2="clr-namespace:OpenCV.Net;assembly=OpenCV.Net"
+                 xmlns:cv="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision"
                  xmlns:gl="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders"
                  xmlns:glr="clr-namespace:Bonsai.Shaders.Rendering;assembly=Bonsai.Shaders.Rendering"
                  xmlns:res="clr-namespace:Bonsai.Resources;assembly=Bonsai.System"
                  xmlns:bv="clr-namespace:BonVision;assembly=BonVision"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
-                 xmlns:p2="clr-namespace:OpenTK;assembly=OpenTK"
+                 xmlns:p3="clr-namespace:OpenTK;assembly=OpenTK"
                  xmlns:scr="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting"
                  xmlns:gli="clr-namespace:Bonsai.Shaders.Input;assembly=Bonsai.Shaders"
-                 xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
-                 xmlns:cv="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision"
-                 xmlns:p3="clr-namespace:OpenCV.Net;assembly=OpenCV.Net"
                  xmlns:dsp="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Workflow>
@@ -27,6 +27,123 @@
             </Expression>
             <Expression xsi:type="PublishSubject" TypeArguments="p1:VrElement">
               <Name>RodentPositionUpdate</Name>
+            </Expression>
+          </Nodes>
+          <Edges />
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>Hardware</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>SWC_ARM</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="Disable">
+                    <Builder xsi:type="ExternalizedMapping">
+                      <Property Name="PortName" />
+                    </Builder>
+                  </Expression>
+                  <Expression xsi:type="BehaviorSubject" TypeArguments="harp:HarpMessage">
+                    <Name>ArmCommands</Name>
+                  </Expression>
+                  <Expression xsi:type="Disable">
+                    <Builder xsi:type="Combinator">
+                      <Combinator xsi:type="harp:Device">
+                        <harp:DeviceState>Active</harp:DeviceState>
+                        <harp:DumpRegisters>true</harp:DumpRegisters>
+                        <harp:LedState>On</harp:LedState>
+                        <harp:VisualIndicators>On</harp:VisualIndicators>
+                        <harp:Heartbeat>Disable</harp:Heartbeat>
+                        <harp:IgnoreErrors>true</harp:IgnoreErrors>
+                        <harp:PortName>COM5</harp:PortName>
+                      </Combinator>
+                    </Builder>
+                  </Expression>
+                  <Expression xsi:type="PublishSubject">
+                    <Name>ArmEvents</Name>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>ArmEvents</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="harp:FilterMessage">
+                      <harp:Address>33</harp:Address>
+                      <harp:MessageType>Event</harp:MessageType>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="PublishSubject">
+                    <Name>ArmEncoderPosition</Name>
+                  </Expression>
+                  <Expression xsi:type="BehaviorSubject" TypeArguments="p2:Point2f">
+                    <Name>ReferenceArmPosition</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="p1:CreateArmMessage">
+                      <p1:Address>34</p1:Address>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="MulticastSubject">
+                    <Name>ArmCommands</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="cv:CreatePoint2f">
+                      <cv:X>0.15</cv:X>
+                      <cv:Y>0.3</cv:Y>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="p1:CreateArmMessage">
+                      <p1:Address>35</p1:Address>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="MulticastSubject">
+                    <Name>ArmCommands</Name>
+                  </Expression>
+                  <Expression xsi:type="GroupWorkflow">
+                    <Name>SetAngleMode</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="Value" DisplayName="AngleMode" />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="IntProperty">
+                            <Value>0</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="harp:Format">
+                          <harp:MessageType>Write</harp:MessageType>
+                          <harp:Address>36</harp:Address>
+                          <harp:PayloadType>S8</harp:PayloadType>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="1" Label="Source1" />
+                        <Edge From="1" To="2" Label="Source1" />
+                        <Edge From="2" To="3" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="MulticastSubject">
+                    <Name>ArmCommands</Name>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="2" Label="Source2" />
+                  <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="2" To="3" Label="Source1" />
+                  <Edge From="4" To="5" Label="Source1" />
+                  <Edge From="5" To="6" Label="Source1" />
+                  <Edge From="7" To="8" Label="Source1" />
+                  <Edge From="8" To="9" Label="Source1" />
+                  <Edge From="10" To="11" Label="Source1" />
+                  <Edge From="11" To="12" Label="Source1" />
+                  <Edge From="13" To="14" Label="Source1" />
+                </Edges>
+              </Workflow>
             </Expression>
           </Nodes>
           <Edges />
@@ -713,7 +830,7 @@
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="Ambient" />
                         </Expression>
-                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p2:Vector3">
+                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p3:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
                             <X>1</X>
@@ -745,7 +862,7 @@
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="Diffuse" />
                         </Expression>
-                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p2:Vector3">
+                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p3:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
                             <X>1</X>
@@ -777,7 +894,7 @@
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="Specular" />
                         </Expression>
-                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p2:Vector3">
+                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p3:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
                             <X>0</X>
@@ -1525,30 +1642,6 @@ it.Y as Z)</scr:Expression>
         <Name>ArmControl</Name>
         <Workflow>
           <Nodes>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="ExternalizedMapping">
-                <Property Name="PortName" />
-              </Builder>
-            </Expression>
-            <Expression xsi:type="BehaviorSubject" TypeArguments="harp:HarpMessage">
-              <Name>ArmCommands</Name>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Combinator">
-                <Combinator xsi:type="harp:Device">
-                  <harp:DeviceState>Active</harp:DeviceState>
-                  <harp:DumpRegisters>true</harp:DumpRegisters>
-                  <harp:LedState>On</harp:LedState>
-                  <harp:VisualIndicators>On</harp:VisualIndicators>
-                  <harp:Heartbeat>Disable</harp:Heartbeat>
-                  <harp:IgnoreErrors>true</harp:IgnoreErrors>
-                  <harp:PortName>COM5</harp:PortName>
-                </Combinator>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="PublishSubject">
-              <Name>ArmEvents</Name>
-            </Expression>
             <Expression xsi:type="GroupWorkflow">
               <Name>ArmPositionFeedback</Name>
               <Workflow>
@@ -1662,7 +1755,9 @@ it.Item3 as Angle)</scr:Expression>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="p1:CreateArmMessage" />
+                    <Combinator xsi:type="p1:CreateArmMessage">
+                      <p1:Address>32</p1:Address>
+                    </Combinator>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>ArmCommands</Name>
@@ -1695,16 +1790,16 @@ it.Item3 as Angle)</scr:Expression>
               <Name>ArmControl</Name>
               <Workflow>
                 <Nodes>
-                  <Expression xsi:type="BehaviorSubject" TypeArguments="p3:Point2f">
+                  <Expression xsi:type="BehaviorSubject" TypeArguments="p2:Point2f">
                     <Name>GoToCartPosition</Name>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>CurrentArmPosition</Name>
                   </Expression>
-                  <Expression xsi:type="BehaviorSubject" TypeArguments="p3:Point2f">
+                  <Expression xsi:type="BehaviorSubject" TypeArguments="p2:Point2f">
                     <Name>UpdateArmCartPosition</Name>
                   </Expression>
-                  <Expression xsi:type="BehaviorSubject" TypeArguments="p3:Point2f">
+                  <Expression xsi:type="BehaviorSubject" TypeArguments="p2:Point2f">
                     <Name>UpdateArmPolarPosition</Name>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
@@ -1789,7 +1884,9 @@ it.Item3 as Angle)</scr:Expression>
                     </Workflow>
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="p1:CreateArmMessage" />
+                    <Combinator xsi:type="p1:CreateArmMessage">
+                      <p1:Address>32</p1:Address>
+                    </Combinator>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>ArmCommands</Name>
@@ -1956,13 +2053,10 @@ it.Item3 as Angle)</scr:Expression>
             </Expression>
           </Nodes>
           <Edges>
-            <Edge From="0" To="2" Label="Source2" />
-            <Edge From="1" To="2" Label="Source1" />
-            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="5" To="6" Label="Source1" />
+            <Edge From="7" To="8" Label="Source1" />
             <Edge From="8" To="9" Label="Source1" />
-            <Edge From="9" To="10" Label="Source1" />
-            <Edge From="11" To="12" Label="Source1" />
-            <Edge From="12" To="13" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -2667,9 +2761,9 @@ Math.Abs(it.Item3 - it.Item1) &lt; Math.Pi ? (it.Item3 - it.Item1) : ((it.Item3 
       </Expression>
     </Nodes>
     <Edges>
-      <Edge From="1" To="2" Label="Source1" />
-      <Edge From="7" To="8" Label="Source1" />
+      <Edge From="2" To="3" Label="Source1" />
       <Edge From="8" To="9" Label="Source1" />
+      <Edge From="9" To="10" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>

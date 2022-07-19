@@ -15,6 +15,11 @@ namespace CricketVR
     public class CreateArmMessage
     {
         private int address = 32;
+        public int Address
+        {
+            get { return address; }
+            set { address = value; }
+        }
 
         // Tuple<Magnitude, Angle>
         public IObservable<HarpMessage> Process(IObservable<Tuple<float, float>> source)
