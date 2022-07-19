@@ -44,7 +44,6 @@ using Bonsai.Harp;
             camera.BinningVertical.Value = Binning;
             camera.AcquisitionFrameRateEnable.Value = false;
             camera.IspEnable.Value = false;
-            camera.PixelFormat.Value = PixelFormatEnums.BayerRG8.ToString();
             camera.TriggerMode.Value = TriggerModeEnums.On.ToString();
             camera.TriggerSelector.Value = TriggerSelectorEnums.FrameStart.ToString();
             camera.TriggerSource.Value = TriggerSourceEnums.Line0.ToString();
