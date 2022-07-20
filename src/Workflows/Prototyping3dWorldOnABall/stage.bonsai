@@ -30,6 +30,9 @@
             <Expression xsi:type="PublishSubject" TypeArguments="p1:VrElement">
               <Name>RodentPositionUpdate</Name>
             </Expression>
+            <Expression xsi:type="BehaviorSubject" TypeArguments="p1:VrElement">
+              <Name>RodentPosition</Name>
+            </Expression>
           </Nodes>
           <Edges />
         </Workflow>
@@ -160,6 +163,28 @@
                       </p1:Orientation>
                     </Combinator>
                   </Expression>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Position" Category="PositionGain" />
+                    <Property Name="Orientation" Category="OrientationGain" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="p1:CreateVrElement">
+                      <p1:Position>
+                        <p1:X>0.01</p1:X>
+                        <p1:Y>0.01</p1:Y>
+                        <p1:Z>0.01</p1:Z>
+                      </p1:Position>
+                      <p1:Orientation>
+                        <p1:X>0</p1:X>
+                        <p1:Y>0</p1:Y>
+                        <p1:Z>0</p1:Z>
+                      </p1:Orientation>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Zip" />
+                  </Expression>
+                  <Expression xsi:type="Multiply" />
                   <Expression xsi:type="MulticastSubject">
                     <Name>RodentPositionUpdate</Name>
                   </Expression>
@@ -185,7 +210,12 @@
                   <Edge From="12" To="13" Label="Source6" />
                   <Edge From="13" To="14" Label="Source1" />
                   <Edge From="14" To="15" Label="Source1" />
-                  <Edge From="15" To="16" Label="Source1" />
+                  <Edge From="15" To="18" Label="Source1" />
+                  <Edge From="15" To="17" Label="Source1" />
+                  <Edge From="16" To="17" Label="Source2" />
+                  <Edge From="17" To="18" Label="Source2" />
+                  <Edge From="18" To="19" Label="Source1" />
+                  <Edge From="19" To="20" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -1322,9 +1352,9 @@
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:Scale">
                       <gl:Order>Prepend</gl:Order>
-                      <gl:X>5</gl:X>
-                      <gl:Y>0.2</gl:Y>
-                      <gl:Z>5</gl:Z>
+                      <gl:X>1</gl:X>
+                      <gl:Y>0.1</gl:Y>
+                      <gl:Z>1</gl:Z>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -1632,7 +1662,7 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
                 </Edges>
               </Workflow>
             </Expression>
-            <Expression xsi:type="BehaviorSubject">
+            <Expression xsi:type="MulticastSubject">
               <Name>RodentPosition</Name>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
@@ -1649,31 +1679,6 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
             </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>RodentPositionUpdate</Name>
-            </Expression>
-            <Expression xsi:type="ExternalizedMapping">
-              <Property Name="Position" />
-              <Property Name="Orientation" />
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="p1:CreateVrElement">
-                <p1:Position>
-                  <p1:X>0.01</p1:X>
-                  <p1:Y>0.01</p1:Y>
-                  <p1:Z>0.01</p1:Z>
-                </p1:Position>
-                <p1:Orientation>
-                  <p1:X>0</p1:X>
-                  <p1:Y>0</p1:Y>
-                  <p1:Z>0</p1:Z>
-                </p1:Orientation>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:Zip" />
-            </Expression>
-            <Expression xsi:type="Multiply" />
-            <Expression xsi:type="PublishSubject">
-              <Name>GainedRodentPositionUpdate</Name>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="rx:Merge" />
@@ -1796,9 +1801,9 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p1:CreateVrElement">
                 <p1:Position>
-                  <p1:X>-0.09999997</p1:X>
+                  <p1:X>0.03</p1:X>
                   <p1:Y>0</p1:Y>
-                  <p1:Z>0.06998181</p1:Z>
+                  <p1:Z>0.2100007</p1:Z>
                 </p1:Position>
                 <p1:Orientation>
                   <p1:X>0</p1:X>
@@ -1815,21 +1820,15 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
             <Edge From="0" To="1" Label="Source1" />
             <Edge From="2" To="3" Label="Source1" />
             <Edge From="4" To="5" Label="Source1" />
-            <Edge From="5" To="12" Label="Source1" />
-            <Edge From="6" To="9" Label="Source1" />
-            <Edge From="6" To="8" Label="Source1" />
-            <Edge From="7" To="8" Label="Source2" />
-            <Edge From="8" To="9" Label="Source2" />
-            <Edge From="9" To="10" Label="Source1" />
-            <Edge From="10" To="11" Label="Source1" />
-            <Edge From="11" To="12" Label="Source2" />
+            <Edge From="5" To="7" Label="Source1" />
+            <Edge From="6" To="7" Label="Source2" />
+            <Edge From="7" To="8" Label="Source1" />
+            <Edge From="8" To="9" Label="Source1" />
+            <Edge From="9" To="11" Label="Source1" />
+            <Edge From="10" To="11" Label="Source2" />
+            <Edge From="11" To="12" Label="Source1" />
             <Edge From="12" To="13" Label="Source1" />
             <Edge From="13" To="14" Label="Source1" />
-            <Edge From="14" To="16" Label="Source1" />
-            <Edge From="15" To="16" Label="Source2" />
-            <Edge From="16" To="17" Label="Source1" />
-            <Edge From="17" To="18" Label="Source1" />
-            <Edge From="18" To="19" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -1896,9 +1895,9 @@ it.Y as Z)</scr:Expression>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="gl:CreateVector3">
-                <gl:X>-0.210247576</gl:X>
+                <gl:X>-0.265512228</gl:X>
                 <gl:Y>-0.05</gl:Y>
-                <gl:Z>-0.199654892</gl:Z>
+                <gl:Z>0.116147041</gl:Z>
               </Combinator>
             </Expression>
             <Expression xsi:type="PropertyMapping">
@@ -1909,9 +1908,9 @@ it.Y as Z)</scr:Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p1:CreateVrElement">
                 <p1:Position>
-                  <p1:X>-0.210247576</p1:X>
+                  <p1:X>-0.265512228</p1:X>
                   <p1:Y>-0.05</p1:Y>
-                  <p1:Z>-0.199654892</p1:Z>
+                  <p1:Z>0.116147041</p1:Z>
                 </p1:Position>
                 <p1:Orientation>
                   <p1:X>0</p1:X>
@@ -1996,9 +1995,9 @@ it.Y as Z)</scr:Expression>
               </Combinator>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-              <TranslationX>-0.31024754</TranslationX>
+              <TranslationX>-0.235512227</TranslationX>
               <TranslationY>-0.05</TranslationY>
-              <TranslationZ>0.129673079</TranslationZ>
+              <TranslationZ>-0.326147735</TranslationZ>
               <ScaleX>1</ScaleX>
               <ScaleY>1</ScaleY>
               <ScaleZ>1</ScaleZ>
@@ -2490,19 +2489,19 @@ it.Item3 as Angle)</scr:Expression>
                 <p1:MonitorBoundingBoxSize>0.3</p1:MonitorBoundingBoxSize>
                 <p1:ArmDeadZoneRadius>0.15</p1:ArmDeadZoneRadius>
                 <p1:VRRodentPosition>
-                  <p1:X>-0.09999997</p1:X>
+                  <p1:X>0.03</p1:X>
                   <p1:Y>0</p1:Y>
-                  <p1:Z>0.06998181</p1:Z>
+                  <p1:Z>0.2100007</p1:Z>
                 </p1:VRRodentPosition>
                 <p1:VRRodentAngle>1.57079637</p1:VRRodentAngle>
                 <p1:VRCricketPosition>
-                  <p1:X>-0.31024754</p1:X>
+                  <p1:X>-0.235512227</p1:X>
                   <p1:Y>-0.05</p1:Y>
-                  <p1:Z>-0.129673079</p1:Z>
+                  <p1:Z>0.326147735</p1:Z>
                 </p1:VRCricketPosition>
                 <p1:RealCricketPosition>
-                  <p1:X>-0.210247576</p1:X>
-                  <p1:Y>-0.199654892</p1:Y>
+                  <p1:X>-0.265512228</p1:X>
+                  <p1:Y>0.116147041</p1:Y>
                 </p1:RealCricketPosition>
               </Combinator>
             </Expression>
@@ -2912,7 +2911,7 @@ Math.Abs(it.Item3 - it.Item1) &lt; Math.Pi ? (it.Item3 - it.Item1) : ((it.Item3 
                           <Workflow>
                             <Nodes>
                               <Expression xsi:type="SubscribeSubject">
-                                <Name>GainedRodentPositionUpdate</Name>
+                                <Name>RodentPositionUpdate</Name>
                               </Expression>
                               <Expression xsi:type="Condition">
                                 <Name>WithinSightCone</Name>
