@@ -171,9 +171,9 @@
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>0</p1:X>
+                        <p1:X>-1</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>-1</p1:Z>
+                        <p1:Z>0</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
@@ -910,12 +910,12 @@
                     <gl:InternalFormat>Rgb</gl:InternalFormat>
                     <gl:MinFilter>Linear</gl:MinFilter>
                     <gl:MagFilter>Linear</gl:MagFilter>
-                    <gl:PositiveX>Textures\texted\right.png</gl:PositiveX>
-                    <gl:NegativeX>Textures\texted\left.png</gl:NegativeX>
-                    <gl:PositiveY>Textures\texted\ceil.png</gl:PositiveY>
-                    <gl:NegativeY>Textures\texted\floor.png</gl:NegativeY>
-                    <gl:PositiveZ>Textures\texted\back.png</gl:PositiveZ>
-                    <gl:NegativeZ>Textures\texted\front.png</gl:NegativeZ>
+                    <gl:PositiveX>Textures\CubeMapTextures\right.png</gl:PositiveX>
+                    <gl:NegativeX>Textures\CubeMapTextures\left.png</gl:NegativeX>
+                    <gl:PositiveY>Textures\CubeMapTextures\ceil.png</gl:PositiveY>
+                    <gl:NegativeY>Textures\CubeMapTextures\floor.png</gl:NegativeY>
+                    <gl:PositiveZ>Textures\CubeMapTextures\back.png</gl:PositiveZ>
+                    <gl:NegativeZ>Textures\CubeMapTextures\front.png</gl:NegativeZ>
                     <gl:ColorType>Unchanged</gl:ColorType>
                     <gl:FlipMode>Horizontal</gl:FlipMode>
                   </gl:TextureConfiguration>
@@ -928,7 +928,7 @@
                     <gl:WrapT>Repeat</gl:WrapT>
                     <gl:MinFilter>Linear</gl:MinFilter>
                     <gl:MagFilter>Linear</gl:MagFilter>
-                    <gl:FileName>resources\Brown.png</gl:FileName>
+                    <gl:FileName>Textures\Brown.png</gl:FileName>
                     <gl:ColorType>Unchanged</gl:ColorType>
                     <gl:FlipMode>Vertical</gl:FlipMode>
                   </gl:TextureConfiguration>
@@ -963,7 +963,7 @@
                       </gl:BufferBinding>
                     </gl:BufferBindings>
                     <gl:FramebufferAttachments />
-                    <gl:VertexShader>resources\CubeMap.vert</gl:VertexShader>
+                    <gl:VertexShader>Shaders\CubeMap.vert</gl:VertexShader>
                     <gl:FragmentShader>BonVision:Shaders.SphereMap.frag</gl:FragmentShader>
                   </gl:ShaderConfiguration>
                 </gl:Shaders>
@@ -1887,9 +1887,9 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p1:CreateVrElement">
                 <p1:Position>
-                  <p1:X>0</p1:X>
+                  <p1:X>-0.26000002</p1:X>
                   <p1:Y>0</p1:Y>
-                  <p1:Z>0</p1:Z>
+                  <p1:Z>-0.129999965</p1:Z>
                 </p1:Position>
                 <p1:Orientation>
                   <p1:X>0</p1:X>
@@ -2108,9 +2108,9 @@ it.Y as Z)</scr:Expression>
               </Workflow>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-              <TranslationX>-0.29</TranslationX>
+              <TranslationX>-0.55</TranslationX>
               <TranslationY>-0.05</TranslationY>
-              <TranslationZ>0.07000004</TranslationZ>
+              <TranslationZ>0.13000001</TranslationZ>
               <ScaleX>1</ScaleX>
               <ScaleY>1</ScaleY>
               <ScaleZ>1</ScaleZ>
@@ -2604,19 +2604,19 @@ it.Item3 as Angle)</scr:Expression>
                 <p1:MonitorBoundingBoxSize>0.3</p1:MonitorBoundingBoxSize>
                 <p1:ArmDeadZoneRadius>0.15</p1:ArmDeadZoneRadius>
                 <p1:VRRodentPosition>
-                  <p1:X>0</p1:X>
+                  <p1:X>-0.26000002</p1:X>
                   <p1:Y>0</p1:Y>
-                  <p1:Z>0</p1:Z>
+                  <p1:Z>-0.129999965</p1:Z>
                 </p1:VRRodentPosition>
                 <p1:VRRodentAngle>1.57079637</p1:VRRodentAngle>
                 <p1:VRCricketPosition>
-                  <p1:X>-0.29</p1:X>
+                  <p1:X>-0.55</p1:X>
                   <p1:Y>-0.05</p1:Y>
-                  <p1:Z>-0.07000004</p1:Z>
+                  <p1:Z>-0.13000001</p1:Z>
                 </p1:VRCricketPosition>
                 <p1:RealCricketPosition>
-                  <p1:X>0.15</p1:X>
-                  <p1:Y>0</p1:Y>
+                  <p1:X>-0.29</p1:X>
+                  <p1:Y>-4.378878E-08</p1:Y>
                 </p1:RealCricketPosition>
               </Combinator>
             </Expression>
