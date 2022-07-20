@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <WorkflowBuilder Version="2.6.3"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
                  xmlns:p1="clr-namespace:CricketVR;assembly=Extensions"
                  xmlns:gli="clr-namespace:Bonsai.Shaders.Input;assembly=Bonsai.Shaders"
                  xmlns:gl="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:cv="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision"
-                 xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
                  xmlns:p2="clr-namespace:OpenCV.Net;assembly=OpenCV.Net"
                  xmlns:p3="clr-namespace:Bonsai.Harp.CF;assembly=Bonsai.Harp.CF"
                  xmlns:p4="clr-namespace:;assembly=Extensions"
@@ -25,6 +25,9 @@
         <Name>__Init__</Name>
         <Workflow>
           <Nodes>
+            <Expression xsi:type="BehaviorSubject" TypeArguments="harp:HarpMessage">
+              <Name>TaskEvents</Name>
+            </Expression>
             <Expression xsi:type="BehaviorSubject" TypeArguments="sys:Tuple(sys:Single,sys:Single,sys:Single,sys:Single,sys:Single,sys:Single)">
               <Name>ArenaBounds</Name>
             </Expression>
@@ -68,10 +71,10 @@
             </Expression>
           </Nodes>
           <Edges>
-            <Edge From="3" To="5" Label="Source1" />
-            <Edge From="4" To="5" Label="Source2" />
-            <Edge From="5" To="6" Label="Source1" />
-            <Edge From="7" To="8" Label="Source1" />
+            <Edge From="4" To="6" Label="Source1" />
+            <Edge From="5" To="6" Label="Source2" />
+            <Edge From="6" To="7" Label="Source1" />
+            <Edge From="8" To="9" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -839,6 +842,38 @@
                 </Nodes>
                 <Edges>
                   <Edge From="0" To="1" Label="Source1" />
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>TimestampStream</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>BehaviorEvents</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="harp:FilterMessage">
+                      <harp:Address>44</harp:Address>
+                      <harp:MessageType>Event</harp:MessageType>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="harp:Parse">
+                    <harp:Type>TimestampedU16</harp:Type>
+                    <harp:IsArray>false</harp:IsArray>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Seconds</Selector>
+                  </Expression>
+                  <Expression xsi:type="BehaviorSubject">
+                    <Name>TimestampStream</Name>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="2" To="3" Label="Source1" />
+                  <Edge From="3" To="4" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -2657,36 +2692,8 @@ it.Item3 as Angle)</scr:Expression>
         <Name>TrialLogic</Name>
         <Workflow>
           <Nodes>
-            <Expression xsi:type="Unit" />
-            <Expression xsi:type="scr:ExpressionTransform">
-              <scr:Expression>new(
-Math.Pi/4.0 as AngleThreshold,
-Math.Pi * 1.0 as StartingAngle,
-0.29 as StartingRadius,
-0.16 as FinalRadius, 
-0.0003 as DecayConstant,
-TimeSpan.FromSeconds(1) as TimeToEat)</scr:Expression>
-            </Expression>
-            <Expression xsi:type="MemberSelector">
-              <Selector>AngleThreshold,StartingAngle,StartingRadius,FinalRadius,DecayConstant,TimeToEat</Selector>
-            </Expression>
-            <Expression xsi:type="scr:ExpressionTransform">
-              <scr:Expression>new(
-Math.Pi/2.0 as PerturbAngle,
-0.2 as TriggerRadius)</scr:Expression>
-            </Expression>
-            <Expression xsi:type="MemberSelector">
-              <Selector>PerturbAngle,TriggerRadius</Selector>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:Zip" />
-            </Expression>
-            <Expression xsi:type="ReplaySubject">
-              <Name>TrialSettings</Name>
-              <BufferSize xsi:nil="true" />
-            </Expression>
             <Expression xsi:type="GroupWorkflow">
-              <Name>GetRealOrientation</Name>
+              <Name>GetOrientation</Name>
               <Workflow>
                 <Nodes>
                   <Expression xsi:type="SubscribeSubject">
@@ -2731,6 +2738,34 @@ Math.Abs(it.Item3 - it.Item1) &lt; Math.Pi ? (it.Item3 - it.Item1) : ((it.Item3 
             </Expression>
             <Expression xsi:type="BehaviorSubject">
               <Name>ComputedOrientation</Name>
+            </Expression>
+            <Expression xsi:type="Unit" />
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new(
+Math.Pi/4.0 as AngleThreshold,
+Math.Pi * 1.0 as StartingAngle,
+0.29 as StartingRadius,
+0.16 as FinalRadius, 
+0.0003 as DecayConstant,
+TimeSpan.FromSeconds(1) as TimeToEat)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>AngleThreshold,StartingAngle,StartingRadius,FinalRadius,DecayConstant,TimeToEat</Selector>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new(
+Math.Pi/2.0 as PerturbAngle,
+0.2 as TriggerRadius)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>PerturbAngle,TriggerRadius</Selector>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Zip" />
+            </Expression>
+            <Expression xsi:type="ReplaySubject">
+              <Name>TrialSettings</Name>
+              <BufferSize xsi:nil="true" />
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="rx:Timer">
@@ -3182,16 +3217,216 @@ Math.Abs(it.Item3 - it.Item1) &lt; Math.Pi ? (it.Item3 - it.Item1) : ((it.Item3 
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
-            <Edge From="0" To="3" Label="Source1" />
             <Edge From="1" To="2" Label="Source1" />
-            <Edge From="2" To="5" Label="Source1" />
             <Edge From="3" To="4" Label="Source1" />
-            <Edge From="4" To="5" Label="Source2" />
-            <Edge From="5" To="6" Label="Source1" />
-            <Edge From="7" To="8" Label="Source1" />
+            <Edge From="3" To="6" Label="Source1" />
+            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="5" To="8" Label="Source1" />
+            <Edge From="6" To="7" Label="Source1" />
+            <Edge From="7" To="8" Label="Source2" />
             <Edge From="8" To="9" Label="Source1" />
             <Edge From="10" To="11" Label="Source1" />
             <Edge From="11" To="12" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>Logging</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>LogController</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Value" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="StringProperty">
+                      <Value>c:</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="ReplaySubject">
+                    <Name>SessionPath</Name>
+                    <BufferSize xsi:nil="true" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>SessionPath</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Timestamp" />
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Timestamp.DateTime</Selector>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="p1:FormatDate" />
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Value</Selector>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Zip" />
+                  </Expression>
+                  <Expression xsi:type="Format">
+                    <Format>{0}\{1}</Format>
+                    <Selector>Item1,Item2</Selector>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Take">
+                      <rx:Count>1</rx:Count>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="AsyncSubject">
+                    <Name>PathPrefix</Name>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="3" To="4" Label="Source1" />
+                  <Edge From="4" To="5" Label="Source1" />
+                  <Edge From="4" To="7" Label="Source1" />
+                  <Edge From="5" To="6" Label="Source1" />
+                  <Edge From="6" To="8" Label="Source2" />
+                  <Edge From="7" To="8" Label="Source1" />
+                  <Edge From="8" To="9" Label="Source1" />
+                  <Edge From="9" To="10" Label="Source1" />
+                  <Edge From="10" To="11" Label="Source1" />
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Spinnaker1FrameEvents</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogVideo.bonsai">
+              <Name>Spinnaker1</Name>
+              <FrameRate>50</FrameRate>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Spinnaker2FrameEvents</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogVideo.bonsai">
+              <Name>Spinnaker2</Name>
+              <FrameRate>50</FrameRate>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>ArmEvents</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDevice.bonsai">
+              <LogName>ArmBoard</LogName>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>ExpanderEvents</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDevice.bonsai">
+              <LogName>OutputExpanderBoard</LogName>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>BehaviorEvents</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDevice.bonsai">
+              <LogName>BehaviorBoard</LogName>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>RodentPosition</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>TimestampStream</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:WithLatestFrom" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p1:VRElementToHarpMessagecs" />
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDevice.bonsai">
+              <LogName>RodentPosition</LogName>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>TaskEvents</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDevice.bonsai">
+              <LogName>TaskEvents</LogName>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>ArmCommands</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>TimestampStream</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:WithLatestFrom" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p4:ModifyMessage">
+                <p4:Address xsi:nil="true" />
+                <p4:MessageTypeModified xsi:nil="true" />
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDevice.bonsai">
+              <LogName>BehaviorBoard</LogName>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>BehaviorCommands</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>TimestampStream</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:WithLatestFrom" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p4:ModifyMessage">
+                <p4:Address xsi:nil="true" />
+                <p4:MessageTypeModified xsi:nil="true" />
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDevice.bonsai">
+              <LogName>BehaviorBoard</LogName>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>ExpanderCommands</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>TimestampStream</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:WithLatestFrom" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p4:ModifyMessage">
+                <p4:Address xsi:nil="true" />
+                <p4:MessageTypeModified xsi:nil="true" />
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDevice.bonsai">
+              <LogName>BehaviorBoard</LogName>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="5" To="6" Label="Source1" />
+            <Edge From="7" To="8" Label="Source1" />
+            <Edge From="9" To="10" Label="Source1" />
+            <Edge From="11" To="13" Label="Source1" />
+            <Edge From="12" To="13" Label="Source2" />
+            <Edge From="13" To="14" Label="Source1" />
+            <Edge From="14" To="15" Label="Source1" />
+            <Edge From="16" To="17" Label="Source1" />
+            <Edge From="18" To="20" Label="Source1" />
+            <Edge From="19" To="20" Label="Source2" />
+            <Edge From="20" To="21" Label="Source1" />
+            <Edge From="21" To="22" Label="Source1" />
+            <Edge From="23" To="25" Label="Source1" />
+            <Edge From="24" To="25" Label="Source2" />
+            <Edge From="25" To="26" Label="Source1" />
+            <Edge From="26" To="27" Label="Source1" />
+            <Edge From="28" To="30" Label="Source1" />
+            <Edge From="29" To="30" Label="Source2" />
+            <Edge From="30" To="31" Label="Source1" />
+            <Edge From="31" To="32" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
