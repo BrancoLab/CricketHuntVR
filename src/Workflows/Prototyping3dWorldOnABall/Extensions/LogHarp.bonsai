@@ -10,7 +10,7 @@
       </Expression>
       <Expression xsi:type="IncludeWorkflow" Path="Extensions\FormatFileName.bonsai">
         <Extension />
-        <Name />
+        <Name>ArmCommands_32</Name>
       </Expression>
       <Expression xsi:type="PropertyMapping">
         <PropertyMappings>
@@ -25,6 +25,7 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="dsp:MatrixWriter">
+          <dsp:Path>C:\Users\Cricket Team\Desktop\data\2022-07-22T14-38-56\ArmCommands\ArmCommands_32_2022-07-22T14-38-56.</dsp:Path>
           <dsp:Suffix>None</dsp:Suffix>
           <dsp:Overwrite>false</dsp:Overwrite>
           <dsp:Layout>ColumnMajor</dsp:Layout>

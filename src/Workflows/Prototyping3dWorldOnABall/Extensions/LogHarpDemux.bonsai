@@ -36,7 +36,7 @@
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="StringProperty">
-                <Value />
+                <Value>ArmCommands</Value>
               </Combinator>
             </Expression>
             <Expression xsi:type="Combinator">
@@ -69,7 +69,7 @@
               </PropertyMappings>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarp.bonsai">
-              <DataName />
+              <DataName>ArmCommands_32</DataName>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
           </Nodes>

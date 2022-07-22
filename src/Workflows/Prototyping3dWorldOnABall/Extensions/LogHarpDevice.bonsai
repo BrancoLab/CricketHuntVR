@@ -17,9 +17,6 @@
           <harp:MessageType>Read</harp:MessageType>
         </Combinator>
       </Expression>
-      <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarp.bonsai">
-        <DataName>OutputExpander</DataName>
-      </Expression>
       <Expression xsi:type="Condition">
         <Name>Data</Name>
         <Workflow>
@@ -45,16 +42,19 @@
         </Workflow>
       </Expression>
       <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDemux.bonsai">
-        <DataName>OutputExpander</DataName>
+        <DataName>ArmCommands</DataName>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarp.bonsai">
+        <DataName>ArmCommands</DataName>
       </Expression>
     </Nodes>
     <Edges>
+      <Edge From="0" To="4" Label="Source2" />
       <Edge From="0" To="5" Label="Source2" />
-      <Edge From="0" To="3" Label="Source2" />
       <Edge From="1" To="2" Label="Source1" />
-      <Edge From="1" To="4" Label="Source1" />
-      <Edge From="2" To="3" Label="Source1" />
-      <Edge From="4" To="5" Label="Source1" />
+      <Edge From="1" To="3" Label="Source1" />
+      <Edge From="2" To="5" Label="Source1" />
+      <Edge From="3" To="4" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>

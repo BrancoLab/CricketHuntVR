@@ -86,26 +86,22 @@
               <Name>SWC_Arm</Name>
               <Workflow>
                 <Nodes>
-                  <Expression xsi:type="Disable">
-                    <Builder xsi:type="ExternalizedMapping">
-                      <Property Name="PortName" />
-                    </Builder>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="PortName" />
                   </Expression>
                   <Expression xsi:type="BehaviorSubject" TypeArguments="harp:HarpMessage">
                     <Name>ArmCommands</Name>
                   </Expression>
-                  <Expression xsi:type="Disable">
-                    <Builder xsi:type="Combinator">
-                      <Combinator xsi:type="harp:Device">
-                        <harp:DeviceState>Active</harp:DeviceState>
-                        <harp:DumpRegisters>true</harp:DumpRegisters>
-                        <harp:LedState>On</harp:LedState>
-                        <harp:VisualIndicators>On</harp:VisualIndicators>
-                        <harp:Heartbeat>Disable</harp:Heartbeat>
-                        <harp:IgnoreErrors>true</harp:IgnoreErrors>
-                        <harp:PortName>COM5</harp:PortName>
-                      </Combinator>
-                    </Builder>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="harp:Device">
+                      <harp:DeviceState>Active</harp:DeviceState>
+                      <harp:DumpRegisters>true</harp:DumpRegisters>
+                      <harp:LedState>On</harp:LedState>
+                      <harp:VisualIndicators>On</harp:VisualIndicators>
+                      <harp:Heartbeat>Disable</harp:Heartbeat>
+                      <harp:IgnoreErrors>true</harp:IgnoreErrors>
+                      <harp:PortName>COM4</harp:PortName>
+                    </Combinator>
                   </Expression>
                   <Expression xsi:type="PublishSubject">
                     <Name>ArmEvents</Name>
@@ -225,7 +221,7 @@
                             <harp:VisualIndicators>On</harp:VisualIndicators>
                             <harp:Heartbeat>Disable</harp:Heartbeat>
                             <harp:IgnoreErrors>false</harp:IgnoreErrors>
-                            <harp:PortName>COMx</harp:PortName>
+                            <harp:PortName>COM3</harp:PortName>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="PublishSubject">
@@ -265,7 +261,7 @@
                       <harp:VisualIndicators>On</harp:VisualIndicators>
                       <harp:Heartbeat>Disable</harp:Heartbeat>
                       <harp:IgnoreErrors>false</harp:IgnoreErrors>
-                      <harp:PortName>COMx</harp:PortName>
+                      <harp:PortName>COM2</harp:PortName>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="PublishSubject">
@@ -419,6 +415,7 @@
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p4:CricketVRCapture">
                             <p4:Index xsi:nil="true" />
+                            <p4:SerialNumber>22067305</p4:SerialNumber>
                             <p4:ColorProcessing>Default</p4:ColorProcessing>
                             <p4:HarpAddress>92</p4:HarpAddress>
                             <p4:ExposureTime>19000</p4:ExposureTime>
@@ -456,6 +453,7 @@
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p4:CricketVRCapture">
                             <p4:Index xsi:nil="true" />
+                            <p4:SerialNumber>22067283</p4:SerialNumber>
                             <p4:ColorProcessing>Default</p4:ColorProcessing>
                             <p4:HarpAddress>92</p4:HarpAddress>
                             <p4:ExposureTime>19000</p4:ExposureTime>
@@ -492,8 +490,9 @@
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p4:PylonCricketVRCapture">
-                            <SerialNumber xmlns="clr-namespace:Bonsai.Pylon;assembly=Bonsai.Pylon" />
-                            <p4:HarpAddress>0</p4:HarpAddress>
+                            <p4:SerialNumber>21421610</p4:SerialNumber>
+                            <p4:ParameterFile>C:\Users\Cricket Team\Desktop\acA1300-60gmNIR_21421610.pfs</p4:ParameterFile>
+                            <p4:HarpAddress>92</p4:HarpAddress>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="Combinator">
@@ -589,7 +588,7 @@
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="harp:Parse">
-                    <harp:Type>TimestampedU16</harp:Type>
+                    <harp:Type>TimestampedS16</harp:Type>
                     <harp:IsArray>false</harp:IsArray>
                   </Expression>
                   <Expression xsi:type="MemberSelector">
@@ -1092,6 +1091,9 @@
         <Name>Logging</Name>
         <Workflow>
           <Nodes>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Value" />
+            </Expression>
             <Expression xsi:type="GroupWorkflow">
               <Name>LogController</Name>
               <Workflow>
@@ -1101,7 +1103,7 @@
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="StringProperty">
-                      <Value>c:</Value>
+                      <Value>C:\Users\Cricket Team\Desktop\data</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="ReplaySubject">
@@ -1219,11 +1221,11 @@
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p4:ModifyMessage">
                 <p4:Address xsi:nil="true" />
-                <p4:MessageTypeModified xsi:nil="true" />
+                <p4:MessageTypeModified>Write</p4:MessageTypeModified>
               </Combinator>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDevice.bonsai">
-              <LogName>BehaviorBoard</LogName>
+              <LogName>ArmCommands</LogName>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>BehaviorCommands</Name>
@@ -1237,11 +1239,11 @@
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p4:ModifyMessage">
                 <p4:Address xsi:nil="true" />
-                <p4:MessageTypeModified xsi:nil="true" />
+                <p4:MessageTypeModified>Write</p4:MessageTypeModified>
               </Combinator>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDevice.bonsai">
-              <LogName>BehaviorBoard</LogName>
+              <LogName>BehaviorCommands</LogName>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>ExpanderCommands</Name>
@@ -1255,36 +1257,37 @@
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p4:ModifyMessage">
                 <p4:Address xsi:nil="true" />
-                <p4:MessageTypeModified xsi:nil="true" />
+                <p4:MessageTypeModified>Write</p4:MessageTypeModified>
               </Combinator>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDevice.bonsai">
-              <LogName>BehaviorBoard</LogName>
+              <LogName>ExpanderCommands</LogName>
             </Expression>
           </Nodes>
           <Edges>
-            <Edge From="1" To="2" Label="Source1" />
-            <Edge From="3" To="4" Label="Source1" />
-            <Edge From="5" To="6" Label="Source1" />
-            <Edge From="7" To="8" Label="Source1" />
-            <Edge From="9" To="10" Label="Source1" />
-            <Edge From="11" To="13" Label="Source1" />
-            <Edge From="12" To="13" Label="Source2" />
-            <Edge From="13" To="14" Label="Source1" />
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="6" To="7" Label="Source1" />
+            <Edge From="8" To="9" Label="Source1" />
+            <Edge From="10" To="11" Label="Source1" />
+            <Edge From="12" To="14" Label="Source1" />
+            <Edge From="13" To="14" Label="Source2" />
             <Edge From="14" To="15" Label="Source1" />
-            <Edge From="16" To="17" Label="Source1" />
-            <Edge From="18" To="20" Label="Source1" />
-            <Edge From="19" To="20" Label="Source2" />
-            <Edge From="20" To="21" Label="Source1" />
+            <Edge From="15" To="16" Label="Source1" />
+            <Edge From="17" To="18" Label="Source1" />
+            <Edge From="19" To="21" Label="Source1" />
+            <Edge From="20" To="21" Label="Source2" />
             <Edge From="21" To="22" Label="Source1" />
-            <Edge From="23" To="25" Label="Source1" />
-            <Edge From="24" To="25" Label="Source2" />
-            <Edge From="25" To="26" Label="Source1" />
+            <Edge From="22" To="23" Label="Source1" />
+            <Edge From="24" To="26" Label="Source1" />
+            <Edge From="25" To="26" Label="Source2" />
             <Edge From="26" To="27" Label="Source1" />
-            <Edge From="28" To="30" Label="Source1" />
-            <Edge From="29" To="30" Label="Source2" />
-            <Edge From="30" To="31" Label="Source1" />
+            <Edge From="27" To="28" Label="Source1" />
+            <Edge From="29" To="31" Label="Source1" />
+            <Edge From="30" To="31" Label="Source2" />
             <Edge From="31" To="32" Label="Source1" />
+            <Edge From="32" To="33" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -1384,7 +1387,7 @@
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>-1</p1:X>
+                        <p1:X>1</p1:X>
                         <p1:Y>0</p1:Y>
                         <p1:Z>0</p1:Z>
                       </p1:Position>
@@ -2132,15 +2135,15 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
                             <p1:MonitorBoundingBoxSize>0.3</p1:MonitorBoundingBoxSize>
                             <p1:ArmDeadZoneRadius>0.15</p1:ArmDeadZoneRadius>
                             <p1:VRRodentPosition>
-                              <p1:X>-0.26000002</p1:X>
+                              <p1:X>0</p1:X>
                               <p1:Y>0</p1:Y>
-                              <p1:Z>-0.129999965</p1:Z>
+                              <p1:Z>0</p1:Z>
                             </p1:VRRodentPosition>
                             <p1:VRRodentAngle>1.57079637</p1:VRRodentAngle>
                             <p1:VRCricketPosition>
-                              <p1:X>-0.55</p1:X>
+                              <p1:X>-0.29</p1:X>
                               <p1:Y>-0.05</p1:Y>
-                              <p1:Z>-0.13000001</p1:Z>
+                              <p1:Z>-4.378878E-08</p1:Z>
                             </p1:VRCricketPosition>
                             <p1:RealCricketPosition>
                               <p1:X>-0.29</p1:X>
@@ -2382,9 +2385,9 @@ it.Y as Z)</scr:Expression>
                     </Workflow>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-                    <TranslationX>-0.55</TranslationX>
+                    <TranslationX>-0.29</TranslationX>
                     <TranslationY>-0.05</TranslationY>
-                    <TranslationZ>0.13000001</TranslationZ>
+                    <TranslationZ>4.378878E-08</TranslationZ>
                     <ScaleX>1</ScaleX>
                     <ScaleY>1</ScaleY>
                     <ScaleZ>1</ScaleZ>
@@ -2592,9 +2595,9 @@ it.Y as Z)</scr:Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p1:CreateVrElement">
                 <p1:Position>
-                  <p1:X>-0.26000002</p1:X>
+                  <p1:X>0</p1:X>
                   <p1:Y>0</p1:Y>
-                  <p1:Z>-0.129999965</p1:Z>
+                  <p1:Z>0</p1:Z>
                 </p1:Position>
                 <p1:Orientation>
                   <p1:X>0</p1:X>
@@ -2731,13 +2734,22 @@ it.Item3 as Angle)</scr:Expression>
               <Workflow>
                 <Nodes>
                   <Expression xsi:type="Unit" />
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="cv:CreatePoint2f">
+                      <cv:X>0.15</cv:X>
+                      <cv:Y>0</cv:Y>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="MulticastSubject">
+                    <Name>ReferenceArmPosition</Name>
+                  </Expression>
                   <Expression xsi:type="ExternalizedMapping">
                     <Property Name="X" DisplayName="Magnitude" />
                     <Property Name="Y" DisplayName="Angle" />
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="cv:CreatePoint2f">
-                      <cv:X>0.15</cv:X>
+                      <cv:X>0</cv:X>
                       <cv:Y>0</cv:Y>
                     </Combinator>
                   </Expression>
@@ -2763,13 +2775,15 @@ it.Item3 as Angle)</scr:Expression>
                   </Expression>
                 </Nodes>
                 <Edges>
-                  <Edge From="0" To="2" Label="Source1" />
-                  <Edge From="1" To="2" Label="Source2" />
-                  <Edge From="2" To="3" Label="Source1" />
-                  <Edge From="3" To="4" Label="Source1" />
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="2" To="4" Label="Source1" />
+                  <Edge From="3" To="4" Label="Source2" />
                   <Edge From="4" To="5" Label="Source1" />
+                  <Edge From="5" To="6" Label="Source1" />
                   <Edge From="6" To="7" Label="Source1" />
-                  <Edge From="7" To="8" Label="Source1" />
+                  <Edge From="8" To="9" Label="Source1" />
+                  <Edge From="9" To="10" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -2925,6 +2939,11 @@ it.Item3 as Angle)</scr:Expression>
                       <p1:Address>32</p1:Address>
                     </Combinator>
                   </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:GateInterval">
+                      <rx:Interval>PT0.02S</rx:Interval>
+                    </Combinator>
+                  </Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>ArmCommands</Name>
                   </Expression>
@@ -2946,6 +2965,7 @@ it.Item3 as Angle)</scr:Expression>
                   <Edge From="15" To="16" Label="Source1" />
                   <Edge From="16" To="17" Label="Source1" />
                   <Edge From="17" To="18" Label="Source1" />
+                  <Edge From="18" To="19" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -3498,10 +3518,20 @@ Math.Pi/2.0 as PerturbAngle,
       <Expression xsi:type="SubscribeSubject">
         <Name>SimulatedEnv</Name>
       </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Timer">
+          <rx:DueTime>PT2S</rx:DueTime>
+          <rx:Period>PT0S</rx:Period>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="MulticastSubject">
+        <Name>StartCameras</Name>
+      </Expression>
     </Nodes>
     <Edges>
       <Edge From="5" To="6" Label="Source1" />
       <Edge From="6" To="7" Label="Source1" />
+      <Edge From="11" To="12" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
