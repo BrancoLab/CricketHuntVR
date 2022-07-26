@@ -32,8 +32,6 @@ public class ClampArmPosition
     {
         return source.Select(value => {
             var magnitude = (float)(Math.Sqrt(value.X * value.X + value.Y * value.Y));
-            Console.WriteLine(value);
-
             if ((magnitude  <= maxRadius) & (magnitude >= minRadius)){
                 return value;
             }
