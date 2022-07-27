@@ -37,32 +37,6 @@
             <Expression xsi:type="BehaviorSubject" TypeArguments="p1:VrElement">
               <Name>RodentPosition</Name>
             </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="IntProperty">
-                <Value>0</Value>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="ExternalizedMapping">
-              <Property Name="Orientation" />
-              <Property Name="Position" />
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="p1:CreateVrElement">
-                <p1:Position>
-                  <p1:X>0</p1:X>
-                  <p1:Y>0</p1:Y>
-                  <p1:Z>0</p1:Z>
-                </p1:Position>
-                <p1:Orientation>
-                  <p1:X>0</p1:X>
-                  <p1:Y>0</p1:Y>
-                  <p1:Z>0</p1:Z>
-                </p1:Orientation>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="BehaviorSubject">
-              <Name>ResetRodentPosition</Name>
-            </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>ResetRodentPosition</Name>
             </Expression>
@@ -75,12 +49,12 @@
             <Expression xsi:type="PublishSubject" TypeArguments="p2:Point2f">
               <Name>UpdateArmPolarPosition</Name>
             </Expression>
+            <Expression xsi:type="BehaviorSubject" TypeArguments="p1:VrElement">
+              <Name>ResetRodentPosition</Name>
+            </Expression>
           </Nodes>
           <Edges>
-            <Edge From="4" To="6" Label="Source1" />
-            <Edge From="5" To="6" Label="Source2" />
-            <Edge From="6" To="7" Label="Source1" />
-            <Edge From="8" To="9" Label="Source1" />
+            <Edge From="4" To="5" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -494,14 +468,12 @@
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="SerialNumber" />
                         </Expression>
-                        <Expression xsi:type="Disable">
-                          <Builder xsi:type="Combinator">
-                            <Combinator xsi:type="p4:PylonCricketVRCapture">
-                              <p4:SerialNumber>21421610</p4:SerialNumber>
-                              <p4:ParameterFile>C:\Users\Cricket Team\Desktop\acA1300-60gmNIR_21421610.pfs</p4:ParameterFile>
-                              <p4:HarpAddress>92</p4:HarpAddress>
-                            </Combinator>
-                          </Builder>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="p4:PylonCricketVRCapture">
+                            <p4:SerialNumber>21421610</p4:SerialNumber>
+                            <p4:ParameterFile>C:\Users\Cricket Team\Desktop\acA1300-60gmNIR_21421610.pfs</p4:ParameterFile>
+                            <p4:HarpAddress>92</p4:HarpAddress>
+                          </Combinator>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p1:ObserveOnTaskPool" />
@@ -1189,16 +1161,12 @@
               <Name>Spinnaker2</Name>
               <FrameRate>50</FrameRate>
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="SubscribeSubject">
-                <Name>Pylon1FrameEvents</Name>
-              </Builder>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Pylon1FrameEvents</Name>
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="IncludeWorkflow" Path="Extensions\LogPylonVideo.bonsai">
-                <Name>Pylon1</Name>
-                <FrameRate>50</FrameRate>
-              </Builder>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogPylonVideo.bonsai">
+              <Name>Pylon1</Name>
+              <FrameRate>50</FrameRate>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>ArmEvents</Name>
@@ -1326,9 +1294,6 @@
         <Name>RodentPosition</Name>
         <Workflow>
           <Nodes>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>TimestampStream</Name>
-            </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="gli:Mouse">
                 <gli:Index xsi:nil="true" />
@@ -1352,18 +1317,6 @@
                 <Value>2.6205926323519098E-05</Value>
               </Operand>
             </Expression>
-            <Expression xsi:type="InputMapping">
-              <PropertyMappings>
-                <Property Name="Z" Selector="it" />
-              </PropertyMappings>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="gl:CreateVector3">
-                <gl:X>0</gl:X>
-                <gl:Y>0</gl:Y>
-                <gl:Z>0</gl:Z>
-              </Combinator>
-            </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p4:WinRawMouse">
                 <p4:DeviceId>65601</p4:DeviceId>
@@ -1382,9 +1335,13 @@
                 <Value>2.6205926323519098E-05</Value>
               </Operand>
             </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Zip" />
+            </Expression>
             <Expression xsi:type="InputMapping">
               <PropertyMappings>
-                <Property Name="X" Selector="it" />
+                <Property Name="X" Selector="Item1" />
+                <Property Name="Z" Selector="Item2" />
               </PropertyMappings>
             </Expression>
             <Expression xsi:type="Combinator">
@@ -1393,9 +1350,6 @@
                 <gl:Y>0</gl:Y>
                 <gl:Z>0</gl:Z>
               </Combinator>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:Merge" />
             </Expression>
             <Expression xsi:type="InputMapping">
               <PropertyMappings>
@@ -1428,6 +1382,19 @@
                 <gli:Key>F4</gli:Key>
                 <gli:Modifiers xsi:nil="true" />
               </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="BooleanProperty">
+                <Value>false</Value>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="BooleanProperty">
+                <Value>false</Value>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Merge" />
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p1:CreateVrElement">
@@ -1647,6 +1614,10 @@
                         <Expression xsi:type="MemberSelector">
                           <Selector>Value</Selector>
                         </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Zip" />
+                        </Expression>
+                        <Expression xsi:type="Add" />
                         <Expression xsi:type="SubscribeSubject">
                           <Name>ArenaBounds</Name>
                         </Expression>
@@ -1654,14 +1625,20 @@
                           <Combinator xsi:type="rx:WithLatestFrom" />
                         </Expression>
                         <Expression xsi:type="MemberSelector">
-                          <Selector>Item2</Selector>
+                          <Selector>Item1,Item2</Selector>
                         </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="rx:Zip" />
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="NumericCorrectionFactor" />
+                          <Property Name="OffsetBounds" />
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p1:ClampPositionUpdate">
-                            <p1:NumericCorrectionFactor>0.99</p1:NumericCorrectionFactor>
+                            <p1:NumericCorrectionFactor>1</p1:NumericCorrectionFactor>
+                            <p1:OffsetBounds>
+                              <p1:X>-0.3</p1:X>
+                              <p1:Y>0</p1:Y>
+                              <p1:Z>-0.3</p1:Z>
+                            </p1:OffsetBounds>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
@@ -1669,14 +1646,15 @@
                       <Edges>
                         <Edge From="0" To="1" Label="Source1" />
                         <Edge From="0" To="2" Label="Source1" />
-                        <Edge From="1" To="6" Label="Source1" />
-                        <Edge From="2" To="6" Label="Source2" />
-                        <Edge From="2" To="4" Label="Source1" />
-                        <Edge From="3" To="4" Label="Source2" />
-                        <Edge From="4" To="5" Label="Source1" />
-                        <Edge From="5" To="6" Label="Source3" />
+                        <Edge From="1" To="3" Label="Source2" />
+                        <Edge From="2" To="3" Label="Source1" />
+                        <Edge From="3" To="4" Label="Source1" />
+                        <Edge From="4" To="6" Label="Source1" />
+                        <Edge From="5" To="6" Label="Source2" />
                         <Edge From="6" To="7" Label="Source1" />
-                        <Edge From="7" To="8" Label="Source1" />
+                        <Edge From="7" To="9" Label="Source1" />
+                        <Edge From="8" To="9" Label="Source2" />
+                        <Edge From="9" To="10" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
@@ -1777,13 +1755,13 @@
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>0</p1:X>
-                        <p1:Y>0</p1:Y>
-                        <p1:Z>0</p1:Z>
+                        <p1:X>0.687840343</p1:X>
+                        <p1:Y>-0.1</p1:Y>
+                        <p1:Z>-0.376771182</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
-                        <p1:Y>2.49962163</p1:Y>
+                        <p1:Y>0</p1:Y>
                         <p1:Z>0</p1:Z>
                       </p1:Orientation>
                     </Combinator>
@@ -1815,31 +1793,42 @@
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="rx:Switch" />
             </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>RodentPosition</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Position</Selector>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Z</Selector>
+            </Expression>
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
+            <Edge From="0" To="5" Label="Source1" />
             <Edge From="1" To="2" Label="Source1" />
-            <Edge From="1" To="8" Label="Source1" />
             <Edge From="2" To="3" Label="Source1" />
             <Edge From="3" To="4" Label="Source1" />
-            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="4" To="9" Label="Source1" />
             <Edge From="5" To="6" Label="Source1" />
             <Edge From="6" To="7" Label="Source1" />
-            <Edge From="7" To="14" Label="Source1" />
-            <Edge From="8" To="9" Label="Source1" />
+            <Edge From="7" To="8" Label="Source1" />
+            <Edge From="8" To="9" Label="Source2" />
             <Edge From="9" To="10" Label="Source1" />
             <Edge From="10" To="11" Label="Source1" />
             <Edge From="11" To="12" Label="Source1" />
             <Edge From="12" To="13" Label="Source1" />
-            <Edge From="13" To="14" Label="Source2" />
-            <Edge From="14" To="15" Label="Source1" />
-            <Edge From="15" To="16" Label="Source1" />
+            <Edge From="13" To="14" Label="Source1" />
+            <Edge From="15" To="20" Label="Source2" />
             <Edge From="16" To="17" Label="Source1" />
-            <Edge From="18" To="20" Label="Source1" />
-            <Edge From="19" To="20" Label="Source2" />
+            <Edge From="17" To="19" Label="Source2" />
+            <Edge From="18" To="19" Label="Source1" />
+            <Edge From="19" To="20" Label="Source1" />
             <Edge From="20" To="21" Label="Source1" />
             <Edge From="23" To="24" Label="Source1" />
             <Edge From="24" To="25" Label="Source1" />
+            <Edge From="26" To="27" Label="Source1" />
+            <Edge From="27" To="28" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -2085,9 +2074,9 @@
                               <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                                 <MemberName>Eye</MemberName>
                                 <Value>
-                                  <X>1</X>
-                                  <Y>1</Y>
-                                  <Z>1</Z>
+                                  <X>0</X>
+                                  <Y>0</Y>
+                                  <Z>0</Z>
                                 </Value>
                               </Expression>
                               <Expression xsi:type="InputMapping">
@@ -2099,9 +2088,9 @@
                               </Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="gl:CreateVector4">
-                                  <gl:X>1</gl:X>
-                                  <gl:Y>1</gl:Y>
-                                  <gl:Z>1</gl:Z>
+                                  <gl:X>0</gl:X>
+                                  <gl:Y>0</gl:Y>
+                                  <gl:Z>0</gl:Z>
                                   <gl:W>1</gl:W>
                                 </Combinator>
                               </Expression>
@@ -2377,15 +2366,15 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
                             <p1:MonitorBoundingBoxSize>0.3</p1:MonitorBoundingBoxSize>
                             <p1:ArmDeadZoneRadius>0.1</p1:ArmDeadZoneRadius>
                             <p1:VRRodentPosition>
-                              <p1:X>0</p1:X>
-                              <p1:Y>0</p1:Y>
-                              <p1:Z>0</p1:Z>
+                              <p1:X>0.687840343</p1:X>
+                              <p1:Y>-0.1</p1:Y>
+                              <p1:Z>-0.376771182</p1:Z>
                             </p1:VRRodentPosition>
-                            <p1:VRRodentAngle>2.49962163</p1:VRRodentAngle>
+                            <p1:VRRodentAngle>0</p1:VRRodentAngle>
                             <p1:VRCricketPosition>
-                              <p1:X>-0.3</p1:X>
-                              <p1:Y>-0.05</p1:Y>
-                              <p1:Z>-4.52987443E-08</p1:Z>
+                              <p1:X>0.387840331</p1:X>
+                              <p1:Y>-0.15</p1:Y>
+                              <p1:Z>-0.376771241</p1:Z>
                             </p1:VRCricketPosition>
                             <p1:RealCricketPosition>
                               <p1:X>-0.3</p1:X>
@@ -2628,9 +2617,9 @@ it.Y as Z)</scr:Expression>
                     </Workflow>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-                    <TranslationX>-0.3</TranslationX>
-                    <TranslationY>-0.05</TranslationY>
-                    <TranslationZ>4.52987443E-08</TranslationZ>
+                    <TranslationX>0.387840331</TranslationX>
+                    <TranslationY>-0.15</TranslationY>
+                    <TranslationZ>0.376771241</TranslationZ>
                     <ScaleX>1</ScaleX>
                     <ScaleY>1</ScaleY>
                     <ScaleZ>1</ScaleZ>
@@ -2652,7 +2641,7 @@ it.Y as Z)</scr:Expression>
                     </Specular>
                     <SpecularExponent>10</SpecularExponent>
                     <RotationZ>0</RotationZ>
-                    <RotationY>143.217773</RotationY>
+                    <RotationY>0</RotationY>
                     <RotationX>0</RotationX>
                   </Expression>
                 </Nodes>
