@@ -10,14 +10,14 @@
                  xmlns:p3="clr-namespace:Bonsai.Harp.CF;assembly=Bonsai.Harp.CF"
                  xmlns:p4="clr-namespace:;assembly=Extensions"
                  xmlns:p5="clr-namespace:Bonsai.Harp.Expander;assembly=Bonsai.Harp.Expander"
+                 xmlns:scr="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting"
                  xmlns:gl="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders"
                  xmlns:glr="clr-namespace:Bonsai.Shaders.Rendering;assembly=Bonsai.Shaders.Rendering"
                  xmlns:res="clr-namespace:Bonsai.Resources;assembly=Bonsai.System"
                  xmlns:gli="clr-namespace:Bonsai.Shaders.Input;assembly=Bonsai.Shaders"
+                 xmlns:dsp="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp"
                  xmlns:bv="clr-namespace:BonVision;assembly=BonVision"
                  xmlns:p6="clr-namespace:OpenTK;assembly=OpenTK"
-                 xmlns:scr="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting"
-                 xmlns:dsp="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Workflow>
     <Nodes>
@@ -92,26 +92,22 @@
               <Name>SWC_Arm</Name>
               <Workflow>
                 <Nodes>
-                  <Expression xsi:type="Disable">
-                    <Builder xsi:type="ExternalizedMapping">
-                      <Property Name="PortName" />
-                    </Builder>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="PortName" />
                   </Expression>
                   <Expression xsi:type="BehaviorSubject" TypeArguments="harp:HarpMessage">
                     <Name>ArmCommands</Name>
                   </Expression>
-                  <Expression xsi:type="Disable">
-                    <Builder xsi:type="Combinator">
-                      <Combinator xsi:type="harp:Device">
-                        <harp:DeviceState>Active</harp:DeviceState>
-                        <harp:DumpRegisters>true</harp:DumpRegisters>
-                        <harp:LedState>On</harp:LedState>
-                        <harp:VisualIndicators>On</harp:VisualIndicators>
-                        <harp:Heartbeat>Disable</harp:Heartbeat>
-                        <harp:IgnoreErrors>true</harp:IgnoreErrors>
-                        <harp:PortName>COM4</harp:PortName>
-                      </Combinator>
-                    </Builder>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="harp:Device">
+                      <harp:DeviceState>Active</harp:DeviceState>
+                      <harp:DumpRegisters>true</harp:DumpRegisters>
+                      <harp:LedState>On</harp:LedState>
+                      <harp:VisualIndicators>On</harp:VisualIndicators>
+                      <harp:Heartbeat>Disable</harp:Heartbeat>
+                      <harp:IgnoreErrors>true</harp:IgnoreErrors>
+                      <harp:PortName>COM4</harp:PortName>
+                    </Combinator>
                   </Expression>
                   <Expression xsi:type="PublishSubject">
                     <Name>ArmEvents</Name>
@@ -145,7 +141,7 @@
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="cv:CreatePoint2f">
-                      <cv:X>0.15</cv:X>
+                      <cv:X>0.1</cv:X>
                       <cv:Y>0.3</cv:Y>
                     </Combinator>
                   </Expression>
@@ -498,12 +494,14 @@
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="SerialNumber" />
                         </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p4:PylonCricketVRCapture">
-                            <p4:SerialNumber>21421610</p4:SerialNumber>
-                            <p4:ParameterFile>C:\Users\Cricket Team\Desktop\acA1300-60gmNIR_21421610.pfs</p4:ParameterFile>
-                            <p4:HarpAddress>92</p4:HarpAddress>
-                          </Combinator>
+                        <Expression xsi:type="Disable">
+                          <Builder xsi:type="Combinator">
+                            <Combinator xsi:type="p4:PylonCricketVRCapture">
+                              <p4:SerialNumber>21421610</p4:SerialNumber>
+                              <p4:ParameterFile>C:\Users\Cricket Team\Desktop\acA1300-60gmNIR_21421610.pfs</p4:ParameterFile>
+                              <p4:HarpAddress>92</p4:HarpAddress>
+                            </Combinator>
+                          </Builder>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p1:ObserveOnTaskPool" />
@@ -565,6 +563,15 @@
                           <Selector>Value.Angle</Selector>
                         </Expression>
                         <Expression xsi:type="PublishSubject">
+                          <Name>EncoderValue</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>EncoderValue</Name>
+                        </Expression>
+                        <Expression xsi:type="scr:ExpressionTransform">
+                          <scr:Expression>(Math.Pi) - ((it / 16384.0) * (2.0 * Math.Pi))</scr:Expression>
+                        </Expression>
+                        <Expression xsi:type="BehaviorSubject">
                           <Name>EncoderAngle</Name>
                         </Expression>
                       </Nodes>
@@ -575,6 +582,8 @@
                         <Edge From="4" To="5" Label="Source1" />
                         <Edge From="5" To="6" Label="Source1" />
                         <Edge From="6" To="7" Label="Source1" />
+                        <Edge From="8" To="9" Label="Source1" />
+                        <Edge From="9" To="10" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
@@ -624,16 +633,16 @@
                     <Combinator xsi:type="gl:CreateWindow">
                       <gl:Width>7680</gl:Width>
                       <gl:Height>1080</gl:Height>
-                      <gl:VSync>On</gl:VSync>
+                      <gl:VSync>Off</gl:VSync>
                       <gl:SwapSync>false</gl:SwapSync>
                       <gl:ClearColor>Gray</gl:ClearColor>
                       <gl:ClearMask>DepthBufferBit ColorBufferBit</gl:ClearMask>
                       <gl:CursorVisible>true</gl:CursorVisible>
                       <gl:Location xsi:nil="true" />
-                      <gl:WindowBorder>Fixed</gl:WindowBorder>
+                      <gl:WindowBorder>Hidden</gl:WindowBorder>
                       <gl:WindowState>Fullscreen</gl:WindowState>
-                      <gl:DisplayDevice>Second</gl:DisplayDevice>
-                      <gl:TargetRenderFrequency>60</gl:TargetRenderFrequency>
+                      <gl:DisplayDevice>First</gl:DisplayDevice>
+                      <gl:TargetRenderFrequency>237</gl:TargetRenderFrequency>
                       <gl:TargetUpdateFrequency xsi:nil="true" />
                       <gl:RenderState />
                       <gl:GraphicsMode>
@@ -1180,12 +1189,16 @@
               <Name>Spinnaker2</Name>
               <FrameRate>50</FrameRate>
             </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>Pylon1FrameEvents</Name>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="SubscribeSubject">
+                <Name>Pylon1FrameEvents</Name>
+              </Builder>
             </Expression>
-            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogPylonVideo.bonsai">
-              <Name>Pylon1</Name>
-              <FrameRate>50</FrameRate>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="IncludeWorkflow" Path="Extensions\LogPylonVideo.bonsai">
+                <Name>Pylon1</Name>
+                <FrameRate>50</FrameRate>
+              </Builder>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>ArmEvents</Name>
@@ -1310,11 +1323,131 @@
         </Workflow>
       </Expression>
       <Expression xsi:type="GroupWorkflow">
-        <Name>UserInterface</Name>
+        <Name>RodentPosition</Name>
         <Workflow>
           <Nodes>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>TimestampStream</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="gli:Mouse">
+                <gli:Index xsi:nil="true" />
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p4:WinRawMouse">
+                <p4:DeviceId>65601</p4:DeviceId>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>X</Selector>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="dsp:Difference">
+                <dsp:Order>1</dsp:Order>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Multiply">
+              <Operand xsi:type="DoubleProperty">
+                <Value>2.6205926323519098E-05</Value>
+              </Operand>
+            </Expression>
+            <Expression xsi:type="InputMapping">
+              <PropertyMappings>
+                <Property Name="Z" Selector="it" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="gl:CreateVector3">
+                <gl:X>0</gl:X>
+                <gl:Y>0</gl:Y>
+                <gl:Z>0</gl:Z>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p4:WinRawMouse">
+                <p4:DeviceId>65601</p4:DeviceId>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>X</Selector>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="dsp:Difference">
+                <dsp:Order>1</dsp:Order>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Multiply">
+              <Operand xsi:type="DoubleProperty">
+                <Value>2.6205926323519098E-05</Value>
+              </Operand>
+            </Expression>
+            <Expression xsi:type="InputMapping">
+              <PropertyMappings>
+                <Property Name="X" Selector="it" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="gl:CreateVector3">
+                <gl:X>0</gl:X>
+                <gl:Y>0</gl:Y>
+                <gl:Z>0</gl:Z>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Merge" />
+            </Expression>
+            <Expression xsi:type="InputMapping">
+              <PropertyMappings>
+                <Property Name="Position" Selector="it" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p1:CreateVrElement">
+                <p1:Position>
+                  <p1:X>0</p1:X>
+                  <p1:Y>0</p1:Y>
+                  <p1:Z>0</p1:Z>
+                </p1:Position>
+                <p1:Orientation>
+                  <p1:X>0</p1:X>
+                  <p1:Y>0</p1:Y>
+                  <p1:Z>0</p1:Z>
+                </p1:Orientation>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="MulticastSubject">
+              <Name>RodentPositionUpdate</Name>
+            </Expression>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Orientation" DisplayName="ResetOrientation" Category="Reset" />
+              <Property Name="Position" DisplayName="ResetPosition" Category="Reset" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="gli:KeyDown">
+                <gli:Key>F4</gli:Key>
+                <gli:Modifiers xsi:nil="true" />
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p1:CreateVrElement">
+                <p1:Position>
+                  <p1:X>0</p1:X>
+                  <p1:Y>0</p1:Y>
+                  <p1:Z>0</p1:Z>
+                </p1:Position>
+                <p1:Orientation>
+                  <p1:X>0</p1:X>
+                  <p1:Y>0</p1:Y>
+                  <p1:Z>0</p1:Z>
+                </p1:Orientation>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="MulticastSubject">
+              <Name>ResetRodentPosition</Name>
+            </Expression>
             <Expression xsi:type="GroupWorkflow">
-              <Name>RodentUpdates</Name>
+              <Name>ManualOverride</Name>
               <Workflow>
                 <Nodes>
                   <Expression xsi:type="Combinator">
@@ -1405,7 +1538,7 @@
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>-1</p1:X>
+                        <p1:X>1</p1:X>
                         <p1:Y>0</p1:Y>
                         <p1:Z>0</p1:Z>
                       </p1:Position>
@@ -1441,6 +1574,7 @@
                   <Expression xsi:type="MulticastSubject">
                     <Name>RodentPositionUpdate</Name>
                   </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
                 </Nodes>
                 <Edges>
                   <Edge From="0" To="1" Label="Source1" />
@@ -1469,154 +1603,243 @@
                   <Edge From="17" To="18" Label="Source2" />
                   <Edge From="18" To="19" Label="Source1" />
                   <Edge From="19" To="20" Label="Source1" />
+                  <Edge From="20" To="21" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
-            <Expression xsi:type="GroupWorkflow">
-              <Name>ManualArmControl</Name>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>ResetRodentPosition</Name>
+            </Expression>
+            <Expression xsi:type="CreateObservable">
+              <Name>UpdateRodentPosition</Name>
               <Workflow>
                 <Nodes>
-                  <Expression xsi:type="GroupWorkflow">
-                    <Name>Manual_Arm_Control</Name>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>RodentPosition</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>RodentPosition</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Take">
+                      <rx:Count>1</rx:Count>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>RodentPositionUpdate</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Merge" />
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Position</Selector>
+                  </Expression>
+                  <Expression xsi:type="Scan">
                     <Workflow>
                       <Nodes>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="gli:Keyboard">
-                            <gli:Index xsi:nil="true" />
-                          </Combinator>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="MemberSelector">
+                          <Selector>Accumulation</Selector>
+                        </Expression>
+                        <Expression xsi:type="MemberSelector">
+                          <Selector>Value</Selector>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>ArenaBounds</Name>
                         </Expression>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p1:KeySelectorScript">
-                            <p1:KeyFilter>Up</p1:KeyFilter>
-                          </Combinator>
+                          <Combinator xsi:type="rx:WithLatestFrom" />
                         </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="cv:CreatePoint2f">
-                            <cv:X>0</cv:X>
-                            <cv:Y>1</cv:Y>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p1:KeySelectorScript">
-                            <p1:KeyFilter>Down</p1:KeyFilter>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="cv:CreatePoint2f">
-                            <cv:X>0</cv:X>
-                            <cv:Y>-1</cv:Y>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p1:KeySelectorScript">
-                            <p1:KeyFilter>Left</p1:KeyFilter>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="cv:CreatePoint2f">
-                            <cv:X>-1</cv:X>
-                            <cv:Y>0</cv:Y>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p1:KeySelectorScript">
-                            <p1:KeyFilter>Right</p1:KeyFilter>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="cv:CreatePoint2f">
-                            <cv:X>1</cv:X>
-                            <cv:Y>0</cv:Y>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="rx:Merge" />
-                        </Expression>
-                        <Expression xsi:type="ExternalizedMapping">
-                          <Property Name="Value" DisplayName="Gain" />
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="FloatProperty">
-                            <Value>0.01</Value>
-                          </Combinator>
+                        <Expression xsi:type="MemberSelector">
+                          <Selector>Item2</Selector>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="rx:Zip" />
                         </Expression>
-                        <Expression xsi:type="Multiply" />
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="p1:ClampPositionUpdate">
+                            <p1:NumericCorrectionFactor>0.99</p1:NumericCorrectionFactor>
+                          </Combinator>
+                        </Expression>
                         <Expression xsi:type="WorkflowOutput" />
                       </Nodes>
                       <Edges>
                         <Edge From="0" To="1" Label="Source1" />
-                        <Edge From="0" To="3" Label="Source1" />
-                        <Edge From="0" To="5" Label="Source1" />
-                        <Edge From="0" To="7" Label="Source1" />
-                        <Edge From="1" To="2" Label="Source1" />
-                        <Edge From="2" To="9" Label="Source1" />
-                        <Edge From="3" To="4" Label="Source1" />
-                        <Edge From="4" To="9" Label="Source2" />
-                        <Edge From="5" To="6" Label="Source1" />
-                        <Edge From="6" To="9" Label="Source3" />
+                        <Edge From="0" To="2" Label="Source1" />
+                        <Edge From="1" To="6" Label="Source1" />
+                        <Edge From="2" To="6" Label="Source2" />
+                        <Edge From="2" To="4" Label="Source1" />
+                        <Edge From="3" To="4" Label="Source2" />
+                        <Edge From="4" To="5" Label="Source1" />
+                        <Edge From="5" To="6" Label="Source3" />
+                        <Edge From="6" To="7" Label="Source1" />
                         <Edge From="7" To="8" Label="Source1" />
-                        <Edge From="8" To="9" Label="Source4" />
-                        <Edge From="9" To="12" Label="Source1" />
-                        <Edge From="9" To="11" Label="Source1" />
-                        <Edge From="10" To="11" Label="Source2" />
-                        <Edge From="11" To="12" Label="Source2" />
-                        <Edge From="12" To="13" Label="Source1" />
-                        <Edge From="13" To="14" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
+                  <Expression xsi:type="Disable">
+                    <Builder xsi:type="GroupWorkflow">
+                      <Name>ManualOrientation</Name>
+                      <Workflow>
+                        <Nodes>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="gl:CreateVector3">
+                              <gl:X>0</gl:X>
+                              <gl:Y>1.57079637</gl:Y>
+                              <gl:Z>0</gl:Z>
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="gli:MouseWheel" />
+                          </Expression>
+                          <Expression xsi:type="MemberSelector">
+                            <Selector>EventArgs.Value</Selector>
+                          </Expression>
+                          <Expression xsi:type="Mod">
+                            <Operand xsi:type="IntProperty">
+                              <Value>50</Value>
+                            </Operand>
+                          </Expression>
+                          <Expression xsi:type="scr:ExpressionTransform">
+                            <scr:Expression>((it / 50.0) * 2.0 * Math.Pi + 2.0*Math.Pi) % (2.0 * Math.Pi)</scr:Expression>
+                          </Expression>
+                          <Expression xsi:type="scr:ExpressionTransform">
+                            <scr:Expression>it &lt;= Math.Pi ? it : -1.0 * (2.0*Math.Pi - it)</scr:Expression>
+                          </Expression>
+                          <Expression xsi:type="InputMapping">
+                            <PropertyMappings>
+                              <Property Name="Y" Selector="it" />
+                            </PropertyMappings>
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="gl:CreateVector3">
+                              <gl:X>0</gl:X>
+                              <gl:Y>-0.376991123</gl:Y>
+                              <gl:Z>0</gl:Z>
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="rx:Merge" />
+                          </Expression>
+                          <Expression xsi:type="WorkflowOutput" />
+                        </Nodes>
+                        <Edges>
+                          <Edge From="0" To="8" Label="Source2" />
+                          <Edge From="1" To="2" Label="Source1" />
+                          <Edge From="2" To="3" Label="Source1" />
+                          <Edge From="3" To="4" Label="Source1" />
+                          <Edge From="4" To="5" Label="Source1" />
+                          <Edge From="5" To="6" Label="Source1" />
+                          <Edge From="6" To="7" Label="Source1" />
+                          <Edge From="7" To="8" Label="Source1" />
+                          <Edge From="8" To="9" Label="Source1" />
+                        </Edges>
+                      </Workflow>
+                    </Builder>
+                  </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:GateInterval">
-                      <rx:Interval>PT0.01S</rx:Interval>
+                    <Combinator xsi:type="gl:CreateVector3">
+                      <gl:X>0</gl:X>
+                      <gl:Y>0</gl:Y>
+                      <gl:Z>0</gl:Z>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>EncoderAngle</Name>
+                  </Expression>
+                  <Expression xsi:type="InputMapping">
+                    <PropertyMappings>
+                      <Property Name="Y" Selector="it" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="gl:CreateVector3">
+                      <gl:X>0</gl:X>
+                      <gl:Y>2.49962163</gl:Y>
+                      <gl:Z>0</gl:Z>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Merge" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:CombineLatest" />
+                  </Expression>
+                  <Expression xsi:type="InputMapping">
+                    <PropertyMappings>
+                      <Property Name="Orientation" Selector="Item2" />
+                      <Property Name="Position" Selector="Item1" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="p1:CreateVrElement">
+                      <p1:Position>
+                        <p1:X>0</p1:X>
+                        <p1:Y>0</p1:Y>
+                        <p1:Z>0</p1:Z>
+                      </p1:Position>
+                      <p1:Orientation>
+                        <p1:X>0</p1:X>
+                        <p1:Y>2.49962163</p1:Y>
+                        <p1:Z>0</p1:Z>
+                      </p1:Orientation>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
-                    <Name>UpdateArmCartPosition</Name>
+                    <Name>RodentPosition</Name>
                   </Expression>
-                  <Expression xsi:type="WorkflowOutput" />
                 </Nodes>
                 <Edges>
                   <Edge From="0" To="1" Label="Source1" />
-                  <Edge From="1" To="2" Label="Source1" />
                   <Edge From="2" To="3" Label="Source1" />
+                  <Edge From="3" To="5" Label="Source1" />
+                  <Edge From="4" To="5" Label="Source2" />
+                  <Edge From="5" To="6" Label="Source1" />
+                  <Edge From="6" To="7" Label="Source1" />
+                  <Edge From="7" To="14" Label="Source1" />
+                  <Edge From="8" To="14" Label="Source2" />
+                  <Edge From="9" To="13" Label="Source1" />
+                  <Edge From="10" To="11" Label="Source1" />
+                  <Edge From="11" To="12" Label="Source1" />
+                  <Edge From="12" To="13" Label="Source2" />
+                  <Edge From="13" To="14" Label="Source3" />
+                  <Edge From="14" To="15" Label="Source1" />
+                  <Edge From="15" To="16" Label="Source1" />
+                  <Edge From="16" To="17" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
-            <Expression xsi:type="ExternalizedMapping">
-              <Property Name="Orientation" DisplayName="ResetOrientation" Category="Reset" />
-              <Property Name="Position" DisplayName="ResetPosition" Category="Reset" />
-            </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="gli:KeyDown">
-                <gli:Key>F4</gli:Key>
-                <gli:Modifiers xsi:nil="true" />
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="p1:CreateVrElement">
-                <p1:Position>
-                  <p1:X>0</p1:X>
-                  <p1:Y>0</p1:Y>
-                  <p1:Z>0</p1:Z>
-                </p1:Position>
-                <p1:Orientation>
-                  <p1:X>0</p1:X>
-                  <p1:Y>0</p1:Y>
-                  <p1:Z>0</p1:Z>
-                </p1:Orientation>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="MulticastSubject">
-              <Name>ResetRodentPosition</Name>
+              <Combinator xsi:type="rx:Switch" />
             </Expression>
           </Nodes>
           <Edges>
-            <Edge From="2" To="4" Label="Source1" />
-            <Edge From="3" To="4" Label="Source2" />
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="1" To="8" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="3" To="4" Label="Source1" />
             <Edge From="4" To="5" Label="Source1" />
+            <Edge From="5" To="6" Label="Source1" />
+            <Edge From="6" To="7" Label="Source1" />
+            <Edge From="7" To="14" Label="Source1" />
+            <Edge From="8" To="9" Label="Source1" />
+            <Edge From="9" To="10" Label="Source1" />
+            <Edge From="10" To="11" Label="Source1" />
+            <Edge From="11" To="12" Label="Source1" />
+            <Edge From="12" To="13" Label="Source1" />
+            <Edge From="13" To="14" Label="Source2" />
+            <Edge From="14" To="15" Label="Source1" />
+            <Edge From="15" To="16" Label="Source1" />
+            <Edge From="16" To="17" Label="Source1" />
+            <Edge From="18" To="20" Label="Source1" />
+            <Edge From="19" To="20" Label="Source2" />
+            <Edge From="20" To="21" Label="Source1" />
+            <Edge From="23" To="24" Label="Source1" />
+            <Edge From="24" To="25" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -2092,16 +2315,6 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
                             <Property Name="MonitorBoundingBoxSize" />
                           </PropertyMappings>
                         </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="FloatProperty">
-                            <Value>0.15</Value>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="PropertyMapping">
-                          <PropertyMappings>
-                            <Property Name="ArmDeadZoneRadius" />
-                          </PropertyMappings>
-                        </Expression>
                         <Expression xsi:type="SubscribeSubject">
                           <Name>RodentPosition</Name>
                         </Expression>
@@ -2146,22 +2359,33 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
                             <Property Name="RealCricketPosition" />
                           </PropertyMappings>
                         </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>RadialLimits</Name>
+                        </Expression>
+                        <Expression xsi:type="MemberSelector">
+                          <Selector>X</Selector>
+                        </Expression>
+                        <Expression xsi:type="PropertyMapping">
+                          <PropertyMappings>
+                            <Property Name="ArmDeadZoneRadius" />
+                          </PropertyMappings>
+                        </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p1:DrawFakeVRWorld">
                             <p1:CanvasSize>1000</p1:CanvasSize>
                             <p1:VRWorldSize>1</p1:VRWorldSize>
                             <p1:MonitorBoundingBoxSize>0.3</p1:MonitorBoundingBoxSize>
-                            <p1:ArmDeadZoneRadius>0.15</p1:ArmDeadZoneRadius>
+                            <p1:ArmDeadZoneRadius>0.1</p1:ArmDeadZoneRadius>
                             <p1:VRRodentPosition>
-                              <p1:X>-0.009999985</p1:X>
+                              <p1:X>0</p1:X>
                               <p1:Y>0</p1:Y>
-                              <p1:Z>0.149999991</p1:Z>
+                              <p1:Z>0</p1:Z>
                             </p1:VRRodentPosition>
-                            <p1:VRRodentAngle>0.50265485</p1:VRRodentAngle>
+                            <p1:VRRodentAngle>2.49962163</p1:VRRodentAngle>
                             <p1:VRCricketPosition>
-                              <p1:X>-0.31</p1:X>
+                              <p1:X>-0.3</p1:X>
                               <p1:Y>-0.05</p1:Y>
-                              <p1:Z>0.149999946</p1:Z>
+                              <p1:Z>-4.52987443E-08</p1:Z>
                             </p1:VRCricketPosition>
                             <p1:RealCricketPosition>
                               <p1:X>-0.3</p1:X>
@@ -2178,27 +2402,28 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
                       </Nodes>
                       <Edges>
                         <Edge From="0" To="1" Label="Source1" />
-                        <Edge From="1" To="20" Label="Source2" />
+                        <Edge From="1" To="21" Label="Source2" />
                         <Edge From="2" To="3" Label="Source1" />
-                        <Edge From="3" To="20" Label="Source3" />
+                        <Edge From="3" To="21" Label="Source3" />
                         <Edge From="4" To="5" Label="Source1" />
-                        <Edge From="5" To="20" Label="Source4" />
+                        <Edge From="5" To="21" Label="Source4" />
                         <Edge From="6" To="7" Label="Source1" />
-                        <Edge From="7" To="20" Label="Source5" />
-                        <Edge From="8" To="9" Label="Source1" />
+                        <Edge From="7" To="8" Label="Source1" />
+                        <Edge From="8" To="21" Label="Source6" />
                         <Edge From="9" To="10" Label="Source1" />
-                        <Edge From="10" To="20" Label="Source6" />
-                        <Edge From="11" To="12" Label="Source1" />
-                        <Edge From="12" To="13" Label="Source1" />
-                        <Edge From="13" To="20" Label="Source8" />
-                        <Edge From="14" To="20" Label="Source1" />
-                        <Edge From="15" To="16" Label="Source1" />
+                        <Edge From="10" To="11" Label="Source1" />
+                        <Edge From="11" To="21" Label="Source8" />
+                        <Edge From="12" To="21" Label="Source1" />
+                        <Edge From="13" To="14" Label="Source1" />
+                        <Edge From="14" To="15" Label="Source1" />
+                        <Edge From="15" To="21" Label="Source7" />
                         <Edge From="16" To="17" Label="Source1" />
-                        <Edge From="17" To="20" Label="Source7" />
+                        <Edge From="17" To="21" Label="Source9" />
                         <Edge From="18" To="19" Label="Source1" />
-                        <Edge From="19" To="20" Label="Source9" />
-                        <Edge From="20" To="21" Label="Source1" />
+                        <Edge From="19" To="20" Label="Source1" />
+                        <Edge From="20" To="21" Label="Source5" />
                         <Edge From="21" To="22" Label="Source1" />
+                        <Edge From="22" To="23" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
@@ -2403,9 +2628,9 @@ it.Y as Z)</scr:Expression>
                     </Workflow>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-                    <TranslationX>-0.31</TranslationX>
+                    <TranslationX>-0.3</TranslationX>
                     <TranslationY>-0.05</TranslationY>
-                    <TranslationZ>-0.149999946</TranslationZ>
+                    <TranslationZ>4.52987443E-08</TranslationZ>
                     <ScaleX>1</ScaleX>
                     <ScaleY>1</ScaleY>
                     <ScaleZ>1</ScaleZ>
@@ -2427,7 +2652,7 @@ it.Y as Z)</scr:Expression>
                     </Specular>
                     <SpecularExponent>10</SpecularExponent>
                     <RotationZ>0</RotationZ>
-                    <RotationY>28.8000011</RotationY>
+                    <RotationY>143.217773</RotationY>
                     <RotationX>0</RotationX>
                   </Expression>
                 </Nodes>
@@ -2469,182 +2694,6 @@ it.Y as Z)</scr:Expression>
           </Nodes>
           <Edges />
         </Workflow>
-      </Expression>
-      <Expression xsi:type="SubscribeSubject">
-        <Name>ResetRodentPosition</Name>
-      </Expression>
-      <Expression xsi:type="CreateObservable">
-        <Name>RodentPosition</Name>
-        <Workflow>
-          <Nodes>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>RodentPosition</Name>
-            </Expression>
-            <Expression xsi:type="WorkflowOutput" />
-            <Expression xsi:type="SubscribeSubject">
-              <Name>RodentPosition</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:Take">
-                <rx:Count>1</rx:Count>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>RodentPositionUpdate</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:Merge" />
-            </Expression>
-            <Expression xsi:type="MemberSelector">
-              <Selector>Position</Selector>
-            </Expression>
-            <Expression xsi:type="Scan">
-              <Workflow>
-                <Nodes>
-                  <Expression xsi:type="WorkflowInput">
-                    <Name>Source1</Name>
-                  </Expression>
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>Accumulation</Selector>
-                  </Expression>
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>Value</Selector>
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>ArenaBounds</Name>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:WithLatestFrom" />
-                  </Expression>
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>Item2</Selector>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:Zip" />
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="p1:ClampPositionUpdate">
-                      <p1:NumericCorrectionFactor>0.99</p1:NumericCorrectionFactor>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="WorkflowOutput" />
-                </Nodes>
-                <Edges>
-                  <Edge From="0" To="1" Label="Source1" />
-                  <Edge From="0" To="2" Label="Source1" />
-                  <Edge From="1" To="6" Label="Source1" />
-                  <Edge From="2" To="6" Label="Source2" />
-                  <Edge From="2" To="4" Label="Source1" />
-                  <Edge From="3" To="4" Label="Source2" />
-                  <Edge From="4" To="5" Label="Source1" />
-                  <Edge From="5" To="6" Label="Source3" />
-                  <Edge From="6" To="7" Label="Source1" />
-                  <Edge From="7" To="8" Label="Source1" />
-                </Edges>
-              </Workflow>
-            </Expression>
-            <Expression xsi:type="GroupWorkflow">
-              <Name>in-&gt;Orientation</Name>
-              <Workflow>
-                <Nodes>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="gl:CreateVector3">
-                      <gl:X>0</gl:X>
-                      <gl:Y>1.57079637</gl:Y>
-                      <gl:Z>0</gl:Z>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="gli:MouseWheel" />
-                  </Expression>
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>EventArgs.Value</Selector>
-                  </Expression>
-                  <Expression xsi:type="Mod">
-                    <Operand xsi:type="IntProperty">
-                      <Value>50</Value>
-                    </Operand>
-                  </Expression>
-                  <Expression xsi:type="scr:ExpressionTransform">
-                    <scr:Expression>((it / 50.0) * 2.0 * Math.Pi + 2.0*Math.Pi) % (2.0 * Math.Pi)</scr:Expression>
-                  </Expression>
-                  <Expression xsi:type="scr:ExpressionTransform">
-                    <scr:Expression>it &lt;= Math.Pi ? it : -1.0 * (2.0*Math.Pi - it)</scr:Expression>
-                  </Expression>
-                  <Expression xsi:type="InputMapping">
-                    <PropertyMappings>
-                      <Property Name="Y" Selector="it" />
-                    </PropertyMappings>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="gl:CreateVector3">
-                      <gl:X>0</gl:X>
-                      <gl:Y>0.50265485</gl:Y>
-                      <gl:Z>0</gl:Z>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:Merge" />
-                  </Expression>
-                  <Expression xsi:type="WorkflowOutput" />
-                </Nodes>
-                <Edges>
-                  <Edge From="0" To="8" Label="Source2" />
-                  <Edge From="1" To="2" Label="Source1" />
-                  <Edge From="2" To="3" Label="Source1" />
-                  <Edge From="3" To="4" Label="Source1" />
-                  <Edge From="4" To="5" Label="Source1" />
-                  <Edge From="5" To="6" Label="Source1" />
-                  <Edge From="6" To="7" Label="Source1" />
-                  <Edge From="7" To="8" Label="Source1" />
-                  <Edge From="8" To="9" Label="Source1" />
-                </Edges>
-              </Workflow>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:CombineLatest" />
-            </Expression>
-            <Expression xsi:type="InputMapping">
-              <PropertyMappings>
-                <Property Name="Orientation" Selector="Item2" />
-                <Property Name="Position" Selector="Item1" />
-              </PropertyMappings>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="p1:CreateVrElement">
-                <p1:Position>
-                  <p1:X>-0.009999985</p1:X>
-                  <p1:Y>0</p1:Y>
-                  <p1:Z>0.149999991</p1:Z>
-                </p1:Position>
-                <p1:Orientation>
-                  <p1:X>0</p1:X>
-                  <p1:Y>0.50265485</p1:Y>
-                  <p1:Z>0</p1:Z>
-                </p1:Orientation>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="MulticastSubject">
-              <Name>RodentPosition</Name>
-            </Expression>
-          </Nodes>
-          <Edges>
-            <Edge From="0" To="1" Label="Source1" />
-            <Edge From="2" To="3" Label="Source1" />
-            <Edge From="3" To="5" Label="Source1" />
-            <Edge From="4" To="5" Label="Source2" />
-            <Edge From="5" To="6" Label="Source1" />
-            <Edge From="6" To="7" Label="Source1" />
-            <Edge From="7" To="9" Label="Source1" />
-            <Edge From="8" To="9" Label="Source2" />
-            <Edge From="9" To="10" Label="Source1" />
-            <Edge From="10" To="11" Label="Source1" />
-            <Edge From="11" To="12" Label="Source1" />
-          </Edges>
-        </Workflow>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="rx:Switch" />
       </Expression>
       <Expression xsi:type="GroupWorkflow">
         <Name>ArmControl</Name>
@@ -2935,7 +2984,7 @@ it.Item3 as Angle)</scr:Expression>
                               </Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="p1:ClampArmPosition">
-                                  <p1:MinRadius>0.15</p1:MinRadius>
+                                  <p1:MinRadius>0.1</p1:MinRadius>
                                   <p1:MaxRadius>0.3</p1:MaxRadius>
                                 </Combinator>
                               </Expression>
@@ -3135,6 +3184,119 @@ it.Item3 as Angle)</scr:Expression>
                   <Edge From="6" To="7" Label="Source1" />
                   <Edge From="7" To="8" Label="Source1" />
                   <Edge From="8" To="9" Label="Source1" />
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>ArmManualOverride</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="GroupWorkflow">
+                    <Name>Manual_Arm_Control</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="gli:Keyboard">
+                            <gli:Index xsi:nil="true" />
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="p1:KeySelectorScript">
+                            <p1:KeyFilter>Up</p1:KeyFilter>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="cv:CreatePoint2f">
+                            <cv:X>0</cv:X>
+                            <cv:Y>1</cv:Y>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="p1:KeySelectorScript">
+                            <p1:KeyFilter>Down</p1:KeyFilter>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="cv:CreatePoint2f">
+                            <cv:X>0</cv:X>
+                            <cv:Y>-1</cv:Y>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="p1:KeySelectorScript">
+                            <p1:KeyFilter>Left</p1:KeyFilter>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="cv:CreatePoint2f">
+                            <cv:X>-1</cv:X>
+                            <cv:Y>0</cv:Y>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="p1:KeySelectorScript">
+                            <p1:KeyFilter>Right</p1:KeyFilter>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="cv:CreatePoint2f">
+                            <cv:X>1</cv:X>
+                            <cv:Y>0</cv:Y>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Merge" />
+                        </Expression>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="Value" DisplayName="Gain" />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="FloatProperty">
+                            <Value>0.01</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Zip" />
+                        </Expression>
+                        <Expression xsi:type="Multiply" />
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="1" Label="Source1" />
+                        <Edge From="0" To="3" Label="Source1" />
+                        <Edge From="0" To="5" Label="Source1" />
+                        <Edge From="0" To="7" Label="Source1" />
+                        <Edge From="1" To="2" Label="Source1" />
+                        <Edge From="2" To="9" Label="Source1" />
+                        <Edge From="3" To="4" Label="Source1" />
+                        <Edge From="4" To="9" Label="Source2" />
+                        <Edge From="5" To="6" Label="Source1" />
+                        <Edge From="6" To="9" Label="Source3" />
+                        <Edge From="7" To="8" Label="Source1" />
+                        <Edge From="8" To="9" Label="Source4" />
+                        <Edge From="9" To="12" Label="Source1" />
+                        <Edge From="9" To="11" Label="Source1" />
+                        <Edge From="10" To="11" Label="Source2" />
+                        <Edge From="11" To="12" Label="Source2" />
+                        <Edge From="12" To="13" Label="Source1" />
+                        <Edge From="13" To="14" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:GateInterval">
+                      <rx:Interval>PT0.01S</rx:Interval>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="MulticastSubject">
+                    <Name>UpdateArmCartPosition</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="2" To="3" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -3587,7 +3749,7 @@ Math.Pi/2.0 as PerturbAngle,
                               </Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="cv:CreatePoint2f">
-                                  <cv:X>-0.01</cv:X>
+                                  <cv:X>5.32E-05</cv:X>
                                   <cv:Y>-0</cv:Y>
                                 </Combinator>
                               </Expression>
@@ -3696,14 +3858,9 @@ Math.Pi/2.0 as PerturbAngle,
       <Expression xsi:type="MulticastSubject">
         <Name>StartCameras</Name>
       </Expression>
-      <Expression xsi:type="SubscribeSubject">
-        <Name>EncoderAngle</Name>
-      </Expression>
     </Nodes>
     <Edges>
-      <Edge From="5" To="6" Label="Source1" />
-      <Edge From="6" To="7" Label="Source1" />
-      <Edge From="11" To="12" Label="Source1" />
+      <Edge From="8" To="9" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
