@@ -601,48 +601,11 @@
               <Name>ScreenConfiguration</Name>
               <Workflow>
                 <Nodes>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="gl:CreateWindow">
-                      <gl:Width>7680</gl:Width>
-                      <gl:Height>1080</gl:Height>
-                      <gl:VSync>Off</gl:VSync>
-                      <gl:SwapSync>false</gl:SwapSync>
-                      <gl:ClearColor>Gray</gl:ClearColor>
-                      <gl:ClearMask>DepthBufferBit ColorBufferBit</gl:ClearMask>
-                      <gl:CursorVisible>true</gl:CursorVisible>
-                      <gl:Location xsi:nil="true" />
-                      <gl:WindowBorder>Hidden</gl:WindowBorder>
-                      <gl:WindowState>Fullscreen</gl:WindowState>
-                      <gl:DisplayDevice>First</gl:DisplayDevice>
-                      <gl:TargetRenderFrequency>236</gl:TargetRenderFrequency>
-                      <gl:TargetUpdateFrequency xsi:nil="true" />
-                      <gl:RenderState />
-                      <gl:GraphicsMode>
-                        <gl:ColorFormat>
-                          <gl:Red>8</gl:Red>
-                          <gl:Green>8</gl:Green>
-                          <gl:Blue>8</gl:Blue>
-                          <gl:Alpha>8</gl:Alpha>
-                        </gl:ColorFormat>
-                        <gl:Depth>16</gl:Depth>
-                        <gl:Stencil>0</gl:Stencil>
-                        <gl:Samples>0</gl:Samples>
-                        <gl:AccumulatorFormat>
-                          <gl:Red>0</gl:Red>
-                          <gl:Green>0</gl:Green>
-                          <gl:Blue>0</gl:Blue>
-                          <gl:Alpha>0</gl:Alpha>
-                        </gl:AccumulatorFormat>
-                        <gl:Buffers>2</gl:Buffers>
-                        <gl:Stereo>false</gl:Stereo>
-                      </gl:GraphicsMode>
-                    </Combinator>
-                  </Expression>
                   <Expression xsi:type="Disable">
                     <Builder xsi:type="Combinator">
                       <Combinator xsi:type="gl:CreateWindow">
-                        <gl:Width>20</gl:Width>
-                        <gl:Height>20</gl:Height>
+                        <gl:Width>7680</gl:Width>
+                        <gl:Height>1080</gl:Height>
                         <gl:VSync>Off</gl:VSync>
                         <gl:SwapSync>false</gl:SwapSync>
                         <gl:ClearColor>Gray</gl:ClearColor>
@@ -651,8 +614,8 @@
                         <gl:Location xsi:nil="true" />
                         <gl:WindowBorder>Hidden</gl:WindowBorder>
                         <gl:WindowState>Fullscreen</gl:WindowState>
-                        <gl:DisplayDevice>First</gl:DisplayDevice>
-                        <gl:TargetRenderFrequency>60</gl:TargetRenderFrequency>
+                        <gl:DisplayDevice>Second</gl:DisplayDevice>
+                        <gl:TargetRenderFrequency>236</gl:TargetRenderFrequency>
                         <gl:TargetUpdateFrequency xsi:nil="true" />
                         <gl:RenderState />
                         <gl:GraphicsMode>
@@ -676,6 +639,43 @@
                         </gl:GraphicsMode>
                       </Combinator>
                     </Builder>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="gl:CreateWindow">
+                      <gl:Width>20</gl:Width>
+                      <gl:Height>20</gl:Height>
+                      <gl:VSync>Off</gl:VSync>
+                      <gl:SwapSync>false</gl:SwapSync>
+                      <gl:ClearColor>Gray</gl:ClearColor>
+                      <gl:ClearMask>DepthBufferBit ColorBufferBit</gl:ClearMask>
+                      <gl:CursorVisible>true</gl:CursorVisible>
+                      <gl:Location xsi:nil="true" />
+                      <gl:WindowBorder>Hidden</gl:WindowBorder>
+                      <gl:WindowState>Normal</gl:WindowState>
+                      <gl:DisplayDevice>First</gl:DisplayDevice>
+                      <gl:TargetRenderFrequency>1</gl:TargetRenderFrequency>
+                      <gl:TargetUpdateFrequency xsi:nil="true" />
+                      <gl:RenderState />
+                      <gl:GraphicsMode>
+                        <gl:ColorFormat>
+                          <gl:Red>8</gl:Red>
+                          <gl:Green>8</gl:Green>
+                          <gl:Blue>8</gl:Blue>
+                          <gl:Alpha>8</gl:Alpha>
+                        </gl:ColorFormat>
+                        <gl:Depth>16</gl:Depth>
+                        <gl:Stencil>0</gl:Stencil>
+                        <gl:Samples>0</gl:Samples>
+                        <gl:AccumulatorFormat>
+                          <gl:Red>0</gl:Red>
+                          <gl:Green>0</gl:Green>
+                          <gl:Blue>0</gl:Blue>
+                          <gl:Alpha>0</gl:Alpha>
+                        </gl:AccumulatorFormat>
+                        <gl:Buffers>2</gl:Buffers>
+                        <gl:Stereo>false</gl:Stereo>
+                      </gl:GraphicsMode>
+                    </Combinator>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.BonVisionResources.bonsai" />
                   <Expression xsi:type="Combinator">
@@ -1383,6 +1383,52 @@
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDevice.bonsai">
               <LogName>ExpanderCommands</LogName>
             </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>ForwardMouse</Name>
+            </Expression>
+            <Expression xsi:type="harp:Format">
+              <harp:MessageType>Event</harp:MessageType>
+              <harp:Address>230</harp:Address>
+              <harp:PayloadType>Float</harp:PayloadType>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>TimestampStream</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:WithLatestFrom" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p4:ModifyMessage">
+                <p4:Address xsi:nil="true" />
+                <p4:MessageTypeModified xsi:nil="true" />
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>TimestampStream</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>SideMouse</Name>
+            </Expression>
+            <Expression xsi:type="harp:Format">
+              <harp:MessageType>Event</harp:MessageType>
+              <harp:Address>231</harp:Address>
+              <harp:PayloadType>Float</harp:PayloadType>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:WithLatestFrom" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p4:ModifyMessage">
+                <p4:Address xsi:nil="true" />
+                <p4:MessageTypeModified xsi:nil="true" />
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Merge" />
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDevice.bonsai">
+              <LogName>MouseSensors</LogName>
+            </Expression>
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
@@ -1409,6 +1455,17 @@
             <Edge From="32" To="33" Label="Source2" />
             <Edge From="33" To="34" Label="Source1" />
             <Edge From="34" To="35" Label="Source1" />
+            <Edge From="36" To="37" Label="Source1" />
+            <Edge From="37" To="39" Label="Source1" />
+            <Edge From="38" To="39" Label="Source2" />
+            <Edge From="39" To="40" Label="Source1" />
+            <Edge From="40" To="46" Label="Source2" />
+            <Edge From="41" To="44" Label="Source2" />
+            <Edge From="42" To="43" Label="Source1" />
+            <Edge From="43" To="44" Label="Source1" />
+            <Edge From="44" To="45" Label="Source1" />
+            <Edge From="45" To="46" Label="Source1" />
+            <Edge From="46" To="47" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -1823,7 +1880,7 @@
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
                       <gl:X>0</gl:X>
-                      <gl:Y>2.272976</gl:Y>
+                      <gl:Y>-1.84077692</gl:Y>
                       <gl:Z>0</gl:Z>
                     </Combinator>
                   </Expression>
@@ -1842,13 +1899,13 @@
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>0</p1:X>
+                        <p1:X>-0.0009696183</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>0</p1:Z>
+                        <p1:Z>0.0009696183</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
-                        <p1:Y>2.272976</p1:Y>
+                        <p1:Y>-1.84077692</p1:Y>
                         <p1:Z>0</p1:Z>
                       </p1:Orientation>
                     </Combinator>
@@ -2445,19 +2502,19 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
                             <p1:MonitorBoundingBoxSize>0.3</p1:MonitorBoundingBoxSize>
                             <p1:ArmDeadZoneRadius>0.1</p1:ArmDeadZoneRadius>
                             <p1:VRRodentPosition>
-                              <p1:X>0</p1:X>
+                              <p1:X>-0.0009696183</p1:X>
                               <p1:Y>0</p1:Y>
-                              <p1:Z>0</p1:Z>
+                              <p1:Z>0.0009696183</p1:Z>
                             </p1:VRRodentPosition>
-                            <p1:VRRodentAngle>2.272976</p1:VRRodentAngle>
+                            <p1:VRRodentAngle>-1.84077692</p1:VRRodentAngle>
                             <p1:VRCricketPosition>
-                              <p1:X>0.136181355</p1:X>
+                              <p1:X>-0.0009696183</p1:X>
                               <p1:Y>-0.05</p1:Y>
-                              <p1:Z>-0.162629426</p1:Z>
+                              <p1:Z>0.0009696183</p1:Z>
                             </p1:VRCricketPosition>
                             <p1:RealCricketPosition>
-                              <p1:X>0.136181355</p1:X>
-                              <p1:Y>-0.162629426</p1:Y>
+                              <p1:X>0</p1:X>
+                              <p1:Y>0</p1:Y>
                             </p1:RealCricketPosition>
                           </Combinator>
                         </Expression>
@@ -2576,9 +2633,9 @@ it.Y as Z)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
-                      <gl:X>0.136181355</gl:X>
+                      <gl:X>0</gl:X>
                       <gl:Y>-0.05</gl:Y>
-                      <gl:Z>-0.162629426</gl:Z>
+                      <gl:Z>0</gl:Z>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="PropertyMapping">
@@ -2589,9 +2646,9 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>0.136181355</p1:X>
+                        <p1:X>0</p1:X>
                         <p1:Y>-0.05</p1:Y>
-                        <p1:Z>-0.162629426</p1:Z>
+                        <p1:Z>0</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
@@ -2696,9 +2753,9 @@ it.Y as Z)</scr:Expression>
                     </Workflow>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-                    <TranslationX>0.136181355</TranslationX>
+                    <TranslationX>-0.0009696183</TranslationX>
                     <TranslationY>-0.05</TranslationY>
-                    <TranslationZ>0.162629426</TranslationZ>
+                    <TranslationZ>-0.0009696183</TranslationZ>
                     <ScaleX>1</ScaleX>
                     <ScaleY>1</ScaleY>
                     <ScaleZ>1</ScaleZ>
@@ -2720,7 +2777,7 @@ it.Y as Z)</scr:Expression>
                     </Specular>
                     <SpecularExponent>10</SpecularExponent>
                     <RotationZ>0</RotationZ>
-                    <RotationY>130.231934</RotationY>
+                    <RotationY>-105.46875</RotationY>
                     <RotationX>0</RotationX>
                   </Expression>
                 </Nodes>
