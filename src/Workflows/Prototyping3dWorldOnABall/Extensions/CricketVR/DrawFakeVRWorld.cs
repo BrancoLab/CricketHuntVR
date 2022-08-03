@@ -120,12 +120,15 @@ namespace CricketVR
         /// Mouse visualization properties
         private Scalar mouseColor = Scalar.Rgb(120, 120, 255);
         private int mouseSize = 25;
+
         public IObservable<IplImage> Process<TSource>(IObservable<TSource> source)
         {
+            var ImSize = new Size(canvasSize, canvasSize);
+            var inputImage = new IplImage(ImSize, IplDepth.U8, 3);
+
             return source.Select(value =>
             {
                 // Create the canvas
-                Size ImSize = new Size(canvasSize, canvasSize);
                 var im_center = new Point(canvasSize / 2, canvasSize / 2);
 
                 //Calculate meter to pixel conversion
@@ -149,7 +152,6 @@ namespace CricketVR
 
                 var mouse_ref = scaledVRRodentPosition + im_center; //Add this to make the frame of ref shift
                 //Create Image
-                var inputImage = new IplImage(ImSize, IplDepth.U8, 3);
                 //Set the background
                 inputImage.Set(Scalar.Rgb(0, 0, 0));
                 //(Monitor Bounding box)
@@ -190,6 +192,8 @@ namespace CricketVR
                 Point[] Triangle = new Point[]{Pt1, Pt2, Pt3};
 
                 CV.FillPoly(inputImage, new Point[][] {Triangle}, mouseColor);
+
+                CV.Flip(inputImage,inputImage, FlipMode.Vertical);
                 return inputImage;
             });
         }
