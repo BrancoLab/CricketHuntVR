@@ -123,11 +123,12 @@ namespace CricketVR
 
         public IObservable<IplImage> Process<TSource>(IObservable<TSource> source)
         {
-            var ImSize = new Size(canvasSize, canvasSize);
-            var inputImage = new IplImage(ImSize, IplDepth.U8, 3);
+
 
             return source.Select(value =>
             {
+                var ImSize = new Size(canvasSize, canvasSize);
+                var inputImage = new IplImage(ImSize, IplDepth.U8, 3);
                 // Create the canvas
                 var im_center = new Point(canvasSize / 2, canvasSize / 2);
 

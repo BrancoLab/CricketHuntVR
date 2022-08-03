@@ -639,7 +639,7 @@
                       <gl:Location xsi:nil="true" />
                       <gl:WindowBorder>Hidden</gl:WindowBorder>
                       <gl:WindowState>Fullscreen</gl:WindowState>
-                      <gl:DisplayDevice>Second</gl:DisplayDevice>
+                      <gl:DisplayDevice>First</gl:DisplayDevice>
                       <gl:TargetRenderFrequency>236</gl:TargetRenderFrequency>
                       <gl:TargetUpdateFrequency xsi:nil="true" />
                       <gl:RenderState />
@@ -1114,7 +1114,7 @@
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p4:WinRawMouse">
-                      <p4:DeviceId>65595</p4:DeviceId>
+                      <p4:DeviceId>65593</p4:DeviceId>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="MemberSelector">
@@ -1141,7 +1141,7 @@
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p4:WinRawMouse">
-                      <p4:DeviceId>64684277</p4:DeviceId>
+                      <p4:DeviceId>65597</p4:DeviceId>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="MemberSelector">
@@ -1635,9 +1635,9 @@
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>0</p1:X>
+                        <p1:X>1</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>1</p1:Z>
+                        <p1:Z>0</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
@@ -1866,7 +1866,7 @@
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
                       <gl:X>0</gl:X>
-                      <gl:Y>-3.031913</gl:Y>
+                      <gl:Y>-1.44846141</gl:Y>
                       <gl:Z>0</gl:Z>
                     </Combinator>
                   </Expression>
@@ -1885,13 +1885,13 @@
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>0</p1:X>
+                        <p1:X>0.6000001</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>-0.008988605</p1:Z>
+                        <p1:Z>-0.7</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
-                        <p1:Y>-3.031913</p1:Y>
+                        <p1:Y>-1.44846141</p1:Y>
                         <p1:Z>0</p1:Z>
                       </p1:Orientation>
                     </Combinator>
@@ -2392,6 +2392,9 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
                       <rx:Stop xsi:nil="true" />
                     </Combinator>
                   </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="gl:SampleOnRenderFrame" />
+                  </Expression>
                   <Expression xsi:type="GroupWorkflow">
                     <Name>DrawArm</Name>
                     <Workflow>
@@ -2477,19 +2480,19 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
                             <p1:MonitorBoundingBoxSize>0.3</p1:MonitorBoundingBoxSize>
                             <p1:ArmDeadZoneRadius>0.1</p1:ArmDeadZoneRadius>
                             <p1:VRRodentPosition>
-                              <p1:X>0</p1:X>
+                              <p1:X>0.6000001</p1:X>
                               <p1:Y>0</p1:Y>
-                              <p1:Z>-0.008988605</p1:Z>
+                              <p1:Z>-0.7</p1:Z>
                             </p1:VRRodentPosition>
-                            <p1:VRRodentAngle>-3.031913</p1:VRRodentAngle>
+                            <p1:VRRodentAngle>-1.44846141</p1:VRRodentAngle>
                             <p1:VRCricketPosition>
                               <p1:X>-4.371139E-09</p1:X>
                               <p1:Y>-0.05</p1:Y>
                               <p1:Z>0.12112198</p1:Z>
                             </p1:VRCricketPosition>
                             <p1:RealCricketPosition>
-                              <p1:X>-0.233604416</p1:X>
-                              <p1:Y>0.13538456</p1:Y>
+                              <p1:X>0</p1:X>
+                              <p1:Y>0</p1:Y>
                             </p1:RealCricketPosition>
                           </Combinator>
                         </Expression>
@@ -2536,6 +2539,7 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
                   <Edge From="1" To="2" Label="Source1" />
                   <Edge From="2" To="3" Label="Source1" />
                   <Edge From="3" To="4" Label="Source1" />
+                  <Edge From="4" To="5" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -2607,9 +2611,9 @@ it.Y as Z)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
-                      <gl:X>-0.233604416</gl:X>
+                      <gl:X>0</gl:X>
                       <gl:Y>-0.05</gl:Y>
-                      <gl:Z>0.13538456</gl:Z>
+                      <gl:Z>0</gl:Z>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="PropertyMapping">
@@ -2620,9 +2624,9 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>-0.233604416</p1:X>
+                        <p1:X>0</p1:X>
                         <p1:Y>-0.05</p1:Y>
-                        <p1:Z>0.13538456</p1:Z>
+                        <p1:Z>0</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
@@ -2727,9 +2731,9 @@ it.Y as Z)</scr:Expression>
                     </Workflow>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-                    <TranslationX>-0.233604416</TranslationX>
+                    <TranslationX>0.6000001</TranslationX>
                     <TranslationY>-0.05</TranslationY>
-                    <TranslationZ>-0.126395956</TranslationZ>
+                    <TranslationZ>0.7</TranslationZ>
                     <ScaleX>1</ScaleX>
                     <ScaleY>1</ScaleY>
                     <ScaleZ>1</ScaleZ>
@@ -2751,7 +2755,7 @@ it.Y as Z)</scr:Expression>
                     </Specular>
                     <SpecularExponent>10</SpecularExponent>
                     <RotationZ>0</RotationZ>
-                    <RotationY>-173.71582</RotationY>
+                    <RotationY>-82.99072</RotationY>
                     <RotationX>0</RotationX>
                   </Expression>
                 </Nodes>
