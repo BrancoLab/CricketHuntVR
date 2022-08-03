@@ -664,45 +664,6 @@
                       </gl:GraphicsMode>
                     </Combinator>
                   </Expression>
-                  <Expression xsi:type="Disable">
-                    <Builder xsi:type="Combinator">
-                      <Combinator xsi:type="gl:CreateWindow">
-                        <gl:Width>20</gl:Width>
-                        <gl:Height>20</gl:Height>
-                        <gl:VSync>Off</gl:VSync>
-                        <gl:SwapSync>false</gl:SwapSync>
-                        <gl:ClearColor>Gray</gl:ClearColor>
-                        <gl:ClearMask>DepthBufferBit ColorBufferBit</gl:ClearMask>
-                        <gl:CursorVisible>true</gl:CursorVisible>
-                        <gl:Location xsi:nil="true" />
-                        <gl:WindowBorder>Hidden</gl:WindowBorder>
-                        <gl:WindowState>Normal</gl:WindowState>
-                        <gl:DisplayDevice>First</gl:DisplayDevice>
-                        <gl:TargetRenderFrequency>1</gl:TargetRenderFrequency>
-                        <gl:TargetUpdateFrequency xsi:nil="true" />
-                        <gl:RenderState />
-                        <gl:GraphicsMode>
-                          <gl:ColorFormat>
-                            <gl:Red>8</gl:Red>
-                            <gl:Green>8</gl:Green>
-                            <gl:Blue>8</gl:Blue>
-                            <gl:Alpha>8</gl:Alpha>
-                          </gl:ColorFormat>
-                          <gl:Depth>16</gl:Depth>
-                          <gl:Stencil>0</gl:Stencil>
-                          <gl:Samples>0</gl:Samples>
-                          <gl:AccumulatorFormat>
-                            <gl:Red>0</gl:Red>
-                            <gl:Green>0</gl:Green>
-                            <gl:Blue>0</gl:Blue>
-                            <gl:Alpha>0</gl:Alpha>
-                          </gl:AccumulatorFormat>
-                          <gl:Buffers>2</gl:Buffers>
-                          <gl:Stereo>false</gl:Stereo>
-                        </gl:GraphicsMode>
-                      </Combinator>
-                    </Builder>
-                  </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.BonVisionResources.bonsai" />
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:TextureResources">
@@ -1112,31 +1073,30 @@
                   </Expression>
                 </Nodes>
                 <Edges>
-                  <Edge From="0" To="2" Label="Source1" />
-                  <Edge From="1" To="2" Label="Source2" />
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
                   <Edge From="2" To="3" Label="Source1" />
                   <Edge From="3" To="4" Label="Source1" />
                   <Edge From="4" To="5" Label="Source1" />
                   <Edge From="5" To="6" Label="Source1" />
                   <Edge From="6" To="7" Label="Source1" />
-                  <Edge From="7" To="8" Label="Source1" />
-                  <Edge From="9" To="10" Label="Source1" />
+                  <Edge From="8" To="9" Label="Source1" />
+                  <Edge From="10" To="11" Label="Source1" />
                   <Edge From="11" To="12" Label="Source1" />
                   <Edge From="12" To="13" Label="Source1" />
-                  <Edge From="13" To="14" Label="Source1" />
-                  <Edge From="14" To="23" Label="Source2" />
-                  <Edge From="14" To="24" Label="Source2" />
-                  <Edge From="14" To="25" Label="Source2" />
-                  <Edge From="14" To="26" Label="Source2" />
-                  <Edge From="15" To="16" Label="Source1" />
-                  <Edge From="16" To="24" Label="Source1" />
-                  <Edge From="17" To="18" Label="Source1" />
-                  <Edge From="18" To="25" Label="Source1" />
-                  <Edge From="19" To="20" Label="Source1" />
-                  <Edge From="20" To="26" Label="Source1" />
+                  <Edge From="13" To="22" Label="Source2" />
+                  <Edge From="13" To="23" Label="Source2" />
+                  <Edge From="13" To="24" Label="Source2" />
+                  <Edge From="13" To="25" Label="Source2" />
+                  <Edge From="14" To="15" Label="Source1" />
+                  <Edge From="15" To="23" Label="Source1" />
+                  <Edge From="16" To="17" Label="Source1" />
+                  <Edge From="17" To="24" Label="Source1" />
+                  <Edge From="18" To="19" Label="Source1" />
+                  <Edge From="19" To="25" Label="Source1" />
+                  <Edge From="20" To="21" Label="Source1" />
                   <Edge From="21" To="22" Label="Source1" />
-                  <Edge From="22" To="23" Label="Source1" />
-                  <Edge From="27" To="28" Label="Source1" />
+                  <Edge From="26" To="27" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -3936,6 +3896,100 @@ Math.Pi/2.0 as PerturbAngle,
                             </Combinator>
                           </Expression>
                           <Expression xsi:type="WorkflowOutput" />
+                          <Expression xsi:type="SubscribeSubject">
+                            <Name>RodentPositionUpdate</Name>
+                          </Expression>
+                          <Expression xsi:type="Condition">
+                            <Name>WithinSightCone</Name>
+                            <Workflow>
+                              <Nodes>
+                                <Expression xsi:type="WorkflowInput">
+                                  <Name>Source1</Name>
+                                </Expression>
+                                <Expression xsi:type="SubscribeSubject">
+                                  <Name>TrialSettings</Name>
+                                </Expression>
+                                <Expression xsi:type="IncludeWorkflow" Path="Extensions\ParseTrialSettings.bonsai" />
+                                <Expression xsi:type="MemberSelector">
+                                  <Selector>AngleThreshold</Selector>
+                                </Expression>
+                                <Expression xsi:type="PropertyMapping">
+                                  <PropertyMappings>
+                                    <Property Name="Value" />
+                                  </PropertyMappings>
+                                </Expression>
+                                <Expression xsi:type="SubscribeSubject">
+                                  <Name>ComputedOrientation</Name>
+                                </Expression>
+                                <Expression xsi:type="IncludeWorkflow" Path="Extensions\ParseComputedOrientation.bonsai" />
+                                <Expression xsi:type="Combinator">
+                                  <Combinator xsi:type="rx:WithLatestFrom" />
+                                </Expression>
+                                <Expression xsi:type="MemberSelector">
+                                  <Selector>Item2.DisplacementAngle</Selector>
+                                </Expression>
+                                <Expression xsi:type="Combinator">
+                                  <Combinator xsi:type="dsp:Abs" />
+                                </Expression>
+                                <Expression xsi:type="LessThan">
+                                  <Operand xsi:type="FloatProperty">
+                                    <Value>0.7853982</Value>
+                                  </Operand>
+                                </Expression>
+                                <Expression xsi:type="WorkflowOutput" />
+                              </Nodes>
+                              <Edges>
+                                <Edge From="0" To="7" Label="Source1" />
+                                <Edge From="1" To="2" Label="Source1" />
+                                <Edge From="2" To="3" Label="Source1" />
+                                <Edge From="3" To="4" Label="Source1" />
+                                <Edge From="4" To="10" Label="Source2" />
+                                <Edge From="5" To="6" Label="Source1" />
+                                <Edge From="6" To="7" Label="Source2" />
+                                <Edge From="7" To="8" Label="Source1" />
+                                <Edge From="8" To="9" Label="Source1" />
+                                <Edge From="9" To="10" Label="Source1" />
+                                <Edge From="10" To="11" Label="Source1" />
+                              </Edges>
+                            </Workflow>
+                          </Expression>
+                          <Expression xsi:type="MemberSelector">
+                            <Selector>Position.Xz</Selector>
+                          </Expression>
+                          <Expression xsi:type="scr:ExpressionTransform">
+                            <scr:Expression>new(
+-it.X as Y,
+-it.Y as X)</scr:Expression>
+                          </Expression>
+                          <Expression xsi:type="InputMapping">
+                            <PropertyMappings>
+                              <Property Name="X" Selector="Y" />
+                              <Property Name="Y" Selector="X" />
+                            </PropertyMappings>
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="cv:CreatePoint2f">
+                              <cv:X>-0</cv:X>
+                              <cv:Y>-0.01</cv:Y>
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="p1:CartToPolar" />
+                          </Expression>
+                          <Expression xsi:type="InputMapping">
+                            <PropertyMappings>
+                              <Property Name="X" Selector="X" />
+                            </PropertyMappings>
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="cv:CreatePoint2f">
+                              <cv:X>0</cv:X>
+                              <cv:Y>0</cv:Y>
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="MulticastSubject">
+                            <Name>UpdateArmPolarPosition</Name>
+                          </Expression>
                         </Nodes>
                         <Edges>
                           <Edge From="0" To="1" Label="Source1" />
@@ -3943,23 +3997,27 @@ Math.Pi/2.0 as PerturbAngle,
                           <Edge From="2" To="3" Label="Source1" />
                           <Edge From="3" To="4" Label="Source1" />
                           <Edge From="4" To="5" Label="Source1" />
+                          <Edge From="6" To="7" Label="Source1" />
+                          <Edge From="7" To="8" Label="Source1" />
+                          <Edge From="8" To="9" Label="Source1" />
+                          <Edge From="9" To="10" Label="Source1" />
+                          <Edge From="10" To="11" Label="Source1" />
+                          <Edge From="11" To="12" Label="Source1" />
+                          <Edge From="12" To="13" Label="Source1" />
+                          <Edge From="13" To="14" Label="Source1" />
+                          <Edge From="14" To="15" Label="Source1" />
                         </Edges>
                       </Workflow>
                     </Expression>
                     <Expression xsi:type="Combinator">
                       <Combinator xsi:type="rx:Repeat" />
                     </Expression>
-                    <Expression xsi:type="SubscribeSubject">
-                      <Name>ComputedOrientation</Name>
-                    </Expression>
-                    <Expression xsi:type="IncludeWorkflow" Path="Extensions\ParseComputedOrientation.bonsai" />
                   </Nodes>
                   <Edges>
                     <Edge From="0" To="1" Label="Source1" />
                     <Edge From="1" To="2" Label="Source1" />
                     <Edge From="2" To="3" Label="Source1" />
                     <Edge From="3" To="4" Label="Source1" />
-                    <Edge From="5" To="6" Label="Source1" />
                   </Edges>
                 </Workflow>
               </Expression>
