@@ -9,7 +9,6 @@ Packages
 *.exe
 *.exe.settings
 *.blend
-*.bonsai.layout
 
 # Environments
 winpython

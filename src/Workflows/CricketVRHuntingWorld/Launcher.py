@@ -4,10 +4,12 @@
 
 # NeuroGEARS
 
-from CricketVRSettings import Settings, LayoutFile
+import subprocess
+
 from pathlib import Path
 from datetime import datetime
-from subprocess import Popen
+
+from CricketVRSettings import Settings, LayoutFile
 
 ## User Settings
 
@@ -26,9 +28,10 @@ output_cmd = f'"{bonsai_path}" "{workflow_path}" --no-editor'
 for sett in Settings.keys():
     output_cmd += f' -p:{sett}="{Settings[sett]}"'
 
-if not(LayoutFile == ""):
-    output_cmd += f' --visualizer-layout:"{LayoutFile}"'
+_layout = LayoutFile
+if not(_layout == ""):
+    output_cmd += f' --visualizer-layout:"{_layout}"'
 
 print(output_cmd)
 
-bonsai_process = Popen(output_cmd, cwd=cwd)
+bonsai_process = subprocess.Popen(output_cmd, cwd=cwd, creationflags=subprocess.CREATE_NEW_CONSOLE)
