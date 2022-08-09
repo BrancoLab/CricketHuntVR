@@ -9,9 +9,12 @@ import subprocess
 from pathlib import Path
 from datetime import datetime
 
-from CricketVRSettings import Settings, LayoutFile
-
 ## User Settings
+UDP_Mode = False
+
+Settings = {
+"Logging.LoggingRootPath" : r"C:\Users\Cricket Team\Desktop\data"
+}
 
 ## Launch Bonsai
 
@@ -19,7 +22,17 @@ from CricketVRSettings import Settings, LayoutFile
 cwd = Path(__file__).parent.resolve()
 
 bonsai_path = cwd.parents[2] / "Bonsai" / "Bonsai.exe"
-workflow_path = cwd / "CricketVRHuntingWorld.bonsai"
+
+if ~UDP_Mode:
+    workflow_path = cwd / "CricketVRHuntingWorld.bonsai"
+    LayoutFile = cwd / "DefaultCricketVRHuntingWorld.bonsai.layout"
+
+else:
+    workflow_path = cwd / "CricketVRHuntingWorld.bonsai"
+    LayoutFile = cwd / "DefaultCricketVRHuntingWorld.bonsai.layout"
+
+    udp_workflow_path = cwd / "DrawWorld.bonsai"
+    udp_LayoutFile = cwd / "default_udp_drawworld.bonsai.layout"
 
 today = datetime.now().strftime('%Y-%m-%d-%H%M%S')
 

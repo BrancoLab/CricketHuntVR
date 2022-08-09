@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.6.3"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:osc="clr-namespace:Bonsai.Osc;assembly=Bonsai.Osc"
+                 xmlns:p1="clr-namespace:CricketVR;assembly=Extensions"
+                 xmlns:gl="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders"
+                 xmlns:cv="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="osc:CreateUdpClient">
+          <osc:Name>FakeWorldUDP</osc:Name>
+          <osc:Port>0</osc:Port>
+          <osc:RemoteHostName>localhost</osc:RemoteHostName>
+          <osc:RemotePort>2323</osc:RemotePort>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="osc:ReceiveMessage">
+        <osc:Address />
+        <osc:Connection>FakeWorldUDP</osc:Connection>
+      </Expression>
+      <Expression xsi:type="PublishSubject">
+        <Name>ReceivedMessages</Name>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>ReceivedMessages</Name>
+      </Expression>
+      <Expression xsi:type="osc:Parse">
+        <osc:Address>/CanvasSize</osc:Address>
+        <osc:TypeTag>i</osc:TypeTag>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="CanvasSize" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>ReceivedMessages</Name>
+      </Expression>
+      <Expression xsi:type="osc:Parse">
+        <osc:Address>/VRWorldSize</osc:Address>
+        <osc:TypeTag>f</osc:TypeTag>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="VRWorldSize" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>ReceivedMessages</Name>
+      </Expression>
+      <Expression xsi:type="osc:Parse">
+        <osc:Address>/MonitorBox</osc:Address>
+        <osc:TypeTag>f</osc:TypeTag>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="MonitorBoundingBoxSize" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>ReceivedMessages</Name>
+      </Expression>
+      <Expression xsi:type="osc:Parse">
+        <osc:Address>/RadialLimits</osc:Address>
+        <osc:TypeTag>f</osc:TypeTag>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="ArmDeadZoneRadius" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>ReceivedMessages</Name>
+      </Expression>
+      <Expression xsi:type="osc:Parse">
+        <osc:Address>/VRRodentPosition</osc:Address>
+        <osc:TypeTag>fff</osc:TypeTag>
+      </Expression>
+      <Expression xsi:type="InputMapping">
+        <PropertyMappings>
+          <Property Name="X" Selector="Item1" />
+          <Property Name="Y" Selector="Item2" />
+          <Property Name="Z" Selector="Item3" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="gl:CreateVector3">
+          <gl:X>0</gl:X>
+          <gl:Y>0</gl:Y>
+          <gl:Z>0</gl:Z>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="VRRodentPosition" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>ReceivedMessages</Name>
+      </Expression>
+      <Expression xsi:type="osc:Parse">
+        <osc:Address>/RodentOrientation</osc:Address>
+        <osc:TypeTag>f</osc:TypeTag>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="VRRodentAngle" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>ReceivedMessages</Name>
+      </Expression>
+      <Expression xsi:type="osc:Parse">
+        <osc:Address>/RealCricketPosition</osc:Address>
+        <osc:TypeTag>ff</osc:TypeTag>
+      </Expression>
+      <Expression xsi:type="InputMapping">
+        <PropertyMappings>
+          <Property Name="X" Selector="Item1" />
+          <Property Name="Y" Selector="Item2" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="cv:CreatePoint2f">
+          <cv:X>0</cv:X>
+          <cv:Y>0</cv:Y>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="RealCricketPosition" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>ReceivedMessages</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="p1:DrawFakeVRWorld">
+          <p1:CanvasSize>1000</p1:CanvasSize>
+          <p1:VRWorldSize>1</p1:VRWorldSize>
+          <p1:MonitorBoundingBoxSize>0.3</p1:MonitorBoundingBoxSize>
+          <p1:ArmDeadZoneRadius>0.1</p1:ArmDeadZoneRadius>
+          <p1:VRRodentPosition>
+            <p1:X>-0.5499998</p1:X>
+            <p1:Y>0</p1:Y>
+            <p1:Z>0.0700003654</p1:Z>
+          </p1:VRRodentPosition>
+          <p1:VRRodentAngle>1.57079637</p1:VRRodentAngle>
+          <p1:VRCricketPosition>
+            <p1:X>-4.371139E-09</p1:X>
+            <p1:Y>-0.05</p1:Y>
+            <p1:Z>0.12112198</p1:Z>
+          </p1:VRCricketPosition>
+          <p1:RealCricketPosition>
+            <p1:X>0</p1:X>
+            <p1:Y>0</p1:Y>
+          </p1:RealCricketPosition>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="PublishSubject">
+        <Name>SimulatedEnv</Name>
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge From="1" To="2" Label="Source1" />
+      <Edge From="3" To="4" Label="Source1" />
+      <Edge From="4" To="5" Label="Source1" />
+      <Edge From="5" To="29" Label="Source2" />
+      <Edge From="6" To="7" Label="Source1" />
+      <Edge From="7" To="8" Label="Source1" />
+      <Edge From="8" To="29" Label="Source3" />
+      <Edge From="9" To="10" Label="Source1" />
+      <Edge From="10" To="11" Label="Source1" />
+      <Edge From="11" To="29" Label="Source4" />
+      <Edge From="12" To="13" Label="Source1" />
+      <Edge From="13" To="14" Label="Source1" />
+      <Edge From="14" To="29" Label="Source5" />
+      <Edge From="15" To="16" Label="Source1" />
+      <Edge From="16" To="17" Label="Source1" />
+      <Edge From="17" To="18" Label="Source1" />
+      <Edge From="18" To="19" Label="Source1" />
+      <Edge From="19" To="29" Label="Source6" />
+      <Edge From="20" To="21" Label="Source1" />
+      <Edge From="21" To="22" Label="Source1" />
+      <Edge From="22" To="29" Label="Source7" />
+      <Edge From="23" To="24" Label="Source1" />
+      <Edge From="24" To="25" Label="Source1" />
+      <Edge From="25" To="26" Label="Source1" />
+      <Edge From="26" To="27" Label="Source1" />
+      <Edge From="27" To="29" Label="Source8" />
+      <Edge From="28" To="29" Label="Source1" />
+      <Edge From="29" To="30" Label="Source1" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>
