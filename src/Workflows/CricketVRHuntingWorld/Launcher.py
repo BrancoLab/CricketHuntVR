@@ -40,7 +40,7 @@ today = datetime.now().strftime('%Y-%m-%d-%H%M%S')
 output_cmd = f'"{bonsai_path}" "{workflow_path}" --no-editor'
 
 for sett in Settings.keys():
-    output_cmd += f' -p:{sett}="{Settings[sett]}"'
+    output_cmd += f' -p:"{sett}"="{Settings[sett]}"'
 
 _layout = LayoutFile
 if not(_layout == ""):
