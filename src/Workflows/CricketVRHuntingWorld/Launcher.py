@@ -30,12 +30,12 @@ bonsai_path = cwd.parents[2] / "Bonsai" / "Bonsai.exe"
 
 if not UDP_Mode:
     workflow_path = cwd / "CricketVRHuntingWorld.bonsai"
-    LayoutFile = cwd / "DefaultCricketVRHuntingWorld.bonsai.layout"
+    LayoutFile = cwd / "Layouts" / "DefaultCricketVRHuntingWorld.bonsai.layout"
 else:
     workflow_path = cwd / "CricketVRHuntingWorld_NoFakeWorld.bonsai"
-    LayoutFile = cwd / "Default_CricketVRHuntingWorld_NoFakeWorld.bonsai.layout"
+    LayoutFile = cwd / "Layouts" / "Default_CricketVRHuntingWorld_NoFakeWorld.bonsai.layout"
     udp_workflow_path = cwd / "DrawWorld.bonsai"
-    udp_LayoutFile = cwd / "Default_DrawWorld.bonsai.layout"
+    udp_LayoutFile = cwd / "Layouts" / "Default_DrawWorld.bonsai.layout"
 
 today = datetime.now().strftime('%Y-%m-%d-%H%M%S')
 
