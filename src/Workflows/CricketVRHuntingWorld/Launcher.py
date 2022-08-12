@@ -11,7 +11,9 @@ from datetime import datetime
 from time import sleep
 
 ## User Settings
-UDP_Mode = False
+UDP_Mode = True
+Add_flags = "--no-editor"
+Force_Layout = True
 
 Settings = {
 "Logging.LoggingRootPath" : r"C:\Users\Cricket Team\Desktop\data"
@@ -19,31 +21,31 @@ Settings = {
 
 UDP_Settings = {}
 
-## Launch Bonsai
 
-#cwd = Path.cwd()
+
+## Launch Bonsai
 cwd = Path(__file__).parent.resolve()
 
 bonsai_path = cwd.parents[2] / "Bonsai" / "Bonsai.exe"
 
-if ~UDP_Mode:
+if not UDP_Mode:
     workflow_path = cwd / "CricketVRHuntingWorld.bonsai"
     LayoutFile = cwd / "DefaultCricketVRHuntingWorld.bonsai.layout"
 else:
     workflow_path = cwd / "CricketVRHuntingWorld_NoFakeWorld.bonsai"
-    LayoutFile = cwd / "DefaultCricketVRHuntingWorld_NoFakeWorld.bonsai.layout"
+    LayoutFile = cwd / "Default_CricketVRHuntingWorld_NoFakeWorld.bonsai.layout"
     udp_workflow_path = cwd / "DrawWorld.bonsai"
-    udp_LayoutFile = cwd / "default_udp_drawworld.bonsai.layout"
+    udp_LayoutFile = cwd / "Default_DrawWorld.bonsai.layout"
 
 today = datetime.now().strftime('%Y-%m-%d-%H%M%S')
 
-output_cmd = f'"{bonsai_path}" "{workflow_path}" --no-editor'
+output_cmd = f'"{bonsai_path}" "{workflow_path}" {Add_flags}'
 
 for sett in Settings.keys():
     output_cmd += f' -p:"{sett}"="{Settings[sett]}"'
 
 _layout = LayoutFile
-if not(_layout == ""):
+if not(_layout == "") and Force_Layout:
     output_cmd += f' --visualizer-layout:"{_layout}"'
 
 print(f"Starting... {output_cmd}")
@@ -51,12 +53,12 @@ print(f"Starting... {output_cmd}")
 bonsai_process = subprocess.Popen(output_cmd, cwd=cwd, creationflags=subprocess.CREATE_NEW_CONSOLE)
 
 if UDP_Mode:
-    sleep(5)
-    udp_draw_output_cmd = f'"{bonsai_path}" "{udp_workflow_path}" --no-editor'
+    sleep(10)
+    udp_draw_output_cmd = f'"{bonsai_path}" "{udp_workflow_path}" {Add_flags}'
     for sett in UDP_Settings.keys():
-        udp_draw_output_cmd += f' -p:{sett}="{UDP_Settings[sett]}"'
+        udp_draw_output_cmd += f' -p:"{sett}"="{UDP_Settings[sett]}"'
 
-    if not(udp_LayoutFile == ""):
+    if not(udp_LayoutFile == "") and Force_Layout:
         udp_draw_output_cmd += f' --visualizer-layout:"{udp_LayoutFile}"'
 
     print(f"Starting... {udp_draw_output_cmd}")
