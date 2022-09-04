@@ -16,7 +16,8 @@ Add_flags = "--no-editor"
 Force_Layout = True
 
 Settings = {
-"Logging.LoggingRootPath" : r"C:\Users\Cricket Team\Desktop\data"
+"Logging.LoggingRootPath" : r"C:\Users\Cricket Team\Desktop\data",
+"RenderLoop.LocalSimulatedEnviornment.Enable" : str(not(UDP_Mode))
 }
 
 UDP_Settings = {}
@@ -32,7 +33,7 @@ if not UDP_Mode:
     workflow_path = cwd / "CricketVRHuntingWorld.bonsai"
     LayoutFile = cwd / "Layouts" / "DefaultCricketVRHuntingWorld.bonsai.layout"
 else:
-    workflow_path = cwd / "CricketVRHuntingWorld_NoFakeWorld.bonsai"
+    workflow_path = cwd / "CricketVRHuntingWorld.bonsai"
     LayoutFile = cwd / "Layouts" / "Default_CricketVRHuntingWorld_NoFakeWorld.bonsai.layout"
     udp_workflow_path = cwd / "DrawWorld.bonsai"
     udp_LayoutFile = cwd / "Layouts" / "Default_DrawWorld.bonsai.layout"
