@@ -1338,7 +1338,9 @@
               <Combinator xsi:type="rx:WithLatestFrom" />
             </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="p1:VRElementToHarpMessagecs" />
+              <Combinator xsi:type="p1:VRElementToHarpMessage">
+                <p1:Address>201</p1:Address>
+              </Combinator>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDevice.bonsai">
               <LogName>RodentPosition</LogName>

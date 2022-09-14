@@ -12,9 +12,14 @@ namespace CricketVR
 [Combinator]
 [Description("")]
 [WorkflowElementCategory(ElementCategory.Transform)]
-public class VRElementToHarpMessagecs
+public class VRElementToHarpMessage
 {
-    const int Address = 201;
+    private int address = 201;
+    public int Address
+    {
+        get { return address; }
+        set { address = value; }
+    }
 
     public IObservable<HarpMessage> Process(IObservable<Tuple<VrElement, double>> source)
     {
