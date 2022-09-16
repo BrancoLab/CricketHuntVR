@@ -17,7 +17,9 @@ Force_Layout = True
 
 Settings = {
 "Logging.LoggingRootPath" : r"C:\Users\Cricket Team\Desktop\data",
-"RenderLoop.LocalSimulatedEnviornment.Enable" : str(not(UDP_Mode))
+"RenderLoop.LocalSimulatedEnviornment.Enable" : str(not(UDP_Mode)),
+"EnableTrialLogic.Enable" : str(False),
+"EnableShelter.Enable" : str(False),
 }
 
 UDP_Settings = {}
