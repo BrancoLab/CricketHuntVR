@@ -27,7 +27,6 @@ if not(os.path.isdir( DATA_ROOT_PATH + "\\" + SESSIOND_ID)):
 
 Settings = {
 "Logging.LoggingRootPath" : DATA_ROOT_PATH + "\\" + SESSIOND_ID,
-"RenderLoop.LocalSimulatedEnviornment.Enable" : str(True),
 "EnableTrialLogic.Enable" : str(False),
 "EnableShelter.Enable" : str(False),
 }
@@ -40,9 +39,9 @@ cwd = Path(__file__).parent.resolve()
 bonsai_path = cwd.parents[2] / "Bonsai" / "Bonsai.exe"
 
 workflow_path = cwd / "CricketVRHuntingWorld.bonsai"
-LayoutFile = cwd / "Layouts" / "Default_CricketVRHuntingWorld_NoFakeWorld.bonsai.layout"
+LayoutFile = cwd / "Layouts" / "CricketVRHuntingWorld.bonsai.layout"
 udp_workflow_path = cwd / "DrawWorld.bonsai"
-udp_LayoutFile = cwd / "Layouts" / "Default_DrawWorld.bonsai.layout"
+udp_LayoutFile = cwd / "Layouts" / "DrawWorld.bonsai.layout"
 
 output_cmd = f'"{bonsai_path}" "{workflow_path}" {ADD_FLAGS}'
 
@@ -57,7 +56,7 @@ print(f"Starting... {output_cmd}")
 
 bonsai_process = subprocess.Popen(output_cmd, cwd=cwd, creationflags=subprocess.CREATE_NEW_CONSOLE)
 
-sleep(5)
+sleep(10)
 udp_draw_output_cmd = f'"{bonsai_path}" "{udp_workflow_path}" {ADD_FLAGS}'
 for sett in UDP_Settings.keys():
     udp_draw_output_cmd += f' -p:"{sett}"="{UDP_Settings[sett]}"'
