@@ -14,6 +14,7 @@ SESSIOND_ID = r"Animal001"
 DATA_ROOT_PATH = r"C:\Users\Cricket Team\Desktop\data"
 ADD_FLAGS = "--no-editor"
 FORCE_LAYOUT = True
+SAVE_LOG = True
 
 
 #    //   ) )                                                  ||   / / //   ) )
@@ -22,7 +23,7 @@ FORCE_LAYOUT = True
 # //        //      / / //       //  \ \   //        / /       ||/ / //   | |
 #((____/ / //      / / ((____   //    \ \ ((____    / /        |  / //    | |
 
-if not(os.path.isdir( DATA_ROOT_PATH + "\\" + SESSIOND_ID)):
+if (os.path.isdir( DATA_ROOT_PATH + "\\" + SESSIOND_ID)):
     raise FileExistsError("Folder {0} already exists. Aborting session start.".format(DATA_ROOT_PATH + "\\" + SESSIOND_ID))
 
 Settings = {
@@ -54,7 +55,12 @@ if not(_layout == "") and FORCE_LAYOUT:
 
 print(f"Starting... {output_cmd}")
 
-bonsai_process = subprocess.Popen(output_cmd, cwd=cwd, creationflags=subprocess.CREATE_NEW_CONSOLE)
+if SAVE_LOG:
+    os.mkdir(DATA_ROOT_PATH + "\\" + SESSIOND_ID)
+    log = open(DATA_ROOT_PATH + "\\" + SESSIOND_ID + "\\" + 'log.txt', 'a')  
+    bonsai_process = subprocess.Popen(output_cmd, cwd=cwd, creationflags=subprocess.CREATE_NEW_CONSOLE, stdout=log, stderr=log)
+else:
+    bonsai_process = subprocess.Popen(output_cmd, cwd=cwd, creationflags=subprocess.CREATE_NEW_CONSOLE)
 
 sleep(10)
 udp_draw_output_cmd = f'"{bonsai_path}" "{udp_workflow_path}" {ADD_FLAGS}'
