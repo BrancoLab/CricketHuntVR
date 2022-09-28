@@ -52,7 +52,7 @@ TriggerDelayAbs	0
 TriggerSelector	FrameStart
 ExposureMode	Timed
 ExposureAuto	Off
-ExposureTimeRaw	5000
+ExposureTimeRaw	4000
 AcquisitionFrameRateEnable	0
 AcquisitionFrameRateAbs	10
 LineSelector	Line1
