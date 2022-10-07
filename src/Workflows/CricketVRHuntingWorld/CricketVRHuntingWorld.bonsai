@@ -3451,7 +3451,7 @@ it.Y as Z)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="FloatProperty">
-                            <Value>0.002</Value>
+                            <Value>0.001</Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="Combinator">
