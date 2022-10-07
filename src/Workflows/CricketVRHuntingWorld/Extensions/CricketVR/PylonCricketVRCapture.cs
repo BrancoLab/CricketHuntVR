@@ -3,11 +3,10 @@ using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
-using Bonsai.Spinnaker;
 using Bonsai.Pylon;
 using Bonsai.Harp;
 
-    [Description("Configures and initializes a Spinnaker camera for triggered acquisition.")]
+    [Description("Configures and initializes a Pylon camera for triggered acquisition.")]
     public class PylonCricketVRCapture : PylonCapture
     {
         public PylonCricketVRCapture()

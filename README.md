@@ -15,7 +15,7 @@ These should only need to be installed once on a fresh new system, and are not r
    * On FLIR website: `Download > archive > 1.29.0.5 > SpinnakerSDK_FULL_1.29.0.5_x64.exe`
  * [pylon 7.1.0 Camera Software Suite](https://www.baslerweb.com/en/downloads/software-downloads/software-pylon-7-1-0-windows) (device drivers for Basler cameras)
 
-## ARM documentation can de found here
+## ARM documentation can be found here
 https://github.com/SainsburyWellcomeCentre/virt-hunt-drv
 
 
