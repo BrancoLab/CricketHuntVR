@@ -1237,7 +1237,7 @@
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p4:WinRawMouse">
-                      <p4:DeviceId>4456553</p4:DeviceId>
+                      <p4:DeviceId>84543699</p4:DeviceId>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="MemberSelector">
@@ -1264,7 +1264,7 @@
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p4:WinRawMouse">
-                      <p4:DeviceId>894836027</p4:DeviceId>
+                      <p4:DeviceId>419961961</p4:DeviceId>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="MemberSelector">

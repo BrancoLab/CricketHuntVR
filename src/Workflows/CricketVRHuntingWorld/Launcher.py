@@ -10,7 +10,7 @@ from time import sleep
 import os
 
 ## User Settings
-SESSIOND_ID = r"Animal001"
+SESSIOND_ID = r"221006_K1_n"
 DATA_ROOT_PATH = r"C:\Users\Cricket Team\Desktop\data"
 ADD_FLAGS = "--no-editor"
 FORCE_LAYOUT = True
@@ -29,7 +29,8 @@ if (os.path.isdir( DATA_ROOT_PATH + "\\" + SESSIOND_ID)):
 Settings = {
 "Logging.LoggingRootPath" : DATA_ROOT_PATH + "\\" + SESSIOND_ID,
 "EnableTrialLogic.Enable" : str(False),
-"EnableShelter.Enable" : str(False),
+"EnableShelter.Enable" : str(True),
+"ArmPositionControl.Enable" : str(True)
 }
 
 UDP_Settings = {}
