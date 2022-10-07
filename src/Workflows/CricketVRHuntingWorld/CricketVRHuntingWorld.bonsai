@@ -2505,7 +2505,7 @@ it.Y as Z)</scr:Expression>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="gli:KeyDown">
-                <gli:Key>F4</gli:Key>
+                <gli:Key>Insert</gli:Key>
                 <gli:Modifiers>Control</gli:Modifiers>
               </Combinator>
             </Expression>
@@ -2956,7 +2956,7 @@ it.Y as Z)</scr:Expression>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="gli:KeyDown">
-                <gli:Key>F6</gli:Key>
+                <gli:Key>Home</gli:Key>
                 <gli:Modifiers>Control</gli:Modifiers>
               </Combinator>
             </Expression>
