@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.6.3"
+<WorkflowBuilder Version="2.7.0-rc5"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
                  xmlns:p1="clr-namespace:CricketVR;assembly=Extensions"
                  xmlns:p2="clr-namespace:OpenCV.Net;assembly=OpenCV.Net"
@@ -8,7 +9,6 @@
                  xmlns:gl="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders"
                  xmlns:glr="clr-namespace:Bonsai.Shaders.Rendering;assembly=Bonsai.Shaders.Rendering"
                  xmlns:res="clr-namespace:Bonsai.Resources;assembly=Bonsai.System"
-                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
                  xmlns:cv="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision"
                  xmlns:p3="clr-namespace:Bonsai.Harp.CF;assembly=Bonsai.Harp.CF"
@@ -27,14 +27,14 @@
         <Name>__Init__</Name>
         <Workflow>
           <Nodes>
-            <Expression xsi:type="BehaviorSubject" TypeArguments="sys:Tuple(sys:Single,sys:Single,sys:Single,sys:Single,sys:Single,sys:Single)">
-              <Name>ArenaBounds</Name>
+            <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Tuple(sys:Single,sys:Single,sys:Single,sys:Single,sys:Single,sys:Single)">
+              <rx:Name>ArenaBounds</rx:Name>
             </Expression>
-            <Expression xsi:type="PublishSubject" TypeArguments="p1:VrElement">
-              <Name>RodentPositionUpdate</Name>
+            <Expression xsi:type="rx:PublishSubject" TypeArguments="p1:VrElement">
+              <rx:Name>RodentPositionUpdate</rx:Name>
             </Expression>
-            <Expression xsi:type="BehaviorSubject" TypeArguments="p1:VrElement">
-              <Name>RodentPosition</Name>
+            <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p1:VrElement">
+              <rx:Name>RodentPosition</rx:Name>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>ResetRodentPosition</Name>
@@ -42,20 +42,20 @@
             <Expression xsi:type="MulticastSubject">
               <Name>RodentPosition</Name>
             </Expression>
-            <Expression xsi:type="PublishSubject" TypeArguments="p2:Point2f">
-              <Name>UpdateArmCartPosition</Name>
+            <Expression xsi:type="rx:PublishSubject" TypeArguments="p2:Point2f">
+              <rx:Name>UpdateArmCartPosition</rx:Name>
             </Expression>
-            <Expression xsi:type="PublishSubject" TypeArguments="p2:Point2f">
-              <Name>UpdateArmPolarPosition</Name>
+            <Expression xsi:type="rx:PublishSubject" TypeArguments="p2:Point2f">
+              <rx:Name>UpdateArmPolarPosition</rx:Name>
             </Expression>
-            <Expression xsi:type="BehaviorSubject" TypeArguments="p1:VrElement">
-              <Name>ResetRodentPosition</Name>
+            <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p1:VrElement">
+              <rx:Name>ResetRodentPosition</rx:Name>
             </Expression>
-            <Expression xsi:type="PublishSubject" TypeArguments="p2:IplImage">
-              <Name>SimulatedEnv</Name>
+            <Expression xsi:type="rx:PublishSubject" TypeArguments="p2:IplImage">
+              <rx:Name>SimulatedEnv</rx:Name>
             </Expression>
-            <Expression xsi:type="PublishSubject" TypeArguments="osc:Message">
-              <Name>Send_UDP</Name>
+            <Expression xsi:type="rx:PublishSubject" TypeArguments="osc:Message">
+              <rx:Name>Send_UDP</rx:Name>
             </Expression>
           </Nodes>
           <Edges>
@@ -281,7 +281,7 @@
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:RenderFrame" />
                   </Expression>
-                  <Expression xsi:type="PublishSubject">
+                  <Expression xsi:type="rx:PublishSubject">
                     <Name>ScreenFrameEvents</Name>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.CubemapView.bonsai">
@@ -298,7 +298,7 @@
                       <Z>0</Z>
                     </Light>
                   </Expression>
-                  <Expression xsi:type="BehaviorSubject">
+                  <Expression xsi:type="rx:BehaviorSubject">
                     <Name>Draw3DStim</Name>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -376,7 +376,7 @@
                             <Z>0</Z>
                           </Translation>
                         </Expression>
-                        <Expression xsi:type="PublishSubject">
+                        <Expression xsi:type="rx:PublishSubject">
                           <Name>SyncView</Name>
                         </Expression>
                         <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.DrawViewport.bonsai">
@@ -602,7 +602,7 @@
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:UpdateFrame" />
                   </Expression>
-                  <Expression xsi:type="PublishSubject">
+                  <Expression xsi:type="rx:PublishSubject">
                     <Name>dt_event</Name>
                   </Expression>
                 </Nodes>
@@ -643,8 +643,8 @@
                   <Expression xsi:type="ExternalizedMapping">
                     <Property Name="PortName" />
                   </Expression>
-                  <Expression xsi:type="BehaviorSubject" TypeArguments="harp:HarpMessage">
-                    <Name>ArmCommands</Name>
+                  <Expression xsi:type="rx:BehaviorSubject" TypeArguments="harp:HarpMessage">
+                    <rx:Name>ArmCommands</rx:Name>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="harp:Device">
@@ -657,7 +657,7 @@
                       <harp:PortName>COM4</harp:PortName>
                     </Combinator>
                   </Expression>
-                  <Expression xsi:type="PublishSubject">
+                  <Expression xsi:type="rx:PublishSubject">
                     <Name>ArmEvents</Name>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
@@ -689,7 +689,7 @@
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:Zip" />
                   </Expression>
-                  <Expression xsi:type="PublishSubject">
+                  <Expression xsi:type="rx:PublishSubject">
                     <Name>ArmEncoderPosition</Name>
                   </Expression>
                   <Expression xsi:type="GroupWorkflow">
@@ -731,7 +731,7 @@
                       <cv:Y>0</cv:Y>
                     </Combinator>
                   </Expression>
-                  <Expression xsi:type="BehaviorSubject">
+                  <Expression xsi:type="rx:BehaviorSubject">
                     <Name>ReferenceArmPosition</Name>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -770,7 +770,7 @@
                       <cv:Y>0.27</cv:Y>
                     </Combinator>
                   </Expression>
-                  <Expression xsi:type="BehaviorSubject">
+                  <Expression xsi:type="rx:BehaviorSubject">
                     <Name>RadialLimits</Name>
                   </Expression>
                 </Nodes>
@@ -810,8 +810,8 @@
                     <Name>CreateExpander</Name>
                     <Workflow>
                       <Nodes>
-                        <Expression xsi:type="BehaviorSubject" TypeArguments="harp:HarpMessage">
-                          <Name>ExpanderCommands</Name>
+                        <Expression xsi:type="rx:BehaviorSubject" TypeArguments="harp:HarpMessage">
+                          <rx:Name>ExpanderCommands</rx:Name>
                         </Expression>
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="PortName" />
@@ -827,7 +827,7 @@
                             <harp:PortName>COM3</harp:PortName>
                           </Combinator>
                         </Expression>
-                        <Expression xsi:type="PublishSubject">
+                        <Expression xsi:type="rx:PublishSubject">
                           <Name>ExpanderEvents</Name>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
@@ -850,8 +850,8 @@
               <Name>BehaviorBoard</Name>
               <Workflow>
                 <Nodes>
-                  <Expression xsi:type="BehaviorSubject" TypeArguments="harp:HarpMessage">
-                    <Name>BehaviorCommands</Name>
+                  <Expression xsi:type="rx:BehaviorSubject" TypeArguments="harp:HarpMessage">
+                    <rx:Name>BehaviorCommands</rx:Name>
                   </Expression>
                   <Expression xsi:type="ExternalizedMapping">
                     <Property Name="PortName" />
@@ -867,7 +867,7 @@
                       <harp:PortName>COM2</harp:PortName>
                     </Combinator>
                   </Expression>
-                  <Expression xsi:type="PublishSubject">
+                  <Expression xsi:type="rx:PublishSubject">
                     <Name>BehaviorEvents</Name>
                   </Expression>
                 </Nodes>
@@ -902,9 +902,9 @@
                             <rx:Count>1</rx:Count>
                           </Combinator>
                         </Expression>
-                        <Expression xsi:type="ReplaySubject">
+                        <Expression xsi:type="rx:ReplaySubject">
                           <Name>CameraTriggerFrequency</Name>
-                          <BufferSize xsi:nil="true" />
+                          <rx:BufferSize xsi:nil="true" />
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
                           <Name>BehaviorEvents</Name>
@@ -915,7 +915,7 @@
                             <harp:MessageType>Event</harp:MessageType>
                           </Combinator>
                         </Expression>
-                        <Expression xsi:type="PublishSubject">
+                        <Expression xsi:type="rx:PublishSubject">
                           <Name>FrameEvents</Name>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
@@ -930,7 +930,7 @@
                           <p3:Type>StopCamera</p3:Type>
                           <p3:Mask>Digital0</p3:Mask>
                         </Expression>
-                        <Expression xsi:type="SelectMany">
+                        <Expression xsi:type="rx:SelectMany">
                           <Name>SetFrameRate</Name>
                           <Workflow>
                             <Nodes>
@@ -954,15 +954,15 @@
                           <Name>StartStopCameras</Name>
                           <Workflow>
                             <Nodes>
-                              <Expression xsi:type="BehaviorSubject" TypeArguments="sys:Object">
-                                <Name>StopCameras</Name>
+                              <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Object">
+                                <rx:Name>StopCameras</rx:Name>
                               </Expression>
                               <Expression xsi:type="p3:BehaviorCommand">
                                 <p3:Type>StopCamera</p3:Type>
                                 <p3:Mask>Digital0</p3:Mask>
                               </Expression>
-                              <Expression xsi:type="BehaviorSubject" TypeArguments="sys:Object">
-                                <Name>StartCameras</Name>
+                              <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Object">
+                                <rx:Name>StartCameras</rx:Name>
                               </Expression>
                               <Expression xsi:type="p3:BehaviorCommand">
                                 <p3:Type>StartCamera</p3:Type>
@@ -1029,7 +1029,7 @@
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p1:ObserveOnTaskPool" />
                         </Expression>
-                        <Expression xsi:type="PublishSubject">
+                        <Expression xsi:type="rx:PublishSubject">
                           <Name>Spinnaker1FrameEvents</Name>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
@@ -1067,7 +1067,7 @@
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p1:ObserveOnTaskPool" />
                         </Expression>
-                        <Expression xsi:type="PublishSubject">
+                        <Expression xsi:type="rx:PublishSubject">
                           <Name>Spinnaker2FrameEvents</Name>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
@@ -1093,15 +1093,15 @@
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p4:PylonCricketVRCapture">
-                            <p4:SerialNumber>21421610</p4:SerialNumber>
-                            <p4:ParameterFile>Calibration\acA1300-60gmNIR_21421610.pfs</p4:ParameterFile>
+                            <SerialNumber xmlns="clr-namespace:Bonsai.Pylon;assembly=Bonsai.Pylon">21421610</SerialNumber>
+                            <GrabStrategy xmlns="clr-namespace:Bonsai.Pylon;assembly=Bonsai.Pylon">OneByOne</GrabStrategy>
                             <p4:HarpAddress>92</p4:HarpAddress>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p1:ObserveOnTaskPool" />
                         </Expression>
-                        <Expression xsi:type="PublishSubject">
+                        <Expression xsi:type="rx:PublishSubject">
                           <Name>Pylon1FrameEvents</Name>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
@@ -1157,7 +1157,7 @@
                         <Expression xsi:type="MemberSelector">
                           <Selector>Value.Angle</Selector>
                         </Expression>
-                        <Expression xsi:type="PublishSubject">
+                        <Expression xsi:type="rx:PublishSubject">
                           <Name>EncoderValue</Name>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
@@ -1166,7 +1166,7 @@
                         <Expression xsi:type="scr:ExpressionTransform">
                           <scr:Expression>(Math.Pi) - ((it / 16384.0) * (2.0 * Math.Pi))</scr:Expression>
                         </Expression>
-                        <Expression xsi:type="BehaviorSubject">
+                        <Expression xsi:type="rx:BehaviorSubject">
                           <Name>EncoderAngle</Name>
                         </Expression>
                       </Nodes>
@@ -1208,7 +1208,7 @@
                   <Expression xsi:type="MemberSelector">
                     <Selector>Seconds</Selector>
                   </Expression>
-                  <Expression xsi:type="BehaviorSubject">
+                  <Expression xsi:type="rx:BehaviorSubject">
                     <Name>TimestampStream</Name>
                   </Expression>
                 </Nodes>
@@ -1256,7 +1256,7 @@
                       <Value>-2.6205926323519098E-05</Value>
                     </Operand>
                   </Expression>
-                  <Expression xsi:type="PublishSubject">
+                  <Expression xsi:type="rx:PublishSubject">
                     <Name>SideMouse</Name>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -1280,7 +1280,7 @@
                       <Value>-2.6205926323519098E-05</Value>
                     </Operand>
                   </Expression>
-                  <Expression xsi:type="PublishSubject">
+                  <Expression xsi:type="rx:PublishSubject">
                     <Name>ForwardMouse</Name>
                   </Expression>
                 </Nodes>
@@ -1361,9 +1361,9 @@
                       <Value>C:\Users\Cricket Team\Desktop\data</Value>
                     </Combinator>
                   </Expression>
-                  <Expression xsi:type="ReplaySubject">
+                  <Expression xsi:type="rx:ReplaySubject">
                     <Name>SessionPath</Name>
-                    <BufferSize xsi:nil="true" />
+                    <rx:BufferSize xsi:nil="true" />
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
                     <Name>SessionPath</Name>
@@ -1392,7 +1392,7 @@
                       <rx:Count>1</rx:Count>
                     </Combinator>
                   </Expression>
-                  <Expression xsi:type="AsyncSubject">
+                  <Expression xsi:type="rx:AsyncSubject">
                     <Name>PathPrefix</Name>
                   </Expression>
                 </Nodes>
@@ -1415,8 +1415,8 @@
               <Name>SoftwareEvents</Name>
               <Workflow>
                 <Nodes>
-                  <Expression xsi:type="PublishSubject" TypeArguments="harp:HarpMessage">
-                    <Name>SoftwareEventLogger</Name>
+                  <Expression xsi:type="rx:PublishSubject" TypeArguments="harp:HarpMessage">
+                    <rx:Name>SoftwareEventLogger</rx:Name>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
                     <Name>TimestampStream</Name>
@@ -2092,7 +2092,7 @@ it.Item2.Z + it.Item1.Z as Bound_P_Z,
                   <Expression xsi:type="ExternalizedMapping">
                     <Property Name="isLocked" />
                   </Expression>
-                  <Expression xsi:type="Condition">
+                  <Expression xsi:type="rx:Condition">
                     <Name>LockCricketToArm?</Name>
                     <Workflow>
                       <Nodes>
@@ -2173,7 +2173,7 @@ it.Y as Z)</scr:Expression>
                     <Combinator xsi:type="rx:WithLatestFrom" />
                   </Expression>
                   <Expression xsi:type="Add" />
-                  <Expression xsi:type="BehaviorSubject">
+                  <Expression xsi:type="rx:BehaviorSubject">
                     <Name>PositionCricket</Name>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -2204,7 +2204,7 @@ it.Y as Z)</scr:Expression>
                       <Property Name="RotationZ" Selector="Orientation.Z" />
                     </PropertyMappings>
                   </Expression>
-                  <Expression xsi:type="Condition">
+                  <Expression xsi:type="rx:Condition">
                     <Name>LockCricketToArm?</Name>
                     <Workflow>
                       <Nodes>
@@ -2241,7 +2241,7 @@ it.Y as Z)</scr:Expression>
                       <gl:TextureTarget>Texture2D</gl:TextureTarget>
                     </Combinator>
                   </Expression>
-                  <Expression xsi:type="Condition">
+                  <Expression xsi:type="rx:Condition">
                     <Workflow>
                       <Nodes>
                         <Expression xsi:type="WorkflowInput">
@@ -2695,7 +2695,7 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="ExternalizedMapping">
                     <Property Name="Value" DisplayName="EnableManualOverride" />
                   </Expression>
-                  <Expression xsi:type="Condition">
+                  <Expression xsi:type="rx:Condition">
                     <Name>EnableManualOverride</Name>
                     <Workflow>
                       <Nodes>
@@ -2760,7 +2760,7 @@ it.Y as Z)</scr:Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>ResetRodentPosition</Name>
             </Expression>
-            <Expression xsi:type="CreateObservable">
+            <Expression xsi:type="rx:CreateObservable">
               <Name>UpdateRodentPosition</Name>
               <Workflow>
                 <Nodes>
@@ -2785,7 +2785,7 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="MemberSelector">
                     <Selector>Position</Selector>
                   </Expression>
-                  <Expression xsi:type="Scan">
+                  <Expression xsi:type="rx:Scan">
                     <Workflow>
                       <Nodes>
                         <Expression xsi:type="WorkflowInput">
@@ -3094,10 +3094,10 @@ it.Y as Z)</scr:Expression>
               <Name>ArmUpdates</Name>
               <Workflow>
                 <Nodes>
-                  <Expression xsi:type="BehaviorSubject" TypeArguments="p2:Point2f">
-                    <Name>GoToCartPosition</Name>
+                  <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p2:Point2f">
+                    <rx:Name>GoToCartPosition</rx:Name>
                   </Expression>
-                  <Expression xsi:type="CreateObservable">
+                  <Expression xsi:type="rx:CreateObservable">
                     <Name>ArmPositionUpdating</Name>
                     <Workflow>
                       <Nodes>
@@ -3142,14 +3142,14 @@ it.Y as Z)</scr:Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="rx:Merge" />
                         </Expression>
-                        <Expression xsi:type="Scan">
+                        <Expression xsi:type="rx:Scan">
                           <Name>Accumulate_dV/dt</Name>
                           <Workflow>
                             <Nodes>
                               <Expression xsi:type="WorkflowInput">
                                 <Name>Source1</Name>
                               </Expression>
-                              <Expression xsi:type="Condition">
+                              <Expression xsi:type="rx:Condition">
                                 <Name>UpdatePolar</Name>
                                 <Workflow>
                                   <Nodes>
@@ -3183,7 +3183,7 @@ it.Y as Z)</scr:Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="p1:PolarToCart" />
                               </Expression>
-                              <Expression xsi:type="Condition">
+                              <Expression xsi:type="rx:Condition">
                                 <Name>UpdateCart</Name>
                                 <Workflow>
                                   <Nodes>
@@ -3299,13 +3299,13 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>CurrentArmPosition</Name>
                   </Expression>
-                  <Expression xsi:type="BehaviorSubject" TypeArguments="p2:Point2f">
-                    <Name>CurrentArmPosition</Name>
+                  <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p2:Point2f">
+                    <rx:Name>CurrentArmPosition</rx:Name>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CartToPolar" />
                   </Expression>
-                  <Expression xsi:type="Condition">
+                  <Expression xsi:type="rx:Condition">
                     <Name>FilterUpdate</Name>
                     <Workflow>
                       <Nodes>
@@ -3522,7 +3522,7 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="ExternalizedMapping">
                     <Property Name="Value" DisplayName="Enable" />
                   </Expression>
-                  <Expression xsi:type="Condition">
+                  <Expression xsi:type="rx:Condition">
                     <Workflow>
                       <Nodes>
                         <Expression xsi:type="WorkflowInput">
@@ -3568,7 +3568,7 @@ it.Y as Z)</scr:Expression>
                     <Expression xsi:type="SubscribeSubject">
                       <Name>ArmEvents</Name>
                     </Expression>
-                    <Expression xsi:type="Condition">
+                    <Expression xsi:type="rx:Condition">
                       <Name>ArmMovingTo</Name>
                       <Workflow>
                         <Nodes>
@@ -3634,7 +3634,7 @@ it.Item3 as Angle)</scr:Expression>
                     <Expression xsi:type="Combinator">
                       <Combinator xsi:type="p1:PolarToCart" />
                     </Expression>
-                    <Expression xsi:type="BehaviorSubject">
+                    <Expression xsi:type="rx:BehaviorSubject">
                       <Name>TrueArmPosition</Name>
                     </Expression>
                     <Expression xsi:type="WorkflowOutput" />
@@ -3715,7 +3715,7 @@ Math.Abs(it.Item3 - it.Item1) &lt; Math.Pi ? (it.Item3 - it.Item1) : ((it.Item3 
             <Expression xsi:type="MemberSelector">
               <Selector>RodentOrientation,DisplacementMagnitude,DisplacementAngle</Selector>
             </Expression>
-            <Expression xsi:type="BehaviorSubject">
+            <Expression xsi:type="rx:BehaviorSubject">
               <Name>ComputedOrientation</Name>
             </Expression>
             <Expression xsi:type="Unit" />
@@ -3742,9 +3742,9 @@ Math.Pi/2.0 as PerturbAngle,
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="rx:Zip" />
             </Expression>
-            <Expression xsi:type="ReplaySubject">
+            <Expression xsi:type="rx:ReplaySubject">
               <Name>TrialSettings</Name>
-              <BufferSize xsi:nil="true" />
+              <rx:BufferSize xsi:nil="true" />
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="rx:Timer">
@@ -3752,14 +3752,14 @@ Math.Pi/2.0 as PerturbAngle,
                 <rx:Period>PT0S</rx:Period>
               </Combinator>
             </Expression>
-            <Expression xsi:type="CreateObservable">
+            <Expression xsi:type="rx:CreateObservable">
               <Name>startTrial</Name>
               <Workflow>
                 <Nodes>
                   <Expression xsi:type="SubscribeSubject">
                     <Name>TrialSettings</Name>
                   </Expression>
-                  <Expression xsi:type="SelectMany">
+                  <Expression xsi:type="rx:SelectMany">
                     <Name>SetInitialPosition</Name>
                     <Workflow>
                       <Nodes>
@@ -3803,7 +3803,7 @@ Math.Pi/2.0 as PerturbAngle,
                       </Edges>
                     </Workflow>
                   </Expression>
-                  <Expression xsi:type="SelectMany">
+                  <Expression xsi:type="rx:SelectMany">
                     <Name>Trial</Name>
                     <Workflow>
                       <Nodes>
@@ -3847,7 +3847,7 @@ Math.Pi/2.0 as PerturbAngle,
                                 <Combinator xsi:type="rx:CombineLatest" />
                               </Expression>
                               <Expression xsi:type="Subtract" />
-                              <Expression xsi:type="Condition">
+                              <Expression xsi:type="rx:Condition">
                                 <Name>EndTrialDistance</Name>
                                 <Workflow>
                                   <Nodes>
@@ -3916,7 +3916,7 @@ Math.Pi/2.0 as PerturbAngle,
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="rx:WithLatestFrom" />
                               </Expression>
-                              <Expression xsi:type="Condition">
+                              <Expression xsi:type="rx:Condition">
                                 <Workflow>
                                   <Nodes>
                                     <Expression xsi:type="WorkflowInput">
@@ -4042,7 +4042,7 @@ Math.Pi/2.0 as PerturbAngle,
                               <Expression xsi:type="SubscribeSubject">
                                 <Name>RodentPositionUpdate</Name>
                               </Expression>
-                              <Expression xsi:type="Condition">
+                              <Expression xsi:type="rx:Condition">
                                 <Name>WithinSightCone</Name>
                                 <Workflow>
                                   <Nodes>
@@ -4140,7 +4140,7 @@ Math.Pi/2.0 as PerturbAngle,
                       </Edges>
                     </Workflow>
                   </Expression>
-                  <Expression xsi:type="SelectMany">
+                  <Expression xsi:type="rx:SelectMany">
                     <Name>WaitToEat</Name>
                     <Workflow>
                       <Nodes>
@@ -4166,7 +4166,7 @@ Math.Pi/2.0 as PerturbAngle,
                         <Expression xsi:type="SubscribeSubject">
                           <Name>RodentPositionUpdate</Name>
                         </Expression>
-                        <Expression xsi:type="Condition">
+                        <Expression xsi:type="rx:Condition">
                           <Name>WithinSightCone</Name>
                           <Workflow>
                             <Nodes>
@@ -4319,7 +4319,7 @@ Math.Pi/2.0 as PerturbAngle,
                 <Value>false</Value>
               </Combinator>
             </Expression>
-            <Expression xsi:type="Condition">
+            <Expression xsi:type="rx:Condition">
               <Name>EnableTrialLogic</Name>
               <Workflow>
                 <Nodes>
@@ -5599,7 +5599,7 @@ Math.Pi/2.0 as PerturbAngle,
                 <Value>false</Value>
               </Combinator>
             </Expression>
-            <Expression xsi:type="Condition">
+            <Expression xsi:type="rx:Condition">
               <Name>EnableShelter</Name>
               <Workflow>
                 <Nodes>

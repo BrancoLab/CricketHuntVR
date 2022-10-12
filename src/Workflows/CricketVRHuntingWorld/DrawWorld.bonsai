@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.6.3"
+<WorkflowBuilder Version="2.7.0-rc5"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:osc="clr-namespace:Bonsai.Osc;assembly=Bonsai.Osc"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
@@ -21,7 +21,7 @@
         <osc:Address />
         <osc:Connection>FakeWorldUDP</osc:Connection>
       </Expression>
-      <Expression xsi:type="PublishSubject">
+      <Expression xsi:type="rx:PublishSubject">
         <Name>ReceivedMessages</Name>
       </Expression>
       <Expression xsi:type="SubscribeSubject">
@@ -178,7 +178,7 @@
           </p1:RealCricketPosition>
         </Combinator>
       </Expression>
-      <Expression xsi:type="PublishSubject">
+      <Expression xsi:type="rx:PublishSubject">
         <Name>SimulatedEnv</Name>
       </Expression>
     </Nodes>
