@@ -3533,7 +3533,7 @@ it.Y as Z)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="BooleanProperty">
-                            <Value>false</Value>
+                            <Value>true</Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
@@ -3733,8 +3733,8 @@ TimeSpan.FromSeconds(1) as TimeToEat)</scr:Expression>
             </Expression>
             <Expression xsi:type="scr:ExpressionTransform">
               <scr:Expression>new(
-Math.Pi/2.0 as PerturbAngle,
-0.2 as TriggerRadius)</scr:Expression>
+0 as PerturbAngle,
+0 as TriggerRadius)</scr:Expression>
             </Expression>
             <Expression xsi:type="MemberSelector">
               <Selector>PerturbAngle,TriggerRadius</Selector>
@@ -4157,9 +4157,8 @@ Math.Pi/2.0 as PerturbAngle,
                           </PropertyMappings>
                         </Expression>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="rx:Timer">
-                            <rx:DueTime>PT1S</rx:DueTime>
-                            <rx:Period>PT0S</rx:Period>
+                          <Combinator xsi:type="gl:Timer">
+                            <gl:DueTime>PT0S</gl:DueTime>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
