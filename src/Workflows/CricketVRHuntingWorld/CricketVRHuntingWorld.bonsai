@@ -3747,9 +3747,8 @@ TimeSpan.FromSeconds(1) as TimeToEat)</scr:Expression>
               <rx:BufferSize xsi:nil="true" />
             </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:Timer">
-                <rx:DueTime>PT1S</rx:DueTime>
-                <rx:Period>PT0S</rx:Period>
+              <Combinator xsi:type="gl:Timer">
+                <gl:DueTime>PT1S</gl:DueTime>
               </Combinator>
             </Expression>
             <Expression xsi:type="rx:CreateObservable">
