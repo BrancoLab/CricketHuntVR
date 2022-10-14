@@ -9,7 +9,7 @@ using OpenTK;
 namespace CricketVR
 {
     [Combinator]
-    [Description("")]
+    [Description("Computes the (Magnitude, Angle)[Polar] of a (X,Y)[Cartesian] point.")]
     [WorkflowElementCategory(ElementCategory.Transform)]
     public class CartToPolar
     {
