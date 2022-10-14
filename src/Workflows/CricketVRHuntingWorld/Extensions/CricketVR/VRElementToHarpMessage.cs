@@ -10,7 +10,7 @@ using Bonsai.Harp;
 namespace CricketVR
 {
 [Combinator]
-[Description("")]
+[Description("Formats a VRElement to an Harp Message of format Float[6] -> (Position[XYZ], Orientation[XYZ]) ")]
 [WorkflowElementCategory(ElementCategory.Transform)]
 public class VRElementToHarpMessage
 {

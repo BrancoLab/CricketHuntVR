@@ -7,7 +7,7 @@ using OpenTK;
 namespace CricketVR
 {
     [Combinator]
-    [Description("")]
+    [Description("Clamps the update of a VRElement (or Vector3) between a Tuple<6 x Float> that bind a 3d rectangle [+X, -X, +Y, - Y, +Z, -Z]")]
     [WorkflowElementCategory(ElementCategory.Transform)]
     public class ClampPositionUpdate
     {

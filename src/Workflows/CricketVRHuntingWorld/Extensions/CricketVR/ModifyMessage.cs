@@ -6,7 +6,7 @@ using System.Reactive.Linq;
 using Bonsai.Harp;
 
 [Combinator]
-[Description("")]
+[Description("Modifies targetted parts of an Harp Message.")]
 [WorkflowElementCategory(ElementCategory.Transform)]
 public class ModifyMessage
 {

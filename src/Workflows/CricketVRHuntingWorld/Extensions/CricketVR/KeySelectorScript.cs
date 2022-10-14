@@ -6,22 +6,20 @@ using System.Linq;
 using System.Reactive.Linq;
 using OpenTK.Input;
 namespace CricketVR{
-
-[Combinator]
-[Description("")]
-[WorkflowElementCategory(ElementCategory.Condition)]
-
-public class KeySelectorScript
-{
-    public Key KeyFilter { get; set; }
-    public IObservable<KeyboardState> Process(IObservable<KeyboardState> source)
+    [Combinator]
+    [Description("Filters a KeyPress event from a gl:KeyBoardState")]
+    [WorkflowElementCategory(ElementCategory.Condition)]
+    public class KeySelectorScript
     {
-        return source.Where(value =>
+        public Key KeyFilter { get; set; }
+        public IObservable<KeyboardState> Process(IObservable<KeyboardState> source)
         {
-            if (value[KeyFilter])
-                return true;
-            return false;
-        });
+            return source.Where(value =>
+            {
+                if (value[KeyFilter])
+                    return true;
+                return false;
+            });
+        }
     }
-}
 }
