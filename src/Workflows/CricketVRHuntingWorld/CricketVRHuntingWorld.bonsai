@@ -57,6 +57,9 @@
             <Expression xsi:type="rx:PublishSubject" TypeArguments="osc:Message">
               <rx:Name>Send_UDP</rx:Name>
             </Expression>
+            <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p2:Point2f">
+              <rx:Name>CurrentArmPosition</rx:Name>
+            </Expression>
           </Nodes>
           <Edges>
             <Edge From="3" To="4" Label="Source1" />
@@ -3344,8 +3347,8 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>CurrentArmPosition</Name>
                   </Expression>
-                  <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p2:Point2f">
-                    <rx:Name>CurrentArmPosition</rx:Name>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>CurrentArmPosition</Name>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CartToPolar" />
@@ -4071,76 +4074,49 @@ TimeSpan.FromSeconds(1) as TimeToEat)</scr:Expression>
                                   <cv:Y>0</cv:Y>
                                 </Combinator>
                               </Expression>
-                              <Expression xsi:type="Disable">
-                                <Builder xsi:type="SubscribeSubject">
-                                  <Name>TrialSettings</Name>
-                                </Builder>
-                              </Expression>
-                              <Expression xsi:type="Disable">
-                                <Builder xsi:type="IncludeWorkflow" Path="Extensions\ParseTrialSettings.bonsai" />
-                              </Expression>
-                              <Expression xsi:type="Disable">
-                                <Builder xsi:type="MemberSelector">
-                                  <Selector>StartingRadius</Selector>
-                                </Builder>
-                              </Expression>
-                              <Expression xsi:type="Disable">
-                                <Builder xsi:type="SubscribeSubject">
-                                  <Name>CurrentArmPosition</Name>
-                                </Builder>
-                              </Expression>
-                              <Expression xsi:type="Disable">
-                                <Builder xsi:type="Combinator">
-                                  <Combinator xsi:type="p1:CartToPolar" />
-                                </Builder>
-                              </Expression>
-                              <Expression xsi:type="Disable">
-                                <Builder xsi:type="MemberSelector">
-                                  <Selector>X</Selector>
-                                </Builder>
-                              </Expression>
-                              <Expression xsi:type="Disable">
-                                <Builder xsi:type="Combinator">
-                                  <Combinator xsi:type="rx:CombineLatest" />
-                                </Builder>
-                              </Expression>
-                              <Expression xsi:type="Disable">
-                                <Builder xsi:type="LessThanOrEqual" />
-                              </Expression>
-                              <Expression xsi:type="Disable">
-                                <Builder xsi:type="Combinator">
-                                  <Combinator xsi:type="rx:WithLatestFrom" />
-                                </Builder>
-                              </Expression>
-                              <Expression xsi:type="Disable">
-                                <Builder xsi:type="rx:Condition">
-                                  <Name>CheckBounds</Name>
-                                  <Workflow>
-                                    <Nodes>
-                                      <Expression xsi:type="WorkflowInput">
-                                        <Name>Source1</Name>
-                                      </Expression>
-                                      <Expression xsi:type="MemberSelector">
-                                        <Selector>Item2</Selector>
-                                      </Expression>
-                                      <Expression xsi:type="WorkflowOutput" />
-                                    </Nodes>
-                                    <Edges>
-                                      <Edge From="0" To="1" Label="Source1" />
-                                      <Edge From="1" To="2" Label="Source1" />
-                                    </Edges>
-                                  </Workflow>
-                                </Builder>
-                              </Expression>
-                              <Expression xsi:type="Disable">
-                                <Builder xsi:type="MemberSelector">
-                                  <Selector>Item1</Selector>
-                                </Builder>
+                              <Expression xsi:type="rx:Condition">
+                                <Name>CheckBounds</Name>
+                                <Workflow>
+                                  <Nodes>
+                                    <Expression xsi:type="SubscribeSubject">
+                                      <Name>EnableUpdateDecay</Name>
+                                    </Expression>
+                                    <Expression xsi:type="WorkflowOutput" />
+                                  </Nodes>
+                                  <Edges>
+                                    <Edge From="0" To="1" Label="Source1" />
+                                  </Edges>
+                                </Workflow>
                               </Expression>
                               <Expression xsi:type="MulticastSubject">
                                 <Name>UpdateArmPolarPosition</Name>
                               </Expression>
                               <Expression xsi:type="WorkflowOutput" />
+                              <Expression xsi:type="SubscribeSubject">
+                                <Name>TrialSettings</Name>
+                              </Expression>
+                              <Expression xsi:type="IncludeWorkflow" Path="Extensions\ParseTrialSettings.bonsai" />
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>StartingRadius</Selector>
+                              </Expression>
+                              <Expression xsi:type="SubscribeSubject">
+                                <Name>CurrentArmPosition</Name>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="p1:CartToPolar" />
+                              </Expression>
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>X</Selector>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="rx:WithLatestFrom" />
+                              </Expression>
+                              <Expression xsi:type="scr:ExpressionTransform">
+                                <scr:Expression>(it.Item1 &lt; it.Item2) ? True : False</scr:Expression>
+                              </Expression>
+                              <Expression xsi:type="rx:BehaviorSubject">
+                                <Name>EnableUpdateDecay</Name>
+                              </Expression>
                             </Nodes>
                             <Edges>
                               <Edge From="0" To="1" Label="Source1" />
@@ -4154,19 +4130,17 @@ TimeSpan.FromSeconds(1) as TimeToEat)</scr:Expression>
                               <Edge From="7" To="8" Label="Source2" />
                               <Edge From="8" To="9" Label="Source1" />
                               <Edge From="9" To="10" Label="Source1" />
-                              <Edge From="10" To="19" Label="Source1" />
+                              <Edge From="10" To="11" Label="Source1" />
                               <Edge From="11" To="12" Label="Source1" />
                               <Edge From="12" To="13" Label="Source1" />
-                              <Edge From="13" To="17" Label="Source2" />
                               <Edge From="14" To="15" Label="Source1" />
                               <Edge From="15" To="16" Label="Source1" />
-                              <Edge From="16" To="17" Label="Source1" />
+                              <Edge From="16" To="20" Label="Source2" />
                               <Edge From="17" To="18" Label="Source1" />
-                              <Edge From="18" To="19" Label="Source2" />
+                              <Edge From="18" To="19" Label="Source1" />
                               <Edge From="19" To="20" Label="Source1" />
                               <Edge From="20" To="21" Label="Source1" />
                               <Edge From="21" To="22" Label="Source1" />
-                              <Edge From="22" To="23" Label="Source1" />
                             </Edges>
                           </Workflow>
                         </Expression>
