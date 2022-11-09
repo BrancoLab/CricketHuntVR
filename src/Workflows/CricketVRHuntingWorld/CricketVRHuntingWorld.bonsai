@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <WorkflowBuilder Version="2.7.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
@@ -609,16 +609,16 @@
                           </PropertyMappings>
                         </Expression>
                         <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawQuad.bonsai">
-                          <ExtentX>0.015</ExtentX>
+                          <ExtentX>0.012</ExtentX>
                           <ExtentY>0.05</ExtentY>
-                          <LocationX>0.78</LocationX>
+                          <LocationX>-0.72</LocationX>
                           <LocationY>0.95</LocationY>
                           <Layer>10</Layer>
                           <Angle>0</Angle>
                           <ColorR>1</ColorR>
                           <ColorG>1</ColorG>
                           <ColorB>1</ColorB>
-                          <ColorA>0</ColorA>
+                          <ColorA>1</ColorA>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
                       </Nodes>
