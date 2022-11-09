@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <WorkflowBuilder Version="2.7.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
@@ -1512,12 +1512,55 @@
                   <Expression xsi:type="MulticastSubject">
                     <Name>SoftwareEventLogger</Name>
                   </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TimestampStream</Name>
+                  </Expression>
+                  <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Tuple(sys:Int32,sys:Int32)">
+                    <rx:Name>SoftwareEvent_U8</rx:Name>
+                  </Expression>
+                  <Expression xsi:type="scr:ExpressionTransform">
+                    <scr:Expression>new(it.Item1 as Address,
+it.Item2 as Value)</scr:Expression>
+                  </Expression>
+                  <Expression xsi:type="InputMapping">
+                    <PropertyMappings>
+                      <Property Name="Address" Selector="Address" />
+                      <Property Name="Payload" Selector="Value" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="harp:CreateMessage">
+                      <harp:MessageType>Write</harp:MessageType>
+                      <harp:Address>32</harp:Address>
+                      <harp:PayloadType>U8</harp:PayloadType>
+                      <harp:Payload>0</harp:Payload>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="p3:ModifyMessage">
+                      <p3:Address xsi:nil="true" />
+                      <p3:MessageTypeModified xsi:nil="true" />
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="MulticastSubject">
+                    <Name>SoftwareEventLogger</Name>
+                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="1" To="3" Label="Source2" />
                   <Edge From="2" To="3" Label="Source1" />
                   <Edge From="3" To="4" Label="Source1" />
                   <Edge From="4" To="5" Label="Source1" />
+                  <Edge From="6" To="11" Label="Source2" />
+                  <Edge From="7" To="8" Label="Source1" />
+                  <Edge From="8" To="9" Label="Source1" />
+                  <Edge From="9" To="10" Label="Source1" />
+                  <Edge From="10" To="11" Label="Source1" />
+                  <Edge From="11" To="12" Label="Source1" />
+                  <Edge From="12" To="13" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
