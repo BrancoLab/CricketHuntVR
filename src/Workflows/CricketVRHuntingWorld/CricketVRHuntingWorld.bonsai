@@ -13,8 +13,8 @@
                  xmlns:cv="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision"
                  xmlns:cf="clr-namespace:Bonsai.Harp.CF;assembly=Bonsai.Harp.CF"
                  xmlns:p3="clr-namespace:;assembly=Extensions"
-                 xmlns:p4="clr-namespace:Bonsai.Harp.Expander;assembly=Bonsai.Harp.Expander"
                  xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
+                 xmlns:p4="clr-namespace:Bonsai.Harp.Expander;assembly=Bonsai.Harp.Expander"
                  xmlns:gli="clr-namespace:Bonsai.Shaders.Input;assembly=Bonsai.Shaders"
                  xmlns:dsp="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp"
                  xmlns:bv="clr-namespace:BonVision;assembly=BonVision"
@@ -1171,11 +1171,25 @@
                             <p3:HarpAddress>92</p3:HarpAddress>
                           </Combinator>
                         </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p3:ClonePylonGrab" />
+                        <Expression xsi:type="scr:ExpressionTransform">
+                          <scr:Expression>new(
+Seconds as Seconds,
+new(
+  Value.Image as Image,
+  new(Value.GrabResult.Timestamp as Timestamp,
+      Value.GrabResult.ImageNumber as ImageNumber,
+      Value.GrabResult.SkippedImageCount as SkippedImageCount) as GrabResult)
+  as Value)</scr:Expression>
                         </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p1:ObserveOnTaskPool" />
+                        <Expression xsi:type="Disable">
+                          <Builder xsi:type="Combinator">
+                            <Combinator xsi:type="p3:ClonePylonGrab" />
+                          </Builder>
+                        </Expression>
+                        <Expression xsi:type="Disable">
+                          <Builder xsi:type="Combinator">
+                            <Combinator xsi:type="p1:ObserveOnTaskPool" />
+                          </Builder>
                         </Expression>
                         <Expression xsi:type="rx:PublishSubject">
                           <Name>Pylon1FrameEvents</Name>
@@ -1189,6 +1203,7 @@
                         <Edge From="3" To="4" Label="Source1" />
                         <Edge From="4" To="5" Label="Source1" />
                         <Edge From="5" To="6" Label="Source1" />
+                        <Edge From="6" To="7" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
@@ -6175,32 +6190,18 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
         <Workflow>
           <Nodes>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="gl:Timer">
-                <gl:DueTime>PT0S</gl:DueTime>
-                <gl:Period>PT1S</gl:Period>
-              </Combinator>
+              <Combinator xsi:type="gl:UpdateFrame" />
             </Expression>
-            <Expression xsi:type="scr:ExpressionTransform">
-              <scr:Expression>DateTime.Now</scr:Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>TimeStep.ElapsedRealTime</Selector>
             </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:Take">
-                <rx:Count>1</rx:Count>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:CombineLatest" />
-            </Expression>
-            <Expression xsi:type="Subtract" />
+            <Expression xsi:type="rx:Accumulate" />
             <Expression xsi:type="WorkflowOutput" />
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
-            <Edge From="1" To="3" Label="Source1" />
             <Edge From="1" To="2" Label="Source1" />
-            <Edge From="2" To="3" Label="Source2" />
-            <Edge From="3" To="4" Label="Source1" />
-            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
