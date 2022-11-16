@@ -10,9 +10,11 @@ from time import sleep
 import os
 
 ## User Settings
-SESSIOND_ID = r"221006_K1_n"
+SESSIOND_ID = r"test1231"
 DATA_ROOT_PATH = r"C:\Users\Cricket Team\Desktop\data"
-ADD_FLAGS = "--no-editor"
+#ADD_FLAGS = "--no-editor" #launches Bonsai without the editor and starts the workflow automatically
+#ADD_FLAGS = "--start" # launches Bonsai WITH the editor and starts automatically
+ADD_FLAGS = "" #launches Bonsai with the editor but waits for you to click Play
 FORCE_LAYOUT = True
 SAVE_LOG = True
 
@@ -28,7 +30,7 @@ if (os.path.isdir( DATA_ROOT_PATH + "\\" + SESSIOND_ID)):
 
 Settings = {
 "Logging.LoggingRootPath" : DATA_ROOT_PATH + "\\" + SESSIOND_ID,
-"EnableTrialLogic.Enable" : str(False),
+"EnableTrialLogic.Enable" : str(True),
 "EnableShelter.Enable" : str(True),
 "ArmPositionControl.Enable" : str(True)
 }
