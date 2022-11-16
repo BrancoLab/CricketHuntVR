@@ -10,11 +10,12 @@ from time import sleep
 import os
 
 ## User Settings
-SESSIOND_ID = r"test1231"
+SESSIOND_ID = r"ANIMALID"
 DATA_ROOT_PATH = r"C:\Users\Cricket Team\Desktop\data"
-#ADD_FLAGS = "--no-editor" #launches Bonsai without the editor and starts the workflow automatically
+
+ADD_FLAGS = "--no-editor" #launches Bonsai without the editor and starts the workflow automatically
 #ADD_FLAGS = "--start" # launches Bonsai WITH the editor and starts automatically
-ADD_FLAGS = "" #launches Bonsai with the editor but waits for you to click Play
+#ADD_FLAGS = "" #launches Bonsai with the editor but waits for you to click Play
 FORCE_LAYOUT = True
 SAVE_LOG = True
 
