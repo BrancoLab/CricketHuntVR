@@ -1450,7 +1450,7 @@ new(
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="StringProperty">
-                      <Value>C:\Users\Cricket Team\Desktop\data</Value>
+                      <Value>C:\Users\Cricket Team\Desktop\data\test1231</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="rx:ReplaySubject">
@@ -1546,7 +1546,7 @@ it.Item2 as Value)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="harp:CreateMessage">
                       <harp:MessageType>Write</harp:MessageType>
-                      <harp:Address>32</harp:Address>
+                      <harp:Address>1</harp:Address>
                       <harp:PayloadType>U8</harp:PayloadType>
                       <harp:Payload>0</harp:Payload>
                     </Combinator>
@@ -2280,9 +2280,9 @@ it.Y as Z)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
-                      <gl:X>-0.09447372</gl:X>
+                      <gl:X>-0.170158118</gl:X>
                       <gl:Y>-0.05</gl:Y>
-                      <gl:Z>0.220117569</gl:Z>
+                      <gl:Z>0.10543216</gl:Z>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="PropertyMapping">
@@ -2293,9 +2293,9 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>-0.09447372</p1:X>
+                        <p1:X>-0.170158118</p1:X>
                         <p1:Y>-0.05</p1:Y>
-                        <p1:Z>0.220117569</p1:Z>
+                        <p1:Z>0.10543216</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
@@ -2400,9 +2400,9 @@ it.Y as Z)</scr:Expression>
                     </Workflow>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-                    <TranslationX>-0.6160928</TranslationX>
+                    <TranslationX>0.4658468</TranslationX>
                     <TranslationY>-0.05</TranslationY>
-                    <TranslationZ>-0.358210653</TranslationZ>
+                    <TranslationZ>0.4237575</TranslationZ>
                     <ScaleX>1</ScaleX>
                     <ScaleY>1</ScaleY>
                     <ScaleZ>1</ScaleZ>
@@ -2424,7 +2424,7 @@ it.Y as Z)</scr:Expression>
                     </Specular>
                     <SpecularExponent>10</SpecularExponent>
                     <RotationZ>0</RotationZ>
-                    <RotationY>126.738289</RotationY>
+                    <RotationY>159.367676</RotationY>
                     <RotationX>0</RotationX>
                   </Expression>
                 </Nodes>
@@ -3054,7 +3054,7 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
                       <gl:X>0</gl:X>
-                      <gl:Y>2.21161675</gl:Y>
+                      <gl:Y>2.78149056</gl:Y>
                       <gl:Z>0</gl:Z>
                     </Combinator>
                   </Expression>
@@ -3073,13 +3073,13 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>-0.5216191</p1:X>
+                        <p1:X>0.6360049</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>0.138093084</p1:Z>
+                        <p1:Z>-0.529189646</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
-                        <p1:Y>2.21161675</p1:Y>
+                        <p1:Y>2.78149056</p1:Y>
                         <p1:Z>0</p1:Z>
                       </p1:Orientation>
                     </Combinator>
@@ -4007,8 +4007,8 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:CreatePoint2f">
-                            <cv:X>0.29</cv:X>
-                            <cv:Y>3.14159274</cv:Y>
+                            <cv:X>0.2</cv:X>
+                            <cv:Y>0</cv:Y>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="Combinator">
@@ -4041,14 +4041,6 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="StringProperty">
-                            <Value>SetInitialPosition</Value>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="MulticastSubject">
-                          <Name>DebugString</Name>
-                        </Expression>
                       </Nodes>
                       <Edges>
                         <Edge From="0" To="1" Label="Source1" />
@@ -4059,7 +4051,6 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                         <Edge From="5" To="6" Label="Source1" />
                         <Edge From="6" To="7" Label="Source1" />
                         <Edge From="7" To="8" Label="Source1" />
-                        <Edge From="9" To="10" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
@@ -4231,18 +4222,11 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="cv:CreatePoint2f">
                                   <cv:X>0.0003</cv:X>
-                                  <cv:Y>0</cv:Y>
+                                  <cv:Y>0.17453292</cv:Y>
                                 </Combinator>
                               </Expression>
                               <Expression xsi:type="MulticastSubject">
                                 <Name>UpdateArmPolarPosition</Name>
-                              </Expression>
-                              <Expression xsi:type="Format">
-                                <Format>perturb to: {0}, {1}</Format>
-                                <Selector>X,Y</Selector>
-                              </Expression>
-                              <Expression xsi:type="MulticastSubject">
-                                <Name>DebugString</Name>
                               </Expression>
                               <Expression xsi:type="WorkflowOutput" />
                             </Nodes>
@@ -4261,8 +4245,6 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                               <Edge From="11" To="12" Label="Source2" />
                               <Edge From="12" To="13" Label="Source1" />
                               <Edge From="13" To="14" Label="Source1" />
-                              <Edge From="14" To="15" Label="Source1" />
-                              <Edge From="15" To="16" Label="Source1" />
                             </Edges>
                           </Workflow>
                         </Expression>
@@ -4294,7 +4276,7 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                               </Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="DoubleProperty">
-                                  <Value>0.0003</Value>
+                                  <Value>0.00030000001424923539</Value>
                                 </Combinator>
                               </Expression>
                               <Expression xsi:type="Combinator">
@@ -4366,15 +4348,6 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                               <Expression xsi:type="rx:BehaviorSubject">
                                 <Name>EnableUpdateDecay</Name>
                               </Expression>
-                              <Expression xsi:type="SubscribeSubject">
-                                <Name>EnableUpdateDecay</Name>
-                              </Expression>
-                              <Expression xsi:type="Format">
-                                <Format>DecayEnabled = {0}</Format>
-                              </Expression>
-                              <Expression xsi:type="MulticastSubject">
-                                <Name>DebugString</Name>
-                              </Expression>
                             </Nodes>
                             <Edges>
                               <Edge From="0" To="1" Label="Source1" />
@@ -4401,8 +4374,6 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                               <Edge From="21" To="22" Label="Source1" />
                               <Edge From="22" To="23" Label="Source1" />
                               <Edge From="23" To="24" Label="Source1" />
-                              <Edge From="25" To="26" Label="Source1" />
-                              <Edge From="26" To="27" Label="Source1" />
                             </Edges>
                           </Workflow>
                         </Expression>
@@ -4501,21 +4472,12 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                             </Edges>
                           </Workflow>
                         </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="StringProperty">
-                            <Value>TrialInit</Value>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="MulticastSubject">
-                          <Name>DebugString</Name>
-                        </Expression>
                       </Nodes>
                       <Edges>
                         <Edge From="0" To="1" Label="Source1" />
                         <Edge From="2" To="3" Label="Source1" />
                         <Edge From="3" To="4" Label="Source1" />
                         <Edge From="5" To="6" Label="Source1" />
-                        <Edge From="9" To="10" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
@@ -4633,14 +4595,6 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                         <Expression xsi:type="MulticastSubject">
                           <Name>UpdateArmPolarPosition</Name>
                         </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="StringProperty">
-                            <Value>EatCricket</Value>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="MulticastSubject">
-                          <Name>DebugString</Name>
-                        </Expression>
                       </Nodes>
                       <Edges>
                         <Edge From="0" To="1" Label="Source1" />
@@ -4658,7 +4612,6 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                         <Edge From="13" To="14" Label="Source1" />
                         <Edge From="14" To="15" Label="Source1" />
                         <Edge From="15" To="16" Label="Source1" />
-                        <Edge From="17" To="18" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
@@ -4698,15 +4651,6 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>TrialNumber</Name>
-                  </Expression>
-                  <Expression xsi:type="scr:ExpressionTransform">
-                    <scr:Expression>it.ToString()</scr:Expression>
-                  </Expression>
-                  <Expression xsi:type="MulticastSubject">
-                    <Name>DebugString</Name>
-                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="0" To="7" Label="Source1" />
@@ -4724,8 +4668,6 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                   <Edge From="13" To="14" Label="Source1" />
                   <Edge From="14" To="15" Label="Source1" />
                   <Edge From="15" To="16" Label="Source1" />
-                  <Edge From="17" To="18" Label="Source1" />
-                  <Edge From="18" To="19" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -5222,7 +5164,7 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="FloatProperty">
-                      <Value>0</Value>
+                      <Value>0.2615044</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -6161,145 +6103,151 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
       <Expression xsi:type="MulticastSubject">
         <Name>StartCameras</Name>
       </Expression>
-      <Expression xsi:type="GroupWorkflow">
-        <Name>DebugTools</Name>
-        <Workflow>
-          <Nodes>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="SubscribeSubject">
-                <Name>ArmEncoderPosition</Name>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Combinator">
-                <Combinator xsi:type="gli:KeyDown">
-                  <gli:Key>D</gli:Key>
-                  <gli:Modifiers>Control</gli:Modifiers>
-                </Combinator>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Combinator">
-                <Combinator xsi:type="cv:CreatePoint2f">
-                  <cv:X>0.0150001</cv:X>
-                  <cv:Y>0</cv:Y>
-                </Combinator>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Combinator">
-                <Combinator xsi:type="p1:CreateArmMessage">
-                  <p1:Address>32</p1:Address>
-                </Combinator>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="MulticastSubject">
-                <Name>ArmCommands</Name>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="SubscribeSubject">
-                <Name>ArmCommands</Name>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Combinator">
-                <Combinator xsi:type="harp:FilterMessage">
-                  <harp:Address>32</harp:Address>
-                  <harp:MessageType>Write</harp:MessageType>
-                </Combinator>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="harp:Parse">
-                <harp:Type>Float</harp:Type>
-                <harp:IsArray>true</harp:IsArray>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Index">
-                <Operand xsi:type="IntProperty">
-                  <Value>0</Value>
-                </Operand>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Index">
-                <Operand xsi:type="IntProperty">
-                  <Value>1</Value>
-                </Operand>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Combinator">
-                <Combinator xsi:type="rx:Zip" />
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="SubscribeSubject">
-                <Name>ArmEvents</Name>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Combinator">
-                <Combinator xsi:type="harp:FilterMessage">
-                  <harp:Address>32</harp:Address>
-                  <harp:MessageType>Write</harp:MessageType>
-                </Combinator>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="harp:Parse">
-                <harp:Type>Float</harp:Type>
-                <harp:IsArray>true</harp:IsArray>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Index">
-                <Operand xsi:type="IntProperty">
-                  <Value>0</Value>
-                </Operand>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Index">
-                <Operand xsi:type="IntProperty">
-                  <Value>1</Value>
-                </Operand>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Combinator">
-                <Combinator xsi:type="rx:Zip" />
-              </Builder>
-            </Expression>
-            <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:String">
-              <rx:Name>DebugString</rx:Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="io:WriteLine" />
-            </Expression>
-          </Nodes>
-          <Edges>
-            <Edge From="1" To="2" Label="Source1" />
-            <Edge From="2" To="3" Label="Source1" />
-            <Edge From="3" To="4" Label="Source1" />
-            <Edge From="5" To="6" Label="Source1" />
-            <Edge From="6" To="7" Label="Source1" />
-            <Edge From="7" To="8" Label="Source1" />
-            <Edge From="7" To="9" Label="Source1" />
-            <Edge From="8" To="10" Label="Source1" />
-            <Edge From="9" To="10" Label="Source2" />
-            <Edge From="11" To="12" Label="Source1" />
-            <Edge From="12" To="13" Label="Source1" />
-            <Edge From="13" To="14" Label="Source1" />
-            <Edge From="13" To="15" Label="Source1" />
-            <Edge From="14" To="16" Label="Source1" />
-            <Edge From="15" To="16" Label="Source2" />
-            <Edge From="17" To="18" Label="Source1" />
-          </Edges>
-        </Workflow>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="GroupWorkflow">
+          <Name>DebugTools</Name>
+          <Workflow>
+            <Nodes>
+              <Expression xsi:type="Disable">
+                <Builder xsi:type="SubscribeSubject">
+                  <Name>ArmEncoderPosition</Name>
+                </Builder>
+              </Expression>
+              <Expression xsi:type="Disable">
+                <Builder xsi:type="Combinator">
+                  <Combinator xsi:type="gli:KeyDown">
+                    <gli:Key>D</gli:Key>
+                    <gli:Modifiers>Control</gli:Modifiers>
+                  </Combinator>
+                </Builder>
+              </Expression>
+              <Expression xsi:type="Disable">
+                <Builder xsi:type="Combinator">
+                  <Combinator xsi:type="cv:CreatePoint2f">
+                    <cv:X>0.0150001</cv:X>
+                    <cv:Y>0</cv:Y>
+                  </Combinator>
+                </Builder>
+              </Expression>
+              <Expression xsi:type="Disable">
+                <Builder xsi:type="Combinator">
+                  <Combinator xsi:type="p1:CreateArmMessage">
+                    <p1:Address>32</p1:Address>
+                  </Combinator>
+                </Builder>
+              </Expression>
+              <Expression xsi:type="Disable">
+                <Builder xsi:type="MulticastSubject">
+                  <Name>ArmCommands</Name>
+                </Builder>
+              </Expression>
+              <Expression xsi:type="Disable">
+                <Builder xsi:type="SubscribeSubject">
+                  <Name>ArmCommands</Name>
+                </Builder>
+              </Expression>
+              <Expression xsi:type="Disable">
+                <Builder xsi:type="Combinator">
+                  <Combinator xsi:type="harp:FilterMessage">
+                    <harp:Address>32</harp:Address>
+                    <harp:MessageType>Write</harp:MessageType>
+                  </Combinator>
+                </Builder>
+              </Expression>
+              <Expression xsi:type="Disable">
+                <Builder xsi:type="harp:Parse">
+                  <harp:Type>Float</harp:Type>
+                  <harp:IsArray>true</harp:IsArray>
+                </Builder>
+              </Expression>
+              <Expression xsi:type="Disable">
+                <Builder xsi:type="Index">
+                  <Operand xsi:type="IntProperty">
+                    <Value>0</Value>
+                  </Operand>
+                </Builder>
+              </Expression>
+              <Expression xsi:type="Disable">
+                <Builder xsi:type="Index">
+                  <Operand xsi:type="IntProperty">
+                    <Value>1</Value>
+                  </Operand>
+                </Builder>
+              </Expression>
+              <Expression xsi:type="Disable">
+                <Builder xsi:type="Combinator">
+                  <Combinator xsi:type="rx:Zip" />
+                </Builder>
+              </Expression>
+              <Expression xsi:type="Disable">
+                <Builder xsi:type="SubscribeSubject">
+                  <Name>ArmEvents</Name>
+                </Builder>
+              </Expression>
+              <Expression xsi:type="Disable">
+                <Builder xsi:type="Combinator">
+                  <Combinator xsi:type="harp:FilterMessage">
+                    <harp:Address>32</harp:Address>
+                    <harp:MessageType>Write</harp:MessageType>
+                  </Combinator>
+                </Builder>
+              </Expression>
+              <Expression xsi:type="Disable">
+                <Builder xsi:type="harp:Parse">
+                  <harp:Type>Float</harp:Type>
+                  <harp:IsArray>true</harp:IsArray>
+                </Builder>
+              </Expression>
+              <Expression xsi:type="Disable">
+                <Builder xsi:type="Index">
+                  <Operand xsi:type="IntProperty">
+                    <Value>0</Value>
+                  </Operand>
+                </Builder>
+              </Expression>
+              <Expression xsi:type="Disable">
+                <Builder xsi:type="Index">
+                  <Operand xsi:type="IntProperty">
+                    <Value>1</Value>
+                  </Operand>
+                </Builder>
+              </Expression>
+              <Expression xsi:type="Disable">
+                <Builder xsi:type="Combinator">
+                  <Combinator xsi:type="rx:Zip" />
+                </Builder>
+              </Expression>
+              <Expression xsi:type="Disable">
+                <Builder xsi:type="rx:BehaviorSubject" TypeArguments="sys:String">
+                  <rx:Name>DebugString</rx:Name>
+                </Builder>
+              </Expression>
+              <Expression xsi:type="Disable">
+                <Builder xsi:type="Combinator">
+                  <Combinator xsi:type="io:WriteLine" />
+                </Builder>
+              </Expression>
+            </Nodes>
+            <Edges>
+              <Edge From="1" To="2" Label="Source1" />
+              <Edge From="2" To="3" Label="Source1" />
+              <Edge From="3" To="4" Label="Source1" />
+              <Edge From="5" To="6" Label="Source1" />
+              <Edge From="6" To="7" Label="Source1" />
+              <Edge From="7" To="8" Label="Source1" />
+              <Edge From="7" To="9" Label="Source1" />
+              <Edge From="8" To="10" Label="Source1" />
+              <Edge From="9" To="10" Label="Source2" />
+              <Edge From="11" To="12" Label="Source1" />
+              <Edge From="12" To="13" Label="Source1" />
+              <Edge From="13" To="14" Label="Source1" />
+              <Edge From="13" To="15" Label="Source1" />
+              <Edge From="14" To="16" Label="Source1" />
+              <Edge From="15" To="16" Label="Source2" />
+              <Edge From="17" To="18" Label="Source1" />
+            </Edges>
+          </Workflow>
+        </Builder>
       </Expression>
       <Expression xsi:type="GroupWorkflow">
         <Name>SessionTimer</Name>
