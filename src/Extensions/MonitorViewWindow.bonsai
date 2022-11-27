@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.6.3"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:gl="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:scr="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Description>Renders the environment from the perspective of a view window of the specified size, position and orientation relative to the origin.</Description>
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="WorkflowInput">
+        <Name>Source1</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="gl:BindTexture">
+          <gl:TextureSlot>Texture0</gl:TextureSlot>
+          <gl:ShaderName>SphereMap</gl:ShaderName>
+          <gl:TextureName>cube</gl:TextureName>
+          <gl:TextureTarget>TextureCubeMap</gl:TextureTarget>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>ViewMatrix</Selector>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="X" />
+        <Property Name="Y" />
+        <Property Name="Z" />
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Angle" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="gl:RotateY">
+          <gl:Order>Append</gl:Order>
+          <gl:Angle>3.14</gl:Angle>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="gl:Translate">
+          <gl:Order>Prepend</gl:Order>
+          <gl:X>1</gl:X>
+          <gl:Y>0</gl:Y>
+          <gl:Z>-20</gl:Z>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="gain_y" DisplayName="Gain_El" />
+        <Property Name="Gain_x" DisplayName="Gain_Az" />
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="Extensions\RotateView.bonsai">
+        <gain_y>0</gain_y>
+        <Gain_x>0</Gain_x>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="gl:UpdateUniform">
+          <gl:UniformName>modelview</gl:UniformName>
+          <gl:ShaderName>CubeMap</gl:ShaderName>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>ProjectionMatrix</Selector>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="gl:UpdateUniform">
+          <gl:UniformName>projection</gl:UniformName>
+          <gl:ShaderName>CubeMap</gl:ShaderName>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Zip" />
+      </Expression>
+      <Expression xsi:type="scr:ExpressionTransform">
+        <scr:Expression>new(
+Item1 as ViewMatrix,
+Item2 as ProjectionMatrix,
+Item1.Row3.Yzw as Light)</scr:Expression>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="gl:DrawMesh">
+          <gl:ShaderName>CubeMap</gl:ShaderName>
+          <gl:MeshName>cube</gl:MeshName>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="WorkflowOutput" />
+    </Nodes>
+    <Edges>
+      <Edge From="0" To="1" Label="Source1" />
+      <Edge From="1" To="2" Label="Source1" />
+      <Edge From="1" To="10" Label="Source1" />
+      <Edge From="2" To="5" Label="Source1" />
+      <Edge From="3" To="6" Label="Source2" />
+      <Edge From="4" To="5" Label="Source2" />
+      <Edge From="5" To="6" Label="Source1" />
+      <Edge From="6" To="8" Label="Source1" />
+      <Edge From="7" To="8" Label="Source2" />
+      <Edge From="8" To="9" Label="Source1" />
+      <Edge From="9" To="12" Label="Source1" />
+      <Edge From="10" To="11" Label="Source1" />
+      <Edge From="11" To="12" Label="Source2" />
+      <Edge From="12" To="13" Label="Source1" />
+      <Edge From="13" To="14" Label="Source1" />
+      <Edge From="14" To="15" Label="Source1" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>
