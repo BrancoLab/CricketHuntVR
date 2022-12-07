@@ -4679,6 +4679,11 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                         <Expression xsi:type="SubscribeSubject">
                           <Name>TrialNumber</Name>
                         </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
                         <Expression xsi:type="Add">
                           <Operand xsi:type="IntProperty">
                             <Value>1</Value>
@@ -4686,11 +4691,6 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="MulticastSubject">
                           <Name>TrialNumber</Name>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="rx:Take">
-                            <rx:Count>1</rx:Count>
-                          </Combinator>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
                       </Nodes>
