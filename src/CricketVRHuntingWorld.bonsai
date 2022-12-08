@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.7.0"
+<WorkflowBuilder Version="2.7.1"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -647,7 +647,7 @@
                           <ColorR>1</ColorR>
                           <ColorG>1</ColorG>
                           <ColorB>1</ColorB>
-                          <ColorA>1</ColorA>
+                          <ColorA>0</ColorA>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
                       </Nodes>
@@ -1583,7 +1583,7 @@ it.Item2 as Value)</scr:Expression>
                       <harp:MessageType>Write</harp:MessageType>
                       <harp:Address>1</harp:Address>
                       <harp:PayloadType>U8</harp:PayloadType>
-                      <harp:Payload>0</harp:Payload>
+                      <harp:Payload>1</harp:Payload>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -1592,7 +1592,7 @@ it.Item2 as Value)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p3:ModifyMessage">
                       <p3:Address xsi:nil="true" />
-                      <p3:MessageTypeModified xsi:nil="true" />
+                      <p3:MessageTypeModified>Write</p3:MessageTypeModified>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
@@ -2315,9 +2315,9 @@ it.Y as Z)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
-                      <gl:X>0.2</gl:X>
+                      <gl:X>0.0691859</gl:X>
                       <gl:Y>-0.05</gl:Y>
-                      <gl:Z>0</gl:Z>
+                      <gl:Z>0.0228568055</gl:Z>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="PropertyMapping">
@@ -2328,9 +2328,9 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>0.2</p1:X>
+                        <p1:X>0.0691859</p1:X>
                         <p1:Y>-0.05</p1:Y>
-                        <p1:Z>0</p1:Z>
+                        <p1:Z>0.0228568055</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
@@ -2435,9 +2435,9 @@ it.Y as Z)</scr:Expression>
                     </Workflow>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-                    <TranslationX>0.2</TranslationX>
+                    <TranslationX>0.370632768</TranslationX>
                     <TranslationY>-0.05</TranslationY>
-                    <TranslationZ>-0</TranslationZ>
+                    <TranslationZ>0.278589934</TranslationZ>
                     <ScaleX>1</ScaleX>
                     <ScaleY>1</ScaleY>
                     <ScaleZ>1</ScaleZ>
@@ -2459,7 +2459,7 @@ it.Y as Z)</scr:Expression>
                     </Specular>
                     <SpecularExponent>10</SpecularExponent>
                     <RotationZ>0</RotationZ>
-                    <RotationY>112.148438</RotationY>
+                    <RotationY>-26.784668</RotationY>
                     <RotationX>0</RotationX>
                   </Expression>
                 </Nodes>
@@ -2831,8 +2831,8 @@ it.Y as Z)</scr:Expression>
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
                         <p1:X>0</p1:X>
-                        <p1:Y>-1</p1:Y>
-                        <p1:Z>0</p1:Z>
+                        <p1:Y>0</p1:Y>
+                        <p1:Z>-1</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
@@ -3089,7 +3089,7 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
                       <gl:X>0</gl:X>
-                      <gl:Y>1.95659244</gl:Y>
+                      <gl:Y>-0.467097163</gl:Y>
                       <gl:Z>0</gl:Z>
                     </Combinator>
                   </Expression>
@@ -3108,13 +3108,13 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>0</p1:X>
+                        <p1:X>0.301446885</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>0</p1:Z>
+                        <p1:Z>-0.301446736</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
-                        <p1:Y>1.95659244</p1:Y>
+                        <p1:Y>-0.467097163</p1:Y>
                         <p1:Z>0</p1:Z>
                       </p1:Orientation>
                     </Combinator>
@@ -3969,7 +3969,7 @@ Math.Abs(it.Item3 - it.Item1) &lt; Math.Pi ? (it.Item3 - it.Item1) : ((it.Item3 
               <Property Name="FileName" DisplayName="TrialListPath" />
             </Expression>
             <Expression xsi:type="io:CsvReader">
-              <io:FileName>C:\Users\Cricket Team\Documents\git\BrancoLab\CricketHuntVR\src\Workflows\CricketVRHuntingWorld\TrialLogicCsv\Example_training_stage_input.csv</io:FileName>
+              <io:FileName>TrialLogicCsv\stage1.csv</io:FileName>
               <io:ListSeparator />
               <io:ScanPattern>%s</io:ScanPattern>
               <io:SkipRows>1</io:SkipRows>
@@ -4036,7 +4036,7 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Index">
                     <Operand xsi:type="IntProperty">
-                      <Value>0</Value>
+                      <Value>1</Value>
                     </Operand>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -4068,7 +4068,7 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:CreatePoint2f">
-                            <cv:X>0.2</cv:X>
+                            <cv:X>0.07</cv:X>
                             <cv:Y>0</cv:Y>
                           </Combinator>
                         </Expression>
@@ -4283,7 +4283,7 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="cv:CreatePoint2f">
                                   <cv:X>0.0003</cv:X>
-                                  <cv:Y>0.17453292</cv:Y>
+                                  <cv:Y>0</cv:Y>
                                 </Combinator>
                               </Expression>
                               <Expression xsi:type="MulticastSubject">
@@ -4509,8 +4509,8 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                               </Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="cv:CreatePoint2f">
-                                  <cv:X>0</cv:X>
-                                  <cv:Y>-0</cv:Y>
+                                  <cv:X>-0.0015199437</cv:X>
+                                  <cv:Y>0.0015199437</cv:Y>
                                 </Combinator>
                               </Expression>
                               <Expression xsi:type="MulticastSubject">
@@ -4556,101 +4556,126 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="gl:Timer">
-                            <gl:DueTime>PT1S</gl:DueTime>
+                            <gl:DueTime>PT20S</gl:DueTime>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="IncludeWorkflow" Path="Extensions\CreateSoftwareEvent.bonsai">
                           <Address>4</Address>
                           <Payload>0</Payload>
                         </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
                         <Expression xsi:type="WorkflowOutput" />
-                        <Expression xsi:type="SubscribeSubject">
-                          <Name>RodentPositionUpdate</Name>
+                        <Expression xsi:type="Disable">
+                          <Builder xsi:type="SubscribeSubject">
+                            <Name>RodentPositionUpdate</Name>
+                          </Builder>
                         </Expression>
-                        <Expression xsi:type="rx:Condition">
-                          <Name>WithinSightCone</Name>
-                          <Workflow>
-                            <Nodes>
-                              <Expression xsi:type="WorkflowInput">
-                                <Name>Source1</Name>
-                              </Expression>
-                              <Expression xsi:type="SubscribeSubject">
-                                <Name>ComputedOrientation</Name>
-                              </Expression>
-                              <Expression xsi:type="IncludeWorkflow" Path="Extensions\ParseComputedOrientation.bonsai" />
-                              <Expression xsi:type="Combinator">
-                                <Combinator xsi:type="rx:WithLatestFrom" />
-                              </Expression>
-                              <Expression xsi:type="MemberSelector">
-                                <Selector>Item2.DisplacementAngle</Selector>
-                              </Expression>
-                              <Expression xsi:type="Combinator">
-                                <Combinator xsi:type="dsp:Abs" />
-                              </Expression>
-                              <Expression xsi:type="SubscribeSubject">
-                                <Name>ThisTrialSettings</Name>
-                              </Expression>
-                              <Expression xsi:type="IncludeWorkflow" Path="Extensions\ParseTrialSettings.bonsai" />
-                              <Expression xsi:type="MemberSelector">
-                                <Selector>AngleThreshold</Selector>
-                              </Expression>
-                              <Expression xsi:type="Combinator">
-                                <Combinator xsi:type="rx:WithLatestFrom" />
-                              </Expression>
-                              <Expression xsi:type="LessThan" />
-                              <Expression xsi:type="WorkflowOutput" />
-                            </Nodes>
-                            <Edges>
-                              <Edge From="0" To="3" Label="Source1" />
-                              <Edge From="1" To="2" Label="Source1" />
-                              <Edge From="2" To="3" Label="Source2" />
-                              <Edge From="3" To="4" Label="Source1" />
-                              <Edge From="4" To="5" Label="Source1" />
-                              <Edge From="5" To="9" Label="Source1" />
-                              <Edge From="6" To="7" Label="Source1" />
-                              <Edge From="7" To="8" Label="Source1" />
-                              <Edge From="8" To="9" Label="Source2" />
-                              <Edge From="9" To="10" Label="Source1" />
-                              <Edge From="10" To="11" Label="Source1" />
-                            </Edges>
-                          </Workflow>
+                        <Expression xsi:type="Disable">
+                          <Builder xsi:type="rx:Condition">
+                            <Name>WithinSightCone</Name>
+                            <Workflow>
+                              <Nodes>
+                                <Expression xsi:type="WorkflowInput">
+                                  <Name>Source1</Name>
+                                </Expression>
+                                <Expression xsi:type="SubscribeSubject">
+                                  <Name>ComputedOrientation</Name>
+                                </Expression>
+                                <Expression xsi:type="IncludeWorkflow" Path="Extensions\ParseComputedOrientation.bonsai" />
+                                <Expression xsi:type="Combinator">
+                                  <Combinator xsi:type="rx:WithLatestFrom" />
+                                </Expression>
+                                <Expression xsi:type="MemberSelector">
+                                  <Selector>Item2.DisplacementAngle</Selector>
+                                </Expression>
+                                <Expression xsi:type="Combinator">
+                                  <Combinator xsi:type="dsp:Abs" />
+                                </Expression>
+                                <Expression xsi:type="SubscribeSubject">
+                                  <Name>ThisTrialSettings</Name>
+                                </Expression>
+                                <Expression xsi:type="IncludeWorkflow" Path="Extensions\ParseTrialSettings.bonsai" />
+                                <Expression xsi:type="MemberSelector">
+                                  <Selector>AngleThreshold</Selector>
+                                </Expression>
+                                <Expression xsi:type="Combinator">
+                                  <Combinator xsi:type="rx:WithLatestFrom" />
+                                </Expression>
+                                <Expression xsi:type="LessThan" />
+                                <Expression xsi:type="WorkflowOutput" />
+                              </Nodes>
+                              <Edges>
+                                <Edge From="0" To="3" Label="Source1" />
+                                <Edge From="1" To="2" Label="Source1" />
+                                <Edge From="2" To="3" Label="Source2" />
+                                <Edge From="3" To="4" Label="Source1" />
+                                <Edge From="4" To="5" Label="Source1" />
+                                <Edge From="5" To="9" Label="Source1" />
+                                <Edge From="6" To="7" Label="Source1" />
+                                <Edge From="7" To="8" Label="Source1" />
+                                <Edge From="8" To="9" Label="Source2" />
+                                <Edge From="9" To="10" Label="Source1" />
+                                <Edge From="10" To="11" Label="Source1" />
+                              </Edges>
+                            </Workflow>
+                          </Builder>
                         </Expression>
-                        <Expression xsi:type="MemberSelector">
-                          <Selector>Position.Xz</Selector>
+                        <Expression xsi:type="Disable">
+                          <Builder xsi:type="MemberSelector">
+                            <Selector>Position.Xz</Selector>
+                          </Builder>
                         </Expression>
-                        <Expression xsi:type="scr:ExpressionTransform">
-                          <scr:Expression>new(
+                        <Expression xsi:type="Disable">
+                          <Builder xsi:type="scr:ExpressionTransform">
+                            <scr:Expression>new(
 -it.X as Y,
 -it.Y as X)</scr:Expression>
+                          </Builder>
                         </Expression>
-                        <Expression xsi:type="InputMapping">
-                          <PropertyMappings>
-                            <Property Name="X" Selector="Y" />
-                            <Property Name="Y" Selector="X" />
-                          </PropertyMappings>
+                        <Expression xsi:type="Disable">
+                          <Builder xsi:type="InputMapping">
+                            <PropertyMappings>
+                              <Property Name="X" Selector="Y" />
+                              <Property Name="Y" Selector="X" />
+                            </PropertyMappings>
+                          </Builder>
                         </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="cv:CreatePoint2f">
-                            <cv:X>0</cv:X>
-                            <cv:Y>0</cv:Y>
-                          </Combinator>
+                        <Expression xsi:type="Disable">
+                          <Builder xsi:type="Combinator">
+                            <Combinator xsi:type="cv:CreatePoint2f">
+                              <cv:X>-0</cv:X>
+                              <cv:Y>0</cv:Y>
+                            </Combinator>
+                          </Builder>
                         </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p1:CartToPolar" />
+                        <Expression xsi:type="Disable">
+                          <Builder xsi:type="Combinator">
+                            <Combinator xsi:type="p1:CartToPolar" />
+                          </Builder>
                         </Expression>
-                        <Expression xsi:type="InputMapping">
-                          <PropertyMappings>
-                            <Property Name="X" Selector="X" />
-                          </PropertyMappings>
+                        <Expression xsi:type="Disable">
+                          <Builder xsi:type="InputMapping">
+                            <PropertyMappings>
+                              <Property Name="X" Selector="X" />
+                            </PropertyMappings>
+                          </Builder>
                         </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="cv:CreatePoint2f">
-                            <cv:X>0</cv:X>
-                            <cv:Y>0</cv:Y>
-                          </Combinator>
+                        <Expression xsi:type="Disable">
+                          <Builder xsi:type="Combinator">
+                            <Combinator xsi:type="cv:CreatePoint2f">
+                              <cv:X>0</cv:X>
+                              <cv:Y>0</cv:Y>
+                            </Combinator>
+                          </Builder>
                         </Expression>
-                        <Expression xsi:type="MulticastSubject">
-                          <Name>UpdateArmPolarPosition</Name>
+                        <Expression xsi:type="Disable">
+                          <Builder xsi:type="MulticastSubject">
+                            <Name>UpdateArmPolarPosition</Name>
+                          </Builder>
                         </Expression>
                       </Nodes>
                       <Edges>
@@ -4660,7 +4685,7 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                         <Edge From="3" To="4" Label="Source1" />
                         <Edge From="4" To="5" Label="Source1" />
                         <Edge From="5" To="6" Label="Source1" />
-                        <Edge From="7" To="8" Label="Source1" />
+                        <Edge From="6" To="7" Label="Source1" />
                         <Edge From="8" To="9" Label="Source1" />
                         <Edge From="9" To="10" Label="Source1" />
                         <Edge From="10" To="11" Label="Source1" />
@@ -4669,6 +4694,7 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                         <Edge From="13" To="14" Label="Source1" />
                         <Edge From="14" To="15" Label="Source1" />
                         <Edge From="15" To="16" Label="Source1" />
+                        <Edge From="16" To="17" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
@@ -5221,7 +5247,7 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="FloatProperty">
-                      <Value>0</Value>
+                      <Value>0.166632637</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
