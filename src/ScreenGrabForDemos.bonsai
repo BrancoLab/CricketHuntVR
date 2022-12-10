@@ -1,40 +1,100 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <WorkflowBuilder Version="2.7.1"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:vid="clr-namespace:Bonsai.Video;assembly=Bonsai.Video"
                  xmlns:cv="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision"
+                 xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Workflow>
     <Nodes>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="IntProperty">
+          <Value>3</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Take">
+          <rx:Count>1</rx:Count>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="rx:AsyncSubject">
+        <Name>downsample</Name>
+      </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="vid:ScreenCaptureStream">
           <vid:HideCursor>false</vid:HideCursor>
           <vid:CaptureRegion>
             <vid:X>0</vid:X>
-            <vid:Y>6</vid:Y>
-            <vid:Width>10240</vid:Width>
-            <vid:Height>1434</vid:Height>
+            <vid:Y>0</vid:Y>
+            <vid:Width>0</vid:Width>
+            <vid:Height>0</vid:Height>
           </vid:CaptureRegion>
-          <vid:FrameInterval>20</vid:FrameInterval>
+          <vid:FrameInterval>33</vid:FrameInterval>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="cv:Resize">
           <cv:Size>
-            <cv:Width>5120</cv:Width>
-            <cv:Height>717</cv:Height>
+            <cv:Width>10240</cv:Width>
+            <cv:Height>1434</cv:Height>
           </cv:Size>
           <cv:Interpolation>Linear</cv:Interpolation>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Take">
+          <rx:Count>1</rx:Count>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Size</Selector>
+      </Expression>
+      <Expression xsi:type="rx:AsyncSubject">
+        <Name>raw_size</Name>
+      </Expression>
+      <Expression xsi:type="rx:PublishSubject">
+        <Name>video</Name>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>video</Name>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>raw_size</Name>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>downsample</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Zip" />
+      </Expression>
+      <Expression xsi:type="scr:ExpressionTransform">
+        <scr:Expression>new(
+it.Item1.Width * (1.0 / Item2) as Width,
+it.Item1.Height * (1.0 / Item2) as Height)
+</scr:Expression>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="Size" Selector="Width, Height" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="cv:Resize">
+          <cv:Size>
+            <cv:Width>3413</cv:Width>
+            <cv:Height>478</cv:Height>
+          </cv:Size>
+          <cv:Interpolation>NearestNeighbor</cv:Interpolation>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
         <Combinator xsi:type="cv:VideoWriter">
-          <cv:FileName>C:\Users\Cricket Team\Desktop\screen.avi</cv:FileName>
-          <cv:Suffix>FileCount</cv:Suffix>
+          <cv:Suffix>None</cv:Suffix>
           <cv:Buffered>true</cv:Buffered>
           <cv:Overwrite>false</cv:Overwrite>
           <cv:FourCC>FMP4</cv:FourCC>
-          <cv:FrameRate>50</cv:FrameRate>
+          <cv:FrameRate>30</cv:FrameRate>
           <cv:FrameSize>
             <cv:Width>0</cv:Width>
             <cv:Height>0</cv:Height>
@@ -46,6 +106,18 @@
     <Edges>
       <Edge From="0" To="1" Label="Source1" />
       <Edge From="1" To="2" Label="Source1" />
+      <Edge From="3" To="4" Label="Source1" />
+      <Edge From="4" To="5" Label="Source1" />
+      <Edge From="4" To="8" Label="Source1" />
+      <Edge From="5" To="6" Label="Source1" />
+      <Edge From="6" To="7" Label="Source1" />
+      <Edge From="9" To="15" Label="Source1" />
+      <Edge From="10" To="12" Label="Source1" />
+      <Edge From="11" To="12" Label="Source2" />
+      <Edge From="12" To="13" Label="Source1" />
+      <Edge From="13" To="14" Label="Source1" />
+      <Edge From="14" To="15" Label="Source2" />
+      <Edge From="15" To="16" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
