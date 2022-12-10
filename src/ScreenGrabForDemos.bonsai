@@ -10,7 +10,7 @@
     <Nodes>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="IntProperty">
-          <Value>3</Value>
+          <Value>2</Value>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
@@ -82,14 +82,15 @@ it.Item1.Height * (1.0 / Item2) as Height)
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="cv:Resize">
           <cv:Size>
-            <cv:Width>3413</cv:Width>
-            <cv:Height>478</cv:Height>
+            <cv:Width>5120</cv:Width>
+            <cv:Height>717</cv:Height>
           </cv:Size>
           <cv:Interpolation>NearestNeighbor</cv:Interpolation>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="cv:VideoWriter">
+          <cv:FileName>C:\Users\Cricket Team\Desktop\test.avi</cv:FileName>
           <cv:Suffix>None</cv:Suffix>
           <cv:Buffered>true</cv:Buffered>
           <cv:Overwrite>false</cv:Overwrite>
