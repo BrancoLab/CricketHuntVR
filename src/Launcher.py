@@ -11,7 +11,7 @@ from time import sleep
 import os
 
 ## User Settings
-SESSIOND_ID = r"221208_test_5"
+SESSIOND_ID = r"221209_M6_h"
 DATA_ROOT_PATH = r"C:\Users\Cricket Team\Desktop\data"
 
 #ADD_FLAGS = "--no-editor" #launches Bonsai without the editor and starts the workflow automatically
@@ -77,3 +77,4 @@ if not(udp_LayoutFile == "") and FORCE_LAYOUT:
 
 print(f"Starting... {udp_draw_output_cmd}")
 draw_process = subprocess.Popen(udp_draw_output_cmd, cwd=cwd, creationflags=subprocess.CREATE_NEW_CONSOLE)
+
