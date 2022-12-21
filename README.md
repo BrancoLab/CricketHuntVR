@@ -43,4 +43,5 @@ https://github.com/SainsburyWellcomeCentre/virt-hunt-drv
     | `perturbation_onset` | `2` | `U8` | [0] | Event timestamping the cricket arm perturbation onset. |
     | `trial_end` | `3` | `U8` | [0] | Event timestamping the end of the trial. |
     | `cricket_eat_end` | `4` | `U8` | [0] | Event timestamping the end of the period animals are allowed to eat the cricket for. |
-    | `position_reset` | `11` | `float` [6] | [x,y,z,angle_x,angle_y,angle_z] | Whenever the position of the moues is manually reset outputs an event containing the target position |
+    | `position_reset` | `11` | `float` [6] | [x,y,z,angle_x,angle_y,angle_z] | Whenever the position of the mouse is manually reset outputs an event containing the target position |
+    | `play_audio_stim` | `12` | `U8` | [0] | Event that signals the triggering of a sound playback |
