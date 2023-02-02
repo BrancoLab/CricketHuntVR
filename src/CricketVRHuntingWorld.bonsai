@@ -44,6 +44,9 @@
             <Expression xsi:type="MulticastSubject">
               <Name>RodentPosition</Name>
             </Expression>
+            <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Single">
+              <rx:Name>ArmGain</rx:Name>
+            </Expression>
             <Expression xsi:type="rx:PublishSubject" TypeArguments="p2:Point2f">
               <rx:Name>UpdateArmCartPosition</rx:Name>
             </Expression>
@@ -99,10 +102,10 @@
           </Nodes>
           <Edges>
             <Edge From="3" To="4" Label="Source1" />
-            <Edge From="11" To="12" Label="Source1" />
-            <Edge From="13" To="15" Label="Source1" />
-            <Edge From="14" To="15" Label="Source2" />
-            <Edge From="15" To="16" Label="Source1" />
+            <Edge From="12" To="13" Label="Source1" />
+            <Edge From="14" To="16" Label="Source1" />
+            <Edge From="15" To="16" Label="Source2" />
+            <Edge From="16" To="17" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -4757,6 +4760,13 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                                   <cv:Y>0</cv:Y>
                                 </Combinator>
                               </Expression>
+                              <Expression xsi:type="SubscribeSubject">
+                                <Name>ArmGain</Name>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="rx:WithLatestFrom" />
+                              </Expression>
+                              <Expression xsi:type="Multiply" />
                               <Expression xsi:type="MulticastSubject">
                                 <Name>UpdateArmCartPosition</Name>
                               </Expression>
@@ -4773,8 +4783,11 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                               <Edge From="7" To="8" Label="Source1" />
                               <Edge From="8" To="9" Label="Source1" />
                               <Edge From="9" To="10" Label="Source1" />
-                              <Edge From="10" To="11" Label="Source1" />
-                              <Edge From="11" To="12" Label="Source1" />
+                              <Edge From="10" To="12" Label="Source1" />
+                              <Edge From="11" To="12" Label="Source2" />
+                              <Edge From="12" To="13" Label="Source1" />
+                              <Edge From="13" To="14" Label="Source1" />
+                              <Edge From="14" To="15" Label="Source1" />
                             </Edges>
                           </Workflow>
                         </Expression>
@@ -4909,6 +4922,13 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                             <cv:Y>0</cv:Y>
                           </Combinator>
                         </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>ArmGain</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:WithLatestFrom" />
+                        </Expression>
+                        <Expression xsi:type="Multiply" />
                         <Expression xsi:type="MulticastSubject">
                           <Name>UpdateArmPolarPosition</Name>
                         </Expression>
@@ -4931,7 +4951,10 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                         <Edge From="15" To="16" Label="Source1" />
                         <Edge From="16" To="17" Label="Source1" />
                         <Edge From="17" To="18" Label="Source1" />
-                        <Edge From="18" To="19" Label="Source1" />
+                        <Edge From="18" To="20" Label="Source1" />
+                        <Edge From="19" To="20" Label="Source2" />
+                        <Edge From="20" To="21" Label="Source1" />
+                        <Edge From="21" To="22" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
@@ -6650,6 +6673,14 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
       <Expression xsi:type="MulticastSubject">
         <Name>PlayAudioStim</Name>
       </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="FloatProperty">
+          <Value>1</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="MulticastSubject">
+        <Name>ArmGain</Name>
+      </Expression>
     </Nodes>
     <Edges>
       <Edge From="1" To="2" Label="Source1" />
@@ -6659,6 +6690,7 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
       <Edge From="11" To="12" Label="Source2" />
       <Edge From="13" To="14" Label="Source1" />
       <Edge From="18" To="19" Label="Source1" />
+      <Edge From="20" To="21" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
