@@ -1884,7 +1884,7 @@ it.Item2 as Value)</scr:Expression>
                     <Name>TimestampStream</Name>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
-                    <Name>ArmGainEating</Name>
+                    <Name>ArmGainTrial</Name>
                   </Expression>
                   <Expression xsi:type="harp:Format">
                     <harp:MessageType>Write</harp:MessageType>
@@ -1904,11 +1904,34 @@ it.Item2 as Value)</scr:Expression>
                     <Name>SoftwareEventLogger</Name>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
+                    <Name>TimestampStream</Name>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>ArmGainEating</Name>
+                  </Expression>
+                  <Expression xsi:type="harp:Format">
+                    <harp:MessageType>Write</harp:MessageType>
+                    <harp:Address>14</harp:Address>
+                    <harp:PayloadType>Float</harp:PayloadType>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="p3:ModifyMessage">
+                      <p3:Address xsi:nil="true" />
+                      <p3:MessageTypeModified>Event</p3:MessageTypeModified>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="MulticastSubject">
+                    <Name>SoftwareEventLogger</Name>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
                     <Name>ShelterCorner</Name>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateArmMessage">
-                      <p1:Address>14</p1:Address>
+                      <p1:Address>20</p1:Address>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
@@ -1949,11 +1972,16 @@ it.Item2 as Value)</scr:Expression>
                   <Edge From="23" To="24" Label="Source1" />
                   <Edge From="24" To="25" Label="Source1" />
                   <Edge From="25" To="26" Label="Source1" />
-                  <Edge From="27" To="28" Label="Source1" />
-                  <Edge From="28" To="30" Label="Source1" />
-                  <Edge From="29" To="30" Label="Source2" />
+                  <Edge From="27" To="30" Label="Source2" />
+                  <Edge From="28" To="29" Label="Source1" />
+                  <Edge From="29" To="30" Label="Source1" />
                   <Edge From="30" To="31" Label="Source1" />
                   <Edge From="31" To="32" Label="Source1" />
+                  <Edge From="33" To="34" Label="Source1" />
+                  <Edge From="34" To="36" Label="Source1" />
+                  <Edge From="35" To="36" Label="Source2" />
+                  <Edge From="36" To="37" Label="Source1" />
+                  <Edge From="37" To="38" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
