@@ -6737,6 +6737,9 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
       <Expression xsi:type="MulticastSubject">
         <Name>ArmGain</Name>
       </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>ArmEncoderPosition</Name>
+      </Expression>
     </Nodes>
     <Edges>
       <Edge From="1" To="2" Label="Source1" />
