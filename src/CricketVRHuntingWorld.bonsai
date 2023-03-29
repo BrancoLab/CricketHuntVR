@@ -45,7 +45,10 @@
               <Name>RodentPosition</Name>
             </Expression>
             <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Single">
-              <rx:Name>ArmGain</rx:Name>
+              <rx:Name>ArmGainEating</rx:Name>
+            </Expression>
+            <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Single">
+              <rx:Name>ArmGainTrial</rx:Name>
             </Expression>
             <Expression xsi:type="rx:PublishSubject" TypeArguments="p2:Point2f">
               <rx:Name>UpdateArmCartPosition</rx:Name>
@@ -102,10 +105,10 @@
           </Nodes>
           <Edges>
             <Edge From="3" To="4" Label="Source1" />
-            <Edge From="12" To="13" Label="Source1" />
-            <Edge From="14" To="16" Label="Source1" />
-            <Edge From="15" To="16" Label="Source2" />
-            <Edge From="16" To="17" Label="Source1" />
+            <Edge From="13" To="14" Label="Source1" />
+            <Edge From="15" To="17" Label="Source1" />
+            <Edge From="16" To="17" Label="Source2" />
+            <Edge From="17" To="18" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -1881,7 +1884,7 @@ it.Item2 as Value)</scr:Expression>
                     <Name>TimestampStream</Name>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
-                    <Name>ArmGain</Name>
+                    <Name>ArmGainEating</Name>
                   </Expression>
                   <Expression xsi:type="harp:Format">
                     <harp:MessageType>Write</harp:MessageType>
@@ -4817,7 +4820,7 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                                 </Combinator>
                               </Expression>
                               <Expression xsi:type="SubscribeSubject">
-                                <Name>ArmGain</Name>
+                                <Name>ArmGainTrial</Name>
                               </Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="rx:WithLatestFrom" />
@@ -4979,7 +4982,7 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
-                          <Name>ArmGain</Name>
+                          <Name>ArmGainEating</Name>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="rx:WithLatestFrom" />
@@ -6735,7 +6738,15 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
         </Combinator>
       </Expression>
       <Expression xsi:type="MulticastSubject">
-        <Name>ArmGain</Name>
+        <Name>ArmGainEating</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="FloatProperty">
+          <Value>1</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="MulticastSubject">
+        <Name>ArmGainTrial</Name>
       </Expression>
       <Expression xsi:type="SubscribeSubject">
         <Name>ArmEncoderPosition</Name>
@@ -6750,6 +6761,7 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
       <Edge From="13" To="14" Label="Source1" />
       <Edge From="18" To="19" Label="Source1" />
       <Edge From="20" To="21" Label="Source1" />
+      <Edge From="22" To="23" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
