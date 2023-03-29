@@ -38,6 +38,19 @@
             <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p1:VrElement">
               <rx:Name>RodentPosition</rx:Name>
             </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="DoubleProperty">
+                <Value>0</Value>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Take">
+                <rx:Count>1</rx:Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="rx:BehaviorSubject">
+              <Name>TimestampStream</Name>
+            </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>ResetRodentPosition</Name>
             </Expression>
@@ -105,10 +118,12 @@
           </Nodes>
           <Edges>
             <Edge From="3" To="4" Label="Source1" />
-            <Edge From="13" To="14" Label="Source1" />
-            <Edge From="15" To="17" Label="Source1" />
-            <Edge From="16" To="17" Label="Source2" />
-            <Edge From="17" To="18" Label="Source1" />
+            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="6" To="7" Label="Source1" />
+            <Edge From="16" To="17" Label="Source1" />
+            <Edge From="18" To="20" Label="Source1" />
+            <Edge From="19" To="20" Label="Source2" />
+            <Edge From="20" To="21" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -1523,7 +1538,7 @@ new(
                   <Expression xsi:type="MemberSelector">
                     <Selector>Seconds</Selector>
                   </Expression>
-                  <Expression xsi:type="rx:BehaviorSubject">
+                  <Expression xsi:type="MulticastSubject">
                     <Name>TimestampStream</Name>
                   </Expression>
                 </Nodes>
@@ -1730,9 +1745,6 @@ new(
               <Name>SoftwareEvents</Name>
               <Workflow>
                 <Nodes>
-                  <Expression xsi:type="rx:PublishSubject" TypeArguments="harp:HarpMessage">
-                    <rx:Name>SoftwareEventLogger</rx:Name>
-                  </Expression>
                   <Expression xsi:type="GroupWorkflow">
                     <Name>MouseLogging</Name>
                     <Workflow>
@@ -1800,6 +1812,9 @@ new(
                         <Edge From="11" To="12" Label="Source1" />
                       </Edges>
                     </Workflow>
+                  </Expression>
+                  <Expression xsi:type="rx:BehaviorSubject" TypeArguments="harp:HarpMessage">
+                    <rx:Name>SoftwareEventLogger</rx:Name>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
                     <Name>TimestampStream</Name>
@@ -6770,7 +6785,7 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="FloatProperty">
-          <Value>1</Value>
+          <Value>6</Value>
         </Combinator>
       </Expression>
       <Expression xsi:type="MulticastSubject">
