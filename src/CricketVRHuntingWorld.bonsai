@@ -976,7 +976,7 @@
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="cv:CreatePoint2f">
                       <cv:X>0.0150001</cv:X>
-                      <cv:Y>0.27</cv:Y>
+                      <cv:Y>0.15</cv:Y>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="rx:BehaviorSubject">
@@ -6777,7 +6777,7 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="FloatProperty">
-          <Value>1</Value>
+          <Value>0.05</Value>
         </Combinator>
       </Expression>
       <Expression xsi:type="MulticastSubject">
@@ -6785,7 +6785,7 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="FloatProperty">
-          <Value>6</Value>
+          <Value>1</Value>
         </Combinator>
       </Expression>
       <Expression xsi:type="MulticastSubject">
