@@ -1,0 +1,1591 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.7.1"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
+                 xmlns:dsp="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp"
+                 xmlns:num="clr-namespace:Bonsai.Numerics;assembly=Bonsai.Numerics"
+                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                 xmlns:mx="clr-namespace:Bonsai.DAQmx;assembly=Bonsai.DAQmx"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Value" DisplayName="AnalogAuditoryThreatFreq" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="IntProperty">
+          <Value>15000</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Value" DisplayName="AnalogAuditoryThreatAmplitude" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="FloatProperty">
+          <Value>10</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Value" DisplayName="AuditoryThreatMaxDur" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="TimeSpanProperty">
+          <Value>PT9S</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="SubscribeSubject">
+          <Name>KeyPress_AuditoryThreatType</Name>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:CombineLatest" />
+      </Expression>
+      <Expression xsi:type="rx:BehaviorSubject">
+        <Name>AuditoryThreatParams</Name>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Value" DisplayName="SampleRate_AnalogAudio" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="IntProperty">
+          <Value>300000</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Take">
+          <rx:Count>1</rx:Count>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Value" DisplayName="BufferSize_AnalogAudio" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="IntProperty">
+          <Value>1350000</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Take">
+          <rx:Count>1</rx:Count>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Zip" />
+      </Expression>
+      <Expression xsi:type="scr:ExpressionTransform">
+        <scr:Expression>new(
+it.Item1 as SampleRate,
+it.Item2 as BufferLength
+)</scr:Expression>
+      </Expression>
+      <Expression xsi:type="rx:AsyncSubject">
+        <Name>AuditoryAOParams</Name>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="rx:Condition">
+          <Name>AudThreatType1</Name>
+          <Workflow>
+            <Nodes>
+              <Expression xsi:type="WorkflowInput">
+                <Name>Source1</Name>
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>KeyPress_AuditoryThreatType</Name>
+              </Expression>
+              <Expression xsi:type="Equal">
+                <Operand xsi:type="StringProperty">
+                  <Value>9sTone</Value>
+                </Operand>
+              </Expression>
+              <Expression xsi:type="WorkflowOutput" />
+            </Nodes>
+            <Edges>
+              <Edge From="1" To="2" Label="Source1" />
+              <Edge From="2" To="3" Label="Source1" />
+            </Edges>
+          </Workflow>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="rx:SelectMany">
+          <Name>9s constant amplitude</Name>
+          <Workflow>
+            <Nodes>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>AuditoryThreatParams</Name>
+              </Expression>
+              <Expression xsi:type="PropertyMapping">
+                <PropertyMappings>
+                  <Property Name="Frequency" Selector="Item1" />
+                  <Property Name="Amplitude" Selector="Item2" />
+                </PropertyMappings>
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>AuditoryAOParams</Name>
+              </Expression>
+              <Expression xsi:type="PropertyMapping">
+                <PropertyMappings>
+                  <Property Name="SampleRate" Selector="SampleRate" />
+                </PropertyMappings>
+              </Expression>
+              <Expression xsi:type="GroupWorkflow">
+                <Name>9s constant amp</Name>
+                <Workflow>
+                  <Nodes>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Amplitude" />
+                      <Property Name="Frequency" />
+                      <Property Name="Offset" />
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Value" DisplayName="SampleRate" />
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="IntProperty">
+                        <Value>300000</Value>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Value" DisplayName="OnDuration(s)" />
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="FloatProperty">
+                        <Value>9</Value>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="rx:Zip" />
+                    </Expression>
+                    <Expression xsi:type="scr:ExpressionTransform">
+                      <scr:Expression>it.Item1 * it.Item2</scr:Expression>
+                    </Expression>
+                    <Expression xsi:type="PropertyMapping">
+                      <PropertyMappings>
+                        <Property Name="BufferLength" />
+                      </PropertyMappings>
+                    </Expression>
+                    <Expression xsi:type="PropertyMapping">
+                      <PropertyMappings>
+                        <Property Name="SampleRate" />
+                      </PropertyMappings>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="dsp:FunctionGenerator">
+                        <dsp:BufferLength>2700000</dsp:BufferLength>
+                        <dsp:Frequency>15000</dsp:Frequency>
+                        <dsp:Waveform>Sine</dsp:Waveform>
+                        <dsp:SampleRate>300000</dsp:SampleRate>
+                        <dsp:Depth>F32</dsp:Depth>
+                        <dsp:Amplitude>10</dsp:Amplitude>
+                        <dsp:Offset>0</dsp:Offset>
+                        <dsp:Phase>0</dsp:Phase>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="rx:Take">
+                        <rx:Count>1</rx:Count>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="WorkflowOutput" />
+                  </Nodes>
+                  <Edges>
+                    <Edge From="0" To="9" Label="Source1" />
+                    <Edge From="1" To="2" Label="Source1" />
+                    <Edge From="2" To="5" Label="Source2" />
+                    <Edge From="2" To="8" Label="Source1" />
+                    <Edge From="3" To="4" Label="Source1" />
+                    <Edge From="4" To="5" Label="Source1" />
+                    <Edge From="5" To="6" Label="Source1" />
+                    <Edge From="6" To="7" Label="Source1" />
+                    <Edge From="7" To="9" Label="Source3" />
+                    <Edge From="8" To="9" Label="Source2" />
+                    <Edge From="9" To="10" Label="Source1" />
+                    <Edge From="10" To="11" Label="Source1" />
+                  </Edges>
+                </Workflow>
+              </Expression>
+              <Expression xsi:type="WorkflowOutput" />
+            </Nodes>
+            <Edges>
+              <Edge From="0" To="1" Label="Source1" />
+              <Edge From="1" To="4" Label="Source1" />
+              <Edge From="2" To="3" Label="Source1" />
+              <Edge From="3" To="4" Label="Source2" />
+              <Edge From="4" To="5" Label="Source1" />
+            </Edges>
+          </Workflow>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="rx:Condition">
+          <Name>AudThreatType2</Name>
+          <Workflow>
+            <Nodes>
+              <Expression xsi:type="WorkflowInput">
+                <Name>Source1</Name>
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>KeyPress_AuditoryThreatType</Name>
+              </Expression>
+              <Expression xsi:type="Equal">
+                <Operand xsi:type="StringProperty">
+                  <Value>3x2sTone</Value>
+                </Operand>
+              </Expression>
+              <Expression xsi:type="WorkflowOutput" />
+            </Nodes>
+            <Edges>
+              <Edge From="1" To="2" Label="Source1" />
+              <Edge From="2" To="3" Label="Source1" />
+            </Edges>
+          </Workflow>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="rx:SelectMany">
+          <Name>3 x 2s constant amplitude</Name>
+          <Workflow>
+            <Nodes>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>AuditoryThreatParams</Name>
+              </Expression>
+              <Expression xsi:type="PropertyMapping">
+                <PropertyMappings>
+                  <Property Name="Frequency" Selector="Item1" />
+                  <Property Name="Amplitude" Selector="Item2" />
+                </PropertyMappings>
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>AuditoryAOParams</Name>
+              </Expression>
+              <Expression xsi:type="PropertyMapping">
+                <PropertyMappings>
+                  <Property Name="SampleRate" Selector="SampleRate" />
+                </PropertyMappings>
+              </Expression>
+              <Expression xsi:type="GroupWorkflow">
+                <Name>3 x2s</Name>
+                <Workflow>
+                  <Nodes>
+                    <Expression xsi:type="SubscribeSubject">
+                      <Name>SoundParams</Name>
+                    </Expression>
+                    <Expression xsi:type="PropertyMapping">
+                      <PropertyMappings>
+                        <Property Name="ColumnTiles" Selector="NumRepeats" />
+                      </PropertyMappings>
+                    </Expression>
+                    <Expression xsi:type="GroupWorkflow">
+                      <Name>InterSoundInterval</Name>
+                      <Workflow>
+                        <Nodes>
+                          <Expression xsi:type="SubscribeSubject">
+                            <Name>SoundParams</Name>
+                          </Expression>
+                          <Expression xsi:type="scr:ExpressionTransform">
+                            <scr:Expression>it.SampleRate * it.OffDuration</scr:Expression>
+                          </Expression>
+                          <Expression xsi:type="PropertyMapping">
+                            <PropertyMappings>
+                              <Property Name="BufferLength" />
+                            </PropertyMappings>
+                          </Expression>
+                          <Expression xsi:type="SubscribeSubject">
+                            <Name>SoundParams</Name>
+                          </Expression>
+                          <Expression xsi:type="PropertyMapping">
+                            <PropertyMappings>
+                              <Property Name="SampleRate" Selector="SampleRate" />
+                            </PropertyMappings>
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="dsp:FunctionGenerator">
+                              <dsp:BufferLength>150000</dsp:BufferLength>
+                              <dsp:Frequency>1</dsp:Frequency>
+                              <dsp:Waveform>Sine</dsp:Waveform>
+                              <dsp:SampleRate>300000</dsp:SampleRate>
+                              <dsp:Depth>F32</dsp:Depth>
+                              <dsp:Amplitude>0</dsp:Amplitude>
+                              <dsp:Offset>0</dsp:Offset>
+                              <dsp:Phase>0</dsp:Phase>
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="rx:Take">
+                              <rx:Count>1</rx:Count>
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="WorkflowOutput" />
+                        </Nodes>
+                        <Edges>
+                          <Edge From="0" To="1" Label="Source1" />
+                          <Edge From="1" To="2" Label="Source1" />
+                          <Edge From="2" To="5" Label="Source1" />
+                          <Edge From="3" To="4" Label="Source1" />
+                          <Edge From="4" To="5" Label="Source2" />
+                          <Edge From="5" To="6" Label="Source1" />
+                          <Edge From="6" To="7" Label="Source1" />
+                        </Edges>
+                      </Workflow>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="rx:Take">
+                        <rx:Count>1</rx:Count>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Amplitude" />
+                      <Property Name="Frequency" />
+                    </Expression>
+                    <Expression xsi:type="GroupWorkflow">
+                      <Name>2s constant amplitude</Name>
+                      <Workflow>
+                        <Nodes>
+                          <Expression xsi:type="ExternalizedMapping">
+                            <Property Name="Amplitude" />
+                            <Property Name="Frequency" />
+                          </Expression>
+                          <Expression xsi:type="SubscribeSubject">
+                            <Name>SoundParams</Name>
+                          </Expression>
+                          <Expression xsi:type="scr:ExpressionTransform">
+                            <scr:Expression>it.SampleRate * it.OnDuration</scr:Expression>
+                          </Expression>
+                          <Expression xsi:type="PropertyMapping">
+                            <PropertyMappings>
+                              <Property Name="BufferLength" />
+                            </PropertyMappings>
+                          </Expression>
+                          <Expression xsi:type="SubscribeSubject">
+                            <Name>SoundParams</Name>
+                          </Expression>
+                          <Expression xsi:type="PropertyMapping">
+                            <PropertyMappings>
+                              <Property Name="SampleRate" Selector="SampleRate" />
+                            </PropertyMappings>
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="dsp:FunctionGenerator">
+                              <dsp:BufferLength>600000</dsp:BufferLength>
+                              <dsp:Frequency>10000</dsp:Frequency>
+                              <dsp:Waveform>Sine</dsp:Waveform>
+                              <dsp:SampleRate>300000</dsp:SampleRate>
+                              <dsp:Depth>F32</dsp:Depth>
+                              <dsp:Amplitude>3</dsp:Amplitude>
+                              <dsp:Offset>0</dsp:Offset>
+                              <dsp:Phase>0</dsp:Phase>
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="WorkflowOutput" />
+                        </Nodes>
+                        <Edges>
+                          <Edge From="0" To="6" Label="Source1" />
+                          <Edge From="1" To="2" Label="Source1" />
+                          <Edge From="2" To="3" Label="Source1" />
+                          <Edge From="3" To="6" Label="Source3" />
+                          <Edge From="4" To="5" Label="Source1" />
+                          <Edge From="5" To="6" Label="Source2" />
+                          <Edge From="6" To="7" Label="Source1" />
+                        </Edges>
+                      </Workflow>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="rx:Take">
+                        <rx:Count>1</rx:Count>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="rx:Zip" />
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="dsp:Concat">
+                        <dsp:Axis>1</dsp:Axis>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="dsp:Tile">
+                        <dsp:RowTiles>1</dsp:RowTiles>
+                        <dsp:ColumnTiles>3</dsp:ColumnTiles>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="WorkflowOutput" />
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Value" DisplayName="NumRepeats" />
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="IntProperty">
+                        <Value>3</Value>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Value" DisplayName="OffDuration(s)" />
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="FloatProperty">
+                        <Value>0.5</Value>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Value" DisplayName="OnDuration(s)" />
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="FloatProperty">
+                        <Value>2</Value>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Value" DisplayName="SampleRate" />
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="IntProperty">
+                        <Value>300000</Value>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="rx:Zip" />
+                    </Expression>
+                    <Expression xsi:type="scr:ExpressionTransform">
+                      <scr:Expression>new(
+it.Item1 as OnDuration, 
+it.Item2 as OffDuration,
+it.Item3 as NumRepeats,
+it.Item4 as SampleRate)
+</scr:Expression>
+                    </Expression>
+                    <Expression xsi:type="rx:BehaviorSubject">
+                      <Name>SoundParams</Name>
+                    </Expression>
+                  </Nodes>
+                  <Edges>
+                    <Edge From="0" To="1" Label="Source1" />
+                    <Edge From="1" To="9" Label="Source2" />
+                    <Edge From="2" To="3" Label="Source1" />
+                    <Edge From="3" To="7" Label="Source2" />
+                    <Edge From="4" To="5" Label="Source1" />
+                    <Edge From="5" To="6" Label="Source1" />
+                    <Edge From="6" To="7" Label="Source1" />
+                    <Edge From="7" To="8" Label="Source1" />
+                    <Edge From="8" To="9" Label="Source1" />
+                    <Edge From="9" To="10" Label="Source1" />
+                    <Edge From="11" To="12" Label="Source1" />
+                    <Edge From="12" To="19" Label="Source3" />
+                    <Edge From="13" To="14" Label="Source1" />
+                    <Edge From="14" To="19" Label="Source2" />
+                    <Edge From="15" To="16" Label="Source1" />
+                    <Edge From="16" To="19" Label="Source1" />
+                    <Edge From="17" To="18" Label="Source1" />
+                    <Edge From="18" To="19" Label="Source4" />
+                    <Edge From="19" To="20" Label="Source1" />
+                    <Edge From="20" To="21" Label="Source1" />
+                  </Edges>
+                </Workflow>
+              </Expression>
+              <Expression xsi:type="WorkflowOutput" />
+            </Nodes>
+            <Edges>
+              <Edge From="0" To="1" Label="Source1" />
+              <Edge From="1" To="4" Label="Source1" />
+              <Edge From="2" To="3" Label="Source1" />
+              <Edge From="3" To="4" Label="Source2" />
+              <Edge From="4" To="5" Label="Source1" />
+            </Edges>
+          </Workflow>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="rx:Condition">
+          <Name>AudThreatType2</Name>
+          <Workflow>
+            <Nodes>
+              <Expression xsi:type="WorkflowInput">
+                <Name>Source1</Name>
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>KeyPress_AuditoryThreatType</Name>
+              </Expression>
+              <Expression xsi:type="Equal">
+                <Operand xsi:type="StringProperty">
+                  <Value>FrequencySweep</Value>
+                </Operand>
+              </Expression>
+              <Expression xsi:type="WorkflowOutput" />
+            </Nodes>
+            <Edges>
+              <Edge From="1" To="2" Label="Source1" />
+              <Edge From="2" To="3" Label="Source1" />
+            </Edges>
+          </Workflow>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="rx:SelectMany">
+          <Name>FrequencySweep</Name>
+          <Workflow>
+            <Nodes>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>AuditoryThreatParams</Name>
+              </Expression>
+              <Expression xsi:type="PropertyMapping">
+                <PropertyMappings>
+                  <Property Name="Amplitude" Selector="Item2" />
+                </PropertyMappings>
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>AuditoryAOParams</Name>
+              </Expression>
+              <Expression xsi:type="PropertyMapping">
+                <PropertyMappings>
+                  <Property Name="SampleRate" Selector="SampleRate" />
+                </PropertyMappings>
+              </Expression>
+              <Expression xsi:type="GroupWorkflow">
+                <Name>FrequencySweep</Name>
+                <Workflow>
+                  <Nodes>
+                    <Expression xsi:type="SubscribeSubject">
+                      <Name>SoundParams</Name>
+                    </Expression>
+                    <Expression xsi:type="PropertyMapping">
+                      <PropertyMappings>
+                        <Property Name="ColumnTiles" Selector="NumRepeats" />
+                      </PropertyMappings>
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Amplitude" />
+                    </Expression>
+                    <Expression xsi:type="GroupWorkflow">
+                      <Name>FrequencySweep</Name>
+                      <Workflow>
+                        <Nodes>
+                          <Expression xsi:type="SubscribeSubject">
+                            <Name>SoundParams</Name>
+                          </Expression>
+                          <Expression xsi:type="scr:ExpressionTransform">
+                            <scr:Expression>it.OnDuration * it.SampleRate</scr:Expression>
+                          </Expression>
+                          <Expression xsi:type="PropertyMapping">
+                            <PropertyMappings>
+                              <Property Name="Count" />
+                            </PropertyMappings>
+                          </Expression>
+                          <Expression xsi:type="SubscribeSubject">
+                            <Name>SoundParams</Name>
+                          </Expression>
+                          <Expression xsi:type="scr:ExpressionTransform">
+                            <scr:Expression>it.SampleRate / 100</scr:Expression>
+                          </Expression>
+                          <Expression xsi:type="PropertyMapping">
+                            <PropertyMappings>
+                              <Property Name="BufferLength" />
+                            </PropertyMappings>
+                          </Expression>
+                          <Expression xsi:type="SubscribeSubject">
+                            <Name>SoundParams</Name>
+                          </Expression>
+                          <Expression xsi:type="PropertyMapping">
+                            <PropertyMappings>
+                              <Property Name="SampleRate" Selector="SampleRate" />
+                            </PropertyMappings>
+                          </Expression>
+                          <Expression xsi:type="SubscribeSubject">
+                            <Name>SoundParams</Name>
+                          </Expression>
+                          <Expression xsi:type="scr:ExpressionTransform">
+                            <scr:Expression>(it.EndFreq - it.StartFreq) / (it.OnDuration * it.SampleRate / (it.SampleRate / 100))</scr:Expression>
+                          </Expression>
+                          <Expression xsi:type="PropertyMapping">
+                            <PropertyMappings>
+                              <Property Name="Value" />
+                            </PropertyMappings>
+                          </Expression>
+                          <Expression xsi:type="SubscribeSubject">
+                            <Name>SoundParams</Name>
+                          </Expression>
+                          <Expression xsi:type="PropertyMapping">
+                            <PropertyMappings>
+                              <Property Name="Value" Selector="StartFreq" />
+                            </PropertyMappings>
+                          </Expression>
+                          <Expression xsi:type="ExternalizedMapping">
+                            <Property Name="Amplitude" />
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="dsp:FunctionGenerator">
+                              <dsp:BufferLength>3000</dsp:BufferLength>
+                              <dsp:Frequency>1</dsp:Frequency>
+                              <dsp:Waveform>Sine</dsp:Waveform>
+                              <dsp:SampleRate>300000</dsp:SampleRate>
+                              <dsp:Depth>F32</dsp:Depth>
+                              <dsp:Amplitude>0.5</dsp:Amplitude>
+                              <dsp:Offset>0.5</dsp:Offset>
+                              <dsp:Phase>0</dsp:Phase>
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="FloatProperty">
+                              <Value>10</Value>
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="rx:Accumulate" />
+                          <Expression xsi:type="Add">
+                            <Operand xsi:type="IntProperty">
+                              <Value>17000</Value>
+                            </Operand>
+                          </Expression>
+                          <Expression xsi:type="PropertyMapping">
+                            <PropertyMappings>
+                              <Property Name="Frequency" />
+                            </PropertyMappings>
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="dsp:FunctionGenerator">
+                              <dsp:BufferLength>3000</dsp:BufferLength>
+                              <dsp:Frequency>20000</dsp:Frequency>
+                              <dsp:Waveform>Sine</dsp:Waveform>
+                              <dsp:SampleRate>300000</dsp:SampleRate>
+                              <dsp:Depth>F32</dsp:Depth>
+                              <dsp:Amplitude>3</dsp:Amplitude>
+                              <dsp:Offset>0</dsp:Offset>
+                              <dsp:Phase>0</dsp:Phase>
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="dsp:Buffer">
+                              <dsp:Count>900000</dsp:Count>
+                              <dsp:Skip xsi:nil="true" />
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="rx:Take">
+                              <rx:Count>1</rx:Count>
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="WorkflowOutput" />
+                        </Nodes>
+                        <Edges>
+                          <Edge From="0" To="1" Label="Source1" />
+                          <Edge From="1" To="2" Label="Source1" />
+                          <Edge From="2" To="20" Label="Source2" />
+                          <Edge From="3" To="4" Label="Source1" />
+                          <Edge From="4" To="5" Label="Source1" />
+                          <Edge From="5" To="19" Label="Source3" />
+                          <Edge From="5" To="14" Label="Source1" />
+                          <Edge From="6" To="7" Label="Source1" />
+                          <Edge From="7" To="19" Label="Source4" />
+                          <Edge From="7" To="14" Label="Source2" />
+                          <Edge From="8" To="9" Label="Source1" />
+                          <Edge From="9" To="10" Label="Source1" />
+                          <Edge From="10" To="15" Label="Source2" />
+                          <Edge From="11" To="12" Label="Source1" />
+                          <Edge From="12" To="17" Label="Source2" />
+                          <Edge From="13" To="19" Label="Source5" />
+                          <Edge From="14" To="15" Label="Source1" />
+                          <Edge From="14" To="19" Label="Source2" />
+                          <Edge From="15" To="16" Label="Source1" />
+                          <Edge From="16" To="17" Label="Source1" />
+                          <Edge From="17" To="18" Label="Source1" />
+                          <Edge From="18" To="19" Label="Source1" />
+                          <Edge From="19" To="20" Label="Source1" />
+                          <Edge From="20" To="21" Label="Source1" />
+                          <Edge From="21" To="22" Label="Source1" />
+                        </Edges>
+                      </Workflow>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="dsp:Tile">
+                        <dsp:RowTiles>1</dsp:RowTiles>
+                        <dsp:ColumnTiles>3</dsp:ColumnTiles>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="WorkflowOutput" />
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Value" DisplayName="FrequencyEnd" />
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="IntProperty">
+                        <Value>20000</Value>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Value" DisplayName="FrequencyStart" />
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="IntProperty">
+                        <Value>17000</Value>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Value" DisplayName="NumRepeats" />
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="IntProperty">
+                        <Value>3</Value>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Value" DisplayName="SweepDuration(s)" />
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="FloatProperty">
+                        <Value>3</Value>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Value" DisplayName="SampleRate" />
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="IntProperty">
+                        <Value>300000</Value>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="rx:Zip" />
+                    </Expression>
+                    <Expression xsi:type="scr:ExpressionTransform">
+                      <scr:Expression>new(
+it.Item1 as StartFreq,
+it.Item2 as EndFreq, 
+it.Item3 as OnDuration, 
+it.Item4 as NumRepeats,
+it.Item5 as SampleRate)
+</scr:Expression>
+                    </Expression>
+                    <Expression xsi:type="rx:BehaviorSubject">
+                      <Name>SoundParams</Name>
+                    </Expression>
+                  </Nodes>
+                  <Edges>
+                    <Edge From="0" To="1" Label="Source1" />
+                    <Edge From="1" To="4" Label="Source2" />
+                    <Edge From="2" To="3" Label="Source1" />
+                    <Edge From="3" To="4" Label="Source1" />
+                    <Edge From="4" To="5" Label="Source1" />
+                    <Edge From="6" To="7" Label="Source1" />
+                    <Edge From="7" To="16" Label="Source2" />
+                    <Edge From="8" To="9" Label="Source1" />
+                    <Edge From="9" To="16" Label="Source1" />
+                    <Edge From="10" To="11" Label="Source1" />
+                    <Edge From="11" To="16" Label="Source4" />
+                    <Edge From="12" To="13" Label="Source1" />
+                    <Edge From="13" To="16" Label="Source3" />
+                    <Edge From="14" To="15" Label="Source1" />
+                    <Edge From="15" To="16" Label="Source5" />
+                    <Edge From="16" To="17" Label="Source1" />
+                    <Edge From="17" To="18" Label="Source1" />
+                  </Edges>
+                </Workflow>
+              </Expression>
+              <Expression xsi:type="WorkflowOutput" />
+            </Nodes>
+            <Edges>
+              <Edge From="0" To="1" Label="Source1" />
+              <Edge From="1" To="4" Label="Source2" />
+              <Edge From="2" To="3" Label="Source1" />
+              <Edge From="3" To="4" Label="Source1" />
+              <Edge From="4" To="5" Label="Source1" />
+            </Edges>
+          </Workflow>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="rx:Condition">
+          <Name>AudThreatType3</Name>
+          <Workflow>
+            <Nodes>
+              <Expression xsi:type="WorkflowInput">
+                <Name>Source1</Name>
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>KeyPress_AuditoryThreatType</Name>
+              </Expression>
+              <Expression xsi:type="Equal">
+                <Operand xsi:type="StringProperty">
+                  <Value>Clicks</Value>
+                </Operand>
+              </Expression>
+              <Expression xsi:type="WorkflowOutput" />
+            </Nodes>
+            <Edges>
+              <Edge From="1" To="2" Label="Source1" />
+              <Edge From="2" To="3" Label="Source1" />
+            </Edges>
+          </Workflow>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="rx:SelectMany">
+          <Name>Clicks</Name>
+          <Workflow>
+            <Nodes>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>AuditoryThreatParams</Name>
+              </Expression>
+              <Expression xsi:type="PropertyMapping">
+                <PropertyMappings>
+                  <Property Name="Frequency" Selector="Item1" />
+                  <Property Name="Amplitude" Selector="Item2" />
+                </PropertyMappings>
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>AuditoryAOParams</Name>
+              </Expression>
+              <Expression xsi:type="PropertyMapping">
+                <PropertyMappings>
+                  <Property Name="SampleRate" Selector="SampleRate" />
+                </PropertyMappings>
+              </Expression>
+              <Expression xsi:type="GroupWorkflow">
+                <Name>Clicks</Name>
+                <Workflow>
+                  <Nodes>
+                    <Expression xsi:type="SubscribeSubject">
+                      <Name>SoundParams</Name>
+                    </Expression>
+                    <Expression xsi:type="PropertyMapping">
+                      <PropertyMappings>
+                        <Property Name="ColumnTiles" Selector="NumRepeats" />
+                      </PropertyMappings>
+                    </Expression>
+                    <Expression xsi:type="GroupWorkflow">
+                      <Name>InterSoundInterval</Name>
+                      <Workflow>
+                        <Nodes>
+                          <Expression xsi:type="SubscribeSubject">
+                            <Name>SoundParams</Name>
+                          </Expression>
+                          <Expression xsi:type="scr:ExpressionTransform">
+                            <scr:Expression>it.SampleRate * it.OffDuration</scr:Expression>
+                          </Expression>
+                          <Expression xsi:type="PropertyMapping">
+                            <PropertyMappings>
+                              <Property Name="BufferLength" />
+                            </PropertyMappings>
+                          </Expression>
+                          <Expression xsi:type="SubscribeSubject">
+                            <Name>SoundParams</Name>
+                          </Expression>
+                          <Expression xsi:type="PropertyMapping">
+                            <PropertyMappings>
+                              <Property Name="SampleRate" Selector="SampleRate" />
+                            </PropertyMappings>
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="dsp:FunctionGenerator">
+                              <dsp:BufferLength>15000</dsp:BufferLength>
+                              <dsp:Frequency>1</dsp:Frequency>
+                              <dsp:Waveform>Sine</dsp:Waveform>
+                              <dsp:SampleRate>300000</dsp:SampleRate>
+                              <dsp:Depth>F32</dsp:Depth>
+                              <dsp:Amplitude>0</dsp:Amplitude>
+                              <dsp:Offset>0</dsp:Offset>
+                              <dsp:Phase>0</dsp:Phase>
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="rx:Take">
+                              <rx:Count>1</rx:Count>
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="WorkflowOutput" />
+                        </Nodes>
+                        <Edges>
+                          <Edge From="0" To="1" Label="Source1" />
+                          <Edge From="1" To="2" Label="Source1" />
+                          <Edge From="2" To="5" Label="Source1" />
+                          <Edge From="3" To="4" Label="Source1" />
+                          <Edge From="4" To="5" Label="Source2" />
+                          <Edge From="5" To="6" Label="Source1" />
+                          <Edge From="6" To="7" Label="Source1" />
+                        </Edges>
+                      </Workflow>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="rx:Take">
+                        <rx:Count>1</rx:Count>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Amplitude" />
+                      <Property Name="Frequency" />
+                    </Expression>
+                    <Expression xsi:type="GroupWorkflow">
+                      <Name>5ms constant amplitude</Name>
+                      <Workflow>
+                        <Nodes>
+                          <Expression xsi:type="ExternalizedMapping">
+                            <Property Name="Amplitude" />
+                            <Property Name="Frequency" />
+                          </Expression>
+                          <Expression xsi:type="SubscribeSubject">
+                            <Name>SoundParams</Name>
+                          </Expression>
+                          <Expression xsi:type="scr:ExpressionTransform">
+                            <scr:Expression>it.SampleRate * it.OnDuration</scr:Expression>
+                          </Expression>
+                          <Expression xsi:type="PropertyMapping">
+                            <PropertyMappings>
+                              <Property Name="BufferLength" />
+                            </PropertyMappings>
+                          </Expression>
+                          <Expression xsi:type="SubscribeSubject">
+                            <Name>SoundParams</Name>
+                          </Expression>
+                          <Expression xsi:type="PropertyMapping">
+                            <PropertyMappings>
+                              <Property Name="SampleRate" Selector="SampleRate" />
+                            </PropertyMappings>
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="dsp:FunctionGenerator">
+                              <dsp:BufferLength>1500</dsp:BufferLength>
+                              <dsp:Frequency>15000</dsp:Frequency>
+                              <dsp:Waveform>Sine</dsp:Waveform>
+                              <dsp:SampleRate>300000</dsp:SampleRate>
+                              <dsp:Depth>F32</dsp:Depth>
+                              <dsp:Amplitude>10</dsp:Amplitude>
+                              <dsp:Offset>0</dsp:Offset>
+                              <dsp:Phase>0</dsp:Phase>
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="WorkflowOutput" />
+                        </Nodes>
+                        <Edges>
+                          <Edge From="0" To="6" Label="Source1" />
+                          <Edge From="1" To="2" Label="Source1" />
+                          <Edge From="2" To="3" Label="Source1" />
+                          <Edge From="3" To="6" Label="Source3" />
+                          <Edge From="4" To="5" Label="Source1" />
+                          <Edge From="5" To="6" Label="Source2" />
+                          <Edge From="6" To="7" Label="Source1" />
+                        </Edges>
+                      </Workflow>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="rx:Take">
+                        <rx:Count>1</rx:Count>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="rx:Zip" />
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="dsp:Concat">
+                        <dsp:Axis>1</dsp:Axis>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="dsp:Tile">
+                        <dsp:RowTiles>1</dsp:RowTiles>
+                        <dsp:ColumnTiles>163</dsp:ColumnTiles>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="WorkflowOutput" />
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Value" DisplayName="NumRepeats" />
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="IntProperty">
+                        <Value>163</Value>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Value" DisplayName="OffDuration(s)" />
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="FloatProperty">
+                        <Value>0.05</Value>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Value" DisplayName="OnDuration(s)" />
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="FloatProperty">
+                        <Value>0.005</Value>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Value" DisplayName="SampleRate" />
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="IntProperty">
+                        <Value>300000</Value>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="rx:Zip" />
+                    </Expression>
+                    <Expression xsi:type="scr:ExpressionTransform">
+                      <scr:Expression>new(
+it.Item1 as OnDuration, 
+it.Item2 as OffDuration,
+it.Item3 as NumRepeats,
+it.Item4 as SampleRate)
+</scr:Expression>
+                    </Expression>
+                    <Expression xsi:type="rx:BehaviorSubject">
+                      <Name>SoundParams</Name>
+                    </Expression>
+                  </Nodes>
+                  <Edges>
+                    <Edge From="0" To="1" Label="Source1" />
+                    <Edge From="1" To="9" Label="Source2" />
+                    <Edge From="2" To="3" Label="Source1" />
+                    <Edge From="3" To="7" Label="Source2" />
+                    <Edge From="4" To="5" Label="Source1" />
+                    <Edge From="5" To="6" Label="Source1" />
+                    <Edge From="6" To="7" Label="Source1" />
+                    <Edge From="7" To="8" Label="Source1" />
+                    <Edge From="8" To="9" Label="Source1" />
+                    <Edge From="9" To="10" Label="Source1" />
+                    <Edge From="11" To="12" Label="Source1" />
+                    <Edge From="12" To="19" Label="Source3" />
+                    <Edge From="13" To="14" Label="Source1" />
+                    <Edge From="14" To="19" Label="Source2" />
+                    <Edge From="15" To="16" Label="Source1" />
+                    <Edge From="16" To="19" Label="Source1" />
+                    <Edge From="17" To="18" Label="Source1" />
+                    <Edge From="18" To="19" Label="Source4" />
+                    <Edge From="19" To="20" Label="Source1" />
+                    <Edge From="20" To="21" Label="Source1" />
+                  </Edges>
+                </Workflow>
+              </Expression>
+              <Expression xsi:type="WorkflowOutput" />
+            </Nodes>
+            <Edges>
+              <Edge From="0" To="1" Label="Source1" />
+              <Edge From="1" To="4" Label="Source1" />
+              <Edge From="2" To="3" Label="Source1" />
+              <Edge From="3" To="4" Label="Source2" />
+              <Edge From="4" To="5" Label="Source1" />
+            </Edges>
+          </Workflow>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="IntProperty">
+          <Value>0</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="rx:SelectMany">
+        <Name>Approaching auditory loom</Name>
+        <Description>3 x 1s increasing amplitude</Description>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>AuditoryThreatParams</Name>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="Frequency" Selector="Item1" />
+                <Property Name="Amplitude" Selector="Item2" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>AuditoryAOParams</Name>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="SampleRate" Selector="SampleRate" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>Approaching auditory loom</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>SoundParams</Name>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="ColumnTiles" Selector="NumRepeats" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Amplitude" />
+                    <Property Name="Frequency" />
+                  </Expression>
+                  <Expression xsi:type="GroupWorkflow">
+                    <Name>ApproachingSound</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="IntProperty">
+                            <Value>180</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="num:DegreeToRadian" />
+                        </Expression>
+                        <Expression xsi:type="PropertyMapping">
+                          <PropertyMappings>
+                            <Property Name="Phase" />
+                          </PropertyMappings>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="Amplitude" />
+                          <Property Name="Frequency" />
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>SoundParams</Name>
+                        </Expression>
+                        <Expression xsi:type="scr:ExpressionTransform">
+                          <scr:Expression>it.SampleRate * it.OnDuration</scr:Expression>
+                        </Expression>
+                        <Expression xsi:type="PropertyMapping">
+                          <PropertyMappings>
+                            <Property Name="BufferLength" />
+                          </PropertyMappings>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>SoundParams</Name>
+                        </Expression>
+                        <Expression xsi:type="PropertyMapping">
+                          <PropertyMappings>
+                            <Property Name="SampleRate" Selector="SampleRate" />
+                          </PropertyMappings>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="dsp:FunctionGenerator">
+                            <dsp:BufferLength>300000</dsp:BufferLength>
+                            <dsp:Frequency>1</dsp:Frequency>
+                            <dsp:Waveform>Sawtooth</dsp:Waveform>
+                            <dsp:SampleRate>300000</dsp:SampleRate>
+                            <dsp:Depth>F32</dsp:Depth>
+                            <dsp:Amplitude>0.5</dsp:Amplitude>
+                            <dsp:Offset>0.5</dsp:Offset>
+                            <dsp:Phase>3.1415926535897931</dsp:Phase>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="dsp:FunctionGenerator">
+                            <dsp:BufferLength>300000</dsp:BufferLength>
+                            <dsp:Frequency>15000</dsp:Frequency>
+                            <dsp:Waveform>Sine</dsp:Waveform>
+                            <dsp:SampleRate>300000</dsp:SampleRate>
+                            <dsp:Depth>F32</dsp:Depth>
+                            <dsp:Amplitude>10</dsp:Amplitude>
+                            <dsp:Offset>0</dsp:Offset>
+                            <dsp:Phase>0</dsp:Phase>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Zip" />
+                        </Expression>
+                        <Expression xsi:type="Multiply" />
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="1" Label="Source1" />
+                        <Edge From="1" To="2" Label="Source1" />
+                        <Edge From="2" To="9" Label="Source1" />
+                        <Edge From="3" To="10" Label="Source2" />
+                        <Edge From="4" To="5" Label="Source1" />
+                        <Edge From="5" To="6" Label="Source1" />
+                        <Edge From="6" To="9" Label="Source3" />
+                        <Edge From="6" To="10" Label="Source4" />
+                        <Edge From="7" To="8" Label="Source1" />
+                        <Edge From="8" To="9" Label="Source2" />
+                        <Edge From="8" To="10" Label="Source3" />
+                        <Edge From="9" To="10" Label="Source1" />
+                        <Edge From="9" To="11" Label="Source2" />
+                        <Edge From="10" To="11" Label="Source1" />
+                        <Edge From="11" To="12" Label="Source1" />
+                        <Edge From="12" To="13" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Take">
+                      <rx:Count>1</rx:Count>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="GroupWorkflow">
+                    <Name>InterSoundInterval</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>SoundParams</Name>
+                        </Expression>
+                        <Expression xsi:type="scr:ExpressionTransform">
+                          <scr:Expression>it.SampleRate * it.OffDuration</scr:Expression>
+                        </Expression>
+                        <Expression xsi:type="PropertyMapping">
+                          <PropertyMappings>
+                            <Property Name="BufferLength" />
+                          </PropertyMappings>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>SoundParams</Name>
+                        </Expression>
+                        <Expression xsi:type="PropertyMapping">
+                          <PropertyMappings>
+                            <Property Name="SampleRate" Selector="SampleRate" />
+                          </PropertyMappings>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="dsp:FunctionGenerator">
+                            <dsp:BufferLength>150000</dsp:BufferLength>
+                            <dsp:Frequency>1</dsp:Frequency>
+                            <dsp:Waveform>Sine</dsp:Waveform>
+                            <dsp:SampleRate>300000</dsp:SampleRate>
+                            <dsp:Depth>F32</dsp:Depth>
+                            <dsp:Amplitude>0</dsp:Amplitude>
+                            <dsp:Offset>0</dsp:Offset>
+                            <dsp:Phase>0</dsp:Phase>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="1" Label="Source1" />
+                        <Edge From="1" To="2" Label="Source1" />
+                        <Edge From="2" To="5" Label="Source1" />
+                        <Edge From="3" To="4" Label="Source1" />
+                        <Edge From="4" To="5" Label="Source2" />
+                        <Edge From="5" To="6" Label="Source1" />
+                        <Edge From="6" To="7" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Take">
+                      <rx:Count>1</rx:Count>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Zip" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="dsp:Concat">
+                      <dsp:Axis>1</dsp:Axis>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="dsp:Tile">
+                      <dsp:RowTiles>1</dsp:RowTiles>
+                      <dsp:ColumnTiles>3</dsp:ColumnTiles>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Value" DisplayName="NumRepeats" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="IntProperty">
+                      <Value>3</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Value" DisplayName="OffDuration(s)" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="FloatProperty">
+                      <Value>0.5</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Value" DisplayName="OnDuration(s)" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="FloatProperty">
+                      <Value>1</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Value" DisplayName="SampleRate" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="IntProperty">
+                      <Value>300000</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Zip" />
+                  </Expression>
+                  <Expression xsi:type="scr:ExpressionTransform">
+                    <scr:Expression>new(
+it.Item1 as OnDuration, 
+it.Item2 as OffDuration,
+it.Item3 as NumRepeats,
+it.Item4 as SampleRate)
+</scr:Expression>
+                  </Expression>
+                  <Expression xsi:type="rx:BehaviorSubject">
+                    <Name>SoundParams</Name>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="1" To="9" Label="Source2" />
+                  <Edge From="2" To="3" Label="Source1" />
+                  <Edge From="3" To="4" Label="Source1" />
+                  <Edge From="4" To="7" Label="Source1" />
+                  <Edge From="5" To="6" Label="Source1" />
+                  <Edge From="6" To="7" Label="Source2" />
+                  <Edge From="7" To="8" Label="Source1" />
+                  <Edge From="8" To="9" Label="Source1" />
+                  <Edge From="9" To="10" Label="Source1" />
+                  <Edge From="11" To="12" Label="Source1" />
+                  <Edge From="12" To="19" Label="Source3" />
+                  <Edge From="13" To="14" Label="Source1" />
+                  <Edge From="14" To="19" Label="Source2" />
+                  <Edge From="15" To="16" Label="Source1" />
+                  <Edge From="16" To="19" Label="Source1" />
+                  <Edge From="17" To="18" Label="Source1" />
+                  <Edge From="18" To="19" Label="Source4" />
+                  <Edge From="19" To="20" Label="Source1" />
+                  <Edge From="20" To="21" Label="Source1" />
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="4" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="3" To="4" Label="Source2" />
+            <Edge From="4" To="5" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="Combinator">
+          <Combinator xsi:type="rx:Merge" />
+        </Builder>
+      </Expression>
+      <Expression xsi:type="rx:BehaviorSubject">
+        <Name>AnalogAuditoryThreatSignal</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Timer">
+          <rx:DueTime>PT1S</rx:DueTime>
+          <rx:Period>PT5S</rx:Period>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="BooleanProperty">
+          <Value>false</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="MulticastSubject">
+        <Name>StartSound</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Timer">
+          <rx:DueTime>PT2S</rx:DueTime>
+          <rx:Period>PT5S</rx:Period>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="BooleanProperty">
+          <Value>false</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="MulticastSubject">
+        <Name>StopSound</Name>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>AuditoryAOParams</Name>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>SampleRate</Selector>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="SampleRate" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>AuditoryAOParams</Name>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>BufferLength</Selector>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="BufferSize" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="rx:PublishSubject" TypeArguments="sys:Boolean">
+        <rx:Name>StartSound</rx:Name>
+      </Expression>
+      <Expression xsi:type="rx:SelectMany">
+        <Name>SampleWaveform</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>AnalogAuditoryThreatSignal</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Take">
+          <rx:Count>1</rx:Count>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="dsp:Buffer">
+          <dsp:Count>3000</dsp:Count>
+          <dsp:Skip>3000</dsp:Skip>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="rx:PublishSubject" TypeArguments="sys:Boolean">
+        <rx:Name>StopSound</rx:Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:TakeUntil" />
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>Pad</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>AuditoryAOParams</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>BufferLength</Selector>
+            </Expression>
+            <Expression xsi:type="Multiply">
+              <Operand xsi:type="IntProperty">
+                <Value>2</Value>
+              </Operand>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="BufferLength" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="dsp:FunctionGenerator">
+                <dsp:BufferLength>2700000</dsp:BufferLength>
+                <dsp:Frequency>1</dsp:Frequency>
+                <dsp:Waveform>Sawtooth</dsp:Waveform>
+                <dsp:SampleRate>300000</dsp:SampleRate>
+                <dsp:Depth>F32</dsp:Depth>
+                <dsp:Amplitude>0</dsp:Amplitude>
+                <dsp:Offset>0.5</dsp:Offset>
+                <dsp:Phase>3.1415926535897931</dsp:Phase>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Take">
+                <rx:Count>1</rx:Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="5" To="6" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Concat" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="mx:AnalogOutput">
+          <mx:SignalSource />
+          <mx:SampleRate>300000</mx:SampleRate>
+          <mx:ActiveEdge>Rising</mx:ActiveEdge>
+          <mx:SampleMode>FiniteSamples</mx:SampleMode>
+          <mx:BufferSize>1350000</mx:BufferSize>
+          <mx:Channels>
+            <mx:AnalogOutputChannelConfiguration>
+              <mx:ChannelName>Speaker</mx:ChannelName>
+              <mx:MinimumValue>-10</mx:MinimumValue>
+              <mx:MaximumValue>10</mx:MaximumValue>
+              <mx:PhysicalChannel>Dev1/ao0</mx:PhysicalChannel>
+              <mx:VoltageUnits>Volts</mx:VoltageUnits>
+            </mx:AnalogOutputChannelConfiguration>
+          </mx:Channels>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:LastOrDefault" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Repeat" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="mx:AnalogInput">
+          <mx:SignalSource />
+          <mx:SampleRate>0</mx:SampleRate>
+          <mx:ActiveEdge>Rising</mx:ActiveEdge>
+          <mx:SampleMode>ContinuousSamples</mx:SampleMode>
+          <mx:BufferSize>1000</mx:BufferSize>
+          <mx:SamplesPerChannel xsi:nil="true" />
+          <mx:Channels />
+        </Combinator>
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge From="0" To="1" Label="Source1" />
+      <Edge From="1" To="7" Label="Source1" />
+      <Edge From="2" To="3" Label="Source1" />
+      <Edge From="3" To="7" Label="Source2" />
+      <Edge From="4" To="5" Label="Source1" />
+      <Edge From="5" To="7" Label="Source3" />
+      <Edge From="6" To="7" Label="Source4" />
+      <Edge From="7" To="8" Label="Source1" />
+      <Edge From="9" To="10" Label="Source1" />
+      <Edge From="10" To="11" Label="Source1" />
+      <Edge From="11" To="15" Label="Source1" />
+      <Edge From="12" To="13" Label="Source1" />
+      <Edge From="13" To="14" Label="Source1" />
+      <Edge From="14" To="15" Label="Source2" />
+      <Edge From="15" To="16" Label="Source1" />
+      <Edge From="16" To="17" Label="Source1" />
+      <Edge From="18" To="19" Label="Source1" />
+      <Edge From="19" To="28" Label="Source2" />
+      <Edge From="20" To="21" Label="Source1" />
+      <Edge From="21" To="28" Label="Source3" />
+      <Edge From="22" To="23" Label="Source1" />
+      <Edge From="23" To="28" Label="Source4" />
+      <Edge From="24" To="25" Label="Source1" />
+      <Edge From="25" To="28" Label="Source5" />
+      <Edge From="26" To="27" Label="Source1" />
+      <Edge From="27" To="28" Label="Source1" />
+      <Edge From="28" To="29" Label="Source1" />
+      <Edge From="30" To="31" Label="Source1" />
+      <Edge From="31" To="32" Label="Source1" />
+      <Edge From="33" To="34" Label="Source1" />
+      <Edge From="34" To="35" Label="Source1" />
+      <Edge From="36" To="37" Label="Source1" />
+      <Edge From="37" To="38" Label="Source1" />
+      <Edge From="38" To="50" Label="Source2" />
+      <Edge From="39" To="40" Label="Source1" />
+      <Edge From="40" To="41" Label="Source1" />
+      <Edge From="41" To="50" Label="Source3" />
+      <Edge From="42" To="43" Label="Source1" />
+      <Edge From="43" To="44" Label="Source1" />
+      <Edge From="44" To="45" Label="Source1" />
+      <Edge From="45" To="47" Label="Source1" />
+      <Edge From="46" To="47" Label="Source2" />
+      <Edge From="47" To="49" Label="Source1" />
+      <Edge From="48" To="49" Label="Source2" />
+      <Edge From="49" To="50" Label="Source1" />
+      <Edge From="50" To="51" Label="Source1" />
+      <Edge From="51" To="52" Label="Source1" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>
