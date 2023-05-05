@@ -850,7 +850,7 @@
                           <ColorR>1</ColorR>
                           <ColorG>1</ColorG>
                           <ColorB>1</ColorB>
-                          <ColorA>0</ColorA>
+                          <ColorA>1</ColorA>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
                       </Nodes>
@@ -976,7 +976,7 @@
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="cv:CreatePoint2f">
                       <cv:X>0.0150001</cv:X>
-                      <cv:Y>0.15</cv:Y>
+                      <cv:Y>0.18</cv:Y>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="rx:BehaviorSubject">
@@ -1852,7 +1852,7 @@ it.Item2 as Value)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="harp:CreateMessage">
                       <harp:MessageType>Write</harp:MessageType>
-                      <harp:Address>3</harp:Address>
+                      <harp:Address>1</harp:Address>
                       <harp:PayloadType>U8</harp:PayloadType>
                       <harp:Payload>0</harp:Payload>
                     </Combinator>
@@ -2644,9 +2644,9 @@ it.Y as Z)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
-                      <gl:X>0.188116953</gl:X>
+                      <gl:X>0.1499264</gl:X>
                       <gl:Y>-0.05</gl:Y>
-                      <gl:Z>0.0574429855</gl:Z>
+                      <gl:Z>0.00469878968</gl:Z>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="PropertyMapping">
@@ -2657,9 +2657,9 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>0.188116953</p1:X>
+                        <p1:X>0.1499264</p1:X>
                         <p1:Y>-0.05</p1:Y>
-                        <p1:Z>0.0574429855</p1:Z>
+                        <p1:Z>0.00469878968</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
@@ -2764,9 +2764,9 @@ it.Y as Z)</scr:Expression>
                     </Workflow>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-                    <TranslationX>0.518091142</TranslationX>
+                    <TranslationX>0.1499264</TranslationX>
                     <TranslationY>-0.05</TranslationY>
-                    <TranslationZ>0.03255699</TranslationZ>
+                    <TranslationZ>-0.00469878968</TranslationZ>
                     <ScaleX>1</ScaleX>
                     <ScaleY>1</ScaleY>
                     <ScaleZ>1</ScaleZ>
@@ -2788,7 +2788,7 @@ it.Y as Z)</scr:Expression>
                     </Specular>
                     <SpecularExponent>10</SpecularExponent>
                     <RotationZ>0</RotationZ>
-                    <RotationY>-3.20800781</RotationY>
+                    <RotationY>12.590332</RotationY>
                     <RotationX>0</RotationX>
                   </Expression>
                 </Nodes>
@@ -3418,7 +3418,7 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
                       <gl:X>0</gl:X>
-                      <gl:Y>-0.0559902973</gl:Y>
+                      <gl:Y>0.218975753</gl:Y>
                       <gl:Z>0</gl:Z>
                     </Combinator>
                   </Expression>
@@ -3437,13 +3437,13 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>0.3299742</p1:X>
+                        <p1:X>0</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>-0.0899999738</p1:Z>
+                        <p1:Z>0</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
-                        <p1:Y>-0.0559902973</p1:Y>
+                        <p1:Y>0.218975753</p1:Y>
                         <p1:Z>0</p1:Z>
                       </p1:Orientation>
                     </Combinator>
@@ -3516,7 +3516,7 @@ it.Y as Z)</scr:Expression>
               <Combinator xsi:type="gl:CreateVector3">
                 <gl:X>1</gl:X>
                 <gl:Y>0</gl:Y>
-                <gl:Z>-1</gl:Z>
+                <gl:Z>1</gl:Z>
               </Combinator>
             </Expression>
             <Expression xsi:type="PropertyMapping">
@@ -3530,12 +3530,12 @@ it.Y as Z)</scr:Expression>
                 <p1:Position>
                   <p1:X>1</p1:X>
                   <p1:Y>0</p1:Y>
-                  <p1:Z>-1</p1:Z>
+                  <p1:Z>1</p1:Z>
                 </p1:Position>
                 <p1:Orientation>
                   <p1:X>1</p1:X>
                   <p1:Y>0</p1:Y>
-                  <p1:Z>-1</p1:Z>
+                  <p1:Z>1</p1:Z>
                 </p1:Orientation>
               </Combinator>
             </Expression>
@@ -3767,7 +3767,7 @@ it.Y as Z)</scr:Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="p1:ClampArmPosition">
                                   <p1:MinRadius>0.0150001</p1:MinRadius>
-                                  <p1:MaxRadius>0.27</p1:MaxRadius>
+                                  <p1:MaxRadius>0.15</p1:MaxRadius>
                                 </Combinator>
                               </Expression>
                               <Expression xsi:type="Combinator">
@@ -5186,7 +5186,7 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="cv:CreatePoint2f">
                 <cv:X>1</cv:X>
-                <cv:Y>-1</cv:Y>
+                <cv:Y>1</cv:Y>
               </Combinator>
             </Expression>
             <Expression xsi:type="MemberSelector">
@@ -5286,7 +5286,7 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
               <Combinator xsi:type="gl:CreateVector3">
                 <gl:X>1</gl:X>
                 <gl:Y>0</gl:Y>
-                <gl:Z>-1</gl:Z>
+                <gl:Z>1</gl:Z>
               </Combinator>
             </Expression>
             <Expression xsi:type="Combinator">
@@ -5683,7 +5683,7 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
               <Combinator xsi:type="gl:CreateVector3">
                 <gl:X>1</gl:X>
                 <gl:Y>0.1</gl:Y>
-                <gl:Z>1</gl:Z>
+                <gl:Z>-1</gl:Z>
               </Combinator>
             </Expression>
             <Expression xsi:type="PropertyMapping">
@@ -5728,7 +5728,7 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                       <gl:Order>Prepend</gl:Order>
                       <gl:X>1</gl:X>
                       <gl:Y>0.1</gl:Y>
-                      <gl:Z>1</gl:Z>
+                      <gl:Z>-1</gl:Z>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="ExternalizedMapping">
@@ -6062,7 +6062,7 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
               <Combinator xsi:type="gl:CreateVector3">
                 <gl:X>1</gl:X>
                 <gl:Y>-0.099</gl:Y>
-                <gl:Z>1</gl:Z>
+                <gl:Z>-1</gl:Z>
               </Combinator>
             </Expression>
             <Expression xsi:type="PropertyMapping">
@@ -6107,7 +6107,7 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                       <gl:Order>Prepend</gl:Order>
                       <gl:X>1</gl:X>
                       <gl:Y>-0.099</gl:Y>
-                      <gl:Z>1</gl:Z>
+                      <gl:Z>-1</gl:Z>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="ExternalizedMapping">
@@ -6777,7 +6777,7 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="FloatProperty">
-          <Value>0.05</Value>
+          <Value>0.03</Value>
         </Combinator>
       </Expression>
       <Expression xsi:type="MulticastSubject">
