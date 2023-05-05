@@ -32,9 +32,12 @@ if (os.path.isdir( DATA_ROOT_PATH + "\\" + SESSIOND_ID)):
 
 Settings = {
 "Logging.LoggingRootPath" : DATA_ROOT_PATH + "\\" + SESSIOND_ID,
-"EnableTrialLogic.Enable" : str(False),
+"EnableTrialLogic.Enable" : str(True),
 "EnableShelter.Enable" : str(True),
-"ArmPositionControl.Enable" : str(True)
+"ArmPositionControl.Enable" : str(True), 
+#"ArmGainTrial.Value" : float(1), 
+#"ArmGainEating.Value" : float(0.5), 
+"TrialLogic.TrialListPath" : str(r"TrialLogicCsv\stage1.2.csv")
 }
 
 UDP_Settings = {}
