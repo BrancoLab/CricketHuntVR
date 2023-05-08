@@ -1558,31 +1558,22 @@ it.Item2 as BufferLength
                         </Expression>
                         <Expression xsi:type="PropertyMapping">
                           <PropertyMappings>
-                            <Property Name="BufferSize" />
+                            <Property Name="BufferLength" />
                           </PropertyMappings>
                         </Expression>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="mx:AnalogInput">
-                            <mx:SignalSource />
-                            <mx:SampleRate>300000</mx:SampleRate>
-                            <mx:ActiveEdge>Rising</mx:ActiveEdge>
-                            <mx:SampleMode>ContinuousSamples</mx:SampleMode>
-                            <mx:BufferSize>3000</mx:BufferSize>
-                            <mx:SamplesPerChannel xsi:nil="true" />
-                            <mx:Channels>
-                              <mx:AnalogInputChannelConfiguration>
-                                <mx:ChannelName />
-                                <mx:MinimumValue>-10</mx:MinimumValue>
-                                <mx:MaximumValue>10</mx:MaximumValue>
-                                <mx:PhysicalChannel>Dev1/ai0</mx:PhysicalChannel>
-                                <mx:TerminalConfiguration>Differential</mx:TerminalConfiguration>
-                                <mx:VoltageUnits>Volts</mx:VoltageUnits>
-                              </mx:AnalogInputChannelConfiguration>
-                            </mx:Channels>
+                          <Combinator xsi:type="dsp:FunctionGenerator">
+                            <dsp:BufferLength>3000</dsp:BufferLength>
+                            <dsp:Frequency>100</dsp:Frequency>
+                            <dsp:Waveform>Sine</dsp:Waveform>
+                            <dsp:SampleRate>300000</dsp:SampleRate>
+                            <dsp:Amplitude>0</dsp:Amplitude>
+                            <dsp:Offset>0</dsp:Offset>
+                            <dsp:Phase>0</dsp:Phase>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="rx:PublishSubject">
-                          <Name>NiDaqSwClockSource</Name>
+                          <Name>SwClockSourceAudio</Name>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
                           <Name>AuditoryAOParams</Name>
@@ -2891,6 +2882,14 @@ it.Item4 as SampleRate)
                         <Expression xsi:type="SubscribeSubject">
                           <Name>AuditoryWaveformBank</Name>
                         </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="rx:AsyncSubject">
+                          <Name>ThisWaveform</Name>
+                        </Expression>
                         <Expression xsi:type="SubscribeSubject">
                           <Name>WaveformIndex</Name>
                         </Expression>
@@ -2898,11 +2897,6 @@ it.Item4 as SampleRate)
                           <PropertyMappings>
                             <Property Name="Value" />
                           </PropertyMappings>
-                        </Expression>
-                        <Expression xsi:type="Index">
-                          <Operand xsi:type="IntProperty">
-                            <Value>2</Value>
-                          </Operand>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
                           <Name>AuditoryAOParams</Name>
@@ -2926,18 +2920,26 @@ it.Item4 as SampleRate)
                             <Property Name="Skip" />
                           </PropertyMappings>
                         </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>SwClockSourceAudio</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>ThisWaveform</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Index">
+                          <Operand xsi:type="IntProperty">
+                            <Value>0</Value>
+                          </Operand>
+                        </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="dsp:Buffer">
                             <dsp:Count>3000</dsp:Count>
                             <dsp:Skip>3000</dsp:Skip>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="SubscribeSubject">
-                          <Name>NiDaqSwClockSource</Name>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="IntProperty">
-                            <Value>0</Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="Combinator">
@@ -2949,21 +2951,23 @@ it.Item4 as SampleRate)
                         <Expression xsi:type="WorkflowOutput" />
                       </Nodes>
                       <Edges>
-                        <Edge From="0" To="3" Label="Source1" />
+                        <Edge From="0" To="1" Label="Source1" />
                         <Edge From="1" To="2" Label="Source1" />
-                        <Edge From="2" To="3" Label="Source2" />
-                        <Edge From="3" To="10" Label="Source1" />
-                        <Edge From="4" To="5" Label="Source1" />
+                        <Edge From="3" To="4" Label="Source1" />
+                        <Edge From="4" To="14" Label="Source2" />
                         <Edge From="5" To="6" Label="Source1" />
-                        <Edge From="6" To="10" Label="Source2" />
-                        <Edge From="7" To="8" Label="Source1" />
+                        <Edge From="6" To="7" Label="Source1" />
+                        <Edge From="7" To="15" Label="Source2" />
                         <Edge From="8" To="9" Label="Source1" />
-                        <Edge From="9" To="10" Label="Source3" />
-                        <Edge From="10" To="13" Label="Source2" />
-                        <Edge From="11" To="12" Label="Source1" />
+                        <Edge From="9" To="10" Label="Source1" />
+                        <Edge From="10" To="15" Label="Source3" />
+                        <Edge From="11" To="16" Label="Source1" />
                         <Edge From="12" To="13" Label="Source1" />
                         <Edge From="13" To="14" Label="Source1" />
                         <Edge From="14" To="15" Label="Source1" />
+                        <Edge From="15" To="16" Label="Source2" />
+                        <Edge From="16" To="17" Label="Source1" />
+                        <Edge From="17" To="18" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
@@ -2978,7 +2982,7 @@ it.Item4 as SampleRate)
                     <Workflow>
                       <Nodes>
                         <Expression xsi:type="SubscribeSubject">
-                          <Name>NiDaqSwClockSource</Name>
+                          <Name>SwClockSourceAudio</Name>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
                           <Name>AuditoryAOParams</Name>
