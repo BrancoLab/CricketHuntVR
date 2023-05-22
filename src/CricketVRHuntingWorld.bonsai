@@ -3793,6 +3793,7 @@ it.Item2 as Value)</scr:Expression>
                     <Name>Source1</Name>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data\test1231\2023-05-22T13-59-10\Looming\Looming_2023-05-22T13-59-10.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -4335,9 +4336,9 @@ it.Y as Z)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
-                      <gl:X>0.1499264</gl:X>
+                      <gl:X>0.0150001</gl:X>
                       <gl:Y>-0.05</gl:Y>
-                      <gl:Z>0.00469878968</gl:Z>
+                      <gl:Z>0</gl:Z>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="PropertyMapping">
@@ -4348,9 +4349,9 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>0.1499264</p1:X>
+                        <p1:X>0.0150001</p1:X>
                         <p1:Y>-0.05</p1:Y>
-                        <p1:Z>0.00469878968</p1:Z>
+                        <p1:Z>0</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
@@ -4455,9 +4456,9 @@ it.Y as Z)</scr:Expression>
                     </Workflow>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-                    <TranslationX>0.1499264</TranslationX>
+                    <TranslationX>-0.34499985</TranslationX>
                     <TranslationY>-0.05</TranslationY>
-                    <TranslationZ>-0.00469878968</TranslationZ>
+                    <TranslationZ>0.339999616</TranslationZ>
                     <ScaleX>1</ScaleX>
                     <ScaleY>1</ScaleY>
                     <ScaleZ>1</ScaleZ>
@@ -4479,7 +4480,7 @@ it.Y as Z)</scr:Expression>
                     </Specular>
                     <SpecularExponent>10</SpecularExponent>
                     <RotationZ>0</RotationZ>
-                    <RotationY>12.590332</RotationY>
+                    <RotationY>-134.296875</RotationY>
                     <RotationX>0</RotationX>
                   </Expression>
                 </Nodes>
@@ -5226,9 +5227,9 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>-1</p1:X>
+                        <p1:X>0</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>0</p1:Z>
+                        <p1:Z>1</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
@@ -5485,7 +5486,7 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
                       <gl:X>0</gl:X>
-                      <gl:Y>0.218975753</gl:Y>
+                      <gl:Y>-2.34507322</gl:Y>
                       <gl:Z>0</gl:Z>
                     </Combinator>
                   </Expression>
@@ -5504,13 +5505,13 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>0</p1:X>
+                        <p1:X>-0.359999955</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>0</p1:Z>
+                        <p1:Z>-0.339999616</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
-                        <p1:Y>0.218975753</p1:Y>
+                        <p1:Y>-2.34507322</p1:Y>
                         <p1:Z>0</p1:Z>
                       </p1:Orientation>
                     </Combinator>
@@ -5834,7 +5835,7 @@ it.Y as Z)</scr:Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="p1:ClampArmPosition">
                                   <p1:MinRadius>0.0150001</p1:MinRadius>
-                                  <p1:MaxRadius>0.15</p1:MaxRadius>
+                                  <p1:MaxRadius>0.18</p1:MaxRadius>
                                 </Combinator>
                               </Expression>
                               <Expression xsi:type="Combinator">
@@ -8295,7 +8296,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:UpdateUniform">
                       <gl:UniformName>modelview</gl:UniformName>
-                      <gl:ShaderName>TransparentTexturedModel</gl:ShaderName>
+                      <gl:ShaderName>TexturedModel</gl:ShaderName>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -8304,7 +8305,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:UpdateUniform">
                       <gl:UniformName>normalMatrix</gl:UniformName>
-                      <gl:ShaderName>TransparentTexturedModel</gl:ShaderName>
+                      <gl:ShaderName>TexturedModel</gl:ShaderName>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="ExternalizedMapping">
@@ -8313,8 +8314,8 @@ it[8] as PerturbMagnitude)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:BindTexture">
                       <gl:TextureSlot>Texture0</gl:TextureSlot>
-                      <gl:ShaderName>TransparentTexturedModel</gl:ShaderName>
-                      <gl:TextureName>Black</gl:TextureName>
+                      <gl:ShaderName>TexturedModel</gl:ShaderName>
+                      <gl:TextureName>Brown</gl:TextureName>
                       <gl:TextureTarget>Texture2D</gl:TextureTarget>
                     </Combinator>
                   </Expression>
@@ -8324,7 +8325,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:UpdateUniform">
                       <gl:UniformName>projection</gl:UniformName>
-                      <gl:ShaderName>TransparentTexturedModel</gl:ShaderName>
+                      <gl:ShaderName>TexturedModel</gl:ShaderName>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="MemberSelector">
@@ -8333,7 +8334,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:UpdateUniform">
                       <gl:UniformName>light</gl:UniformName>
-                      <gl:ShaderName>TransparentTexturedModel</gl:ShaderName>
+                      <gl:ShaderName>TexturedModel</gl:ShaderName>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -8384,9 +8385,9 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
-                            <X>1</X>
-                            <Y>1</Y>
-                            <Z>1</Z>
+                            <X>0</X>
+                            <Y>0</Y>
+                            <Z>0</Z>
                           </Value>
                         </Expression>
                         <Expression xsi:type="InputMapping">
@@ -8398,9 +8399,9 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="gl:CreateVector4">
-                            <gl:X>1</gl:X>
-                            <gl:Y>1</gl:Y>
-                            <gl:Z>1</gl:Z>
+                            <gl:X>0</gl:X>
+                            <gl:Y>0</gl:Y>
+                            <gl:Z>0</gl:Z>
                             <gl:W>1</gl:W>
                           </Combinator>
                         </Expression>
@@ -8416,9 +8417,9 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
-                            <X>1</X>
-                            <Y>1</Y>
-                            <Z>1</Z>
+                            <X>0</X>
+                            <Y>0</Y>
+                            <Z>0</Z>
                           </Value>
                         </Expression>
                         <Expression xsi:type="InputMapping">
@@ -8430,9 +8431,9 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="gl:CreateVector4">
-                            <gl:X>1</gl:X>
-                            <gl:Y>1</gl:Y>
-                            <gl:Z>1</gl:Z>
+                            <gl:X>0</gl:X>
+                            <gl:Y>0</gl:Y>
+                            <gl:Z>0</gl:Z>
                             <gl:W>1</gl:W>
                           </Combinator>
                         </Expression>
@@ -8481,23 +8482,29 @@ it[8] as PerturbMagnitude)</scr:Expression>
                       </Edges>
                     </Workflow>
                   </Expression>
-                  <Expression xsi:type="ExternalizedMapping">
-                    <Property Name="Value" DisplayName="Alpha" />
+                  <Expression xsi:type="Disable">
+                    <Builder xsi:type="ExternalizedMapping">
+                      <Property Name="Value" DisplayName="Alpha" />
+                    </Builder>
                   </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="FloatProperty">
-                      <Value>0.15</Value>
-                    </Combinator>
+                  <Expression xsi:type="Disable">
+                    <Builder xsi:type="Combinator">
+                      <Combinator xsi:type="FloatProperty">
+                        <Value>0.15</Value>
+                      </Combinator>
+                    </Builder>
                   </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="gl:UpdateUniform">
-                      <gl:UniformName>alpha</gl:UniformName>
-                      <gl:ShaderName>TransparentTexturedModel</gl:ShaderName>
-                    </Combinator>
+                  <Expression xsi:type="Disable">
+                    <Builder xsi:type="Combinator">
+                      <Combinator xsi:type="gl:UpdateUniform">
+                        <gl:UniformName>alpha</gl:UniformName>
+                        <gl:ShaderName>TexturedModel</gl:ShaderName>
+                      </Combinator>
+                    </Builder>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:DrawMesh">
-                      <gl:ShaderName>TransparentTexturedModel</gl:ShaderName>
+                      <gl:ShaderName>TexturedModel</gl:ShaderName>
                       <gl:MeshName>Plane</gl:MeshName>
                     </Combinator>
                   </Expression>
