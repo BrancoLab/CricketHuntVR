@@ -7213,6 +7213,11 @@ it[8] as PerturbMagnitude)</scr:Expression>
                 <Value>false</Value>
               </Combinator>
             </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Take">
+                <rx:Count>1</rx:Count>
+              </Combinator>
+            </Expression>
             <Expression xsi:type="rx:BehaviorSubject">
               <Name>IsTrialEnabled?</Name>
             </Expression>
@@ -7227,9 +7232,6 @@ it[8] as PerturbMagnitude)</scr:Expression>
                 <Value>true</Value>
               </Combinator>
             </Expression>
-            <Expression xsi:type="MulticastSubject">
-              <Name>IsTrialEnabled?</Name>
-            </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="gli:KeyDown">
                 <gli:Key>Y</gli:Key>
@@ -7240,6 +7242,9 @@ it[8] as PerturbMagnitude)</scr:Expression>
               <Combinator xsi:type="BooleanProperty">
                 <Value>false</Value>
               </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Merge" />
             </Expression>
             <Expression xsi:type="MulticastSubject">
               <Name>IsTrialEnabled?</Name>
@@ -7264,10 +7269,12 @@ it[8] as PerturbMagnitude)</scr:Expression>
             <Edge From="16" To="17" Label="Source1" />
             <Edge From="18" To="19" Label="Source1" />
             <Edge From="19" To="20" Label="Source1" />
-            <Edge From="21" To="22" Label="Source1" />
+            <Edge From="20" To="21" Label="Source1" />
             <Edge From="22" To="23" Label="Source1" />
+            <Edge From="23" To="26" Label="Source1" />
             <Edge From="24" To="25" Label="Source1" />
-            <Edge From="25" To="26" Label="Source1" />
+            <Edge From="25" To="26" Label="Source2" />
+            <Edge From="26" To="27" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
