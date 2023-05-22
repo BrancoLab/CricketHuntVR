@@ -6389,7 +6389,7 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
             <Expression xsi:type="scr:ExpressionTransform">
               <scr:Expression>new(
 (it[6] * Math.Pi) / 180.0 as PerturbAngle,
-(it[7] * Math.Pi) / 180.0 as TriggerRadius)</scr:Expression>
+it[7] as TriggerRadius)</scr:Expression>
             </Expression>
             <Expression xsi:type="MemberSelector">
               <Selector>PerturbAngle,TriggerRadius</Selector>
@@ -6673,12 +6673,12 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
                               </Expression>
                               <Expression xsi:type="PropertyMapping">
                                 <PropertyMappings>
-                                  <Property Name="Y" />
+                                  <Property Name="Y" Selector="it" />
                                 </PropertyMappings>
                               </Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="cv:CreatePoint2f">
-                                  <cv:X>0.0003</cv:X>
+                                  <cv:X>0</cv:X>
                                   <cv:Y>0</cv:Y>
                                 </Combinator>
                               </Expression>
