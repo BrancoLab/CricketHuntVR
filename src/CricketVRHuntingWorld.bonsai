@@ -6389,10 +6389,11 @@ TimeSpan.FromSeconds(it[5]) as TimeToEat)</scr:Expression>
             <Expression xsi:type="scr:ExpressionTransform">
               <scr:Expression>new(
 (it[6] * Math.Pi) / 180.0 as PerturbAngle,
-it[7] as TriggerRadius)</scr:Expression>
+it[7] as TriggerRadius,
+it[8] as PerturbMagnitude)</scr:Expression>
             </Expression>
             <Expression xsi:type="MemberSelector">
-              <Selector>PerturbAngle,TriggerRadius</Selector>
+              <Selector>PerturbAngle,TriggerRadius,PerturbMagnitude</Selector>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="rx:Zip" />
@@ -6668,12 +6669,10 @@ it[7] as TriggerRadius)</scr:Expression>
                                 <Name>ThisTrialSettings</Name>
                               </Expression>
                               <Expression xsi:type="IncludeWorkflow" Path="Extensions\ParsePerturbSettings.bonsai" />
-                              <Expression xsi:type="MemberSelector">
-                                <Selector>PerturbAngle</Selector>
-                              </Expression>
                               <Expression xsi:type="PropertyMapping">
                                 <PropertyMappings>
-                                  <Property Name="Y" Selector="it" />
+                                  <Property Name="Y" Selector="PerturbAngle" />
+                                  <Property Name="X" Selector="PerturbMagnitude" />
                                 </PropertyMappings>
                               </Expression>
                               <Expression xsi:type="Combinator">
@@ -6695,13 +6694,12 @@ it[7] as TriggerRadius)</scr:Expression>
                               <Edge From="4" To="5" Label="Source1" />
                               <Edge From="5" To="6" Label="Source1" />
                               <Edge From="6" To="7" Label="Source1" />
-                              <Edge From="7" To="12" Label="Source1" />
+                              <Edge From="7" To="11" Label="Source1" />
                               <Edge From="8" To="9" Label="Source1" />
                               <Edge From="9" To="10" Label="Source1" />
-                              <Edge From="10" To="11" Label="Source1" />
-                              <Edge From="11" To="12" Label="Source2" />
+                              <Edge From="10" To="11" Label="Source2" />
+                              <Edge From="11" To="12" Label="Source1" />
                               <Edge From="12" To="13" Label="Source1" />
-                              <Edge From="13" To="14" Label="Source1" />
                             </Edges>
                           </Workflow>
                         </Expression>
