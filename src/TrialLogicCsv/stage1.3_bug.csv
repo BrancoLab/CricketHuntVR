@@ -1,0 +1,5 @@
+StartingAngle,AngleThreshold,StartingRadius,FinalRadius,DecayConstant,TimeToEat,PerturbAngle,TriggerRadius,PerturbMagnitude
+90,30,0.15,0.025,0.0003,10.0,335,0.05,0.02
+270,30,0.15,0.025,0.0003,10.0,30,0.05,0.02
+90,30,0.15,0.025,0.0003,10.0,330,0.05,0.02
+270,30,0.15,0.025,0.0003,10.0,30,0.05,0.02
