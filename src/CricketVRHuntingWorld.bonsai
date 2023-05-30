@@ -3814,12 +3814,59 @@ it.Item2 as Value)</scr:Expression>
                     <Name>Source1</Name>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data\test1231\2023-05-22T13-59-10\Looming\Looming_2023-05-22T13-59-10.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data\test1231\2023-05-30T14-14-23\Looming\Looming_2023-05-30T14-14-23.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
                     <io:IncludeHeader>true</io:IncludeHeader>
                     <io:Selector>Item2,Item1.Item2.Item1,Item1.Item2.Item2,Item1.Item3,Item1.Item1</io:Selector>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="2" To="4" Label="Source2" />
+                  <Edge From="3" To="4" Label="Source1" />
+                  <Edge From="4" To="5" Label="Source1" />
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>TimestampStream</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>YRotationAngle</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:WithLatestFrom" />
+            </Expression>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>LogRotationAxis</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Name" />
+                  </Expression>
+                  <Expression xsi:type="IncludeWorkflow" Path="Extensions\FormatFileName.bonsai">
+                    <Extension>csv</Extension>
+                    <Name>YRotationAxis</Name>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="FileName" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="io:CsvWriter">
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data\test1231\2023-05-30T14-14-23\Looming\Looming_2023-05-30T14-14-23.csv</io:FileName>
+                    <io:Append>false</io:Append>
+                    <io:Overwrite>false</io:Overwrite>
+                    <io:Suffix>None</io:Suffix>
+                    <io:IncludeHeader>true</io:IncludeHeader>
+                    <io:Selector>Item2,Item1</io:Selector>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
                 </Nodes>
@@ -3862,6 +3909,9 @@ it.Item2 as Value)</scr:Expression>
             <Edge From="39" To="41" Label="Source1" />
             <Edge From="40" To="41" Label="Source2" />
             <Edge From="41" To="42" Label="Source1" />
+            <Edge From="43" To="45" Label="Source2" />
+            <Edge From="44" To="45" Label="Source1" />
+            <Edge From="45" To="46" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -4477,9 +4527,9 @@ it.Y as Z)</scr:Expression>
                     </Workflow>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-                    <TranslationX>-0.34499985</TranslationX>
+                    <TranslationX>0.0949997157</TranslationX>
                     <TranslationY>-0.05</TranslationY>
-                    <TranslationZ>0.339999616</TranslationZ>
+                    <TranslationZ>0.6613753</TranslationZ>
                     <ScaleX>1</ScaleX>
                     <ScaleY>1</ScaleY>
                     <ScaleZ>1</ScaleZ>
@@ -4501,7 +4551,7 @@ it.Y as Z)</scr:Expression>
                     </Specular>
                     <SpecularExponent>10</SpecularExponent>
                     <RotationZ>0</RotationZ>
-                    <RotationY>-134.296875</RotationY>
+                    <RotationY>132.802734</RotationY>
                     <RotationX>0</RotationX>
                   </Expression>
                 </Nodes>
@@ -4925,6 +4975,11 @@ it.Y as Z)</scr:Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="rx:Merge" />
                               </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="rx:Skip">
+                                  <rx:Count>1</rx:Count>
+                                </Combinator>
+                              </Expression>
                               <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
                                 <TranslationX>0</TranslationX>
                                 <TranslationY>2.220446E-16</TranslationY>
@@ -4995,7 +5050,7 @@ it.Y as Z)</scr:Expression>
                               <Edge From="13" To="14" Label="Source1" />
                               <Edge From="14" To="15" Label="Source2" />
                               <Edge From="15" To="26" Label="Source1" />
-                              <Edge From="15" To="38" Label="Source1" />
+                              <Edge From="15" To="39" Label="Source1" />
                               <Edge From="16" To="17" Label="Source1" />
                               <Edge From="17" To="20" Label="Source1" />
                               <Edge From="18" To="19" Label="Source1" />
@@ -5009,22 +5064,23 @@ it.Y as Z)</scr:Expression>
                               <Edge From="26" To="27" Label="Source1" />
                               <Edge From="27" To="28" Label="Source1" />
                               <Edge From="28" To="29" Label="Source1" />
-                              <Edge From="29" To="37" Label="Source2" />
+                              <Edge From="29" To="38" Label="Source2" />
                               <Edge From="30" To="31" Label="Source1" />
                               <Edge From="31" To="32" Label="Source1" />
                               <Edge From="32" To="36" Label="Source1" />
-                              <Edge From="33" To="39" Label="Source2" />
+                              <Edge From="33" To="40" Label="Source2" />
                               <Edge From="34" To="35" Label="Source1" />
                               <Edge From="35" To="36" Label="Source2" />
                               <Edge From="36" To="37" Label="Source1" />
-                              <Edge From="37" To="40" Label="Source1" />
-                              <Edge From="38" To="39" Label="Source1" />
-                              <Edge From="39" To="40" Label="Source2" />
-                              <Edge From="40" To="41" Label="Source1" />
-                              <Edge From="42" To="45" Label="Source3" />
-                              <Edge From="43" To="45" Label="Source2" />
-                              <Edge From="44" To="45" Label="Source1" />
+                              <Edge From="37" To="38" Label="Source1" />
+                              <Edge From="38" To="41" Label="Source1" />
+                              <Edge From="39" To="40" Label="Source1" />
+                              <Edge From="40" To="41" Label="Source2" />
+                              <Edge From="41" To="42" Label="Source1" />
+                              <Edge From="43" To="46" Label="Source3" />
+                              <Edge From="44" To="46" Label="Source2" />
                               <Edge From="45" To="46" Label="Source1" />
+                              <Edge From="46" To="47" Label="Source1" />
                             </Edges>
                           </Workflow>
                         </Expression>
@@ -5250,7 +5306,7 @@ it.Y as Z)</scr:Expression>
                       <p1:Position>
                         <p1:X>0</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>1</p1:Z>
+                        <p1:Z>-1</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
@@ -5507,7 +5563,7 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
                       <gl:X>0</gl:X>
-                      <gl:Y>-2.34507322</gl:Y>
+                      <gl:Y>2.31746149</gl:Y>
                       <gl:Z>0</gl:Z>
                     </Combinator>
                   </Expression>
@@ -5553,13 +5609,13 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>0</p1:X>
+                        <p1:X>0.07999962</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>0</p1:Z>
+                        <p1:Z>-0.6613753</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
-                        <p1:Y>0</p1:Y>
+                        <p1:Y>2.31746149</p1:Y>
                         <p1:Z>0</p1:Z>
                       </p1:Orientation>
                     </Combinator>
@@ -8716,6 +8772,9 @@ it[8] as PerturbMagnitude)</scr:Expression>
           <Value>0</Value>
         </Combinator>
       </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="num:DegreeToRadian" />
+      </Expression>
       <Expression xsi:type="rx:BehaviorSubject">
         <Name>YRotationAngle</Name>
       </Expression>
@@ -9001,14 +9060,15 @@ it[8] as PerturbMagnitude)</scr:Expression>
       <Edge From="8" To="10" Label="Source1" />
       <Edge From="9" To="10" Label="Source2" />
       <Edge From="11" To="12" Label="Source1" />
-      <Edge From="13" To="14" Label="Source1" />
-      <Edge From="18" To="20" Label="Source1" />
-      <Edge From="19" To="20" Label="Source2" />
-      <Edge From="20" To="21" Label="Source1" />
-      <Edge From="22" To="23" Label="Source1" />
+      <Edge From="12" To="13" Label="Source1" />
+      <Edge From="14" To="15" Label="Source1" />
+      <Edge From="19" To="21" Label="Source1" />
+      <Edge From="20" To="21" Label="Source2" />
+      <Edge From="21" To="22" Label="Source1" />
       <Edge From="23" To="24" Label="Source1" />
-      <Edge From="25" To="26" Label="Source1" />
-      <Edge From="27" To="28" Label="Source1" />
+      <Edge From="24" To="25" Label="Source1" />
+      <Edge From="26" To="27" Label="Source1" />
+      <Edge From="28" To="29" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
