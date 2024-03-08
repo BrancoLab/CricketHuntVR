@@ -101,9 +101,9 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="gl:CreateVector3">
-          <gl:X>0.201813236</gl:X>
+          <gl:X>0.699947655</gl:X>
           <gl:Y>0</gl:Y>
-          <gl:Z>-0.231813282</gl:Z>
+          <gl:Z>0.138615817</gl:Z>
         </Combinator>
       </Expression>
       <Expression xsi:type="PropertyMapping">
@@ -138,8 +138,8 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="cv:CreatePoint2f">
-          <cv:X>0.09335593</cv:X>
-          <cv:Y>-0.25334695</cv:Y>
+          <cv:X>-7.86805E-09</cv:X>
+          <cv:Y>0.18</cv:Y>
         </Combinator>
       </Expression>
       <Expression xsi:type="PropertyMapping">
@@ -162,19 +162,19 @@
           <p1:MonitorBoundingBoxSize>0.3</p1:MonitorBoundingBoxSize>
           <p1:ArmDeadZoneRadius>0.1</p1:ArmDeadZoneRadius>
           <p1:VRRodentPosition>
-            <p1:X>0.201813236</p1:X>
+            <p1:X>0.699947655</p1:X>
             <p1:Y>0</p1:Y>
-            <p1:Z>-0.231813282</p1:Z>
+            <p1:Z>0.138615817</p1:Z>
           </p1:VRRodentPosition>
-          <p1:VRRodentAngle>-3.02270913</p1:VRRodentAngle>
+          <p1:VRRodentAngle>0.05100486</p1:VRRodentAngle>
           <p1:VRCricketPosition>
             <p1:X>-4.371139E-09</p1:X>
             <p1:Y>-0.05</p1:Y>
             <p1:Z>0.12112198</p1:Z>
           </p1:VRCricketPosition>
           <p1:RealCricketPosition>
-            <p1:X>0.09335593</p1:X>
-            <p1:Y>-0.25334695</p1:Y>
+            <p1:X>-7.86805E-09</p1:X>
+            <p1:Y>0.18</p1:Y>
           </p1:RealCricketPosition>
         </Combinator>
       </Expression>

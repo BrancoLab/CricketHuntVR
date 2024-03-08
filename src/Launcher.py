@@ -11,12 +11,12 @@ from time import sleep
 import os
 
 ## User Settings
-SESSIOND_ID = r"221209_M6_h"
-DATA_ROOT_PATH = r"C:\Users\Cricket Team\Desktop\data"
+SESSIOND_ID = r"test_sarah"
+DATA_ROOT_PATH = r"C:\Users\Cricket Team\Desktop\data2"
 
 #ADD_FLAGS = "--no-editor" #launches Bonsai without the editor and starts the workflow automatically
-#ADD_FLAGS = "--start" # launches Bonsai WITH the editor and starts automatically
-ADD_FLAGS = "--no-editor" #launches Bonsai with the editor but waits for you to click Play
+ADD_FLAGS = "--start" # launches Bonsai WITH the editor and starts automatically
+#ADD_FLAGS = "--no-editor" #launches Bonsai with the editor but waits for you to click Play
 FORCE_LAYOUT = True
 SAVE_LOG = True
 
@@ -32,12 +32,10 @@ if (os.path.isdir( DATA_ROOT_PATH + "\\" + SESSIOND_ID)):
 
 Settings = {
 "Logging.LoggingRootPath" : DATA_ROOT_PATH + "\\" + SESSIOND_ID,
-"EnableTrialLogic.Enable" : str(True),
 "EnableShelter.Enable" : str(True),
-"ArmPositionControl.Enable" : str(True), 
-#"ArmGainTrial.Value" : float(1), 
-#"ArmGainEating.Value" : float(0.5), 
-"TrialLogic.TrialListPath" : str(r"TrialLogicCsv\stage1.2.csv")
+# "ArmPositionControl.ManualOverride.Enable" : str(True), 
+#"ArmGainTrial.Value" : float(0.5), 
+"TrialLogic.TrialListPath" : str(r"TrialLogicCsv\stage2.0_mm_O2.csv")
 }
 
 UDP_Settings = {}
