@@ -9054,6 +9054,13 @@ it[8] as PerturbMagnitude)</scr:Expression>
       <Expression xsi:type="SubscribeSubject">
         <Name>ArmEncoderPosition</Name>
       </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>test_node</Name>
+        <Workflow>
+          <Nodes />
+          <Edges />
+        </Workflow>
+      </Expression>
     </Nodes>
     <Edges>
       <Edge From="1" To="2" Label="Source1" />
