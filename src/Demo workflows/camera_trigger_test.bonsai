@@ -1,0 +1,322 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.7.1"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
+                 xmlns:gl="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders"
+                 xmlns:cf="clr-namespace:Bonsai.Harp.CF;assembly=Bonsai.Harp.CF"
+                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                 xmlns:wie="clr-namespace:Bonsai.Windows.Input;assembly=Bonsai.Windows.Input"
+                 xmlns:p1="clr-namespace:;assembly=Extensions"
+                 xmlns:p2="clr-namespace:CricketVR;assembly=Extensions"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="GroupWorkflow">
+          <Name>BehaviorBoard</Name>
+          <Workflow>
+            <Nodes>
+              <Expression xsi:type="rx:BehaviorSubject" TypeArguments="harp:HarpMessage">
+                <rx:Name>BehaviorCommands</rx:Name>
+              </Expression>
+              <Expression xsi:type="ExternalizedMapping">
+                <Property Name="PortName" />
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="harp:Device">
+                  <harp:DeviceState>Active</harp:DeviceState>
+                  <harp:DumpRegisters>true</harp:DumpRegisters>
+                  <harp:LedState>On</harp:LedState>
+                  <harp:VisualIndicators>On</harp:VisualIndicators>
+                  <harp:Heartbeat>Disable</harp:Heartbeat>
+                  <harp:IgnoreErrors>false</harp:IgnoreErrors>
+                  <harp:PortName>COM2</harp:PortName>
+                </Combinator>
+              </Expression>
+              <Expression xsi:type="rx:PublishSubject">
+                <Name>BehaviorEvents</Name>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="harp:FilterMessage">
+                  <harp:Address>92</harp:Address>
+                  <harp:MessageType>Event</harp:MessageType>
+                </Combinator>
+              </Expression>
+            </Nodes>
+            <Edges>
+              <Edge From="0" To="2" Label="Source1" />
+              <Edge From="1" To="2" Label="Source2" />
+              <Edge From="2" To="3" Label="Source1" />
+              <Edge From="3" To="4" Label="Source1" />
+            </Edges>
+          </Workflow>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="Combinator">
+          <Combinator xsi:type="gl:Timer">
+            <gl:DueTime>PT2S</gl:DueTime>
+          </Combinator>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="MulticastSubject">
+          <Name>StartCameras</Name>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="ExternalizedMapping">
+          <Property Name="CameraTriggerFrequency" />
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="GroupWorkflow">
+          <Name>CameraController</Name>
+          <Workflow>
+            <Nodes>
+              <Expression xsi:type="ExternalizedMapping">
+                <Property Name="Value" DisplayName="CameraTriggerFrequency" />
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="IntProperty">
+                  <Value>50</Value>
+                </Combinator>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:Take">
+                  <rx:Count>1</rx:Count>
+                </Combinator>
+              </Expression>
+              <Expression xsi:type="rx:ReplaySubject">
+                <Name>CameraTriggerFrequency</Name>
+                <rx:BufferSize xsi:nil="true" />
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>BehaviorEvents</Name>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="harp:FilterMessage">
+                  <harp:Address>92</harp:Address>
+                  <harp:MessageType>Event</harp:MessageType>
+                </Combinator>
+              </Expression>
+              <Expression xsi:type="rx:PublishSubject">
+                <Name>FrameEvents</Name>
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>BehaviorEvents</Name>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:Take">
+                  <rx:Count>1</rx:Count>
+                </Combinator>
+              </Expression>
+              <Expression xsi:type="cf:BehaviorCommand">
+                <cf:Type>StopCamera</cf:Type>
+                <cf:Mask>Digital0</cf:Mask>
+              </Expression>
+              <Expression xsi:type="rx:SelectMany">
+                <Name>SetFrameRate</Name>
+                <Workflow>
+                  <Nodes>
+                    <Expression xsi:type="SubscribeSubject">
+                      <Name>CameraTriggerFrequency</Name>
+                    </Expression>
+                    <Expression xsi:type="harp:Format">
+                      <harp:MessageType>Write</harp:MessageType>
+                      <harp:Address>93</harp:Address>
+                      <harp:PayloadType>U16</harp:PayloadType>
+                    </Expression>
+                    <Expression xsi:type="WorkflowOutput" />
+                  </Nodes>
+                  <Edges>
+                    <Edge From="0" To="1" Label="Source1" />
+                    <Edge From="1" To="2" Label="Source1" />
+                  </Edges>
+                </Workflow>
+              </Expression>
+              <Expression xsi:type="GroupWorkflow">
+                <Name>StartStopCameras</Name>
+                <Workflow>
+                  <Nodes>
+                    <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Object">
+                      <rx:Name>StopCameras</rx:Name>
+                    </Expression>
+                    <Expression xsi:type="cf:BehaviorCommand">
+                      <cf:Type>StopCamera</cf:Type>
+                      <cf:Mask>Digital0</cf:Mask>
+                    </Expression>
+                    <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Object">
+                      <rx:Name>StartCameras</rx:Name>
+                    </Expression>
+                    <Expression xsi:type="cf:BehaviorCommand">
+                      <cf:Type>StartCamera</cf:Type>
+                      <cf:Mask>Digital0</cf:Mask>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="rx:Merge" />
+                    </Expression>
+                    <Expression xsi:type="WorkflowOutput" />
+                  </Nodes>
+                  <Edges>
+                    <Edge From="0" To="1" Label="Source1" />
+                    <Edge From="1" To="4" Label="Source2" />
+                    <Edge From="2" To="3" Label="Source1" />
+                    <Edge From="3" To="4" Label="Source1" />
+                    <Edge From="4" To="5" Label="Source1" />
+                  </Edges>
+                </Workflow>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:Merge" />
+              </Expression>
+              <Expression xsi:type="MulticastSubject">
+                <Name>BehaviorCommands</Name>
+              </Expression>
+            </Nodes>
+            <Edges>
+              <Edge From="0" To="1" Label="Source1" />
+              <Edge From="1" To="2" Label="Source1" />
+              <Edge From="2" To="3" Label="Source1" />
+              <Edge From="4" To="5" Label="Source1" />
+              <Edge From="5" To="6" Label="Source2" />
+              <Edge From="7" To="8" Label="Source1" />
+              <Edge From="8" To="9" Label="Source1" />
+              <Edge From="9" To="10" Label="Source1" />
+              <Edge From="9" To="12" Label="Source2" />
+              <Edge From="10" To="12" Label="Source1" />
+              <Edge From="11" To="12" Label="Source3" />
+              <Edge From="12" To="13" Label="Source1" />
+            </Edges>
+          </Workflow>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="rx:BehaviorSubject" TypeArguments="harp:HarpMessage">
+        <rx:Name>BehavCom</rx:Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="harp:Device">
+          <harp:DeviceState>Active</harp:DeviceState>
+          <harp:DumpRegisters>true</harp:DumpRegisters>
+          <harp:LedState>On</harp:LedState>
+          <harp:VisualIndicators>On</harp:VisualIndicators>
+          <harp:Heartbeat>Disable</harp:Heartbeat>
+          <harp:IgnoreErrors>false</harp:IgnoreErrors>
+          <harp:PortName>COM2</harp:PortName>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="rx:PublishSubject">
+        <Name>BehaviorEvents</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="wie:KeyDown">
+          <wie:Filter>A</wie:Filter>
+          <wie:SuppressRepetitions>false</wie:SuppressRepetitions>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="cf:BehaviorCommand">
+        <cf:Type>StartCamera</cf:Type>
+        <cf:Mask>Digital0</cf:Mask>
+      </Expression>
+      <Expression xsi:type="MulticastSubject">
+        <Name>BehavCom</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="wie:KeyDown">
+          <wie:Filter>S</wie:Filter>
+          <wie:SuppressRepetitions>false</wie:SuppressRepetitions>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="cf:BehaviorCommand">
+        <cf:Type>StopCamera</cf:Type>
+        <cf:Mask>Digital0</cf:Mask>
+      </Expression>
+      <Expression xsi:type="MulticastSubject">
+        <Name>BehavCom</Name>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>Spinnaker1</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>FrameEvents</Name>
+            </Expression>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="SerialNumber" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p1:CricketVRCapture">
+                <p1:Index xsi:nil="true" />
+                <p1:SerialNumber>22067305</p1:SerialNumber>
+                <p1:ColorProcessing>Default</p1:ColorProcessing>
+                <p1:HarpAddress>92</p1:HarpAddress>
+                <p1:ExposureTime>19000</p1:ExposureTime>
+                <p1:Gain>0</p1:Gain>
+                <p1:Binning>1</p1:Binning>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p2:ObserveOnTaskPool" />
+            </Expression>
+            <Expression xsi:type="rx:PublishSubject">
+              <Name>Spinnaker1FrameEvents</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="2" Label="Source1" />
+            <Edge From="1" To="2" Label="Source2" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="4" To="5" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="Value" DisplayName="CameraTriggerFrequency" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="IntProperty">
+          <Value>50</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Take">
+          <rx:Count>1</rx:Count>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="rx:ReplaySubject">
+        <Name>CameraTriggerFrequency</Name>
+        <rx:BufferSize xsi:nil="true" />
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>BehaviorEvents</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="harp:FilterMessage">
+          <harp:Address>92</harp:Address>
+          <harp:MessageType>Event</harp:MessageType>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="rx:PublishSubject">
+        <Name>FrameEvents</Name>
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge From="1" To="2" Label="Source1" />
+      <Edge From="3" To="4" Label="Source1" />
+      <Edge From="5" To="6" Label="Source1" />
+      <Edge From="6" To="7" Label="Source1" />
+      <Edge From="8" To="9" Label="Source1" />
+      <Edge From="9" To="10" Label="Source1" />
+      <Edge From="11" To="12" Label="Source1" />
+      <Edge From="12" To="13" Label="Source1" />
+      <Edge From="15" To="16" Label="Source1" />
+      <Edge From="16" To="17" Label="Source1" />
+      <Edge From="17" To="18" Label="Source1" />
+      <Edge From="19" To="20" Label="Source1" />
+      <Edge From="20" To="21" Label="Source2" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>
