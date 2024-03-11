@@ -1040,6 +1040,7 @@
                 <Nodes>
                   <Expression xsi:type="ExternalizedMapping">
                     <Property Name="CameraTriggerFrequency" />
+                    <Property Name="CameraTriggerFrequency2" />
                   </Expression>
                   <Expression xsi:type="GroupWorkflow">
                     <Name>CameraController</Name>
@@ -1062,6 +1063,23 @@
                           <Name>CameraTriggerFrequency</Name>
                           <rx:BufferSize xsi:nil="true" />
                         </Expression>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="Value" DisplayName="CameraTriggerFrequency2" />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="IntProperty">
+                            <Value>80</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="rx:ReplaySubject">
+                          <Name>CameraTriggerFrequency2</Name>
+                          <rx:BufferSize xsi:nil="true" />
+                        </Expression>
                         <Expression xsi:type="SubscribeSubject">
                           <Name>BehaviorEvents</Name>
                         </Expression>
@@ -1073,6 +1091,18 @@
                         </Expression>
                         <Expression xsi:type="rx:PublishSubject">
                           <Name>FrameEvents</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>BehaviorEvents</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="harp:FilterMessage">
+                            <harp:Address>94</harp:Address>
+                            <harp:MessageType>Event</harp:MessageType>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="rx:PublishSubject">
+                          <Name>FrameEvents2</Name>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
                           <Name>BehaviorEvents</Name>
@@ -1106,6 +1136,30 @@
                             </Edges>
                           </Workflow>
                         </Expression>
+                        <Expression xsi:type="cf:BehaviorCommand">
+                          <cf:Type>StopCamera</cf:Type>
+                          <cf:Mask>Digital1</cf:Mask>
+                        </Expression>
+                        <Expression xsi:type="rx:SelectMany">
+                          <Name>SetFrameRate2</Name>
+                          <Workflow>
+                            <Nodes>
+                              <Expression xsi:type="SubscribeSubject">
+                                <Name>CameraTriggerFrequency2</Name>
+                              </Expression>
+                              <Expression xsi:type="harp:Format">
+                                <harp:MessageType>Write</harp:MessageType>
+                                <harp:Address>95</harp:Address>
+                                <harp:PayloadType>U16</harp:PayloadType>
+                              </Expression>
+                              <Expression xsi:type="WorkflowOutput" />
+                            </Nodes>
+                            <Edges>
+                              <Edge From="0" To="1" Label="Source1" />
+                              <Edge From="1" To="2" Label="Source1" />
+                            </Edges>
+                          </Workflow>
+                        </Expression>
                         <Expression xsi:type="GroupWorkflow">
                           <Name>StartStopCameras</Name>
                           <Workflow>
@@ -1117,12 +1171,20 @@
                                 <cf:Type>StopCamera</cf:Type>
                                 <cf:Mask>Digital0</cf:Mask>
                               </Expression>
+                              <Expression xsi:type="cf:BehaviorCommand">
+                                <cf:Type>StopCamera</cf:Type>
+                                <cf:Mask>Digital1</cf:Mask>
+                              </Expression>
                               <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Object">
                                 <rx:Name>StartCameras</rx:Name>
                               </Expression>
                               <Expression xsi:type="cf:BehaviorCommand">
                                 <cf:Type>StartCamera</cf:Type>
                                 <cf:Mask>Digital0</cf:Mask>
+                              </Expression>
+                              <Expression xsi:type="cf:BehaviorCommand">
+                                <cf:Type>StartCamera</cf:Type>
+                                <cf:Mask>Digital1</cf:Mask>
                               </Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="rx:Merge" />
@@ -1131,10 +1193,14 @@
                             </Nodes>
                             <Edges>
                               <Edge From="0" To="1" Label="Source1" />
-                              <Edge From="1" To="4" Label="Source2" />
-                              <Edge From="2" To="3" Label="Source1" />
+                              <Edge From="0" To="2" Label="Source1" />
+                              <Edge From="1" To="6" Label="Source2" />
+                              <Edge From="2" To="6" Label="Source4" />
                               <Edge From="3" To="4" Label="Source1" />
-                              <Edge From="4" To="5" Label="Source1" />
+                              <Edge From="3" To="5" Label="Source1" />
+                              <Edge From="4" To="6" Label="Source1" />
+                              <Edge From="5" To="6" Label="Source3" />
+                              <Edge From="6" To="7" Label="Source1" />
                             </Edges>
                           </Workflow>
                         </Expression>
@@ -1150,14 +1216,23 @@
                         <Edge From="1" To="2" Label="Source1" />
                         <Edge From="2" To="3" Label="Source1" />
                         <Edge From="4" To="5" Label="Source1" />
-                        <Edge From="5" To="6" Label="Source2" />
-                        <Edge From="7" To="8" Label="Source1" />
+                        <Edge From="5" To="6" Label="Source1" />
+                        <Edge From="6" To="7" Label="Source1" />
                         <Edge From="8" To="9" Label="Source1" />
-                        <Edge From="9" To="10" Label="Source1" />
-                        <Edge From="9" To="12" Label="Source2" />
-                        <Edge From="10" To="12" Label="Source1" />
-                        <Edge From="11" To="12" Label="Source3" />
-                        <Edge From="12" To="13" Label="Source1" />
+                        <Edge From="9" To="10" Label="Source2" />
+                        <Edge From="11" To="12" Label="Source1" />
+                        <Edge From="12" To="13" Label="Source2" />
+                        <Edge From="14" To="15" Label="Source1" />
+                        <Edge From="15" To="16" Label="Source1" />
+                        <Edge From="15" To="18" Label="Source1" />
+                        <Edge From="16" To="17" Label="Source1" />
+                        <Edge From="16" To="21" Label="Source2" />
+                        <Edge From="17" To="21" Label="Source1" />
+                        <Edge From="18" To="19" Label="Source1" />
+                        <Edge From="18" To="21" Label="Source4" />
+                        <Edge From="19" To="21" Label="Source3" />
+                        <Edge From="20" To="21" Label="Source5" />
+                        <Edge From="21" To="22" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
@@ -1237,26 +1312,27 @@
                       </Edges>
                     </Workflow>
                   </Expression>
-                  <Expression xsi:type="GroupWorkflow">
-                    <Name>Pylon1</Name>
-                    <Workflow>
-                      <Nodes>
-                        <Expression xsi:type="SubscribeSubject">
-                          <Name>FrameEvents</Name>
-                        </Expression>
-                        <Expression xsi:type="ExternalizedMapping">
-                          <Property Name="SerialNumber" />
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p3:PylonCricketVRCapture">
-                            <SerialNumber xmlns="clr-namespace:Bonsai.Pylon;assembly=Bonsai.Pylon">21421610</SerialNumber>
-                            <ParameterFile xmlns="clr-namespace:Bonsai.Pylon;assembly=Bonsai.Pylon">Calibration\acA1300-60gmNIR_21421610.pfs</ParameterFile>
-                            <GrabStrategy xmlns="clr-namespace:Bonsai.Pylon;assembly=Bonsai.Pylon">OneByOne</GrabStrategy>
-                            <p3:HarpAddress>92</p3:HarpAddress>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="scr:ExpressionTransform">
-                          <scr:Expression>new(
+                  <Expression xsi:type="Disable">
+                    <Builder xsi:type="GroupWorkflow">
+                      <Name>Pylon1</Name>
+                      <Workflow>
+                        <Nodes>
+                          <Expression xsi:type="SubscribeSubject">
+                            <Name>FrameEvents</Name>
+                          </Expression>
+                          <Expression xsi:type="ExternalizedMapping">
+                            <Property Name="SerialNumber" />
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="p3:PylonCricketVRCapture">
+                              <SerialNumber xmlns="clr-namespace:Bonsai.Pylon;assembly=Bonsai.Pylon">21421610</SerialNumber>
+                              <ParameterFile xmlns="clr-namespace:Bonsai.Pylon;assembly=Bonsai.Pylon">Calibration\acA1300-60gmNIR_21421610.pfs</ParameterFile>
+                              <GrabStrategy xmlns="clr-namespace:Bonsai.Pylon;assembly=Bonsai.Pylon">OneByOne</GrabStrategy>
+                              <p3:HarpAddress>92</p3:HarpAddress>
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="scr:ExpressionTransform">
+                            <scr:Expression>new(
 Seconds as Seconds,
 new(
   Value.Image as Image,
@@ -1264,19 +1340,60 @@ new(
       Value.GrabResult.ImageNumber as ImageNumber,
       Value.GrabResult.SkippedImageCount as SkippedImageCount) as GrabResult)
   as Value)</scr:Expression>
+                          </Expression>
+                          <Expression xsi:type="Disable">
+                            <Builder xsi:type="Combinator">
+                              <Combinator xsi:type="p3:ClonePylonGrab" />
+                            </Builder>
+                          </Expression>
+                          <Expression xsi:type="Disable">
+                            <Builder xsi:type="Combinator">
+                              <Combinator xsi:type="p1:ObserveOnTaskPool" />
+                            </Builder>
+                          </Expression>
+                          <Expression xsi:type="rx:PublishSubject">
+                            <Name>Pylon1FrameEvents</Name>
+                          </Expression>
+                          <Expression xsi:type="WorkflowOutput" />
+                        </Nodes>
+                        <Edges>
+                          <Edge From="0" To="2" Label="Source1" />
+                          <Edge From="1" To="2" Label="Source2" />
+                          <Edge From="2" To="3" Label="Source1" />
+                          <Edge From="3" To="4" Label="Source1" />
+                          <Edge From="4" To="5" Label="Source1" />
+                          <Edge From="5" To="6" Label="Source1" />
+                          <Edge From="6" To="7" Label="Source1" />
+                        </Edges>
+                      </Workflow>
+                    </Builder>
+                  </Expression>
+                  <Expression xsi:type="GroupWorkflow">
+                    <Name>Spinnaker3</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>FrameEvents2</Name>
                         </Expression>
-                        <Expression xsi:type="Disable">
-                          <Builder xsi:type="Combinator">
-                            <Combinator xsi:type="p3:ClonePylonGrab" />
-                          </Builder>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="SerialNumber" />
                         </Expression>
-                        <Expression xsi:type="Disable">
-                          <Builder xsi:type="Combinator">
-                            <Combinator xsi:type="p1:ObserveOnTaskPool" />
-                          </Builder>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="p3:CricketVRCapture">
+                            <p3:Index xsi:nil="true" />
+                            <p3:SerialNumber>20104305</p3:SerialNumber>
+                            <p3:ColorProcessing>Default</p3:ColorProcessing>
+                            <p3:HarpAddress>94</p3:HarpAddress>
+                            <p3:ExposureTime>11500</p3:ExposureTime>
+                            <p3:Gain>0</p3:Gain>
+                            <p3:Binning>1</p3:Binning>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="p1:ObserveOnTaskPool" />
                         </Expression>
                         <Expression xsi:type="rx:PublishSubject">
-                          <Name>Pylon1FrameEvents</Name>
+                          <Name>Spinnaker3FrameEvents</Name>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
                       </Nodes>
@@ -1286,8 +1403,6 @@ new(
                         <Edge From="2" To="3" Label="Source1" />
                         <Edge From="3" To="4" Label="Source1" />
                         <Edge From="4" To="5" Label="Source1" />
-                        <Edge From="5" To="6" Label="Source1" />
-                        <Edge From="6" To="7" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
@@ -3690,11 +3805,22 @@ it.Item2 as Value)</scr:Expression>
               <FrameRate>50</FrameRate>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
-              <Name>Pylon1FrameEvents</Name>
+              <Name>Spinnaker3FrameEvents</Name>
             </Expression>
-            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogPylonVideo.bonsai">
-              <Name>Pylon1</Name>
-              <FrameRate>50</FrameRate>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogVideo.bonsai">
+              <Name>Spinnaker3</Name>
+              <FrameRate>80</FrameRate>
+            </Expression>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="SubscribeSubject">
+                <Name>Pylon1FrameEvents</Name>
+              </Builder>
+            </Expression>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="IncludeWorkflow" Path="Extensions\LogPylonVideo.bonsai">
+                <Name>Pylon1</Name>
+                <FrameRate>50</FrameRate>
+              </Builder>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>ArmEvents</Name>
@@ -3814,7 +3940,7 @@ it.Item2 as Value)</scr:Expression>
                     <Name>Source1</Name>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\231220_02_loom\2023-12-20T13-39-14\Looming\Looming_2023-12-20T13-39-15.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\231220_02_loom\2024-03-08T15-40-31\Looming\Looming_2024-03-08T15-40-31.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -3861,7 +3987,7 @@ it.Item2 as Value)</scr:Expression>
                     <Name>Source1</Name>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\231220_02_loom\2023-12-20T13-39-14\YRotationAxis\YRotationAxis_2023-12-20T13-39-15.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\231220_02_loom\2024-03-08T15-40-31\YRotationAxis\YRotationAxis_2024-03-08T15-40-31.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -3890,28 +4016,29 @@ it.Item2 as Value)</scr:Expression>
             <Edge From="13" To="14" Label="Source1" />
             <Edge From="15" To="16" Label="Source1" />
             <Edge From="17" To="18" Label="Source1" />
-            <Edge From="19" To="21" Label="Source1" />
-            <Edge From="20" To="21" Label="Source2" />
-            <Edge From="21" To="22" Label="Source1" />
-            <Edge From="22" To="23" Label="Source1" />
-            <Edge From="24" To="26" Label="Source1" />
-            <Edge From="25" To="26" Label="Source2" />
-            <Edge From="26" To="27" Label="Source1" />
-            <Edge From="27" To="28" Label="Source1" />
-            <Edge From="29" To="31" Label="Source1" />
-            <Edge From="30" To="31" Label="Source2" />
-            <Edge From="31" To="32" Label="Source1" />
-            <Edge From="32" To="33" Label="Source1" />
-            <Edge From="34" To="36" Label="Source1" />
-            <Edge From="35" To="36" Label="Source2" />
-            <Edge From="36" To="37" Label="Source1" />
-            <Edge From="37" To="38" Label="Source1" />
-            <Edge From="39" To="41" Label="Source1" />
-            <Edge From="40" To="41" Label="Source2" />
-            <Edge From="41" To="42" Label="Source1" />
-            <Edge From="43" To="45" Label="Source2" />
-            <Edge From="44" To="45" Label="Source1" />
-            <Edge From="45" To="46" Label="Source1" />
+            <Edge From="19" To="20" Label="Source1" />
+            <Edge From="21" To="23" Label="Source1" />
+            <Edge From="22" To="23" Label="Source2" />
+            <Edge From="23" To="24" Label="Source1" />
+            <Edge From="24" To="25" Label="Source1" />
+            <Edge From="26" To="28" Label="Source1" />
+            <Edge From="27" To="28" Label="Source2" />
+            <Edge From="28" To="29" Label="Source1" />
+            <Edge From="29" To="30" Label="Source1" />
+            <Edge From="31" To="33" Label="Source1" />
+            <Edge From="32" To="33" Label="Source2" />
+            <Edge From="33" To="34" Label="Source1" />
+            <Edge From="34" To="35" Label="Source1" />
+            <Edge From="36" To="38" Label="Source1" />
+            <Edge From="37" To="38" Label="Source2" />
+            <Edge From="38" To="39" Label="Source1" />
+            <Edge From="39" To="40" Label="Source1" />
+            <Edge From="41" To="43" Label="Source1" />
+            <Edge From="42" To="43" Label="Source2" />
+            <Edge From="43" To="44" Label="Source1" />
+            <Edge From="45" To="47" Label="Source2" />
+            <Edge From="46" To="47" Label="Source1" />
+            <Edge From="47" To="48" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -4527,9 +4654,9 @@ it.Y as Z)</scr:Expression>
                     </Workflow>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-                    <TranslationX>0.5707759</TranslationX>
+                    <TranslationX>0.0150001</TranslationX>
                     <TranslationY>-0.05</TranslationY>
-                    <TranslationZ>-0.08643958</TranslationZ>
+                    <TranslationZ>1.31694833E-09</TranslationZ>
                     <ScaleX>1</ScaleX>
                     <ScaleY>1</ScaleY>
                     <ScaleZ>1</ScaleZ>
@@ -4551,7 +4678,7 @@ it.Y as Z)</scr:Expression>
                     </Specular>
                     <SpecularExponent>10</SpecularExponent>
                     <RotationZ>0</RotationZ>
-                    <RotationY>-108.654785</RotationY>
+                    <RotationY>180</RotationY>
                     <RotationX>0</RotationX>
                   </Expression>
                 </Nodes>
@@ -5563,7 +5690,7 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
                       <gl:X>0</gl:X>
-                      <gl:Y>-1.89638376</gl:Y>
+                      <gl:Y>3.14159274</gl:Y>
                       <gl:Z>0</gl:Z>
                     </Combinator>
                   </Expression>
@@ -5609,13 +5736,13 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>0.5557758</p1:X>
+                        <p1:X>0</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>0.08643958</p1:Z>
+                        <p1:Z>-1.31694833E-09</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
-                        <p1:Y>-1.89753425</p1:Y>
+                        <p1:Y>3.14159274</p1:Y>
                         <p1:Z>0</p1:Z>
                       </p1:Orientation>
                     </Combinator>
@@ -7830,7 +7957,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="FloatProperty">
-                      <Value>0</Value>
+                      <Value>0.3</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -8961,13 +9088,6 @@ it[8] as PerturbMagnitude)</scr:Expression>
         <Workflow>
           <Nodes>
             <Expression xsi:type="SubscribeSubject">
-              <Name>Pylon1FrameEvents</Name>
-            </Expression>
-            <Expression xsi:type="MemberSelector">
-              <Selector>Value.Image</Selector>
-            </Expression>
-            <Expression xsi:type="VisualizerMapping" />
-            <Expression xsi:type="SubscribeSubject">
               <Name>Spinnaker1FrameEvents</Name>
             </Expression>
             <Expression xsi:type="MemberSelector">
@@ -8976,6 +9096,13 @@ it[8] as PerturbMagnitude)</scr:Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="SubscribeSubject">
               <Name>Spinnaker2FrameEvents</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Value.Image</Selector>
+            </Expression>
+            <Expression xsi:type="VisualizerMapping" />
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Spinnaker3FrameEvents</Name>
             </Expression>
             <Expression xsi:type="MemberSelector">
               <Selector>Value.Image</Selector>
@@ -8994,13 +9121,13 @@ it[8] as PerturbMagnitude)</scr:Expression>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
             <Edge From="1" To="2" Label="Source1" />
-            <Edge From="2" To="9" Label="Source1" />
+            <Edge From="2" To="9" Label="Source2" />
             <Edge From="3" To="4" Label="Source1" />
             <Edge From="4" To="5" Label="Source1" />
-            <Edge From="5" To="9" Label="Source2" />
+            <Edge From="5" To="9" Label="Source3" />
             <Edge From="6" To="7" Label="Source1" />
             <Edge From="7" To="8" Label="Source1" />
-            <Edge From="8" To="9" Label="Source3" />
+            <Edge From="8" To="9" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -9053,13 +9180,6 @@ it[8] as PerturbMagnitude)</scr:Expression>
       </Expression>
       <Expression xsi:type="SubscribeSubject">
         <Name>ArmEncoderPosition</Name>
-      </Expression>
-      <Expression xsi:type="GroupWorkflow">
-        <Name>test_node</Name>
-        <Workflow>
-          <Nodes />
-          <Edges />
-        </Workflow>
       </Expression>
     </Nodes>
     <Edges>
