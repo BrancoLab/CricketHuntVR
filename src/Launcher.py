@@ -11,7 +11,7 @@ from time import sleep
 import os
 
 ## User Settings
-SESSIOND_ID = r"test_sarah_dev"
+SESSIOND_ID = r"test_camera"
 DATA_ROOT_PATH = r"C:\Users\Cricket Team\Desktop\data2"
 
 #ADD_FLAGS = "--no-editor" #launches Bonsai without the editor and starts the workflow automatically
