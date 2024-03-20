@@ -190,6 +190,7 @@
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CricketVRCapture">
                       <p1:Index xsi:nil="true" />
+                      <p1:SerialNumber>23534425</p1:SerialNumber>
                       <p1:ColorProcessing>Default</p1:ColorProcessing>
                       <p1:HarpAddress>94</p1:HarpAddress>
                       <p1:ExposureTime>9000</p1:ExposureTime>
@@ -368,10 +369,10 @@
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="cv:Crop">
                 <cv:RegionOfInterest>
-                  <cv:X>571</cv:X>
-                  <cv:Y>355</cv:Y>
-                  <cv:Width>261</cv:Width>
-                  <cv:Height>252</cv:Height>
+                  <cv:X>418</cv:X>
+                  <cv:Y>319</cv:Y>
+                  <cv:Width>364</cv:Width>
+                  <cv:Height>288</cv:Height>
                 </cv:RegionOfInterest>
               </Combinator>
             </Expression>
@@ -380,52 +381,54 @@
                 <rx:Scheduler>TaskPoolScheduler</rx:Scheduler>
               </Combinator>
             </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="cv:WarpPerspective">
-                <cv:Source>
-                  <cv:Point2f>
-                    <cv:X>133.65</cv:X>
-                    <cv:Y>40.0583344</cv:Y>
-                  </cv:Point2f>
-                  <cv:Point2f>
-                    <cv:X>94.1625</cv:X>
-                    <cv:Y>262.991669</cv:Y>
-                  </cv:Point2f>
-                  <cv:Point2f>
-                    <cv:X>397.9125</cv:X>
-                    <cv:Y>280.408325</cv:Y>
-                  </cv:Point2f>
-                  <cv:Point2f>
-                    <cv:X>364.5</cv:X>
-                    <cv:Y>40.0583344</cv:Y>
-                  </cv:Point2f>
-                </cv:Source>
-                <cv:Destination>
-                  <cv:Point2f>
-                    <cv:X>0</cv:X>
-                    <cv:Y>0</cv:Y>
-                  </cv:Point2f>
-                  <cv:Point2f>
-                    <cv:X>0</cv:X>
-                    <cv:Y>594</cv:Y>
-                  </cv:Point2f>
-                  <cv:Point2f>
-                    <cv:X>681</cv:X>
-                    <cv:Y>594</cv:Y>
-                  </cv:Point2f>
-                  <cv:Point2f>
-                    <cv:X>681</cv:X>
-                    <cv:Y>0</cv:Y>
-                  </cv:Point2f>
-                </cv:Destination>
-                <cv:Flags>Linear</cv:Flags>
-                <cv:FillValue>
-                  <cv:Val0>0</cv:Val0>
-                  <cv:Val1>0</cv:Val1>
-                  <cv:Val2>0</cv:Val2>
-                  <cv:Val3>0</cv:Val3>
-                </cv:FillValue>
-              </Combinator>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="Combinator">
+                <Combinator xsi:type="cv:WarpPerspective">
+                  <cv:Source>
+                    <cv:Point2f>
+                      <cv:X>26.1</cv:X>
+                      <cv:Y>18.9</cv:Y>
+                    </cv:Point2f>
+                    <cv:Point2f>
+                      <cv:X>26.9156246</cv:X>
+                      <cv:Y>237.3</cv:Y>
+                    </cv:Point2f>
+                    <cv:Point2f>
+                      <cv:X>255.290619</cv:X>
+                      <cv:Y>239.4</cv:Y>
+                    </cv:Point2f>
+                    <cv:Point2f>
+                      <cv:X>253.659378</cv:X>
+                      <cv:Y>17.85</cv:Y>
+                    </cv:Point2f>
+                  </cv:Source>
+                  <cv:Destination>
+                    <cv:Point2f>
+                      <cv:X>31.0221863</cv:X>
+                      <cv:Y>48.3521461</cv:Y>
+                    </cv:Point2f>
+                    <cv:Point2f>
+                      <cv:X>0</cv:X>
+                      <cv:Y>594</cv:Y>
+                    </cv:Point2f>
+                    <cv:Point2f>
+                      <cv:X>681</cv:X>
+                      <cv:Y>594</cv:Y>
+                    </cv:Point2f>
+                    <cv:Point2f>
+                      <cv:X>681</cv:X>
+                      <cv:Y>0</cv:Y>
+                    </cv:Point2f>
+                  </cv:Destination>
+                  <cv:Flags>Linear</cv:Flags>
+                  <cv:FillValue>
+                    <cv:Val0>0</cv:Val0>
+                    <cv:Val1>0</cv:Val1>
+                    <cv:Val2>0</cv:Val2>
+                    <cv:Val3>0</cv:Val3>
+                  </cv:FillValue>
+                </Combinator>
+              </Builder>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="dsp:Split" />
@@ -448,7 +451,7 @@
                   <cv:X>0</cv:X>
                   <cv:Y>0</cv:Y>
                 </cv:Offset>
-                <cv:MinArea>590</cv:MinArea>
+                <cv:MinArea>100</cv:MinArea>
                 <cv:MaxArea xsi:nil="true" />
               </Combinator>
             </Expression>
@@ -479,7 +482,7 @@
                   <cv:X>0</cv:X>
                   <cv:Y>0</cv:Y>
                 </cv:Offset>
-                <cv:MinArea>300</cv:MinArea>
+                <cv:MinArea>100</cv:MinArea>
                 <cv:MaxArea xsi:nil="true" />
               </Combinator>
             </Expression>
@@ -510,7 +513,7 @@
                   <cv:X>0</cv:X>
                   <cv:Y>0</cv:Y>
                 </cv:Offset>
-                <cv:MinArea>150</cv:MinArea>
+                <cv:MinArea>100</cv:MinArea>
                 <cv:MaxArea xsi:nil="true" />
               </Combinator>
             </Expression>
