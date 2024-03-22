@@ -694,7 +694,7 @@
                           <ColorR>1</ColorR>
                           <ColorG>1</ColorG>
                           <ColorB>1</ColorB>
-                          <ColorA>1</ColorA>
+                          <ColorA>0</ColorA>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
                       </Nodes>
@@ -956,54 +956,52 @@
                 </Edges>
               </Workflow>
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="GroupWorkflow">
-                <Name>HARP_Expander</Name>
-                <Workflow>
-                  <Nodes>
-                    <Expression xsi:type="ExternalizedMapping">
-                      <Property Name="PortName" />
-                    </Expression>
-                    <Expression xsi:type="GroupWorkflow">
-                      <Name>CreateExpander</Name>
-                      <Workflow>
-                        <Nodes>
-                          <Expression xsi:type="rx:BehaviorSubject" TypeArguments="harp:HarpMessage">
-                            <rx:Name>ExpanderCommands</rx:Name>
-                          </Expression>
-                          <Expression xsi:type="ExternalizedMapping">
-                            <Property Name="PortName" />
-                          </Expression>
-                          <Expression xsi:type="Combinator">
-                            <Combinator xsi:type="harp:Device">
-                              <harp:DeviceState>Active</harp:DeviceState>
-                              <harp:DumpRegisters>true</harp:DumpRegisters>
-                              <harp:LedState>On</harp:LedState>
-                              <harp:VisualIndicators>On</harp:VisualIndicators>
-                              <harp:Heartbeat>Disable</harp:Heartbeat>
-                              <harp:IgnoreErrors>false</harp:IgnoreErrors>
-                              <harp:PortName>COM3</harp:PortName>
-                            </Combinator>
-                          </Expression>
-                          <Expression xsi:type="rx:PublishSubject">
-                            <Name>ExpanderEvents</Name>
-                          </Expression>
-                          <Expression xsi:type="WorkflowOutput" />
-                        </Nodes>
-                        <Edges>
-                          <Edge From="0" To="2" Label="Source1" />
-                          <Edge From="1" To="2" Label="Source2" />
-                          <Edge From="2" To="3" Label="Source1" />
-                          <Edge From="3" To="4" Label="Source1" />
-                        </Edges>
-                      </Workflow>
-                    </Expression>
-                  </Nodes>
-                  <Edges>
-                    <Edge From="0" To="1" Label="Source1" />
-                  </Edges>
-                </Workflow>
-              </Builder>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>HARP_Expander</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="PortName" />
+                  </Expression>
+                  <Expression xsi:type="GroupWorkflow">
+                    <Name>CreateExpander</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="rx:BehaviorSubject" TypeArguments="harp:HarpMessage">
+                          <rx:Name>ExpanderCommands</rx:Name>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="PortName" />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="harp:Device">
+                            <harp:DeviceState>Active</harp:DeviceState>
+                            <harp:DumpRegisters>true</harp:DumpRegisters>
+                            <harp:LedState>On</harp:LedState>
+                            <harp:VisualIndicators>On</harp:VisualIndicators>
+                            <harp:Heartbeat>Disable</harp:Heartbeat>
+                            <harp:IgnoreErrors>false</harp:IgnoreErrors>
+                            <harp:PortName>COM3</harp:PortName>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="rx:PublishSubject">
+                          <Name>ExpanderEvents</Name>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="2" Label="Source1" />
+                        <Edge From="1" To="2" Label="Source2" />
+                        <Edge From="2" To="3" Label="Source1" />
+                        <Edge From="3" To="4" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                </Edges>
+              </Workflow>
             </Expression>
             <Expression xsi:type="GroupWorkflow">
               <Name>BehaviorBoard</Name>
@@ -1071,7 +1069,7 @@
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="IntProperty">
-                            <Value>80</Value>
+                            <Value>100</Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="Combinator">
@@ -1389,7 +1387,7 @@ new(
                             <p3:SerialNumber>23534425</p3:SerialNumber>
                             <p3:ColorProcessing>Default</p3:ColorProcessing>
                             <p3:HarpAddress>94</p3:HarpAddress>
-                            <p3:ExposureTime>11500</p3:ExposureTime>
+                            <p3:ExposureTime>9000</p3:ExposureTime>
                             <p3:Gain>0</p3:Gain>
                             <p3:Binning>1</p3:Binning>
                           </Combinator>
@@ -1417,74 +1415,72 @@ new(
                 </Edges>
               </Workflow>
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="GroupWorkflow">
-                <Name>MagneticEncoder</Name>
-                <Workflow>
-                  <Nodes>
-                    <Expression xsi:type="ExternalizedMapping">
-                      <Property Name="SampleRate" />
-                    </Expression>
-                    <Expression xsi:type="GroupWorkflow">
-                      <Name>MagneticEncoderController</Name>
-                      <Workflow>
-                        <Nodes>
-                          <Expression xsi:type="Combinator">
-                            <Combinator xsi:type="IntProperty">
-                              <Value>0</Value>
-                            </Combinator>
-                          </Expression>
-                          <Expression xsi:type="ExternalizedMapping">
-                            <Property Name="SampleRate" />
-                          </Expression>
-                          <Expression xsi:type="Combinator">
-                            <Combinator xsi:type="p4:ConfigureMagneticEncoder">
-                              <p4:SampleRate>SampleRate250Hz</p4:SampleRate>
-                            </Combinator>
-                          </Expression>
-                          <Expression xsi:type="MulticastSubject">
-                            <Name>ExpanderCommands</Name>
-                          </Expression>
-                          <Expression xsi:type="SubscribeSubject">
-                            <Name>ExpanderEvents</Name>
-                          </Expression>
-                          <Expression xsi:type="p4:MagneticEncoder">
-                            <p4:IncludeTimestamp>true</p4:IncludeTimestamp>
-                          </Expression>
-                          <Expression xsi:type="MemberSelector">
-                            <Selector>Value.Angle</Selector>
-                          </Expression>
-                          <Expression xsi:type="rx:PublishSubject">
-                            <Name>EncoderValue</Name>
-                          </Expression>
-                          <Expression xsi:type="SubscribeSubject">
-                            <Name>EncoderValue</Name>
-                          </Expression>
-                          <Expression xsi:type="scr:ExpressionTransform">
-                            <scr:Expression>(Math.Pi) - ((it / 16384.0) * (2.0 * Math.Pi))</scr:Expression>
-                          </Expression>
-                          <Expression xsi:type="rx:BehaviorSubject">
-                            <Name>EncoderAngle</Name>
-                          </Expression>
-                        </Nodes>
-                        <Edges>
-                          <Edge From="0" To="2" Label="Source1" />
-                          <Edge From="1" To="2" Label="Source2" />
-                          <Edge From="2" To="3" Label="Source1" />
-                          <Edge From="4" To="5" Label="Source1" />
-                          <Edge From="5" To="6" Label="Source1" />
-                          <Edge From="6" To="7" Label="Source1" />
-                          <Edge From="8" To="9" Label="Source1" />
-                          <Edge From="9" To="10" Label="Source1" />
-                        </Edges>
-                      </Workflow>
-                    </Expression>
-                  </Nodes>
-                  <Edges>
-                    <Edge From="0" To="1" Label="Source1" />
-                  </Edges>
-                </Workflow>
-              </Builder>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>MagneticEncoder</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="SampleRate" />
+                  </Expression>
+                  <Expression xsi:type="GroupWorkflow">
+                    <Name>MagneticEncoderController</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="IntProperty">
+                            <Value>0</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="SampleRate" />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="p4:ConfigureMagneticEncoder">
+                            <p4:SampleRate>SampleRate250Hz</p4:SampleRate>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="MulticastSubject">
+                          <Name>ExpanderCommands</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>ExpanderEvents</Name>
+                        </Expression>
+                        <Expression xsi:type="p4:MagneticEncoder">
+                          <p4:IncludeTimestamp>true</p4:IncludeTimestamp>
+                        </Expression>
+                        <Expression xsi:type="MemberSelector">
+                          <Selector>Value.Angle</Selector>
+                        </Expression>
+                        <Expression xsi:type="rx:PublishSubject">
+                          <Name>EncoderValue</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>EncoderValue</Name>
+                        </Expression>
+                        <Expression xsi:type="scr:ExpressionTransform">
+                          <scr:Expression>(Math.Pi) - ((it / 16384.0) * (2.0 * Math.Pi))</scr:Expression>
+                        </Expression>
+                        <Expression xsi:type="rx:BehaviorSubject">
+                          <Name>EncoderAngle</Name>
+                        </Expression>
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="2" Label="Source1" />
+                        <Edge From="1" To="2" Label="Source2" />
+                        <Edge From="2" To="3" Label="Source1" />
+                        <Edge From="4" To="5" Label="Source1" />
+                        <Edge From="5" To="6" Label="Source1" />
+                        <Edge From="6" To="7" Label="Source1" />
+                        <Edge From="8" To="9" Label="Source1" />
+                        <Edge From="9" To="10" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                </Edges>
+              </Workflow>
             </Expression>
             <Expression xsi:type="GroupWorkflow">
               <Name>TimestampStream</Name>
@@ -3402,10 +3398,10 @@ it.Item4 as SampleRate)
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="cv:Crop">
                       <cv:RegionOfInterest>
-                        <cv:X>418</cv:X>
-                        <cv:Y>319</cv:Y>
-                        <cv:Width>364</cv:Width>
-                        <cv:Height>288</cv:Height>
+                        <cv:X>445</cv:X>
+                        <cv:Y>472</cv:Y>
+                        <cv:Width>279</cv:Width>
+                        <cv:Height>283</cv:Height>
                       </cv:RegionOfInterest>
                     </Combinator>
                   </Expression>
@@ -3419,38 +3415,38 @@ it.Item4 as SampleRate)
                       <Combinator xsi:type="cv:WarpPerspective">
                         <cv:Source>
                           <cv:Point2f>
-                            <cv:X>26.1</cv:X>
-                            <cv:Y>18.9</cv:Y>
+                            <cv:X>27.61572</cv:X>
+                            <cv:Y>49.4515572</cv:Y>
                           </cv:Point2f>
                           <cv:Point2f>
-                            <cv:X>26.9156246</cv:X>
-                            <cv:Y>237.3</cv:Y>
+                            <cv:X>32.4890823</cv:X>
+                            <cv:Y>254.112457</cv:Y>
                           </cv:Point2f>
                           <cv:Point2f>
-                            <cv:X>255.290619</cv:X>
-                            <cv:Y>239.4</cv:Y>
+                            <cv:X>238.388641</cv:X>
+                            <cv:Y>249.216263</cv:Y>
                           </cv:Point2f>
                           <cv:Point2f>
-                            <cv:X>253.659378</cv:X>
-                            <cv:Y>17.85</cv:Y>
+                            <cv:X>233.515289</cv:X>
+                            <cv:Y>39.16955</cv:Y>
                           </cv:Point2f>
                         </cv:Source>
                         <cv:Destination>
                           <cv:Point2f>
-                            <cv:X>31.0221863</cv:X>
-                            <cv:Y>48.3521461</cv:Y>
+                            <cv:X>16.46412</cv:X>
+                            <cv:Y>20.90341</cv:Y>
                           </cv:Point2f>
                           <cv:Point2f>
-                            <cv:X>0</cv:X>
-                            <cv:Y>594</cv:Y>
+                            <cv:X>266.0957</cv:X>
+                            <cv:Y>265.8485</cv:Y>
                           </cv:Point2f>
                           <cv:Point2f>
-                            <cv:X>681</cv:X>
-                            <cv:Y>594</cv:Y>
+                            <cv:X>16.46412</cv:X>
+                            <cv:Y>265.8485</cv:Y>
                           </cv:Point2f>
                           <cv:Point2f>
-                            <cv:X>681</cv:X>
-                            <cv:Y>0</cv:Y>
+                            <cv:X>16.46412</cv:X>
+                            <cv:Y>20.90341</cv:Y>
                           </cv:Point2f>
                         </cv:Destination>
                         <cv:Flags>Linear</cv:Flags>
@@ -3693,18 +3689,22 @@ from System import Tuple
 
 @returns(Tuple[Tuple[float, float, float],float])
 def process(value):
-    # Original fixed xy coordinates of each point
-    original_points = [(value.Item2.Item1.Item1.X, value.Item2.Item1.Item1.Y), 
-                       (value.Item2.Item1.Item2.X, value.Item2.Item1.Item2.Y), 
-                       (value.Item2.Item1.Item3.X, value.Item2.Item1.Item3.Y)]
 
     # Current xy coordinates of each point
     current_points = [(value.Item1.Item1.X, value.Item1.Item1.Y),
                       (value.Item1.Item2.X, value.Item1.Item2.Y),
                       (value.Item1.Item3.X, value.Item1.Item3.Y)]
 
+    # Original fixed xy coordinates of each point
+    original_points = [(value.Item2.Item1.Item1.X, value.Item2.Item1.Item1.Y), 
+                       (value.Item2.Item1.Item2.X, value.Item2.Item1.Item2.Y), 
+                       (value.Item2.Item1.Item3.X, value.Item2.Item1.Item3.Y)]
+
     # Center of the circle
-    centreX, centreY = (value.Item2.Item2.X, value.Item2.Item2.Y)
+    #centreX, centreY = (value.Item2.Item2.X, value.Item2.Item2.Y)
+
+    #hard code centre
+    centreX, centreY = (130, 149)
 
     # Initialize a list to store the angles for each point
     angles = []
@@ -3737,9 +3737,11 @@ def process(value):
 
         #angles.append(angle_degrees)
 
-        # Ensure angle is between 0 and 2*pi radians (360 degrees) degrees
-        if angle &lt; 0:
-            angle += 2 * pi 
+        # Ensure angle is between -pi and +pi radians (360 degrees) degrees
+        if angle &lt; -pi:
+            angle += 2 * pi
+        elif angle &gt; pi:
+            angle -= 2 * pi
     
         angles.append(angle)
 
@@ -3749,34 +3751,39 @@ def process(value):
 </ipy:Script>
                   </Expression>
                   <Expression xsi:type="ipy:PythonTransform">
-                    <ipy:Script>from math import isnan
+                    <ipy:Script>from math import isnan, atan2, sin, cos
 from System import Tuple
 
 @returns(Tuple[float, float])
 def process(value):
-
+    
     # Angles of movement
     LED_angles = [value.Item1.Item1, value.Item1.Item2, value.Item1.Item3]
 
     # Filter out NaN values from LED_angles
     valid_angles = [angle for angle in LED_angles if not isnan(angle)]
 
-    # Filter out large discrepencies (stop avergerging of single angle outlier errors)
-    consistant_angles = []
+    # Filter out large discrepancies (stop averaging of single angle outlier errors)
+    consistent_angles = []
 
     for angle in valid_angles:
-        # Check to see if angle is within +-5 of at least one of the other angles
-        if any(abs(angle - other_angle) &lt;= 5 for other_angle in valid_angles if other_angle != angle):
-            consistant_angles.append(angle)
+        # Check to see if angle is within ±1 radian of at least one of the other angles
+        if any(abs(angle - other_angle) &lt;= 1 for other_angle in valid_angles if other_angle != angle):
+            consistent_angles.append(angle)
 
-    # Calculate the average of valid angles
-    if consistant_angles:
-        AvgAngle = sum(consistant_angles) / len(consistant_angles)
+    # Calculate the average of valid consistent angles
+    if consistent_angles:
+        # Sum of sine and cosine components
+        sin_sum = sum(sin(angle) for angle in consistent_angles)
+        cos_sum = sum(cos(angle) for angle in consistent_angles)
+
+        # Average angle from components
+        avg_angle = atan2(sin_sum, cos_sum)
     else:
-        AvgAngle = float('nan')
+        avg_angle = float('nan')
 
     # Return the average angle as a tuple
-    return Tuple.Create(AvgAngle, value.Item2)
+    return Tuple.Create(avg_angle, value.Item2)
 
 </ipy:Script>
                   </Expression>
@@ -3784,10 +3791,24 @@ def process(value):
                     <Selector>Item1</Selector>
                   </Expression>
                   <Expression xsi:type="rx:BehaviorSubject">
-                    <Name>OrientationAngle</Name>
+                    <Name>OrientationVal</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:BufferTime">
+                      <rx:TimeSpan>PT1S</rx:TimeSpan>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Count</Selector>
                   </Expression>
                   <Expression xsi:type="rx:PublishSubject">
                     <Name>Orientation</Name>
+                  </Expression>
+                  <Expression xsi:type="rx:PublishSubject">
+                    <Name>IndvidualOrientation</Name>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Item1</Selector>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -3841,9 +3862,13 @@ def process(value):
                   <Edge From="44" To="45" Label="Source1" />
                   <Edge From="45" To="46" Label="Source1" />
                   <Edge From="46" To="47" Label="Source1" />
+                  <Edge From="46" To="53" Label="Source1" />
                   <Edge From="47" To="48" Label="Source1" />
-                  <Edge From="47" To="50" Label="Source1" />
+                  <Edge From="47" To="52" Label="Source1" />
                   <Edge From="48" To="49" Label="Source1" />
+                  <Edge From="48" To="50" Label="Source1" />
+                  <Edge From="50" To="51" Label="Source1" />
+                  <Edge From="53" To="54" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -4278,7 +4303,7 @@ it.Item2 as Value)</scr:Expression>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogVideo.bonsai">
               <Name>Spinnaker3</Name>
-              <FrameRate>80</FrameRate>
+              <FrameRate>100</FrameRate>
             </Expression>
             <Expression xsi:type="Disable">
               <Builder xsi:type="SubscribeSubject">
@@ -4297,15 +4322,11 @@ it.Item2 as Value)</scr:Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDevice.bonsai">
               <LogName>ArmBoard</LogName>
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="SubscribeSubject">
-                <Name>ExpanderEvents</Name>
-              </Builder>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>ExpanderEvents</Name>
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDevice.bonsai">
-                <LogName>OutputExpanderBoard</LogName>
-              </Builder>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDevice.bonsai">
+              <LogName>OutputExpanderBoard</LogName>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>BehaviorEvents</Name>
@@ -4366,33 +4387,23 @@ it.Item2 as Value)</scr:Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDevice.bonsai">
               <LogName>BehaviorCommands</LogName>
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="SubscribeSubject">
-                <Name>ExpanderCommands</Name>
-              </Builder>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>ExpanderCommands</Name>
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="SubscribeSubject">
-                <Name>TimestampStream</Name>
-              </Builder>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>TimestampStream</Name>
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Combinator">
-                <Combinator xsi:type="rx:WithLatestFrom" />
-              </Builder>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:WithLatestFrom" />
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Combinator">
-                <Combinator xsi:type="p3:ModifyMessage">
-                  <p3:Address xsi:nil="true" />
-                  <p3:MessageTypeModified>Write</p3:MessageTypeModified>
-                </Combinator>
-              </Builder>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p3:ModifyMessage">
+                <p3:Address xsi:nil="true" />
+                <p3:MessageTypeModified>Write</p3:MessageTypeModified>
+              </Combinator>
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDevice.bonsai">
-                <LogName>ExpanderCommands</LogName>
-              </Builder>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDevice.bonsai">
+              <LogName>ExpanderCommands</LogName>
             </Expression>
             <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Tuple(sys:Boolean,sys:Tuple(p1:VrElement,p1:VrElement),sys:Double)">
               <rx:Name>LoomParameters</rx:Name>
@@ -4423,7 +4434,7 @@ it.Item2 as Value)</scr:Expression>
                     <Name>Source1</Name>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\231220_02_loom\2024-03-20T18-03-48\Looming\Looming_2024-03-20T18-03-48.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\231220_02_loom\2024-03-21T11-54-47\Looming\Looming_2024-03-21T11-54-47.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -4470,7 +4481,7 @@ it.Item2 as Value)</scr:Expression>
                     <Name>Source1</Name>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\231220_02_loom\2024-03-20T18-03-48\YRotationAxis\YRotationAxis_2024-03-20T18-03-48.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\231220_02_loom\2024-03-21T11-54-47\YRotationAxis\YRotationAxis_2024-03-21T11-54-47.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -4511,7 +4522,7 @@ it.Item2 as Value)</scr:Expression>
                     <Name>Source1</Name>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\231220_02_loom\2024-03-20T18-03-48\LEDOrientation\LEDOrientation_2024-03-20T18-03-48.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\231220_02_loom\2024-03-21T11-54-47\LEDOrientation\LEDOrientation_2024-03-21T11-54-47.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -5179,9 +5190,9 @@ it.Y as Z)</scr:Expression>
                     </Workflow>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-                    <TranslationX>-0.0238109045</TranslationX>
+                    <TranslationX>0.0348903835</TranslationX>
                     <TranslationY>-0.05</TranslationY>
-                    <TranslationZ>-0.0388110057</TranslationZ>
+                    <TranslationZ>0.0198902916</TranslationZ>
                     <ScaleX>1</ScaleX>
                     <ScaleY>1</ScaleY>
                     <ScaleZ>1</ScaleZ>
@@ -5203,7 +5214,7 @@ it.Y as Z)</scr:Expression>
                     </Specular>
                     <SpecularExponent>10</SpecularExponent>
                     <RotationZ>0</RotationZ>
-                    <RotationY>NaN</RotationY>
+                    <RotationY>180</RotationY>
                     <RotationX>0</RotationX>
                   </Expression>
                 </Nodes>
@@ -5956,9 +5967,9 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>0</p1:X>
+                        <p1:X>-1</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>1</p1:Z>
+                        <p1:Z>0</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
@@ -6205,15 +6216,7 @@ it.Y as Z)</scr:Expression>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
-                    <Name>YRotationAngle</Name>
-                  </Expression>
-                  <Expression xsi:type="PropertyMapping">
-                    <PropertyMappings>
-                      <Property Name="Angle" />
-                    </PropertyMappings>
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>OrientationAngle</Name>
+                    <Name>EncoderAngle</Name>
                   </Expression>
                   <Expression xsi:type="InputMapping">
                     <PropertyMappings>
@@ -6223,7 +6226,7 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
                       <gl:X>0</gl:X>
-                      <gl:Y>NaN</gl:Y>
+                      <gl:Y>3.14159274</gl:Y>
                       <gl:Z>0</gl:Z>
                     </Combinator>
                   </Expression>
@@ -6235,6 +6238,14 @@ it.Y as Z)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="MemberSelector">
                     <Selector>Item1</Selector>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>YRotationAngle</Name>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="Angle" />
+                    </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:RotateVec3">
@@ -6261,13 +6272,13 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>-0.0388110057</p1:X>
+                        <p1:X>0.0198902842</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>0.0388110057</p1:Z>
+                        <p1:Z>-0.0198902916</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
-                        <p1:Y>NaN</p1:Y>
+                        <p1:Y>3.14159274</p1:Y>
                         <p1:Z>0</p1:Z>
                       </p1:Orientation>
                     </Combinator>
@@ -6283,18 +6294,18 @@ it.Y as Z)</scr:Expression>
                   <Edge From="4" To="5" Label="Source2" />
                   <Edge From="5" To="6" Label="Source1" />
                   <Edge From="6" To="7" Label="Source1" />
-                  <Edge From="7" To="16" Label="Source1" />
-                  <Edge From="8" To="16" Label="Source2" />
-                  <Edge From="9" To="15" Label="Source1" />
+                  <Edge From="7" To="14" Label="Source1" />
+                  <Edge From="8" To="14" Label="Source2" />
+                  <Edge From="9" To="13" Label="Source1" />
                   <Edge From="10" To="11" Label="Source1" />
-                  <Edge From="11" To="18" Label="Source2" />
-                  <Edge From="12" To="13" Label="Source1" />
-                  <Edge From="13" To="14" Label="Source1" />
-                  <Edge From="14" To="15" Label="Source2" />
-                  <Edge From="15" To="16" Label="Source3" />
+                  <Edge From="11" To="12" Label="Source1" />
+                  <Edge From="12" To="13" Label="Source2" />
+                  <Edge From="13" To="14" Label="Source3" />
+                  <Edge From="14" To="15" Label="Source1" />
+                  <Edge From="14" To="19" Label="Source1" />
+                  <Edge From="15" To="18" Label="Source1" />
                   <Edge From="16" To="17" Label="Source1" />
-                  <Edge From="16" To="19" Label="Source1" />
-                  <Edge From="17" To="18" Label="Source1" />
+                  <Edge From="17" To="18" Label="Source2" />
                   <Edge From="18" To="20" Label="Source1" />
                   <Edge From="19" To="20" Label="Source2" />
                   <Edge From="20" To="21" Label="Source1" />
@@ -8482,7 +8493,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="FloatProperty">
-                      <Value>0.281486064</Value>
+                      <Value>0.290507823</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
