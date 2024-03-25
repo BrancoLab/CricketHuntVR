@@ -3804,7 +3804,7 @@ def process(value):
                     <Selector>Item1</Selector>
                   </Expression>
                   <Expression xsi:type="rx:BehaviorSubject">
-                    <Name>EncoderAngle</Name>
+                    <Name>OrientationAngle</Name>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:BufferTime">
@@ -3816,12 +3816,6 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="rx:PublishSubject">
                     <Name>Orientation</Name>
-                  </Expression>
-                  <Expression xsi:type="rx:PublishSubject">
-                    <Name>IndvidualOrientation</Name>
-                  </Expression>
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>Item1</Selector>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -3875,13 +3869,11 @@ def process(value):
                   <Edge From="44" To="45" Label="Source2" />
                   <Edge From="45" To="46" Label="Source1" />
                   <Edge From="46" To="47" Label="Source1" />
-                  <Edge From="46" To="53" Label="Source1" />
                   <Edge From="47" To="48" Label="Source1" />
                   <Edge From="47" To="52" Label="Source1" />
                   <Edge From="48" To="49" Label="Source1" />
                   <Edge From="48" To="50" Label="Source1" />
                   <Edge From="50" To="51" Label="Source1" />
-                  <Edge From="53" To="54" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -6267,7 +6259,7 @@ it.Y as Z)</scr:Expression>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
-                    <Name>EncoderAngle</Name>
+                    <Name>OrientationAngle</Name>
                   </Expression>
                   <Expression xsi:type="InputMapping">
                     <PropertyMappings>
