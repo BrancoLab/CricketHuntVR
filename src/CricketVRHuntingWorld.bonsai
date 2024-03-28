@@ -696,7 +696,7 @@
                           <ColorR>1</ColorR>
                           <ColorG>1</ColorG>
                           <ColorB>1</ColorB>
-                          <ColorA>1</ColorA>
+                          <ColorA>0</ColorA>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
                       </Nodes>
@@ -3408,58 +3408,43 @@ it.Item4 as SampleRate)
                   <Expression xsi:type="MemberSelector">
                     <Selector>Value.Image</Selector>
                   </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="cv:Crop">
-                      <cv:RegionOfInterest>
-                        <cv:X>445</cv:X>
-                        <cv:Y>472</cv:Y>
-                        <cv:Width>279</cv:Width>
-                        <cv:Height>283</cv:Height>
-                      </cv:RegionOfInterest>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:ObserveOn">
-                      <rx:Scheduler>TaskPoolScheduler</rx:Scheduler>
-                    </Combinator>
-                  </Expression>
                   <Expression xsi:type="Disable">
                     <Builder xsi:type="Combinator">
                       <Combinator xsi:type="cv:WarpPerspective">
                         <cv:Source>
                           <cv:Point2f>
-                            <cv:X>27.61572</cv:X>
-                            <cv:Y>49.4515572</cv:Y>
+                            <cv:X>615</cv:X>
+                            <cv:Y>387.610626</cv:Y>
                           </cv:Point2f>
                           <cv:Point2f>
-                            <cv:X>32.4890823</cv:X>
-                            <cv:Y>254.112457</cv:Y>
+                            <cv:X>615</cv:X>
+                            <cv:Y>609.5575</cv:Y>
                           </cv:Point2f>
                           <cv:Point2f>
-                            <cv:X>238.388641</cv:X>
-                            <cv:Y>249.216263</cv:Y>
+                            <cv:X>837.75</cv:X>
+                            <cv:Y>607.433655</cv:Y>
                           </cv:Point2f>
                           <cv:Point2f>
-                            <cv:X>233.515289</cv:X>
-                            <cv:Y>39.16955</cv:Y>
+                            <cv:X>832.5</cv:X>
+                            <cv:Y>384.424774</cv:Y>
                           </cv:Point2f>
                         </cv:Source>
                         <cv:Destination>
                           <cv:Point2f>
-                            <cv:X>16.46412</cv:X>
-                            <cv:Y>20.90341</cv:Y>
+                            <cv:X>0</cv:X>
+                            <cv:Y>0</cv:Y>
                           </cv:Point2f>
                           <cv:Point2f>
-                            <cv:X>266.0957</cv:X>
-                            <cv:Y>265.8485</cv:Y>
+                            <cv:X>0</cv:X>
+                            <cv:Y>1080</cv:Y>
                           </cv:Point2f>
                           <cv:Point2f>
-                            <cv:X>16.46412</cv:X>
-                            <cv:Y>265.8485</cv:Y>
+                            <cv:X>1440</cv:X>
+                            <cv:Y>1080</cv:Y>
                           </cv:Point2f>
                           <cv:Point2f>
-                            <cv:X>16.46412</cv:X>
-                            <cv:Y>20.90341</cv:Y>
+                            <cv:X>1440</cv:X>
+                            <cv:Y>0</cv:Y>
                           </cv:Point2f>
                         </cv:Destination>
                         <cv:Flags>Linear</cv:Flags>
@@ -3471,6 +3456,68 @@ it.Item4 as SampleRate)
                         </cv:FillValue>
                       </Combinator>
                     </Builder>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="cv:Crop">
+                      <cv:RegionOfInterest>
+                        <cv:X>12</cv:X>
+                        <cv:Y>11</cv:Y>
+                        <cv:Width>1425</cv:Width>
+                        <cv:Height>1064</cv:Height>
+                      </cv:RegionOfInterest>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:ObserveOn">
+                      <rx:Scheduler>TaskPoolScheduler</rx:Scheduler>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="cv:WarpPerspective">
+                      <cv:Source>
+                        <cv:Point2f>
+                          <cv:X>615</cv:X>
+                          <cv:Y>387.610626</cv:Y>
+                        </cv:Point2f>
+                        <cv:Point2f>
+                          <cv:X>615</cv:X>
+                          <cv:Y>609.5575</cv:Y>
+                        </cv:Point2f>
+                        <cv:Point2f>
+                          <cv:X>837.75</cv:X>
+                          <cv:Y>607.433655</cv:Y>
+                        </cv:Point2f>
+                        <cv:Point2f>
+                          <cv:X>832.5</cv:X>
+                          <cv:Y>384.424774</cv:Y>
+                        </cv:Point2f>
+                      </cv:Source>
+                      <cv:Destination>
+                        <cv:Point2f>
+                          <cv:X>0</cv:X>
+                          <cv:Y>0</cv:Y>
+                        </cv:Point2f>
+                        <cv:Point2f>
+                          <cv:X>0</cv:X>
+                          <cv:Y>1080</cv:Y>
+                        </cv:Point2f>
+                        <cv:Point2f>
+                          <cv:X>1440</cv:X>
+                          <cv:Y>1080</cv:Y>
+                        </cv:Point2f>
+                        <cv:Point2f>
+                          <cv:X>1440</cv:X>
+                          <cv:Y>0</cv:Y>
+                        </cv:Point2f>
+                      </cv:Destination>
+                      <cv:Flags>Linear</cv:Flags>
+                      <cv:FillValue>
+                        <cv:Val0>0</cv:Val0>
+                        <cv:Val1>0</cv:Val1>
+                        <cv:Val2>0</cv:Val2>
+                        <cv:Val3>0</cv:Val3>
+                      </cv:FillValue>
+                    </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="dsp:Split" />
@@ -3493,7 +3540,7 @@ it.Item4 as SampleRate)
                         <cv:X>0</cv:X>
                         <cv:Y>0</cv:Y>
                       </cv:Offset>
-                      <cv:MinArea>100</cv:MinArea>
+                      <cv:MinArea>300</cv:MinArea>
                       <cv:MaxArea xsi:nil="true" />
                     </Combinator>
                   </Expression>
@@ -3524,7 +3571,7 @@ it.Item4 as SampleRate)
                         <cv:X>0</cv:X>
                         <cv:Y>0</cv:Y>
                       </cv:Offset>
-                      <cv:MinArea>100</cv:MinArea>
+                      <cv:MinArea>190</cv:MinArea>
                       <cv:MaxArea xsi:nil="true" />
                     </Combinator>
                   </Expression>
@@ -3574,11 +3621,21 @@ it.Item4 as SampleRate)
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:CombineLatest" />
                   </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>camFootage</Name>
                   </Expression>
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>Item2</Selector>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Sample" />
+                  </Expression>
+                  <Expression xsi:type="Disable">
+                    <Builder xsi:type="Combinator">
+                      <Combinator xsi:type="rx:WithLatestFrom" />
+                    </Builder>
+                  </Expression>
+                  <Expression xsi:type="Disable">
+                    <Builder xsi:type="MemberSelector">
+                      <Selector>Item2</Selector>
+                    </Builder>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:Skip">
@@ -3681,6 +3738,25 @@ it.Item4 as SampleRate)
                   <Expression xsi:type="MemberSelector">
                     <Selector>Count</Selector>
                   </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:BufferTime">
+                      <rx:TimeSpan>PT1S</rx:TimeSpan>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Count</Selector>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:BufferTime">
+                      <rx:TimeSpan>PT1S</rx:TimeSpan>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Count</Selector>
+                  </Expression>
+                  <Expression xsi:type="rx:PublishSubject">
+                    <Name>camFootage</Name>
+                  </Expression>
                   <Expression xsi:type="SubscribeSubject">
                     <Name>CurrCoords</Name>
                   </Expression>
@@ -3717,7 +3793,7 @@ def process(value):
     #centreX, centreY = (value.Item2.Item2.X, value.Item2.Item2.Y)
 
     #hard code centre
-    centreX, centreY = (130, 149)
+    centreX, centreY = (705, 552)
 
     # Initialize a list to store the angles for each point
     angles = []
@@ -3767,9 +3843,18 @@ def process(value):
                     <ipy:Script>from math import isnan, atan2, sin, cos
 from System import Tuple
 
+# Initialize variables for exponential smoothing
+prev_avg_angle = None
+alpha = 0.5  # Smoothing factor, adjust as needed
+
+
 @returns(Tuple[float, float])
 def process(value):
     
+    #global LastEntry
+    global prev_avg_angle
+
+
     # Angles of movement
     LED_angles = [value.Item1.Item1, value.Item1.Item2, value.Item1.Item3]
 
@@ -3779,21 +3864,43 @@ def process(value):
     # Filter out large discrepancies (stop averaging of single angle outlier errors)
     consistent_angles = []
 
-    for angle in valid_angles:
+    if len(valid_angles) == 1 or len(valid_angles) == 2:
+        consistent_angles.extend(valid_angles)
+    else:
+        for angle in valid_angles:
         # Check to see if angle is within ±1 radian of at least one of the other angles
-        if any(abs(angle - other_angle) &lt;= 1 for other_angle in valid_angles if other_angle != angle):
-            consistent_angles.append(angle)
+            if any(abs(angle - other_angle) &lt;= 1 for other_angle in valid_angles if other_angle != angle):
+                consistent_angles.append(angle)
+    consistent_angles = valid_angles
 
     # Calculate the average of valid consistent angles
-    if consistent_angles:
-        # Sum of sine and cosine components
+    if len(consistent_angles) == 1:
+        # Apply exponential smoothing if there's only one consistent angle
+        if prev_avg_angle is None:
+            avg_angle = consistent_angles[0]
+        else:
+            avg_angle = alpha * consistent_angles[0] + (1 - alpha) * prev_avg_angle
+        prev_avg_angle = avg_angle
+
+    elif len(consistent_angles) == 2:
         sin_sum = sum(sin(angle) for angle in consistent_angles)
         cos_sum = sum(cos(angle) for angle in consistent_angles)
+        two_avg = atan2(sin_sum, cos_sum)
+        if prev_avg_angle is None:
+            avg_angle = two_avg
+        else:
+            avg_angle = alpha * two_avg + (1 - alpha) * prev_avg_angle
+        prev_avg_angle = avg_angle
 
-        # Average angle from components
+    elif len(consistent_angles) == 3:
+        sin_sum = sum(sin(angle) for angle in consistent_angles)
+        cos_sum = sum(cos(angle) for angle in consistent_angles)
         avg_angle = atan2(sin_sum, cos_sum)
+        prev_avg_angle = avg_angle
     else:
         avg_angle = float('nan')
+
+    avg_angle = avg_angle*-1
 
     # Return the average angle as a tuple
     return Tuple.Create(avg_angle, value.Item2)
@@ -3817,63 +3924,75 @@ def process(value):
                   <Expression xsi:type="rx:PublishSubject">
                     <Name>Orientation</Name>
                   </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Item1</Selector>
+                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="0" To="1" Label="Source1" />
-                  <Edge From="0" To="24" Label="Source1" />
+                  <Edge From="0" To="25" Label="Source1" />
                   <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="1" To="48" Label="Source1" />
                   <Edge From="2" To="3" Label="Source1" />
                   <Edge From="3" To="4" Label="Source1" />
                   <Edge From="4" To="5" Label="Source1" />
-                  <Edge From="4" To="26" Label="Source1" />
                   <Edge From="5" To="6" Label="Source1" />
-                  <Edge From="5" To="12" Label="Source1" />
-                  <Edge From="5" To="18" Label="Source1" />
+                  <Edge From="5" To="44" Label="Source1" />
+                  <Edge From="5" To="46" Label="Source1" />
                   <Edge From="6" To="7" Label="Source1" />
+                  <Edge From="6" To="13" Label="Source1" />
+                  <Edge From="6" To="19" Label="Source1" />
                   <Edge From="7" To="8" Label="Source1" />
                   <Edge From="8" To="9" Label="Source1" />
                   <Edge From="9" To="10" Label="Source1" />
                   <Edge From="10" To="11" Label="Source1" />
-                  <Edge From="11" To="25" Label="Source1" />
-                  <Edge From="12" To="13" Label="Source1" />
+                  <Edge From="11" To="12" Label="Source1" />
+                  <Edge From="11" To="26" Label="Source5" />
+                  <Edge From="12" To="26" Label="Source1" />
                   <Edge From="13" To="14" Label="Source1" />
                   <Edge From="14" To="15" Label="Source1" />
                   <Edge From="15" To="16" Label="Source1" />
                   <Edge From="16" To="17" Label="Source1" />
-                  <Edge From="17" To="25" Label="Source2" />
-                  <Edge From="18" To="19" Label="Source1" />
+                  <Edge From="17" To="18" Label="Source1" />
+                  <Edge From="17" To="42" Label="Source1" />
+                  <Edge From="18" To="26" Label="Source2" />
                   <Edge From="19" To="20" Label="Source1" />
                   <Edge From="20" To="21" Label="Source1" />
                   <Edge From="21" To="22" Label="Source1" />
                   <Edge From="22" To="23" Label="Source1" />
-                  <Edge From="23" To="25" Label="Source3" />
-                  <Edge From="24" To="25" Label="Source4" />
-                  <Edge From="25" To="26" Label="Source2" />
-                  <Edge From="26" To="27" Label="Source1" />
-                  <Edge From="27" To="28" Label="Source1" />
-                  <Edge From="27" To="37" Label="Source1" />
-                  <Edge From="27" To="39" Label="Source1" />
+                  <Edge From="23" To="24" Label="Source1" />
+                  <Edge From="24" To="26" Label="Source3" />
+                  <Edge From="25" To="26" Label="Source4" />
+                  <Edge From="26" To="28" Label="Source1" />
+                  <Edge From="27" To="28" Label="Source2" />
                   <Edge From="28" To="29" Label="Source1" />
                   <Edge From="29" To="30" Label="Source1" />
                   <Edge From="30" To="31" Label="Source1" />
+                  <Edge From="30" To="40" Label="Source1" />
                   <Edge From="31" To="32" Label="Source1" />
                   <Edge From="32" To="33" Label="Source1" />
                   <Edge From="33" To="34" Label="Source1" />
-                  <Edge From="33" To="35" Label="Source1" />
+                  <Edge From="34" To="35" Label="Source1" />
                   <Edge From="35" To="36" Label="Source1" />
-                  <Edge From="37" To="38" Label="Source1" />
-                  <Edge From="39" To="40" Label="Source1" />
-                  <Edge From="41" To="45" Label="Source1" />
-                  <Edge From="42" To="44" Label="Source1" />
-                  <Edge From="43" To="44" Label="Source2" />
-                  <Edge From="44" To="45" Label="Source2" />
-                  <Edge From="45" To="46" Label="Source1" />
+                  <Edge From="36" To="37" Label="Source1" />
+                  <Edge From="36" To="38" Label="Source1" />
+                  <Edge From="38" To="39" Label="Source1" />
+                  <Edge From="40" To="41" Label="Source1" />
+                  <Edge From="42" To="43" Label="Source1" />
+                  <Edge From="44" To="45" Label="Source1" />
                   <Edge From="46" To="47" Label="Source1" />
-                  <Edge From="47" To="48" Label="Source1" />
-                  <Edge From="47" To="52" Label="Source1" />
-                  <Edge From="48" To="49" Label="Source1" />
-                  <Edge From="48" To="50" Label="Source1" />
-                  <Edge From="50" To="51" Label="Source1" />
+                  <Edge From="49" To="53" Label="Source1" />
+                  <Edge From="50" To="52" Label="Source1" />
+                  <Edge From="51" To="52" Label="Source2" />
+                  <Edge From="52" To="53" Label="Source2" />
+                  <Edge From="53" To="54" Label="Source1" />
+                  <Edge From="54" To="55" Label="Source1" />
+                  <Edge From="55" To="56" Label="Source1" />
+                  <Edge From="55" To="60" Label="Source1" />
+                  <Edge From="56" To="57" Label="Source1" />
+                  <Edge From="56" To="58" Label="Source1" />
+                  <Edge From="58" To="59" Label="Source1" />
+                  <Edge From="60" To="61" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -3933,7 +4052,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="StringProperty">
-                      <Value>C:\Users\Cricket Team\Desktop\data2\231220_02_loom</Value>
+                      <Value>C:\Users\Cricket Team\Desktop\data2\test_LED5</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="rx:ReplaySubject">
@@ -4477,7 +4596,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\231220_02_loom\2024-03-25T16-41-35\Looming\Looming_2024-03-25T16-41-35.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\test_LED5\2024-03-27T15-40-14\Looming\Looming_2024-03-27T15-40-14.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -4524,7 +4643,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\231220_02_loom\2024-03-25T16-41-35\YRotationAxis\YRotationAxis_2024-03-25T16-41-35.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\test_LED5\2024-03-27T15-40-14\YRotationAxis\YRotationAxis_2024-03-27T15-40-14.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -4565,7 +4684,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\231220_02_loom\2024-03-25T16-41-35\LEDOrientation\LEDOrientation_2024-03-25T16-41-35.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\test_LED5\2024-03-27T15-40-14\LEDOrientation\LEDOrientation_2024-03-27T15-40-14.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -5233,11 +5352,11 @@ it.Y as Z)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-                    <TranslationX>0.0139256725</TranslationX>
+                    <TranslationX>0.03148363</TranslationX>
                     <TranslationY>-0.05</TranslationY>
-                    <TranslationZ>-0.00107443123</TranslationZ>
+                    <TranslationZ>0.01648353</TranslationZ>
                     <RotationZ>0</RotationZ>
-                    <RotationY>0.007458094</RotationY>
+                    <RotationY>-7.27791166</RotationY>
                     <RotationX>0</RotationX>
                     <ScaleX>1</ScaleX>
                     <ScaleY>1</ScaleY>
@@ -6010,8 +6129,8 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>-1</p1:X>
-                        <p1:Y>0</p1:Y>
+                        <p1:X>0</p1:X>
+                        <p1:Y>1</p1:Y>
                         <p1:Z>0</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
@@ -6269,7 +6388,7 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
                       <gl:X>0</gl:X>
-                      <gl:Y>-1.46284265E-05</gl:Y>
+                      <gl:Y>-0.127043679</gl:Y>
                       <gl:Z>0</gl:Z>
                     </Combinator>
                   </Expression>
@@ -6315,13 +6434,13 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>-0.00107442751</p1:X>
+                        <p1:X>0.01648353</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>0.00107443123</p1:Z>
+                        <p1:Z>-0.01648353</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
-                        <p1:Y>-1.46284265E-05</p1:Y>
+                        <p1:Y>-0.127043679</p1:Y>
                         <p1:Z>0</p1:Z>
                       </p1:Orientation>
                     </Combinator>
@@ -7191,7 +7310,7 @@ Math.Abs(it.Item3 - it.Item1) &lt; Math.Pi ? (it.Item3 - it.Item1) : ((it.Item3 
               <Property Name="FileName" DisplayName="TrialListPath" />
             </Expression>
             <Expression xsi:type="io:CsvReader">
-              <io:FileName>TrialLogicCsv\stage2.0_mm_O2.csv</io:FileName>
+              <io:FileName>TrialLogicCsv\LEDTest1.csv</io:FileName>
               <io:ListSeparator />
               <io:ScanPattern>%s</io:ScanPattern>
               <io:SkipRows>1</io:SkipRows>
@@ -8535,7 +8654,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="FloatProperty">
-                      <Value>0.299487174</Value>
+                      <Value>0.292133272</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">

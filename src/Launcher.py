@@ -11,7 +11,7 @@ from time import sleep
 import os
 
 ## User Settings
-SESSIOND_ID = r"test_camera"
+SESSIOND_ID = r"test_LED18"
 DATA_ROOT_PATH = r"C:\Users\Cricket Team\Desktop\data2"
 
 #ADD_FLAGS = "--no-editor" #launches Bonsai without the editor and starts the workflow automatically
@@ -35,7 +35,7 @@ Settings = {
 "EnableShelter.Enable" : str(True),
 # "ArmPositionControl.ManualOverride.Enable" : str(True), 
 #"ArmGainTrial.Value" : float(0.5), 
-"TrialLogic.TrialListPath" : str(r"TrialLogicCsv\stage2.0_mm_O2.csv")
+"TrialLogic.TrialListPath" : str(r"TrialLogicCsv\LEDTest1.csv")
 }
 
 UDP_Settings = {}
