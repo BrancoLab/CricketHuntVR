@@ -159,7 +159,7 @@
                       <gl:Location xsi:nil="true" />
                       <gl:WindowBorder>Hidden</gl:WindowBorder>
                       <gl:WindowState>Fullscreen</gl:WindowState>
-                      <gl:DisplayDevice>Third</gl:DisplayDevice>
+                      <gl:DisplayDevice>Second</gl:DisplayDevice>
                       <gl:TargetRenderFrequency>236</gl:TargetRenderFrequency>
                       <gl:TargetUpdateFrequency xsi:nil="true" />
                       <gl:RenderState />
@@ -696,7 +696,7 @@
                           <ColorR>1</ColorR>
                           <ColorG>1</ColorG>
                           <ColorB>1</ColorB>
-                          <ColorA>0</ColorA>
+                          <ColorA>1</ColorA>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
                       </Nodes>
@@ -3996,6 +3996,61 @@ def process(value):
                 </Edges>
               </Workflow>
             </Expression>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>Lick Port</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="gli:KeyDown">
+                      <gli:Key>V</gli:Key>
+                      <gli:Modifiers xsi:nil="true" />
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Annotation">
+                    <Text><![CDATA[Release valve/click]]></Text>
+                  </Expression>
+                  <Expression xsi:type="cf:BehaviorCommand">
+                    <cf:Type>ToggleOutput</cf:Type>
+                    <cf:Mask>Port0</cf:Mask>
+                  </Expression>
+                  <Expression xsi:type="MulticastSubject">
+                    <Name>BehaviorCommands</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="gli:KeyDown">
+                      <gli:Key>C</gli:Key>
+                      <gli:Modifiers xsi:nil="true" />
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Annotation">
+                    <Text><![CDATA[Duration of lick - throws an error right now]]></Text>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Value" DisplayName="Valve Open Duration" />
+                  </Expression>
+                  <Expression xsi:type="harp:CreateMessage">
+                    <harp:MessageType>Write</harp:MessageType>
+                    <harp:Payload xsi:type="harp:CreateMessagePayload">
+                      <harp:Address>56</harp:Address>
+                      <harp:PayloadType>U8</harp:PayloadType>
+                      <harp:Value>5000</harp:Value>
+                    </harp:Payload>
+                  </Expression>
+                  <Expression xsi:type="MulticastSubject">
+                    <Name>BehaviorCommands</Name>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="2" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source2" />
+                  <Edge From="2" To="3" Label="Source1" />
+                  <Edge From="4" To="7" Label="Source1" />
+                  <Edge From="5" To="7" Label="Source2" />
+                  <Edge From="6" To="7" Label="Source3" />
+                  <Edge From="7" To="8" Label="Source1" />
+                </Edges>
+              </Workflow>
+            </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="gli:KeyDown">
                 <gli:Key>End</gli:Key>
@@ -4026,12 +4081,12 @@ def process(value):
             <Expression xsi:type="WorkflowOutput" />
           </Nodes>
           <Edges>
-            <Edge From="11" To="12" Label="Source1" />
             <Edge From="12" To="13" Label="Source1" />
             <Edge From="13" To="14" Label="Source1" />
             <Edge From="14" To="15" Label="Source1" />
             <Edge From="15" To="16" Label="Source1" />
             <Edge From="16" To="17" Label="Source1" />
+            <Edge From="17" To="18" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -4052,7 +4107,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="StringProperty">
-                      <Value>C:\Users\Cricket Team\Desktop\data2\test_LED5</Value>
+                      <Value>C:\Users\Cricket Team\Desktop\data2\photodiode_piezo</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="rx:ReplaySubject">
@@ -4596,7 +4651,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\test_LED5\2024-03-27T15-40-14\Looming\Looming_2024-03-27T15-40-14.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\photodiode_piezo\2024-03-28T17-16-04\Looming\Looming_2024-03-28T17-16-04.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -4643,7 +4698,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\test_LED5\2024-03-27T15-40-14\YRotationAxis\YRotationAxis_2024-03-27T15-40-14.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\photodiode_piezo\2024-03-28T17-16-04\YRotationAxis\YRotationAxis_2024-03-28T17-16-04.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -4684,7 +4739,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\test_LED5\2024-03-27T15-40-14\LEDOrientation\LEDOrientation_2024-03-27T15-40-14.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\photodiode_piezo\2024-03-28T17-16-04\LEDOrientation\LEDOrientation_2024-03-28T17-16-04.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -5352,11 +5407,11 @@ it.Y as Z)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-                    <TranslationX>0.03148363</TranslationX>
+                    <TranslationX>0.004989437</TranslationX>
                     <TranslationY>-0.05</TranslationY>
-                    <TranslationZ>0.01648353</TranslationZ>
+                    <TranslationZ>-0.0100106634</TranslationZ>
                     <RotationZ>0</RotationZ>
-                    <RotationY>-7.27791166</RotationY>
+                    <RotationY>NaN</RotationY>
                     <RotationX>0</RotationX>
                     <ScaleX>1</ScaleX>
                     <ScaleY>1</ScaleY>
@@ -6388,7 +6443,7 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
                       <gl:X>0</gl:X>
-                      <gl:Y>-0.127043679</gl:Y>
+                      <gl:Y>NaN</gl:Y>
                       <gl:Z>0</gl:Z>
                     </Combinator>
                   </Expression>
@@ -6434,13 +6489,13 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>0.01648353</p1:X>
+                        <p1:X>-0.0100106634</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>-0.01648353</p1:Z>
+                        <p1:Z>0.0100106634</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
-                        <p1:Y>-0.127043679</p1:Y>
+                        <p1:Y>NaN</p1:Y>
                         <p1:Z>0</p1:Z>
                       </p1:Orientation>
                     </Combinator>
@@ -8654,7 +8709,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="FloatProperty">
-                      <Value>0.292133272</Value>
+                      <Value>0.295222133</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
