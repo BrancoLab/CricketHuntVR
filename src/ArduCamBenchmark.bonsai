@@ -12,6 +12,8 @@
                  xmlns:wie="clr-namespace:Bonsai.Windows.Input;assembly=Bonsai.Windows.Input"
                  xmlns:p2="clr-namespace:Bonsai.Numerics.Distributions;assembly=Bonsai.Numerics"
                  xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
+                 xmlns:p3="clr-namespace:;assembly=Extensions"
+                 xmlns:spk="clr-namespace:Bonsai.Spinnaker;assembly=Bonsai.Spinnaker"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Workflow>
     <Nodes>
@@ -123,7 +125,19 @@
             <Expression xsi:type="harp:FilterRegister">
               <harp:FilterType>Include</harp:FilterType>
               <harp:Register xsi:type="harp:FilterRegisterAddress">
-                <harp:Address>94</harp:Address>
+                <harp:Address>92</harp:Address>
+              </harp:Register>
+            </Expression>
+            <Expression xsi:type="rx:PublishSubject">
+              <Name>FrameEvents_Spin</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>BehaviorEvents</Name>
+            </Expression>
+            <Expression xsi:type="harp:FilterRegister">
+              <harp:FilterType>Include</harp:FilterType>
+              <harp:Register xsi:type="harp:FilterRegisterAddress">
+                <harp:Address>92</harp:Address>
               </harp:Register>
             </Expression>
             <Expression xsi:type="rx:PublishSubject">
@@ -253,16 +267,18 @@
             <Edge From="12" To="13" Label="Source1" />
             <Edge From="13" To="14" Label="Source2" />
             <Edge From="15" To="16" Label="Source1" />
-            <Edge From="16" To="17" Label="Source1" />
-            <Edge From="16" To="19" Label="Source1" />
-            <Edge From="17" To="18" Label="Source1" />
-            <Edge From="17" To="22" Label="Source2" />
-            <Edge From="18" To="22" Label="Source1" />
+            <Edge From="16" To="17" Label="Source2" />
+            <Edge From="18" To="19" Label="Source1" />
             <Edge From="19" To="20" Label="Source1" />
-            <Edge From="19" To="22" Label="Source4" />
-            <Edge From="20" To="22" Label="Source3" />
-            <Edge From="21" To="22" Label="Source5" />
+            <Edge From="19" To="22" Label="Source1" />
+            <Edge From="20" To="21" Label="Source1" />
+            <Edge From="20" To="25" Label="Source2" />
+            <Edge From="21" To="25" Label="Source1" />
             <Edge From="22" To="23" Label="Source1" />
+            <Edge From="22" To="25" Label="Source4" />
+            <Edge From="23" To="25" Label="Source3" />
+            <Edge From="24" To="25" Label="Source5" />
+            <Edge From="25" To="26" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -360,7 +376,7 @@
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="StringProperty">
-                      <Value>C:\Users\Cricket Team\Desktop\data2\piezo_test_commutator_withoutground</Value>
+                      <Value>C:\Users\Cricket Team\Desktop\data2\Ardu_Spin_LED_TEST</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="rx:ReplaySubject">
@@ -499,7 +515,7 @@
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\piezo_test_commutator_withoutground\2024-04-12T16-06-55\Spinnaker3\Spinnaker3_2024-04-12T16-06-55.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\Ardu_Spin_LED_TEST\2024-04-18T14-43-18\Spinnaker3\Spinnaker3_2024-04-18T14-43-18.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -523,7 +539,84 @@
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="cv:VideoWriter">
-                      <cv:FileName>C:\Users\Cricket Team\Desktop\data2\piezo_test_commutator_withoutground\2024-04-12T16-06-55\Spinnaker3\Spinnaker3_2024-04-12T16-06-55.avi</cv:FileName>
+                      <cv:FileName>C:\Users\Cricket Team\Desktop\data2\Ardu_Spin_LED_TEST\2024-04-18T14-43-18\Spinnaker3\Spinnaker3_2024-04-18T14-43-18.avi</cv:FileName>
+                      <cv:Suffix>None</cv:Suffix>
+                      <cv:Buffered>true</cv:Buffered>
+                      <cv:Overwrite>false</cv:Overwrite>
+                      <cv:FourCC>FMP4</cv:FourCC>
+                      <cv:FrameRate>50</cv:FrameRate>
+                      <cv:FrameSize>
+                        <cv:Width>0</cv:Width>
+                        <cv:Height>0</cv:Height>
+                      </cv:FrameSize>
+                      <cv:ResizeInterpolation>NearestNeighbor</cv:ResizeInterpolation>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="4" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="1" To="6" Label="Source1" />
+                  <Edge From="2" To="3" Label="Source1" />
+                  <Edge From="3" To="4" Label="Source2" />
+                  <Edge From="4" To="5" Label="Source1" />
+                  <Edge From="5" To="9" Label="Source1" />
+                  <Edge From="6" To="7" Label="Source1" />
+                  <Edge From="7" To="9" Label="Source2" />
+                  <Edge From="8" To="9" Label="Source3" />
+                  <Edge From="9" To="10" Label="Source1" />
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Spinnaker1FrameEvents</Name>
+            </Expression>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>LogVideo_spin</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Name" />
+                  </Expression>
+                  <Expression xsi:type="IncludeWorkflow" Path="Extensions\FormatFileName.bonsai">
+                    <Name>Spinnaker1</Name>
+                    <Extension>csv</Extension>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="FileName" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="io:CsvWriter">
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\Ardu_Spin_LED_TEST\2024-04-18T14-43-18\Spinnaker1\Spinnaker1_2024-04-18T14-43-18.csv</io:FileName>
+                    <io:Append>false</io:Append>
+                    <io:Overwrite>false</io:Overwrite>
+                    <io:Suffix>None</io:Suffix>
+                    <io:IncludeHeader>true</io:IncludeHeader>
+                    <io:Selector>Seconds,Value.ChunkData.FrameID,Value.ChunkData.Timestamp</io:Selector>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Value.Image</Selector>
+                  </Expression>
+                  <Expression xsi:type="IncludeWorkflow" Path="Extensions\FormatFileName.bonsai">
+                    <Name>Spinnaker1</Name>
+                    <Extension>avi</Extension>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="FileName" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="FrameRate" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="cv:VideoWriter">
+                      <cv:FileName>C:\Users\Cricket Team\Desktop\data2\Ardu_Spin_LED_TEST\2024-04-18T14-43-18\Spinnaker1\Spinnaker1_2024-04-18T14-43-18.avi</cv:FileName>
                       <cv:Suffix>None</cv:Suffix>
                       <cv:Buffered>true</cv:Buffered>
                       <cv:Overwrite>false</cv:Overwrite>
@@ -560,12 +653,13 @@
             <Edge From="4" To="5" Label="Source1" />
             <Edge From="6" To="7" Label="Source1" />
             <Edge From="8" To="9" Label="Source1" />
+            <Edge From="10" To="11" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="wie:KeyDown">
-          <wie:Filter>ShiftKey Space D0 P NumPad0 F1 Shift</wie:Filter>
+          <wie:Filter>None</wie:Filter>
           <wie:SuppressRepetitions>false</wie:SuppressRepetitions>
         </Combinator>
       </Expression>
@@ -616,7 +710,7 @@
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:Timer">
-                      <rx:DueTime>PT4.545S</rx:DueTime>
+                      <rx:DueTime>PT4.74S</rx:DueTime>
                       <rx:Period>PT0S</rx:Period>
                     </Combinator>
                   </Expression>
@@ -689,6 +783,44 @@
             <Edge From="9" To="10" Label="Source1" />
             <Edge From="10" To="11" Label="Source1" />
             <Edge From="11" To="12" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>Spinnaker1</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>FrameEvents_Spin</Name>
+            </Expression>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="SerialNumber" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p3:CricketVRCapture">
+                <spk:Index xsi:nil="true" />
+                <spk:SerialNumber>22067305</spk:SerialNumber>
+                <spk:ColorProcessing>Default</spk:ColorProcessing>
+                <p3:HarpAddress>92</p3:HarpAddress>
+                <p3:ExposureTime>19000</p3:ExposureTime>
+                <p3:Gain>0</p3:Gain>
+                <p3:Binning>1</p3:Binning>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p1:ObserveOnTaskPool" />
+            </Expression>
+            <Expression xsi:type="rx:PublishSubject">
+              <Name>Spinnaker1FrameEvents</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="2" Label="Source1" />
+            <Edge From="1" To="2" Label="Source2" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="4" To="5" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
