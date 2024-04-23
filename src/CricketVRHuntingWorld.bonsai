@@ -164,7 +164,7 @@
                       <gl:Location xsi:nil="true" />
                       <gl:WindowBorder>Hidden</gl:WindowBorder>
                       <gl:WindowState>Fullscreen</gl:WindowState>
-                      <gl:DisplayDevice>Fourth</gl:DisplayDevice>
+                      <gl:DisplayDevice>Third</gl:DisplayDevice>
                       <gl:TargetRenderFrequency>236</gl:TargetRenderFrequency>
                       <gl:TargetUpdateFrequency xsi:nil="true" />
                       <gl:RenderState />
@@ -694,7 +694,7 @@
                         <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawQuad.bonsai">
                           <ExtentX>0.012</ExtentX>
                           <ExtentY>0.05</ExtentY>
-                          <LocationX>-0.72</LocationX>
+                          <LocationX>-0.719</LocationX>
                           <LocationY>0.95</LocationY>
                           <Layer>10</Layer>
                           <Angle>0</Angle>
@@ -4242,7 +4242,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="StringProperty">
-                      <Value>C:\Users\Cricket Team\Desktop\data2\test100</Value>
+                      <Value>C:\Users\Cricket Team\Desktop\data2\mouse_movement</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="rx:ReplaySubject">
@@ -4719,7 +4719,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\test100\2024-04-18T17-53-47\Arducam\Arducam_2024-04-18T17-53-47.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\mouse_movement\2024-04-23T14-21-10\Arducam\Arducam_2024-04-23T14-21-10.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -4743,7 +4743,7 @@ it.Item2 as Value)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="cv:VideoWriter">
-                      <cv:FileName>C:\Users\Cricket Team\Desktop\data2\test100\2024-04-18T17-53-47\Arducam\Arducam_2024-04-18T17-53-47.avi</cv:FileName>
+                      <cv:FileName>C:\Users\Cricket Team\Desktop\data2\mouse_movement\2024-04-23T14-21-10\Arducam\Arducam_2024-04-23T14-21-10.avi</cv:FileName>
                       <cv:Suffix>None</cv:Suffix>
                       <cv:Buffered>true</cv:Buffered>
                       <cv:Overwrite>false</cv:Overwrite>
@@ -4905,7 +4905,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\test100\2024-04-18T17-53-47\Looming\Looming_2024-04-18T17-53-47.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\mouse_movement\2024-04-23T14-21-10\Looming\Looming_2024-04-23T14-21-10.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -4952,7 +4952,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\test100\2024-04-18T17-53-47\YRotationAxis\YRotationAxis_2024-04-18T17-53-47.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\mouse_movement\2024-04-23T14-21-10\YRotationAxis\YRotationAxis_2024-04-23T14-21-10.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -4993,7 +4993,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\test100\2024-04-18T17-53-47\LEDOrientation\LEDOrientation_2024-04-18T17-53-47.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\mouse_movement\2024-04-23T14-21-10\LEDOrientation\LEDOrientation_2024-04-23T14-21-10.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -5662,9 +5662,9 @@ it.Y as Z)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-                    <TranslationX>0.0140828947</TranslationX>
+                    <TranslationX>0.08811457</TranslationX>
                     <TranslationY>-0.05</TranslationY>
-                    <TranslationZ>-0.000917205238</TranslationZ>
+                    <TranslationZ>0.07311447</TranslationZ>
                     <RotationZ>0</RotationZ>
                     <RotationY>NaN</RotationY>
                     <RotationX>0</RotationX>
@@ -6763,9 +6763,9 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>-0.000917205238</p1:X>
+                        <p1:X>0.07311447</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>0.000917205238</p1:Z>
+                        <p1:Z>-0.07311447</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
@@ -8983,7 +8983,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="FloatProperty">
-                      <Value>0.299562216</Value>
+                      <Value>0.265172452</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
