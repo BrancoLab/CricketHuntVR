@@ -11,7 +11,7 @@ from time import sleep
 import os
 
 ## User Settings
-SESSIOND_ID = r"test_LED18"
+SESSIOND_ID = r"mm_test_video_trigger_nul"
 DATA_ROOT_PATH = r"C:\Users\Cricket Team\Desktop\data2"
 
 #ADD_FLAGS = "--no-editor" #launches Bonsai without the editor and starts the workflow automatically
