@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.6.3"
+<WorkflowBuilder Version="2.8.1"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:gl="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders"
                  xmlns:res="clr-namespace:Bonsai.Resources;assembly=Bonsai.System"
@@ -63,17 +63,17 @@
               <Bottom>-90</Bottom>
               <Top>90</Top>
             </Expression>
-            <Expression xsi:type="PublishSubject">
+            <Expression xsi:type="rx:PublishSubject">
               <Name>DrawDebug</Name>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.SphereMapping.bonsai">
-              <FaceSize xsi:nil="true" />
               <ClearColor>Gray</ClearColor>
               <Width xsi:nil="true" />
               <Height xsi:nil="true" />
               <RotationZ>0</RotationZ>
               <RotationY>0</RotationY>
               <RotationX>0</RotationX>
+              <FaceSize xsi:nil="true" />
             </Expression>
             <Expression xsi:type="MulticastSubject">
               <Name>Environment</Name>
@@ -82,15 +82,15 @@
               <Name>DrawDebug</Name>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawCheckerboard.bonsai">
-              <NumberColumns>36</NumberColumns>
-              <NumberRows>18</NumberRows>
-              <Phase>0</Phase>
               <ExtentX>360</ExtentX>
               <ExtentY>180</ExtentY>
               <LocationX>0</LocationX>
               <LocationY>0</LocationY>
               <Layer>0</Layer>
               <Angle>0</Angle>
+              <NumberColumns>36</NumberColumns>
+              <NumberRows>18</NumberRows>
+              <Phase>0</Phase>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>DrawDebug</Name>
@@ -109,10 +109,10 @@
               </PropertyMappings>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawCircle.bonsai">
+              <Diameter>3</Diameter>
               <LocationX>-35.6692238</LocationX>
               <LocationY>0</LocationY>
               <Layer>0</Layer>
-              <Diameter>3</Diameter>
               <ColorR>1</ColorR>
               <ColorG>1</ColorG>
               <ColorB>0</ColorB>
@@ -122,10 +122,10 @@
               <Name>DrawDebug</Name>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawCircle.bonsai">
+              <Diameter>1</Diameter>
               <LocationX>90</LocationX>
               <LocationY>0</LocationY>
               <Layer>0</Layer>
-              <Diameter>1</Diameter>
               <ColorR>1</ColorR>
               <ColorG>0</ColorG>
               <ColorB>0</ColorB>
@@ -135,10 +135,10 @@
               <Name>DrawDebug</Name>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawCircle.bonsai">
+              <Diameter>1</Diameter>
               <LocationX>-90</LocationX>
               <LocationY>0</LocationY>
               <Layer>0</Layer>
-              <Diameter>1</Diameter>
               <ColorR>0</ColorR>
               <ColorG>1</ColorG>
               <ColorB>0</ColorB>
@@ -161,10 +161,10 @@
               </PropertyMappings>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawCircle.bonsai">
+              <Diameter>3</Diameter>
               <LocationX>-46.35</LocationX>
               <LocationY>0</LocationY>
               <Layer>0</Layer>
-              <Diameter>3</Diameter>
               <ColorR>1</ColorR>
               <ColorG>1</ColorG>
               <ColorB>0</ColorB>
@@ -190,8 +190,8 @@
           </Edges>
         </Workflow>
       </Expression>
-      <Expression xsi:type="BehaviorSubject" TypeArguments="gl:Texture">
-        <Name>Environment</Name>
+      <Expression xsi:type="rx:BehaviorSubject" TypeArguments="gl:Texture">
+        <rx:Name>Environment</rx:Name>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="gli:KeyDown">
@@ -203,14 +203,14 @@
         <Name>CalibrateFront</Name>
         <Workflow>
           <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
             <Expression xsi:type="ExternalizedMapping">
               <Property Name="Width" Category="Screen Dimensions" />
               <Property Name="Height" Category="Screen Dimensions" />
               <Property Name="Rotation" Category="Screen Position" />
               <Property Name="Translation" Category="Screen Position" />
-            </Expression>
-            <Expression xsi:type="WorkflowInput">
-              <Name>Source1</Name>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.ViewWindow.bonsai">
               <Width>0.543744</Width>
@@ -236,9 +236,6 @@
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\SaveCalibration .bonsai">
               <ExtrinsicsFileName>Calibration/front_extrinsics.yml</ExtrinsicsFileName>
-              <IntrinsicsFileName>Calibration/front_intrinsics.yml</IntrinsicsFileName>
-              <Width>0.543744</Width>
-              <Height>0.302616</Height>
               <Rotation>
                 <X>0</X>
                 <Y>0</Y>
@@ -249,12 +246,15 @@
                 <Y>0</Y>
                 <Z>-0.3</Z>
               </Translation>
+              <Width>0.543744</Width>
+              <Height>0.302616</Height>
+              <IntrinsicsFileName>Calibration/front_intrinsics.yml</IntrinsicsFileName>
             </Expression>
           </Nodes>
           <Edges>
-            <Edge From="0" To="2" Label="Source2" />
-            <Edge From="0" To="6" Label="Source2" />
-            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="0" To="2" Label="Source1" />
+            <Edge From="1" To="2" Label="Source2" />
+            <Edge From="1" To="6" Label="Source2" />
             <Edge From="2" To="3" Label="Source1" />
             <Edge From="4" To="6" Label="Source1" />
             <Edge From="5" To="6" Label="Source3" />
@@ -271,14 +271,14 @@
         <Name>CalibrateRight</Name>
         <Workflow>
           <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
             <Expression xsi:type="ExternalizedMapping">
               <Property Name="Width" Category="Screen Dimensions" />
               <Property Name="Height" Category="Screen Dimensions" />
               <Property Name="Rotation" Category="Screen Position" />
               <Property Name="Translation" Category="Screen Position" />
-            </Expression>
-            <Expression xsi:type="WorkflowInput">
-              <Name>Source1</Name>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.ViewWindow.bonsai">
               <Width>0.543744</Width>
@@ -304,9 +304,6 @@
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\SaveCalibration .bonsai">
               <ExtrinsicsFileName>Calibration/right_extrinsics.yml</ExtrinsicsFileName>
-              <IntrinsicsFileName>Calibration/right_intrinsics.yml</IntrinsicsFileName>
-              <Width>0.543744</Width>
-              <Height>0.302616</Height>
               <Rotation>
                 <X>0</X>
                 <Y>-1.5707963267948966</Y>
@@ -317,12 +314,15 @@
                 <Y>0</Y>
                 <Z>0</Z>
               </Translation>
+              <Width>0.543744</Width>
+              <Height>0.302616</Height>
+              <IntrinsicsFileName>Calibration/right_intrinsics.yml</IntrinsicsFileName>
             </Expression>
           </Nodes>
           <Edges>
-            <Edge From="0" To="2" Label="Source2" />
-            <Edge From="0" To="6" Label="Source2" />
-            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="0" To="2" Label="Source1" />
+            <Edge From="1" To="2" Label="Source2" />
+            <Edge From="1" To="6" Label="Source2" />
             <Edge From="2" To="3" Label="Source1" />
             <Edge From="4" To="6" Label="Source1" />
             <Edge From="5" To="6" Label="Source3" />
@@ -339,14 +339,14 @@
         <Name>CalibrateBack</Name>
         <Workflow>
           <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
             <Expression xsi:type="ExternalizedMapping">
               <Property Name="Width" Category="Screen Dimensions" />
               <Property Name="Height" Category="Screen Dimensions" />
               <Property Name="Rotation" Category="Screen Position" />
               <Property Name="Translation" Category="Screen Position" />
-            </Expression>
-            <Expression xsi:type="WorkflowInput">
-              <Name>Source1</Name>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.ViewWindow.bonsai">
               <Width>0.543744</Width>
@@ -372,9 +372,6 @@
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\SaveCalibration .bonsai">
               <ExtrinsicsFileName>Calibration/back_extrinsics.yml</ExtrinsicsFileName>
-              <IntrinsicsFileName>Calibration/back_intrinsics.yml</IntrinsicsFileName>
-              <Width>0.543744</Width>
-              <Height>0.302616</Height>
               <Rotation>
                 <X>0</X>
                 <Y>3.1415926535897931</Y>
@@ -385,12 +382,15 @@
                 <Y>0</Y>
                 <Z>0.3</Z>
               </Translation>
+              <Width>0.543744</Width>
+              <Height>0.302616</Height>
+              <IntrinsicsFileName>Calibration/back_intrinsics.yml</IntrinsicsFileName>
             </Expression>
           </Nodes>
           <Edges>
-            <Edge From="0" To="2" Label="Source2" />
-            <Edge From="0" To="6" Label="Source2" />
-            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="0" To="2" Label="Source1" />
+            <Edge From="1" To="2" Label="Source2" />
+            <Edge From="1" To="6" Label="Source2" />
             <Edge From="2" To="3" Label="Source1" />
             <Edge From="4" To="6" Label="Source1" />
             <Edge From="5" To="6" Label="Source3" />
@@ -407,14 +407,14 @@
         <Name>CalibrateLeft</Name>
         <Workflow>
           <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
             <Expression xsi:type="ExternalizedMapping">
               <Property Name="Width" Category="Screen Dimensions" />
               <Property Name="Height" Category="Screen Dimensions" />
               <Property Name="Rotation" Category="Screen Position" />
               <Property Name="Translation" Category="Screen Position" />
-            </Expression>
-            <Expression xsi:type="WorkflowInput">
-              <Name>Source1</Name>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.ViewWindow.bonsai">
               <Width>0.543744</Width>
@@ -440,9 +440,6 @@
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\SaveCalibration .bonsai">
               <ExtrinsicsFileName>Calibration/left_extrinsics.yml</ExtrinsicsFileName>
-              <IntrinsicsFileName>Calibration/left_intrinsics.yml</IntrinsicsFileName>
-              <Width>0.543744</Width>
-              <Height>0.302616</Height>
               <Rotation>
                 <X>0</X>
                 <Y>1.5707963267948966</Y>
@@ -453,12 +450,15 @@
                 <Y>0</Y>
                 <Z>0</Z>
               </Translation>
+              <Width>0.543744</Width>
+              <Height>0.302616</Height>
+              <IntrinsicsFileName>Calibration/left_intrinsics.yml</IntrinsicsFileName>
             </Expression>
           </Nodes>
           <Edges>
-            <Edge From="0" To="2" Label="Source2" />
-            <Edge From="0" To="6" Label="Source2" />
-            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="0" To="2" Label="Source1" />
+            <Edge From="1" To="2" Label="Source2" />
+            <Edge From="1" To="6" Label="Source2" />
             <Edge From="2" To="3" Label="Source1" />
             <Edge From="4" To="6" Label="Source1" />
             <Edge From="5" To="6" Label="Source3" />
@@ -480,10 +480,10 @@
       <Edge From="5" To="9" Label="Source1" />
       <Edge From="5" To="11" Label="Source1" />
       <Edge From="5" To="13" Label="Source1" />
-      <Edge From="6" To="13" Label="Source2" />
       <Edge From="6" To="7" Label="Source2" />
       <Edge From="6" To="9" Label="Source2" />
       <Edge From="6" To="11" Label="Source2" />
+      <Edge From="6" To="13" Label="Source2" />
       <Edge From="7" To="8" Label="Source1" />
       <Edge From="9" To="10" Label="Source1" />
       <Edge From="11" To="12" Label="Source1" />
