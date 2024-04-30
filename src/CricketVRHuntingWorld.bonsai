@@ -12,11 +12,11 @@
                  xmlns:glr="clr-namespace:Bonsai.Shaders.Rendering;assembly=Bonsai.Shaders.Rendering"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
                  xmlns:aeon="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
-                 xmlns:cf="clr-namespace:Bonsai.Harp.CF;assembly=Bonsai.Harp.CF"
-                 xmlns:p3="clr-namespace:;assembly=Extensions"
+                 xmlns:beh="clr-namespace:Harp.Behavior;assembly=Harp.Behavior"
                  xmlns:spk="clr-namespace:Bonsai.Spinnaker;assembly=Bonsai.Spinnaker"
                  xmlns:pylon="clr-namespace:Bonsai.Pylon;assembly=Bonsai.Pylon"
                  xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
+                 xmlns:p3="clr-namespace:;assembly=Extensions"
                  xmlns:vid="clr-namespace:Bonsai.Video;assembly=Bonsai.Video"
                  xmlns:p4="clr-namespace:Bonsai.Harp.Expander;assembly=Bonsai.Harp.Expander"
                  xmlns:gli="clr-namespace:Bonsai.Shaders.Input;assembly=Bonsai.Shaders"
@@ -25,9 +25,10 @@
                  xmlns:num="clr-namespace:Bonsai.Numerics;assembly=Bonsai.Numerics"
                  xmlns:al="clr-namespace:Bonsai.Audio;assembly=Bonsai.Audio"
                  xmlns:ipy="clr-namespace:Bonsai.Scripting.IronPython;assembly=Bonsai.Scripting.IronPython"
+                 xmlns:p5="clr-namespace:Bonsai.Harp.CF;assembly=Bonsai.Harp.CF"
                  xmlns:io="clr-namespace:Bonsai.IO;assembly=Bonsai.System"
                  xmlns:bv="clr-namespace:BonVision;assembly=BonVision"
-                 xmlns:p5="clr-namespace:OpenTK;assembly=OpenTK"
+                 xmlns:p6="clr-namespace:OpenTK;assembly=OpenTK"
                  xmlns:viz="clr-namespace:Bonsai.Design.Visualizers;assembly=Bonsai.Design.Visualizers"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Workflow>
@@ -382,8 +383,8 @@
                     <Property Name="ExtrinsicsFileName" DisplayName="LeftExtrinsics" Category="Left Screen" />
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="Extensions\ScreenCalibration.bonsai">
-                    <IntrinsicsFileName>Calibration\left_intrinsics.yml</IntrinsicsFileName>
-                    <ExtrinsicsFileName>Calibration\left_extrinsics.yml</ExtrinsicsFileName>
+                    <IntrinsicsFileName>Calibration\right_intrinsics.yml</IntrinsicsFileName>
+                    <ExtrinsicsFileName>Calibration\right_extrinsics.yml</ExtrinsicsFileName>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:RenderFrame" />
@@ -1136,11 +1137,8 @@
                         <Expression xsi:type="SubscribeSubject">
                           <Name>BehaviorEvents</Name>
                         </Expression>
-                        <Expression xsi:type="harp:FilterRegister">
-                          <harp:FilterType>Include</harp:FilterType>
-                          <harp:Register xsi:type="harp:FilterRegisterAddress">
-                            <harp:Address>92</harp:Address>
-                          </harp:Register>
+                        <Expression xsi:type="beh:Parse">
+                          <harp:Register xsi:type="beh:TimestampedCamera0Frame" />
                         </Expression>
                         <Expression xsi:type="rx:PublishSubject">
                           <Name>FrameEvents</Name>
@@ -1148,11 +1146,8 @@
                         <Expression xsi:type="SubscribeSubject">
                           <Name>BehaviorEvents</Name>
                         </Expression>
-                        <Expression xsi:type="harp:FilterRegister">
-                          <harp:FilterType>Include</harp:FilterType>
-                          <harp:Register xsi:type="harp:FilterRegisterAddress">
-                            <harp:Address>94</harp:Address>
-                          </harp:Register>
+                        <Expression xsi:type="beh:Parse">
+                          <harp:Register xsi:type="beh:TimestampedCamera1Frame" />
                         </Expression>
                         <Expression xsi:type="rx:PublishSubject">
                           <Name>FrameEvents2</Name>
@@ -1165,35 +1160,44 @@
                             <rx:Count>1</rx:Count>
                           </Combinator>
                         </Expression>
-                        <Expression xsi:type="cf:BehaviorCommand">
-                          <cf:Type>StopCamera</cf:Type>
-                          <cf:Mask>Digital0</cf:Mask>
+                        <Expression xsi:type="beh:CreateMessage">
+                          <harp:MessageType>Write</harp:MessageType>
+                          <harp:Payload xsi:type="beh:CreateStopCamerasPayload">
+                            <beh:StopCameras>CameraOutput0 CameraOutput1</beh:StopCameras>
+                          </harp:Payload>
+                        </Expression>
+                        <Expression xsi:type="MulticastSubject">
+                          <Name>BehaviorCommands</Name>
                         </Expression>
                         <Expression xsi:type="rx:SelectMany">
-                          <Name>SetFrameRate</Name>
+                          <Name>SetFrameRate0</Name>
                           <Workflow>
                             <Nodes>
                               <Expression xsi:type="SubscribeSubject">
                                 <Name>CameraTriggerFrequency</Name>
                               </Expression>
-                              <Expression xsi:type="harp:Format">
+                              <Expression xsi:type="InputMapping">
+                                <PropertyMappings>
+                                  <Property Name="Camera0Frequency" Selector="it" />
+                                </PropertyMappings>
+                              </Expression>
+                              <Expression xsi:type="beh:CreateMessage">
                                 <harp:MessageType>Write</harp:MessageType>
-                                <harp:Register xsi:type="harp:FormatMessagePayload">
-                                  <harp:Address>93</harp:Address>
-                                  <harp:PayloadType>U16</harp:PayloadType>
-                                </harp:Register>
+                                <harp:Payload xsi:type="beh:CreateCamera0FrequencyPayload">
+                                  <beh:Camera0Frequency>1</beh:Camera0Frequency>
+                                </harp:Payload>
                               </Expression>
                               <Expression xsi:type="WorkflowOutput" />
                             </Nodes>
                             <Edges>
                               <Edge From="0" To="1" Label="Source1" />
                               <Edge From="1" To="2" Label="Source1" />
+                              <Edge From="2" To="3" Label="Source1" />
                             </Edges>
                           </Workflow>
                         </Expression>
-                        <Expression xsi:type="cf:BehaviorCommand">
-                          <cf:Type>StopCamera</cf:Type>
-                          <cf:Mask>Digital1</cf:Mask>
+                        <Expression xsi:type="MulticastSubject">
+                          <Name>BehaviorCommands</Name>
                         </Expression>
                         <Expression xsi:type="rx:SelectMany">
                           <Name>SetFrameRate2</Name>
@@ -1202,20 +1206,28 @@
                               <Expression xsi:type="SubscribeSubject">
                                 <Name>CameraTriggerFrequency2</Name>
                               </Expression>
-                              <Expression xsi:type="harp:Format">
+                              <Expression xsi:type="InputMapping">
+                                <PropertyMappings>
+                                  <Property Name="Camera1Frequency" Selector="it" />
+                                </PropertyMappings>
+                              </Expression>
+                              <Expression xsi:type="beh:CreateMessage">
                                 <harp:MessageType>Write</harp:MessageType>
-                                <harp:Register xsi:type="harp:FormatMessagePayload">
-                                  <harp:Address>95</harp:Address>
-                                  <harp:PayloadType>U16</harp:PayloadType>
-                                </harp:Register>
+                                <harp:Payload xsi:type="beh:CreateCamera1FrequencyPayload">
+                                  <beh:Camera1Frequency>1</beh:Camera1Frequency>
+                                </harp:Payload>
                               </Expression>
                               <Expression xsi:type="WorkflowOutput" />
                             </Nodes>
                             <Edges>
                               <Edge From="0" To="1" Label="Source1" />
                               <Edge From="1" To="2" Label="Source1" />
+                              <Edge From="2" To="3" Label="Source1" />
                             </Edges>
                           </Workflow>
+                        </Expression>
+                        <Expression xsi:type="MulticastSubject">
+                          <Name>BehaviorCommands</Name>
                         </Expression>
                         <Expression xsi:type="GroupWorkflow">
                           <Name>StartStopCameras</Name>
@@ -1224,24 +1236,20 @@
                               <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Object">
                                 <rx:Name>StartCameras</rx:Name>
                               </Expression>
-                              <Expression xsi:type="cf:BehaviorCommand">
-                                <cf:Type>StartCamera</cf:Type>
-                                <cf:Mask>Digital0</cf:Mask>
-                              </Expression>
-                              <Expression xsi:type="cf:BehaviorCommand">
-                                <cf:Type>StartCamera</cf:Type>
-                                <cf:Mask>Digital1</cf:Mask>
+                              <Expression xsi:type="beh:CreateMessage">
+                                <harp:MessageType>Write</harp:MessageType>
+                                <harp:Payload xsi:type="beh:CreateStartCamerasPayload">
+                                  <beh:StartCameras>CameraOutput0 CameraOutput1</beh:StartCameras>
+                                </harp:Payload>
                               </Expression>
                               <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Object">
                                 <rx:Name>StopCameras</rx:Name>
                               </Expression>
-                              <Expression xsi:type="cf:BehaviorCommand">
-                                <cf:Type>StopCamera</cf:Type>
-                                <cf:Mask>Digital0</cf:Mask>
-                              </Expression>
-                              <Expression xsi:type="cf:BehaviorCommand">
-                                <cf:Type>StopCamera</cf:Type>
-                                <cf:Mask>Digital1</cf:Mask>
+                              <Expression xsi:type="beh:CreateMessage">
+                                <harp:MessageType>Write</harp:MessageType>
+                                <harp:Payload xsi:type="beh:CreateStopCamerasPayload">
+                                  <beh:StopCameras>CameraOutput0 CameraOutput1</beh:StopCameras>
+                                </harp:Payload>
                               </Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="rx:Merge" />
@@ -1250,19 +1258,12 @@
                             </Nodes>
                             <Edges>
                               <Edge From="0" To="1" Label="Source1" />
-                              <Edge From="0" To="2" Label="Source1" />
-                              <Edge From="1" To="6" Label="Source1" />
-                              <Edge From="2" To="6" Label="Source2" />
-                              <Edge From="3" To="4" Label="Source1" />
-                              <Edge From="3" To="5" Label="Source1" />
-                              <Edge From="4" To="6" Label="Source3" />
-                              <Edge From="5" To="6" Label="Source4" />
-                              <Edge From="6" To="7" Label="Source1" />
+                              <Edge From="1" To="4" Label="Source1" />
+                              <Edge From="2" To="3" Label="Source1" />
+                              <Edge From="3" To="4" Label="Source3" />
+                              <Edge From="4" To="5" Label="Source1" />
                             </Edges>
                           </Workflow>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="rx:Merge" />
                         </Expression>
                         <Expression xsi:type="MulticastSubject">
                           <Name>BehaviorCommands</Name>
@@ -1281,15 +1282,12 @@
                         <Edge From="12" To="13" Label="Source2" />
                         <Edge From="14" To="15" Label="Source1" />
                         <Edge From="15" To="16" Label="Source1" />
-                        <Edge From="15" To="18" Label="Source1" />
                         <Edge From="16" To="17" Label="Source1" />
-                        <Edge From="16" To="21" Label="Source2" />
-                        <Edge From="17" To="21" Label="Source1" />
+                        <Edge From="17" To="18" Label="Source1" />
                         <Edge From="18" To="19" Label="Source1" />
-                        <Edge From="18" To="21" Label="Source4" />
-                        <Edge From="19" To="21" Label="Source3" />
-                        <Edge From="20" To="21" Label="Source5" />
-                        <Edge From="21" To="22" Label="Source1" />
+                        <Edge From="19" To="20" Label="Source1" />
+                        <Edge From="20" To="21" Label="Source1" />
+                        <Edge From="22" To="23" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
@@ -1304,43 +1302,22 @@
                           <Property Name="SerialNumber" />
                         </Expression>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p3:CricketVRCapture">
+                          <Combinator xsi:type="aeon:SpinnakerCapture">
                             <spk:Index xsi:nil="true" />
                             <spk:SerialNumber>22067283</spk:SerialNumber>
                             <spk:ColorProcessing>Default</spk:ColorProcessing>
-                            <p3:HarpAddress>92</p3:HarpAddress>
-                            <p3:ExposureTime>19000</p3:ExposureTime>
-                            <p3:Gain>0</p3:Gain>
-                            <p3:Binning>1</p3:Binning>
+                            <aeon:ExposureTime>19000</aeon:ExposureTime>
+                            <aeon:Gain>0</aeon:Gain>
+                            <aeon:Binning>1</aeon:Binning>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="rx:PublishSubject">
                           <Name>Spinnaker1FrameEvents</Name>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
-                        <Expression xsi:type="Disable">
-                          <Builder xsi:type="Combinator">
-                            <Combinator xsi:type="aeon:SpinnakerCapture">
-                              <spk:Index xsi:nil="true" />
-                              <spk:ColorProcessing>Default</spk:ColorProcessing>
-                              <aeon:ExposureTime>19000</aeon:ExposureTime>
-                              <aeon:Gain>0</aeon:Gain>
-                              <aeon:Binning>1</aeon:Binning>
-                            </Combinator>
-                          </Builder>
-                        </Expression>
-                        <Expression xsi:type="Disable">
-                          <Builder xsi:type="IncludeWorkflow" Path="Aeon.Acquisition:LogVideo.bonsai">
-                            <Heartbeats />
-                            <ClosingDuration xsi:nil="true" />
-                            <LogName>VideoData</LogName>
-                            <FrameRate>50</FrameRate>
-                          </Builder>
-                        </Expression>
                       </Nodes>
                       <Edges>
                         <Edge From="0" To="2" Label="Source1" />
-                        <Edge From="0" To="5" Label="Source1" />
                         <Edge From="1" To="2" Label="Source2" />
                         <Edge From="2" To="3" Label="Source1" />
                         <Edge From="3" To="4" Label="Source1" />
@@ -1358,14 +1335,13 @@
                           <Property Name="SerialNumber" />
                         </Expression>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p3:CricketVRCapture">
+                          <Combinator xsi:type="aeon:SpinnakerCapture">
                             <spk:Index xsi:nil="true" />
                             <spk:SerialNumber>22067305</spk:SerialNumber>
                             <spk:ColorProcessing>Default</spk:ColorProcessing>
-                            <p3:HarpAddress>92</p3:HarpAddress>
-                            <p3:ExposureTime>19000</p3:ExposureTime>
-                            <p3:Gain>0</p3:Gain>
-                            <p3:Binning>1</p3:Binning>
+                            <aeon:ExposureTime>19000</aeon:ExposureTime>
+                            <aeon:Gain>0</aeon:Gain>
+                            <aeon:Binning>1</aeon:Binning>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="rx:PublishSubject">
@@ -1392,15 +1368,15 @@
                           <Property Name="SerialNumber" />
                         </Expression>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p3:PylonCricketVRCapture">
+                          <Combinator xsi:type="aeon:PylonCapture">
                             <pylon:SerialNumber>21421610</pylon:SerialNumber>
                             <pylon:ParameterFile>Calibration\acA1300-60gmNIR_21421610.pfs</pylon:ParameterFile>
                             <pylon:GrabStrategy>OneByOne</pylon:GrabStrategy>
-                            <p3:HarpAddress>92</p3:HarpAddress>
                           </Combinator>
                         </Expression>
-                        <Expression xsi:type="scr:ExpressionTransform">
-                          <scr:Expression>new(
+                        <Expression xsi:type="Disable">
+                          <Builder xsi:type="scr:ExpressionTransform">
+                            <scr:Expression>new(
 Seconds as Seconds,
 new(
   Value.Image as Image,
@@ -1408,6 +1384,7 @@ new(
       Value.GrabResult.ImageNumber as ImageNumber,
       Value.GrabResult.SkippedImageCount as SkippedImageCount) as GrabResult)
   as Value)</scr:Expression>
+                          </Builder>
                         </Expression>
                         <Expression xsi:type="Disable">
                           <Builder xsi:type="Combinator">
@@ -1446,42 +1423,25 @@ new(
                           <Property Name="SerialNumber" />
                         </Expression>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p3:CricketVRCapture">
+                          <Combinator xsi:type="aeon:SpinnakerCapture">
                             <spk:Index xsi:nil="true" />
                             <spk:SerialNumber>23534425</spk:SerialNumber>
                             <spk:ColorProcessing>Default</spk:ColorProcessing>
-                            <p3:HarpAddress>94</p3:HarpAddress>
-                            <p3:ExposureTime>9000</p3:ExposureTime>
-                            <p3:Gain>0</p3:Gain>
-                            <p3:Binning>2</p3:Binning>
+                            <aeon:ExposureTime>9000</aeon:ExposureTime>
+                            <aeon:Gain>0</aeon:Gain>
+                            <aeon:Binning>2</aeon:Binning>
                           </Combinator>
-                        </Expression>
-                        <Expression xsi:type="Annotation">
-                          <Text><![CDATA[We have removed the ObserveOnTaskPool nodes because not neccesarry, but if needed should use the ObserveOn instead]]></Text>
-                        </Expression>
-                        <Expression xsi:type="Disable">
-                          <Builder xsi:type="Combinator">
-                            <Combinator xsi:type="rx:ObserveOn">
-                              <rx:Scheduler>TaskPoolScheduler</rx:Scheduler>
-                            </Combinator>
-                          </Builder>
                         </Expression>
                         <Expression xsi:type="rx:PublishSubject">
                           <Name>Spinnaker3FrameEvents</Name>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
-                        <Expression xsi:type="MemberSelector">
-                          <Selector>Value.Image.Size</Selector>
-                        </Expression>
                       </Nodes>
                       <Edges>
                         <Edge From="0" To="2" Label="Source1" />
                         <Edge From="1" To="2" Label="Source2" />
-                        <Edge From="2" To="4" Label="Source1" />
-                        <Edge From="2" To="7" Label="Source1" />
-                        <Edge From="3" To="4" Label="Source2" />
-                        <Edge From="4" To="5" Label="Source1" />
-                        <Edge From="5" To="6" Label="Source1" />
+                        <Edge From="2" To="3" Label="Source1" />
+                        <Edge From="3" To="4" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
@@ -1491,12 +1451,6 @@ new(
                       <Nodes>
                         <Expression xsi:type="SubscribeSubject">
                           <Name>FrameEvents</Name>
-                        </Expression>
-                        <Expression xsi:type="harp:Parse">
-                          <harp:Register xsi:type="harp:ParseMessagePayload">
-                            <harp:PayloadType>Timestamp</harp:PayloadType>
-                            <harp:IsArray>false</harp:IsArray>
-                          </harp:Register>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="vid:VideoCaptureDevice">
@@ -1553,20 +1507,19 @@ new(
                         <Expression xsi:type="Subtract" />
                       </Nodes>
                       <Edges>
-                        <Edge From="0" To="1" Label="Source1" />
-                        <Edge From="1" To="4" Label="Source1" />
-                        <Edge From="2" To="3" Label="Source1" />
-                        <Edge From="3" To="4" Label="Source2" />
+                        <Edge From="0" To="3" Label="Source1" />
+                        <Edge From="1" To="2" Label="Source1" />
+                        <Edge From="2" To="3" Label="Source2" />
+                        <Edge From="3" To="4" Label="Source1" />
                         <Edge From="4" To="5" Label="Source1" />
-                        <Edge From="5" To="6" Label="Source1" />
-                        <Edge From="7" To="8" Label="Source1" />
+                        <Edge From="6" To="7" Label="Source1" />
+                        <Edge From="8" To="9" Label="Source1" />
                         <Edge From="9" To="10" Label="Source1" />
-                        <Edge From="10" To="11" Label="Source1" />
-                        <Edge From="11" To="15" Label="Source1" />
+                        <Edge From="10" To="14" Label="Source1" />
+                        <Edge From="11" To="12" Label="Source1" />
                         <Edge From="12" To="13" Label="Source1" />
-                        <Edge From="13" To="14" Label="Source1" />
-                        <Edge From="14" To="15" Label="Source2" />
-                        <Edge From="15" To="16" Label="Source1" />
+                        <Edge From="13" To="14" Label="Source2" />
+                        <Edge From="14" To="15" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
@@ -3570,19 +3523,11 @@ it.Item4 as SampleRate)
                         <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Object">
                           <rx:Name>Start_LEDs</rx:Name>
                         </Expression>
-                        <Expression xsi:type="cf:BehaviorCommand">
-                          <cf:Type>ToggleOutput</cf:Type>
-                          <cf:Mask>Digital2</cf:Mask>
-                        </Expression>
-                        <Expression xsi:type="Disable">
-                          <Builder xsi:type="harp:CreateMessage">
-                            <harp:MessageType>Write</harp:MessageType>
-                            <harp:Payload xsi:type="harp:CreateMessagePayload">
-                              <harp:Address>34</harp:Address>
-                              <harp:PayloadType>U16</harp:PayloadType>
-                              <harp:Value>1</harp:Value>
-                            </harp:Payload>
-                          </Builder>
+                        <Expression xsi:type="beh:CreateMessage">
+                          <harp:MessageType>Write</harp:MessageType>
+                          <harp:Payload xsi:type="beh:CreateOutputSetPayload">
+                            <beh:OutputSet>DO3</beh:OutputSet>
+                          </harp:Payload>
                         </Expression>
                         <Expression xsi:type="MulticastSubject">
                           <Name>BehaviorCommands</Name>
@@ -3590,19 +3535,11 @@ it.Item4 as SampleRate)
                         <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Object">
                           <rx:Name>Stop_LEDs</rx:Name>
                         </Expression>
-                        <Expression xsi:type="cf:BehaviorCommand">
-                          <cf:Type>ToggleOutput</cf:Type>
-                          <cf:Mask>Digital2</cf:Mask>
-                        </Expression>
-                        <Expression xsi:type="Disable">
-                          <Builder xsi:type="harp:CreateMessage">
-                            <harp:MessageType>Write</harp:MessageType>
-                            <harp:Payload xsi:type="harp:CreateMessagePayload">
-                              <harp:Address>34</harp:Address>
-                              <harp:PayloadType>U16</harp:PayloadType>
-                              <harp:Value>0</harp:Value>
-                            </harp:Payload>
-                          </Builder>
+                        <Expression xsi:type="beh:CreateMessage">
+                          <harp:MessageType>Write</harp:MessageType>
+                          <harp:Payload xsi:type="beh:CreateOutputClearPayload">
+                            <beh:OutputClear>DO3</beh:OutputClear>
+                          </harp:Payload>
                         </Expression>
                         <Expression xsi:type="MulticastSubject">
                           <Name>BehaviorCommands</Name>
@@ -3637,13 +3574,11 @@ it.Item4 as SampleRate)
                       <Edges>
                         <Edge From="0" To="1" Label="Source1" />
                         <Edge From="1" To="2" Label="Source1" />
-                        <Edge From="2" To="3" Label="Source1" />
+                        <Edge From="3" To="4" Label="Source1" />
                         <Edge From="4" To="5" Label="Source1" />
-                        <Edge From="5" To="6" Label="Source1" />
                         <Edge From="6" To="7" Label="Source1" />
                         <Edge From="8" To="9" Label="Source1" />
                         <Edge From="10" To="11" Label="Source1" />
-                        <Edge From="12" To="13" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
@@ -4123,9 +4058,9 @@ def process(value):
                     </Builder>
                   </Expression>
                   <Expression xsi:type="Disable">
-                    <Builder xsi:type="cf:BehaviorCommand">
-                      <cf:Type>ToggleOutput</cf:Type>
-                      <cf:Mask>Port0</cf:Mask>
+                    <Builder xsi:type="p5:BehaviorCommand">
+                      <p5:Type>ToggleOutput</p5:Type>
+                      <p5:Mask>Port0</p5:Mask>
                     </Builder>
                   </Expression>
                   <Expression xsi:type="Disable">
@@ -5325,7 +5260,7 @@ it.Item2 as Value)</scr:Expression>
                               <Expression xsi:type="ExternalizedMapping">
                                 <Property Name="Value" DisplayName="Ambient" />
                               </Expression>
-                              <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                              <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                                 <MemberName>Eye</MemberName>
                                 <Value>
                                   <X>1</X>
@@ -5357,7 +5292,7 @@ it.Item2 as Value)</scr:Expression>
                               <Expression xsi:type="ExternalizedMapping">
                                 <Property Name="Value" DisplayName="Diffuse" />
                               </Expression>
-                              <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                              <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                                 <MemberName>Eye</MemberName>
                                 <Value>
                                   <X>0</X>
@@ -5389,7 +5324,7 @@ it.Item2 as Value)</scr:Expression>
                               <Expression xsi:type="ExternalizedMapping">
                                 <Property Name="Value" DisplayName="Specular" />
                               </Expression>
-                              <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                              <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                                 <MemberName>Eye</MemberName>
                                 <Value>
                                   <X>0</X>
@@ -8917,7 +8852,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="Ambient" />
                         </Expression>
-                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
                             <X>1</X>
@@ -8949,7 +8884,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="Diffuse" />
                         </Expression>
-                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
                             <X>0</X>
@@ -8981,7 +8916,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="Specular" />
                         </Expression>
-                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
                             <X>0</X>
@@ -9312,7 +9247,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="Ambient" />
                         </Expression>
-                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
                             <X>1</X>
@@ -9344,7 +9279,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="Diffuse" />
                         </Expression>
-                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
                             <X>0</X>
@@ -9376,7 +9311,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="Specular" />
                         </Expression>
-                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
                             <X>0</X>
@@ -9691,7 +9626,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="Ambient" />
                         </Expression>
-                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
                             <X>1</X>
@@ -9723,7 +9658,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="Diffuse" />
                         </Expression>
-                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
                             <X>0</X>
@@ -9755,7 +9690,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="Specular" />
                         </Expression>
-                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
                             <X>0</X>
