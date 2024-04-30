@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.6.3"
+<WorkflowBuilder Version="2.8.1"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
-                 xmlns:scr="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting"
+                 xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
                  xmlns:io="clr-namespace:Bonsai.IO;assembly=Bonsai.System"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
                  xmlns="https://bonsai-rx.org/2018/workflow">
@@ -19,19 +19,16 @@
         <Description>Creates and initializes a CSV file, and matching behavior subject, used to log events with frame timing.</Description>
         <Workflow>
           <Nodes>
-            <Expression xsi:type="ExternalizedProperty">
-              <MemberName>Name</MemberName>
-              <Name>SubjectName</Name>
-              <Description>The name of the subject on which events will be logged.</Description>
-              <Category>Subject</Category>
-            </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="StringProperty" />
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="rx:IgnoreElements" />
             </Expression>
-            <Expression xsi:type="BehaviorSubject">
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Name" DisplayName="SubjectName" />
+            </Expression>
+            <Expression xsi:type="rx:BehaviorSubject">
               <Name>Events</Name>
             </Expression>
             <Expression xsi:type="WorkflowInput">
@@ -41,18 +38,24 @@
               <Property Name="Name" />
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\FormatFileName.bonsai">
-              <Extension>csv</Extension>
               <Name>FrameEventLogger</Name>
+              <Extension>csv</Extension>
             </Expression>
             <Expression xsi:type="PropertyMapping">
               <PropertyMappings>
                 <Property Name="FileName" />
               </PropertyMappings>
             </Expression>
-            <Expression xsi:type="Sink">
+            <Expression xsi:type="rx:Sink">
               <Name>CsvLogger</Name>
               <Workflow>
                 <Nodes>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Name" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>Events</Name>
+                  </Expression>
                   <Expression xsi:type="WorkflowInput">
                     <Name>Source1</Name>
                   </Expression>
@@ -62,17 +65,6 @@
                   <Expression xsi:type="rx:Accumulate" />
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:ElementIndex" />
-                  </Expression>
-                  <Expression xsi:type="ExternalizedMapping">
-                    <Property Name="Append" />
-                    <Property Name="Overwrite" />
-                    <Property Name="Suffix" />
-                  </Expression>
-                  <Expression xsi:type="ExternalizedMapping">
-                    <Property Name="Name" />
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>Events</Name>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:WithLatestFrom" />
@@ -90,9 +82,8 @@ Item1 as Value)</scr:Expression>
                     <Name>GenerateFileName</Name>
                     <Workflow>
                       <Nodes>
-                        <Expression xsi:type="ExternalizedProperty">
-                          <MemberName>Value</MemberName>
-                          <Name>Name</Name>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="Value" DisplayName="Name" />
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="StringProperty">
@@ -130,9 +121,15 @@ Item1 as Value)</scr:Expression>
                       </Edges>
                     </Workflow>
                   </Expression>
-                  <Expression xsi:type="ExternalizedProperty">
-                    <MemberName>FileName</MemberName>
-                    <Name />
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="FileName" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Append" />
+                    <Property Name="Overwrite" />
+                    <Property Name="Suffix" />
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
                     <io:FileName />
@@ -147,18 +144,18 @@ Item1 as Value)</scr:Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="0" To="1" Label="Source1" />
-                  <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="0" To="9" Label="Source1" />
+                  <Edge From="1" To="6" Label="Source1" />
                   <Edge From="2" To="3" Label="Source1" />
-                  <Edge From="3" To="7" Label="Source2" />
-                  <Edge From="4" To="12" Label="Source3" />
-                  <Edge From="5" To="6" Label="Source1" />
-                  <Edge From="5" To="10" Label="Source1" />
+                  <Edge From="3" To="4" Label="Source1" />
+                  <Edge From="4" To="5" Label="Source1" />
+                  <Edge From="5" To="6" Label="Source2" />
                   <Edge From="6" To="7" Label="Source1" />
-                  <Edge From="7" To="8" Label="Source1" />
-                  <Edge From="8" To="12" Label="Source1" />
-                  <Edge From="9" To="10" Label="Source2" />
-                  <Edge From="10" To="11" Label="Source1" />
-                  <Edge From="11" To="12" Label="Source2" />
+                  <Edge From="7" To="12" Label="Source1" />
+                  <Edge From="8" To="9" Label="Source2" />
+                  <Edge From="9" To="10" Label="Source1" />
+                  <Edge From="10" To="12" Label="Source2" />
+                  <Edge From="11" To="12" Label="Source3" />
                   <Edge From="12" To="13" Label="Source1" />
                 </Edges>
               </Workflow>
@@ -166,10 +163,10 @@ Item1 as Value)</scr:Expression>
             <Expression xsi:type="WorkflowOutput" />
           </Nodes>
           <Edges>
-            <Edge From="0" To="3" Label="Source2" />
-            <Edge From="0" To="8" Label="Source2" />
-            <Edge From="1" To="2" Label="Source1" />
-            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="3" Label="Source1" />
+            <Edge From="2" To="3" Label="Source2" />
+            <Edge From="2" To="8" Label="Source2" />
             <Edge From="4" To="8" Label="Source1" />
             <Edge From="5" To="6" Label="Source1" />
             <Edge From="6" To="7" Label="Source1" />
@@ -186,38 +183,31 @@ Item1 as Value)</scr:Expression>
             <Expression xsi:type="WorkflowInput">
               <Name>Source1</Name>
             </Expression>
-            <Expression xsi:type="ExternalizedProperty">
-              <MemberName>Format</MemberName>
-              <Name>Format</Name>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Format" />
             </Expression>
-            <Expression xsi:type="ExternalizedProperty">
-              <MemberName>Selector</MemberName>
-              <Name>Selector</Name>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Selector" />
             </Expression>
-            <Expression xsi:type="ExternalizedProperty">
-              <MemberName>Name</MemberName>
-              <Name>Name</Name>
-              <Category />
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Name" />
             </Expression>
-            <Expression xsi:type="Sink">
+            <Expression xsi:type="rx:Sink">
               <Name>FormatLog</Name>
               <Workflow>
                 <Nodes>
                   <Expression xsi:type="WorkflowInput">
                     <Name>Source1</Name>
                   </Expression>
-                  <Expression xsi:type="ExternalizedProperty">
-                    <MemberName>Format</MemberName>
-                    <Name>Format</Name>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Format" />
                   </Expression>
-                  <Expression xsi:type="ExternalizedProperty">
-                    <MemberName>Selector</MemberName>
-                    <Name>Selector</Name>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Selector" />
                   </Expression>
                   <Expression xsi:type="Format" />
-                  <Expression xsi:type="ExternalizedProperty">
-                    <MemberName>Name</MemberName>
-                    <Name>Name</Name>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Name" />
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>Events</Name>
