@@ -3,6 +3,7 @@
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
+                 xmlns:beh="clr-namespace:Harp.Behavior;assembly=Harp.Behavior"
                  xmlns:aeon="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Workflow>
@@ -30,18 +31,8 @@
       <Expression xsi:type="SubscribeSubject">
         <Name>BehaviorEvents</Name>
       </Expression>
-      <Expression xsi:type="harp:FilterRegister">
-        <harp:FilterType>Include</harp:FilterType>
-        <harp:Register xsi:type="harp:FilterRegisterAddress">
-          <harp:Address>44</harp:Address>
-        </harp:Register>
-      </Expression>
-      <Expression xsi:type="harp:Parse">
-        <harp:Register xsi:type="harp:ParseMessagePayload">
-          <harp:Address>44</harp:Address>
-          <harp:PayloadType>TimestampedS16</harp:PayloadType>
-          <harp:IsArray>false</harp:IsArray>
-        </harp:Register>
+      <Expression xsi:type="beh:Parse">
+        <harp:Register xsi:type="beh:TimestampedAnalogData" />
       </Expression>
       <Expression xsi:type="MemberSelector">
         <Selector>Value</Selector>
@@ -60,7 +51,6 @@
       <Edge From="4" To="5" Label="Source1" />
       <Edge From="5" To="6" Label="Source1" />
       <Edge From="6" To="7" Label="Source1" />
-      <Edge From="7" To="8" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
