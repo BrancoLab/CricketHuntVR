@@ -5114,7 +5114,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240528_P6_VR1testt\2024-05-29T10-23-42\Arducam\Arducam_2024-05-29T10-23-42.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240528_P6_VR1testt\2024-05-29T10-34-04\Arducam\Arducam_2024-05-29T10-34-04.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -5138,7 +5138,7 @@ it.Item2 as Value)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="cv:VideoWriter">
-                      <cv:FileName>C:\Users\Cricket Team\Desktop\data2\240528_P6_VR1testt\2024-05-29T10-23-42\Arducam\Arducam_2024-05-29T10-23-42.avi</cv:FileName>
+                      <cv:FileName>C:\Users\Cricket Team\Desktop\data2\240528_P6_VR1testt\2024-05-29T10-34-04\Arducam\Arducam_2024-05-29T10-34-04.avi</cv:FileName>
                       <cv:Suffix>None</cv:Suffix>
                       <cv:Buffered>true</cv:Buffered>
                       <cv:Overwrite>false</cv:Overwrite>
@@ -5300,7 +5300,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240528_P6_VR1testt\2024-05-29T10-23-42\Looming\Looming_2024-05-29T10-23-42.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240528_P6_VR1testt\2024-05-29T10-34-04\Looming\Looming_2024-05-29T10-34-04.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -5347,7 +5347,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240528_P6_VR1testt\2024-05-29T10-23-42\YRotationAxis\YRotationAxis_2024-05-29T10-23-42.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240528_P6_VR1testt\2024-05-29T10-34-04\YRotationAxis\YRotationAxis_2024-05-29T10-34-04.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -5388,7 +5388,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240528_P6_VR1testt\2024-05-29T10-23-42\LEDOrientation\LEDOrientation_2024-05-29T10-23-42.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240528_P6_VR1testt\2024-05-29T10-34-04\LEDOrientation\LEDOrientation_2024-05-29T10-34-04.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -6058,11 +6058,11 @@ it.Y as Z)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-                    <TranslationX>-0.0049998844</TranslationX>
+                    <TranslationX>-0.08500026</TranslationX>
                     <TranslationY>-0.05</TranslationY>
-                    <TranslationZ>-0.11</TranslationZ>
+                    <TranslationZ>0.7</TranslationZ>
                     <RotationZ>0</RotationZ>
-                    <RotationY>-103.990776</RotationY>
+                    <RotationY>-103.965416</RotationY>
                     <RotationX>0</RotationX>
                     <ScaleX>1</ScaleX>
                     <ScaleY>1</ScaleY>
@@ -7113,7 +7113,7 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
                       <gl:X>0</gl:X>
-                      <gl:Y>-1.81498146</gl:Y>
+                      <gl:Y>-1.81477392</gl:Y>
                       <gl:Z>0</gl:Z>
                     </Combinator>
                   </Expression>
@@ -7159,13 +7159,13 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>-0.0199999847</p1:X>
+                        <p1:X>-0.100000359</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>0.11</p1:Z>
+                        <p1:Z>-0.7</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
-                        <p1:Y>-1.81498146</p1:Y>
+                        <p1:Y>-1.81477392</p1:Y>
                         <p1:Z>0</p1:Z>
                       </p1:Orientation>
                     </Combinator>
@@ -9385,7 +9385,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="FloatProperty">
-                      <Value>0.325</Value>
+                      <Value>0</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -9461,7 +9461,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="gl:CreateVector3">
                 <gl:X>0</gl:X>
-                <gl:Y>0.1</gl:Y>
+                <gl:Y>0.04</gl:Y>
                 <gl:Z>-0</gl:Z>
               </Combinator>
             </Expression>
@@ -9506,7 +9506,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                     <Combinator xsi:type="gl:Translate">
                       <gl:Order>Prepend</gl:Order>
                       <gl:X>0</gl:X>
-                      <gl:Y>0.1</gl:Y>
+                      <gl:Y>0.04</gl:Y>
                       <gl:Z>-0</gl:Z>
                     </Combinator>
                   </Expression>
