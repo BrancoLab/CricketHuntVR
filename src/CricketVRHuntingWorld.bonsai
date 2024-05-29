@@ -158,7 +158,7 @@
                       <gl:Height>1080</gl:Height>
                       <gl:VSync>Off</gl:VSync>
                       <gl:SwapSync>false</gl:SwapSync>
-                      <gl:ClearColor>Gray</gl:ClearColor>
+                      <gl:ClearColor>Black</gl:ClearColor>
                       <gl:ClearMask>DepthBufferBit ColorBufferBit</gl:ClearMask>
                       <gl:CursorVisible>true</gl:CursorVisible>
                       <gl:Location xsi:nil="true" />
@@ -382,8 +382,8 @@
                     <Property Name="ExtrinsicsFileName" DisplayName="LeftExtrinsics" Category="Left Screen" />
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="Extensions\ScreenCalibration.bonsai">
-                    <IntrinsicsFileName>Calibration\right_intrinsics.yml</IntrinsicsFileName>
-                    <ExtrinsicsFileName>Calibration\right_extrinsics.yml</ExtrinsicsFileName>
+                    <IntrinsicsFileName>Calibration\left_intrinsics.yml</IntrinsicsFileName>
+                    <ExtrinsicsFileName>Calibration\left_extrinsics.yml</ExtrinsicsFileName>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:RenderFrame" />
@@ -453,11 +453,11 @@
                           <Height>0.302616</Height>
                           <Rotation>
                             <X>0</X>
-                            <Y>-90</Y>
+                            <Y>90</Y>
                             <Z>0</Z>
                           </Rotation>
                           <Translation>
-                            <X>0.3</X>
+                            <X>-0.3</X>
                             <Y>0</Y>
                             <Z>0</Z>
                           </Translation>
@@ -702,14 +702,14 @@
                         <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawQuad.bonsai">
                           <ExtentX>0.012</ExtentX>
                           <ExtentY>0.05</ExtentY>
-                          <LocationX>-0.719</LocationX>
+                          <LocationX>-0.69</LocationX>
                           <LocationY>0.95</LocationY>
                           <Layer>10</Layer>
                           <Angle>0</Angle>
                           <ColorR>1</ColorR>
                           <ColorG>1</ColorG>
                           <ColorB>1</ColorB>
-                          <ColorA>1</ColorA>
+                          <ColorA>0</ColorA>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
                       </Nodes>
@@ -753,9 +753,9 @@
                           <LocationY>0</LocationY>
                           <Layer>1</Layer>
                           <Angle>0</Angle>
-                          <ColorR>0</ColorR>
-                          <ColorG>0</ColorG>
-                          <ColorB>0</ColorB>
+                          <ColorR>0.9</ColorR>
+                          <ColorG>0.9</ColorG>
+                          <ColorB>0.9</ColorB>
                           <ColorA>0</ColorA>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
@@ -1278,26 +1278,27 @@
                       </Edges>
                     </Workflow>
                   </Expression>
-                  <Expression xsi:type="GroupWorkflow">
-                    <Name>Pylon1</Name>
-                    <Workflow>
-                      <Nodes>
-                        <Expression xsi:type="SubscribeSubject">
-                          <Name>FrameEvents</Name>
-                        </Expression>
-                        <Expression xsi:type="ExternalizedMapping">
-                          <Property Name="SerialNumber" />
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="aeon:PylonCapture">
-                            <pylon:SerialNumber>21421610</pylon:SerialNumber>
-                            <pylon:ParameterFile>Calibration\acA1300-60gmNIR_21421610.pfs</pylon:ParameterFile>
-                            <pylon:GrabStrategy>OneByOne</pylon:GrabStrategy>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="Disable">
-                          <Builder xsi:type="scr:ExpressionTransform">
-                            <scr:Expression>new(
+                  <Expression xsi:type="Disable">
+                    <Builder xsi:type="GroupWorkflow">
+                      <Name>Pylon1</Name>
+                      <Workflow>
+                        <Nodes>
+                          <Expression xsi:type="SubscribeSubject">
+                            <Name>FrameEvents</Name>
+                          </Expression>
+                          <Expression xsi:type="ExternalizedMapping">
+                            <Property Name="SerialNumber" />
+                          </Expression>
+                          <Expression xsi:type="Combinator">
+                            <Combinator xsi:type="aeon:PylonCapture">
+                              <pylon:SerialNumber>21421610</pylon:SerialNumber>
+                              <pylon:ParameterFile>Calibration\acA1300-60gmNIR_21421610.pfs</pylon:ParameterFile>
+                              <pylon:GrabStrategy>OneByOne</pylon:GrabStrategy>
+                            </Combinator>
+                          </Expression>
+                          <Expression xsi:type="Disable">
+                            <Builder xsi:type="scr:ExpressionTransform">
+                              <scr:Expression>new(
 Seconds as Seconds,
 new(
   Value.Image as Image,
@@ -1305,33 +1306,34 @@ new(
       Value.GrabResult.ImageNumber as ImageNumber,
       Value.GrabResult.SkippedImageCount as SkippedImageCount) as GrabResult)
   as Value)</scr:Expression>
-                          </Builder>
-                        </Expression>
-                        <Expression xsi:type="Disable">
-                          <Builder xsi:type="Combinator">
-                            <Combinator xsi:type="p3:ClonePylonGrab" />
-                          </Builder>
-                        </Expression>
-                        <Expression xsi:type="Disable">
-                          <Builder xsi:type="Combinator">
-                            <Combinator xsi:type="p1:ObserveOnTaskPool" />
-                          </Builder>
-                        </Expression>
-                        <Expression xsi:type="rx:PublishSubject">
-                          <Name>Pylon1FrameEvents</Name>
-                        </Expression>
-                        <Expression xsi:type="WorkflowOutput" />
-                      </Nodes>
-                      <Edges>
-                        <Edge From="0" To="2" Label="Source1" />
-                        <Edge From="1" To="2" Label="Source2" />
-                        <Edge From="2" To="3" Label="Source1" />
-                        <Edge From="3" To="4" Label="Source1" />
-                        <Edge From="4" To="5" Label="Source1" />
-                        <Edge From="5" To="6" Label="Source1" />
-                        <Edge From="6" To="7" Label="Source1" />
-                      </Edges>
-                    </Workflow>
+                            </Builder>
+                          </Expression>
+                          <Expression xsi:type="Disable">
+                            <Builder xsi:type="Combinator">
+                              <Combinator xsi:type="p3:ClonePylonGrab" />
+                            </Builder>
+                          </Expression>
+                          <Expression xsi:type="Disable">
+                            <Builder xsi:type="Combinator">
+                              <Combinator xsi:type="p1:ObserveOnTaskPool" />
+                            </Builder>
+                          </Expression>
+                          <Expression xsi:type="rx:PublishSubject">
+                            <Name>Pylon1FrameEvents</Name>
+                          </Expression>
+                          <Expression xsi:type="WorkflowOutput" />
+                        </Nodes>
+                        <Edges>
+                          <Edge From="0" To="2" Label="Source1" />
+                          <Edge From="1" To="2" Label="Source2" />
+                          <Edge From="2" To="3" Label="Source1" />
+                          <Edge From="3" To="4" Label="Source1" />
+                          <Edge From="4" To="5" Label="Source1" />
+                          <Edge From="5" To="6" Label="Source1" />
+                          <Edge From="6" To="7" Label="Source1" />
+                        </Edges>
+                      </Workflow>
+                    </Builder>
                   </Expression>
                   <Expression xsi:type="GroupWorkflow">
                     <Name>Spinnaker3</Name>
@@ -1507,7 +1509,7 @@ new(
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p3:WinRawMouse">
-                      <p3:DeviceId>-1193409289</p3:DeviceId>
+                      <p3:DeviceId>65601</p3:DeviceId>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="MemberSelector">
@@ -1534,7 +1536,7 @@ new(
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p3:WinRawMouse">
-                      <p3:DeviceId>65595</p3:DeviceId>
+                      <p3:DeviceId>65597</p3:DeviceId>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="MemberSelector">
@@ -3223,7 +3225,7 @@ it.Item4 as SampleRate)
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="gli:KeyDown">
-                            <gli:Key>S</gli:Key>
+                            <gli:Key>J</gli:Key>
                             <gli:Modifiers xsi:nil="true" />
                           </Combinator>
                         </Expression>
@@ -3260,8 +3262,8 @@ it.Item4 as SampleRate)
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="cv:Crop">
                       <cv:RegionOfInterest>
-                        <cv:X>13</cv:X>
-                        <cv:Y>175</cv:Y>
+                        <cv:X>25</cv:X>
+                        <cv:Y>176</cv:Y>
                         <cv:Width>256</cv:Width>
                         <cv:Height>277</cv:Height>
                       </cv:RegionOfInterest>
@@ -3271,20 +3273,20 @@ it.Item4 as SampleRate)
                     <Combinator xsi:type="cv:WarpPerspective">
                       <cv:Source>
                         <cv:Point2f>
-                          <cv:X>27.7333336</cv:X>
-                          <cv:Y>35.68043</cv:Y>
+                          <cv:X>26.8</cv:X>
+                          <cv:Y>28.59882</cv:Y>
                         </cv:Point2f>
                         <cv:Point2f>
-                          <cv:X>23.0666676</cv:X>
-                          <cv:Y>262.292023</cv:Y>
+                          <cv:X>14.8</cv:X>
+                          <cv:Y>250.30777</cv:Y>
                         </cv:Point2f>
                         <cv:Point2f>
-                          <cv:X>246.666672</cv:X>
-                          <cv:Y>271.824982</cv:Y>
+                          <cv:X>228.933334</cv:X>
+                          <cv:Y>271.280243</cv:Y>
                         </cv:Point2f>
                         <cv:Point2f>
-                          <cv:X>250.8</cv:X>
-                          <cv:Y>33.7738457</cv:Y>
+                          <cv:X>245.333328</cv:X>
+                          <cv:Y>37.58702</cv:Y>
                         </cv:Point2f>
                       </cv:Source>
                       <cv:Destination>
@@ -3726,9 +3728,14 @@ def process(value):
                        #(X, Y)]
 
     # Original fixed xy coordinates of each point
-    original_points = [(value.Item2.Item1.Item1.X, value.Item2.Item1.Item1.Y), 
-                       (value.Item2.Item1.Item2.X, value.Item2.Item1.Item2.Y), 
-                       (value.Item2.Item1.Item3.X, value.Item2.Item1.Item3.Y)]
+    #original_points = [(value.Item2.Item1.Item1.X, value.Item2.Item1.Item1.Y), 
+                       #(value.Item2.Item1.Item2.X, value.Item2.Item1.Item2.Y), 
+                       #(value.Item2.Item1.Item3.X, value.Item2.Item1.Item3.Y)]
+    
+    #hard coded zero coords
+    original_points = [(242.6832, 233.4503), 
+                       (137.96, 22.94966), 
+                       (39.39656, 172.1636)]
 
     
 
@@ -3736,7 +3743,7 @@ def process(value):
     #centreX, centreY = (value.Item2.Item2.X, value.Item2.Item2.Y)
 
     #hard code centre
-    centreX, centreY = (119, 121)
+    centreX, centreY = (130, 125)
 
     # Initialize a list to store the angles for each point
     angles = []
@@ -3975,13 +3982,29 @@ def process(value):
                             <gli:Modifiers xsi:nil="true" />
                           </Combinator>
                         </Expression>
-                        <Expression xsi:type="rx:PublishSubject">
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="IntProperty">
+                            <Value>1</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="rx:ReplaySubject">
                           <Name>PulseLickport</Name>
+                          <rx:BufferSize xsi:nil="true" />
+                        </Expression>
+                        <Expression xsi:type="Disable">
+                          <Builder xsi:type="rx:PublishSubject">
+                            <Name>PulseLickport</Name>
+                          </Builder>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="gli:KeyDown">
                             <gli:Key>B</gli:Key>
                             <gli:Modifiers xsi:nil="true" />
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="IntProperty">
+                            <Value>0</Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="rx:PublishSubject">
@@ -3993,14 +4016,35 @@ def process(value):
                             <gli:Modifiers xsi:nil="true" />
                           </Combinator>
                         </Expression>
-                        <Expression xsi:type="rx:PublishSubject">
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="IntProperty">
+                            <Value>0</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="MulticastSubject">
                           <Name>SetValveDuration</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="gl:Timer">
+                            <gl:DueTime>PT2S</gl:DueTime>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="MulticastSubject">
+                          <Name>SetValveDuration</Name>
+                        </Expression>
+                        <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Int32">
+                          <rx:Name>SetValveDuration</rx:Name>
                         </Expression>
                       </Nodes>
                       <Edges>
                         <Edge From="0" To="1" Label="Source1" />
+                        <Edge From="1" To="2" Label="Source1" />
                         <Edge From="2" To="3" Label="Source1" />
                         <Edge From="4" To="5" Label="Source1" />
+                        <Edge From="5" To="6" Label="Source1" />
+                        <Edge From="7" To="8" Label="Source1" />
+                        <Edge From="8" To="9" Label="Source1" />
+                        <Edge From="10" To="11" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
@@ -4044,14 +4088,41 @@ def process(value):
                   <Expression xsi:type="SubscribeSubject">
                     <Name>PulseLickport</Name>
                   </Expression>
-                  <Expression xsi:type="beh:CreateMessage">
-                    <harp:MessageType>Write</harp:MessageType>
-                    <harp:Payload xsi:type="beh:CreateOutputSetPayload">
-                      <beh:OutputSet>DOPort0</beh:OutputSet>
-                    </harp:Payload>
-                  </Expression>
-                  <Expression xsi:type="MulticastSubject">
-                    <Name>BehaviorCommands</Name>
+                  <Expression xsi:type="rx:SelectMany">
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="beh:CreateMessage">
+                          <harp:MessageType>Write</harp:MessageType>
+                          <harp:Payload xsi:type="beh:CreateOutputSetPayload">
+                            <beh:OutputSet>DOPort0</beh:OutputSet>
+                          </harp:Payload>
+                        </Expression>
+                        <Expression xsi:type="MulticastSubject">
+                          <Name>BehaviorCommands</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="gl:Delay">
+                            <gl:DueTime>PT0.15S</gl:DueTime>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:RepeatCount">
+                            <rx:Count>3</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="1" Label="Source1" />
+                        <Edge From="1" To="2" Label="Source1" />
+                        <Edge From="2" To="3" Label="Source1" />
+                        <Edge From="3" To="4" Label="Source1" />
+                        <Edge From="4" To="5" Label="Source1" />
+                      </Edges>
+                    </Workflow>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
                     <Name>CloseLickport</Name>
@@ -4079,16 +4150,14 @@ def process(value):
                   <Expression xsi:type="beh:CreateMessage">
                     <harp:MessageType>Write</harp:MessageType>
                     <harp:Payload xsi:type="beh:CreatePulseDOPort0Payload">
-                      <beh:PulseDOPort0>8000</beh:PulseDOPort0>
+                      <beh:PulseDOPort0>100</beh:PulseDOPort0>
                     </harp:Payload>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>BehaviorCommands</Name>
                   </Expression>
-                  <Expression xsi:type="Disable">
-                    <Builder xsi:type="MulticastSubject">
-                      <Name>Lick Duration Message</Name>
-                    </Builder>
+                  <Expression xsi:type="rx:PublishSubject">
+                    <Name>LickDurationMessage</Name>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
                     <Name>BehaviorEvents</Name>
@@ -4120,18 +4189,17 @@ def process(value):
                 </Nodes>
                 <Edges>
                   <Edge From="2" To="3" Label="Source1" />
-                  <Edge From="3" To="4" Label="Source1" />
+                  <Edge From="4" To="5" Label="Source1" />
                   <Edge From="5" To="6" Label="Source1" />
-                  <Edge From="6" To="7" Label="Source1" />
-                  <Edge From="8" To="11" Label="Source1" />
-                  <Edge From="9" To="10" Label="Source1" />
-                  <Edge From="10" To="11" Label="Source2" />
+                  <Edge From="7" To="10" Label="Source1" />
+                  <Edge From="8" To="9" Label="Source1" />
+                  <Edge From="9" To="10" Label="Source2" />
+                  <Edge From="10" To="11" Label="Source1" />
                   <Edge From="11" To="12" Label="Source1" />
-                  <Edge From="11" To="13" Label="Source1" />
+                  <Edge From="13" To="14" Label="Source1" />
                   <Edge From="14" To="15" Label="Source1" />
                   <Edge From="15" To="16" Label="Source1" />
                   <Edge From="16" To="17" Label="Source1" />
-                  <Edge From="17" To="18" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -4492,7 +4560,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="StringProperty">
-                      <Value>C:\Users\Cricket Team\Desktop\data2\vid_test2</Value>
+                      <Value>C:\Users\Cricket Team\Desktop\data2\240528_P6_VR1testt</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="rx:ReplaySubject">
@@ -4829,6 +4897,93 @@ it.Item2 as Value)</scr:Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>SoftwareEventLogger</Name>
                   </Expression>
+                  <Expression xsi:type="Disable">
+                    <Builder xsi:type="SubscribeSubject">
+                      <Name>LickDurationMessage</Name>
+                    </Builder>
+                  </Expression>
+                  <Expression xsi:type="Disable">
+                    <Builder xsi:type="harp:Format">
+                      <harp:MessageType>Write</harp:MessageType>
+                      <harp:Register xsi:type="harp:FormatMessagePayload">
+                        <harp:Address>15</harp:Address>
+                        <harp:PayloadType>Float</harp:PayloadType>
+                      </harp:Register>
+                    </Builder>
+                  </Expression>
+                  <Expression xsi:type="Disable">
+                    <Builder xsi:type="SubscribeSubject">
+                      <Name>TimestampStream</Name>
+                    </Builder>
+                  </Expression>
+                  <Expression xsi:type="Disable">
+                    <Builder xsi:type="Combinator">
+                      <Combinator xsi:type="rx:WithLatestFrom" />
+                    </Builder>
+                  </Expression>
+                  <Expression xsi:type="Disable">
+                    <Builder xsi:type="Combinator">
+                      <Combinator xsi:type="p3:ModifyMessage">
+                        <p3:Address xsi:nil="true" />
+                        <p3:MessageTypeModified>Event</p3:MessageTypeModified>
+                      </Combinator>
+                    </Builder>
+                  </Expression>
+                  <Expression xsi:type="Disable">
+                    <Builder xsi:type="MulticastSubject">
+                      <Name>SoftwareEventLogger</Name>
+                    </Builder>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>PulseLickport</Name>
+                  </Expression>
+                  <Expression xsi:type="harp:Format">
+                    <harp:MessageType>Write</harp:MessageType>
+                    <harp:Register xsi:type="harp:FormatMessagePayload">
+                      <harp:Address>16</harp:Address>
+                      <harp:PayloadType>Float</harp:PayloadType>
+                    </harp:Register>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TimestampStream</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="p3:ModifyMessage">
+                      <p3:Address xsi:nil="true" />
+                      <p3:MessageTypeModified>Event</p3:MessageTypeModified>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="MulticastSubject">
+                    <Name>SoftwareEventLogger</Name>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>CloseLickport</Name>
+                  </Expression>
+                  <Expression xsi:type="harp:Format">
+                    <harp:MessageType>Write</harp:MessageType>
+                    <harp:Register xsi:type="harp:FormatMessagePayload">
+                      <harp:Address>17</harp:Address>
+                      <harp:PayloadType>Float</harp:PayloadType>
+                    </harp:Register>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TimestampStream</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="p3:ModifyMessage">
+                      <p3:Address xsi:nil="true" />
+                      <p3:MessageTypeModified>Event</p3:MessageTypeModified>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="MulticastSubject">
+                    <Name>SoftwareEventLogger</Name>
+                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="2" To="4" Label="Source1" />
@@ -4867,6 +5022,21 @@ it.Item2 as Value)</scr:Expression>
                   <Edge From="41" To="42" Label="Source2" />
                   <Edge From="42" To="43" Label="Source1" />
                   <Edge From="43" To="44" Label="Source1" />
+                  <Edge From="45" To="46" Label="Source1" />
+                  <Edge From="46" To="48" Label="Source1" />
+                  <Edge From="47" To="48" Label="Source2" />
+                  <Edge From="48" To="49" Label="Source1" />
+                  <Edge From="49" To="50" Label="Source1" />
+                  <Edge From="51" To="52" Label="Source1" />
+                  <Edge From="52" To="54" Label="Source1" />
+                  <Edge From="53" To="54" Label="Source2" />
+                  <Edge From="54" To="55" Label="Source1" />
+                  <Edge From="55" To="56" Label="Source1" />
+                  <Edge From="57" To="58" Label="Source1" />
+                  <Edge From="58" To="60" Label="Source1" />
+                  <Edge From="59" To="60" Label="Source2" />
+                  <Edge From="60" To="61" Label="Source1" />
+                  <Edge From="61" To="62" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -4910,12 +5080,16 @@ it.Item2 as Value)</scr:Expression>
               <Name>Spinnaker3_warp</Name>
               <FrameRate>100</FrameRate>
             </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>Pylon1FrameEvents</Name>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="SubscribeSubject">
+                <Name>Pylon1FrameEvents</Name>
+              </Builder>
             </Expression>
-            <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogPylonVideo.bonsai">
-              <Name>Pylon1</Name>
-              <FrameRate>50</FrameRate>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="IncludeWorkflow" Path="Extensions\LogPylonVideo.bonsai">
+                <Name>Pylon1</Name>
+                <FrameRate>50</FrameRate>
+              </Builder>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>ArducamFrameEvents</Name>
@@ -4940,7 +5114,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\vid_test2\2024-05-21T15-54-47\Arducam\Arducam_2024-05-21T15-54-47.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240528_P6_VR1testt\2024-05-29T10-23-42\Arducam\Arducam_2024-05-29T10-23-42.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -4964,7 +5138,7 @@ it.Item2 as Value)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="cv:VideoWriter">
-                      <cv:FileName>C:\Users\Cricket Team\Desktop\data2\vid_test2\2024-05-21T15-54-47\Arducam\Arducam_2024-05-21T15-54-47.avi</cv:FileName>
+                      <cv:FileName>C:\Users\Cricket Team\Desktop\data2\240528_P6_VR1testt\2024-05-29T10-23-42\Arducam\Arducam_2024-05-29T10-23-42.avi</cv:FileName>
                       <cv:Suffix>None</cv:Suffix>
                       <cv:Buffered>true</cv:Buffered>
                       <cv:Overwrite>false</cv:Overwrite>
@@ -5126,7 +5300,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\vid_test2\2024-05-21T15-54-47\Looming\Looming_2024-05-21T15-54-47.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240528_P6_VR1testt\2024-05-29T10-23-42\Looming\Looming_2024-05-29T10-23-42.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -5173,7 +5347,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\vid_test2\2024-05-21T15-54-47\YRotationAxis\YRotationAxis_2024-05-21T15-54-47.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240528_P6_VR1testt\2024-05-29T10-23-42\YRotationAxis\YRotationAxis_2024-05-29T10-23-42.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -5214,7 +5388,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\vid_test2\2024-05-21T15-54-47\LEDOrientation\LEDOrientation_2024-05-21T15-54-47.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240528_P6_VR1testt\2024-05-29T10-23-42\LEDOrientation\LEDOrientation_2024-05-29T10-23-42.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -5884,11 +6058,11 @@ it.Y as Z)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-                    <TranslationX>0.04786231</TranslationX>
+                    <TranslationX>-0.0049998844</TranslationX>
                     <TranslationY>-0.05</TranslationY>
-                    <TranslationZ>0.03286221</TranslationZ>
+                    <TranslationZ>-0.11</TranslationZ>
                     <RotationZ>0</RotationZ>
-                    <RotationY>-0.0219602659</RotationY>
+                    <RotationY>-103.990776</RotationY>
                     <RotationX>0</RotationX>
                     <ScaleX>1</ScaleX>
                     <ScaleY>1</ScaleY>
@@ -6939,7 +7113,7 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
                       <gl:X>0</gl:X>
-                      <gl:Y>-0.0005597839</gl:Y>
+                      <gl:Y>-1.81498146</gl:Y>
                       <gl:Z>0</gl:Z>
                     </Combinator>
                   </Expression>
@@ -6985,13 +7159,13 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>0.03286221</p1:X>
+                        <p1:X>-0.0199999847</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>-0.03286221</p1:Z>
+                        <p1:Z>0.11</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
-                        <p1:Y>-0.0005597839</p1:Y>
+                        <p1:Y>-1.81498146</p1:Y>
                         <p1:Z>0</p1:Z>
                       </p1:Orientation>
                     </Combinator>
@@ -8903,6 +9077,12 @@ it[8] as PerturbMagnitude)</scr:Expression>
             <Expression xsi:type="scr:ExpressionTransform">
               <scr:Expression>0.9 * ((1.0) - (1.0 / (Math.Exp(-it) + 1))) - 0.15</scr:Expression>
             </Expression>
+            <Expression xsi:type="Annotation">
+              <Text><![CDATA[This applies a upper boundary and sets alpha to zero when not in the shelter]]></Text>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>it &gt; 0.200 ? 0.325 : it </scr:Expression>
+            </Expression>
             <Expression xsi:type="scr:ExpressionTransform">
               <scr:Expression>it &lt; 0.175 ? 0 : it </scr:Expression>
             </Expression>
@@ -9205,7 +9385,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="FloatProperty">
-                      <Value>0.2843213</Value>
+                      <Value>0.325</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -10058,13 +10238,13 @@ it[8] as PerturbMagnitude)</scr:Expression>
             <Edge From="7" To="8" Label="Source1" />
             <Edge From="7" To="10" Label="Source1" />
             <Edge From="7" To="13" Label="Source1" />
-            <Edge From="8" To="33" Label="Source1" />
+            <Edge From="8" To="35" Label="Source1" />
             <Edge From="9" To="10" Label="Source2" />
             <Edge From="10" To="11" Label="Source1" />
-            <Edge From="11" To="33" Label="Source2" />
+            <Edge From="11" To="35" Label="Source2" />
             <Edge From="12" To="13" Label="Source2" />
             <Edge From="13" To="14" Label="Source1" />
-            <Edge From="14" To="33" Label="Source3" />
+            <Edge From="14" To="35" Label="Source3" />
             <Edge From="15" To="16" Label="Source1" />
             <Edge From="16" To="24" Label="Source1" />
             <Edge From="17" To="18" Label="Source1" />
@@ -10080,30 +10260,32 @@ it[8] as PerturbMagnitude)</scr:Expression>
             <Edge From="26" To="27" Label="Source1" />
             <Edge From="27" To="28" Label="Source1" />
             <Edge From="28" To="29" Label="Source1" />
-            <Edge From="29" To="30" Label="Source1" />
-            <Edge From="30" To="31" Label="Source1" />
-            <Edge From="31" To="33" Label="Source4" />
-            <Edge From="32" To="33" Label="Source5" />
-            <Edge From="34" To="35" Label="Source1" />
-            <Edge From="34" To="38" Label="Source1" />
-            <Edge From="34" To="40" Label="Source1" />
-            <Edge From="35" To="42" Label="Source1" />
+            <Edge From="29" To="31" Label="Source1" />
+            <Edge From="30" To="31" Label="Source2" />
+            <Edge From="31" To="32" Label="Source1" />
+            <Edge From="32" To="33" Label="Source1" />
+            <Edge From="33" To="35" Label="Source4" />
+            <Edge From="34" To="35" Label="Source5" />
             <Edge From="36" To="37" Label="Source1" />
-            <Edge From="37" To="38" Label="Source2" />
+            <Edge From="36" To="40" Label="Source1" />
+            <Edge From="36" To="42" Label="Source1" />
+            <Edge From="37" To="44" Label="Source1" />
             <Edge From="38" To="39" Label="Source1" />
-            <Edge From="39" To="42" Label="Source2" />
+            <Edge From="39" To="40" Label="Source2" />
             <Edge From="40" To="41" Label="Source1" />
-            <Edge From="41" To="42" Label="Source3" />
-            <Edge From="43" To="44" Label="Source1" />
-            <Edge From="43" To="47" Label="Source1" />
-            <Edge From="43" To="49" Label="Source1" />
-            <Edge From="44" To="51" Label="Source1" />
+            <Edge From="41" To="44" Label="Source2" />
+            <Edge From="42" To="43" Label="Source1" />
+            <Edge From="43" To="44" Label="Source3" />
             <Edge From="45" To="46" Label="Source1" />
-            <Edge From="46" To="47" Label="Source2" />
+            <Edge From="45" To="49" Label="Source1" />
+            <Edge From="45" To="51" Label="Source1" />
+            <Edge From="46" To="53" Label="Source1" />
             <Edge From="47" To="48" Label="Source1" />
-            <Edge From="48" To="51" Label="Source2" />
+            <Edge From="48" To="49" Label="Source2" />
             <Edge From="49" To="50" Label="Source1" />
-            <Edge From="50" To="51" Label="Source3" />
+            <Edge From="50" To="53" Label="Source2" />
+            <Edge From="51" To="52" Label="Source1" />
+            <Edge From="52" To="53" Label="Source3" />
           </Edges>
         </Workflow>
       </Expression>
@@ -10342,45 +10524,27 @@ it[8] as PerturbMagnitude)</scr:Expression>
         <Name>Visualization</Name>
         <Workflow>
           <Nodes>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="SubscribeSubject">
-                <Name>Spinnaker1FrameEvents</Name>
-              </Builder>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Spinnaker1FrameEvents</Name>
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="MemberSelector">
-                <Selector>Value.Image</Selector>
-              </Builder>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Value.Image</Selector>
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="VisualizerMapping" />
+            <Expression xsi:type="VisualizerMapping" />
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Spinnaker2FrameEvents</Name>
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="SubscribeSubject">
-                <Name>Spinnaker2FrameEvents</Name>
-              </Builder>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Value.Image</Selector>
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="MemberSelector">
-                <Selector>Value.Image</Selector>
-              </Builder>
+            <Expression xsi:type="VisualizerMapping" />
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Spinnaker3FrameEvents</Name>
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="VisualizerMapping" />
+            <Expression xsi:type="MemberSelector">
+              <Selector>Value.Image</Selector>
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="SubscribeSubject">
-                <Name>Spinnaker3FrameEvents</Name>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="MemberSelector">
-                <Selector>Value.Image</Selector>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="VisualizerMapping" />
-            </Expression>
+            <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="Disable">
               <Builder xsi:type="SubscribeSubject">
                 <Name>ArduCamSource</Name>
@@ -10402,24 +10566,26 @@ it[8] as PerturbMagnitude)</scr:Expression>
             <Expression xsi:type="Disable">
               <Builder xsi:type="VisualizerMapping" />
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="SubscribeSubject">
-                <Name>PiezoSignal</Name>
-              </Builder>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>PiezoSignal</Name>
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="VisualizerMapping" />
+            <Expression xsi:type="VisualizerMapping" />
+            <Expression xsi:type="SubscribeSubject">
+              <Name>OrientationAngle</Name>
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="viz:TableLayoutPanelBuilder">
-                <viz:ColumnCount>2</viz:ColumnCount>
-                <viz:RowCount>4</viz:RowCount>
-                <viz:ColumnStyles />
-                <viz:RowStyles />
-                <viz:CellSpans>
-                  <viz:CellSpan ColumnSpan="1" RowSpan="1" />
-                </viz:CellSpans>
-              </Builder>
+            <Expression xsi:type="VisualizerMapping" />
+            <Expression xsi:type="SubscribeSubject">
+              <Name>PulseLickport</Name>
+            </Expression>
+            <Expression xsi:type="VisualizerMapping" />
+            <Expression xsi:type="viz:TableLayoutPanelBuilder">
+              <viz:ColumnCount>2</viz:ColumnCount>
+              <viz:RowCount>3</viz:RowCount>
+              <viz:ColumnStyles />
+              <viz:RowStyles />
+              <viz:CellSpans>
+                <viz:CellSpan ColumnSpan="1" RowSpan="1" />
+              </viz:CellSpans>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>BehaviorEvents</Name>
@@ -10478,32 +10644,36 @@ it[8] as PerturbMagnitude)</scr:Expression>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
             <Edge From="1" To="2" Label="Source1" />
-            <Edge From="2" To="16" Label="Source1" />
+            <Edge From="2" To="20" Label="Source1" />
             <Edge From="3" To="4" Label="Source1" />
             <Edge From="4" To="5" Label="Source1" />
-            <Edge From="5" To="16" Label="Source2" />
+            <Edge From="5" To="20" Label="Source2" />
             <Edge From="6" To="7" Label="Source1" />
             <Edge From="7" To="8" Label="Source1" />
-            <Edge From="8" To="16" Label="Source3" />
+            <Edge From="8" To="20" Label="Source3" />
             <Edge From="9" To="10" Label="Source1" />
-            <Edge From="10" To="16" Label="Source4" />
+            <Edge From="10" To="20" Label="Source4" />
             <Edge From="11" To="12" Label="Source1" />
             <Edge From="12" To="13" Label="Source1" />
-            <Edge From="13" To="16" Label="Source5" />
+            <Edge From="13" To="20" Label="Source5" />
             <Edge From="14" To="15" Label="Source1" />
-            <Edge From="15" To="16" Label="Source6" />
-            <Edge From="17" To="18" Label="Source1" />
+            <Edge From="15" To="20" Label="Source6" />
+            <Edge From="16" To="17" Label="Source1" />
+            <Edge From="17" To="20" Label="Source7" />
             <Edge From="18" To="19" Label="Source1" />
-            <Edge From="19" To="20" Label="Source1" />
-            <Edge From="20" To="21" Label="Source1" />
+            <Edge From="19" To="20" Label="Source8" />
             <Edge From="21" To="22" Label="Source1" />
-            <Edge From="22" To="27" Label="Source1" />
+            <Edge From="22" To="23" Label="Source1" />
             <Edge From="23" To="24" Label="Source1" />
             <Edge From="24" To="25" Label="Source1" />
             <Edge From="25" To="26" Label="Source1" />
-            <Edge From="26" To="27" Label="Source2" />
+            <Edge From="26" To="31" Label="Source1" />
             <Edge From="27" To="28" Label="Source1" />
             <Edge From="28" To="29" Label="Source1" />
+            <Edge From="29" To="30" Label="Source1" />
+            <Edge From="30" To="31" Label="Source2" />
+            <Edge From="31" To="32" Label="Source1" />
+            <Edge From="32" To="33" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -10526,7 +10696,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="IntProperty">
-          <Value>8000</Value>
+          <Value>100</Value>
         </Combinator>
       </Expression>
       <Expression xsi:type="MulticastSubject">
