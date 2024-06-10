@@ -425,12 +425,12 @@
   <DialogSettings>
     <Visible>true</Visible>
     <Location>
-      <X>1564</X>
-      <Y>588</Y>
+      <X>1221</X>
+      <Y>338</Y>
     </Location>
     <Size>
-      <Width>908</Width>
-      <Height>769</Height>
+      <Width>676</Width>
+      <Height>682</Height>
     </Size>
     <WindowState>Normal</WindowState>
     <VisualizerTypeName>Bonsai.Vision.Design.IplImageVisualizer</VisualizerTypeName>
