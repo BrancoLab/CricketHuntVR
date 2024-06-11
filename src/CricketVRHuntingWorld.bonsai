@@ -5437,7 +5437,7 @@ it.Item2 as Value)</scr:Expression>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
                     <io:IncludeHeader>true</io:IncludeHeader>
-                    <io:Selector>Item2,Item1.Item2.Item1,Item1.Item2.Item2,Item1.Item3,Item1.Item1</io:Selector>
+                    <io:Selector>Item2,Item1.Item2.Item1,Item1.Item2.Item2,Item1.Item3,Item1.Item1,Item1.Item4</io:Selector>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
                 </Nodes>
