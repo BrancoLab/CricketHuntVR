@@ -770,7 +770,7 @@
                           <ColorR>1</ColorR>
                           <ColorG>1</ColorG>
                           <ColorB>1</ColorB>
-                          <ColorA>0</ColorA>
+                          <ColorA>1</ColorA>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
                       </Nodes>
@@ -5520,7 +5520,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240620_Q2_VR6testt\2024-06-20T16-37-50\Looming\Looming_2024-06-20T16-37-50.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240620_Q2_VR6testt\2024-06-21T10-06-39\Looming\Looming_2024-06-21T10-06-40.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -5567,7 +5567,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240620_Q2_VR6testt\2024-06-20T16-37-50\YRotationAxis\YRotationAxis_2024-06-20T16-37-50.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240620_Q2_VR6testt\2024-06-21T10-06-39\YRotationAxis\YRotationAxis_2024-06-21T10-06-40.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -5608,7 +5608,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240620_Q2_VR6testt\2024-06-20T16-37-50\LEDOrientation\LEDOrientation_2024-06-20T16-37-50.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240620_Q2_VR6testt\2024-06-21T10-06-39\LEDOrientation\LEDOrientation_2024-06-21T10-06-40.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -6280,9 +6280,9 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
                     <TranslationX>0.0150001</TranslationX>
                     <TranslationY>-0.05</TranslationY>
-                    <TranslationZ>-2.6205933E-05</TranslationZ>
+                    <TranslationZ>2.62059257E-05</TranslationZ>
                     <RotationZ>0</RotationZ>
-                    <RotationY>-163.204346</RotationY>
+                    <RotationY>-167.641266</RotationY>
                     <RotationX>0</RotationX>
                     <ScaleX>1</ScaleX>
                     <ScaleY>1</ScaleY>
@@ -8188,7 +8188,7 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
                       <gl:X>0</gl:X>
-                      <gl:Y>-2.84845328</gl:Y>
+                      <gl:Y>-2.925892</gl:Y>
                       <gl:Z>0</gl:Z>
                     </Combinator>
                   </Expression>
@@ -8236,11 +8236,11 @@ it.Y as Z)</scr:Expression>
                       <p1:Position>
                         <p1:X>0</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>2.6205933E-05</p1:Z>
+                        <p1:Z>-2.62059257E-05</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
-                        <p1:Y>-2.84845328</p1:Y>
+                        <p1:Y>-2.925892</p1:Y>
                         <p1:Z>0</p1:Z>
                       </p1:Orientation>
                     </Combinator>
