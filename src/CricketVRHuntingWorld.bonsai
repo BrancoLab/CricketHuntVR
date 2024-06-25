@@ -822,9 +822,9 @@
                           <LocationY>0.9</LocationY>
                           <Layer>10</Layer>
                           <Angle>0</Angle>
-                          <ColorR>1</ColorR>
-                          <ColorG>1</ColorG>
-                          <ColorB>1</ColorB>
+                          <ColorR>0</ColorR>
+                          <ColorG>0</ColorG>
+                          <ColorB>0</ColorB>
                           <ColorA>0</ColorA>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
@@ -5576,7 +5576,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240624_Q2_loom2_nosheltertesttt\2024-06-24T17-16-05\Looming\Looming_2024-06-24T17-16-05.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240624_Q2_loom2_nosheltertesttt\2024-06-25T10-46-18\Looming\Looming_2024-06-25T10-46-18.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -5623,7 +5623,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240624_Q2_loom2_nosheltertesttt\2024-06-24T17-16-05\YRotationAxis\YRotationAxis_2024-06-24T17-16-05.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240624_Q2_loom2_nosheltertesttt\2024-06-25T10-46-18\YRotationAxis\YRotationAxis_2024-06-25T10-46-18.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -5664,7 +5664,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240624_Q2_loom2_nosheltertesttt\2024-06-24T17-16-05\LEDOrientation\LEDOrientation_2024-06-24T17-16-05.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240624_Q2_loom2_nosheltertesttt\2024-06-25T10-46-18\LEDOrientation\LEDOrientation_2024-06-25T10-46-18.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -6336,9 +6336,9 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
                     <TranslationX>0.0150001</TranslationX>
                     <TranslationY>-0.05</TranslationY>
-                    <TranslationZ>0.049999997</TranslationZ>
+                    <TranslationZ>-0</TranslationZ>
                     <RotationZ>0</RotationZ>
-                    <RotationY>-84.22808</RotationY>
+                    <RotationY>-83.95164</RotationY>
                     <RotationX>0</RotationX>
                     <ScaleX>1</ScaleX>
                     <ScaleY>1</ScaleY>
@@ -8246,7 +8246,7 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
                       <gl:X>0</gl:X>
-                      <gl:Y>-1.47005737</gl:Y>
+                      <gl:Y>-1.46582985</gl:Y>
                       <gl:Z>0</gl:Z>
                     </Combinator>
                   </Expression>
@@ -8294,11 +8294,11 @@ it.Y as Z)</scr:Expression>
                       <p1:Position>
                         <p1:X>0</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>-0.049999997</p1:Z>
+                        <p1:Z>0</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
-                        <p1:Y>-1.47005737</p1:Y>
+                        <p1:Y>-1.46582985</p1:Y>
                         <p1:Z>0</p1:Z>
                       </p1:Orientation>
                     </Combinator>
