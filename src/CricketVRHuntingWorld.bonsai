@@ -11,12 +11,13 @@
                  xmlns:res="clr-namespace:Bonsai.Resources;assembly=Bonsai.System"
                  xmlns:glr="clr-namespace:Bonsai.Shaders.Rendering;assembly=Bonsai.Shaders.Rendering"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
+                 xmlns:p3="clr-namespace:Bonsai.Numerics.Distributions;assembly=Bonsai.Numerics"
+                 xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
                  xmlns:beh="clr-namespace:Harp.Behavior;assembly=Harp.Behavior"
                  xmlns:aeon="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
                  xmlns:spk="clr-namespace:Bonsai.Spinnaker;assembly=Bonsai.Spinnaker"
                  xmlns:pylon="clr-namespace:Bonsai.Pylon;assembly=Bonsai.Pylon"
-                 xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
-                 xmlns:p3="clr-namespace:;assembly=Extensions"
+                 xmlns:p4="clr-namespace:;assembly=Extensions"
                  xmlns:vid="clr-namespace:Bonsai.Video;assembly=Bonsai.Video"
                  xmlns:gli="clr-namespace:Bonsai.Shaders.Input;assembly=Bonsai.Shaders"
                  xmlns:dsp="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp"
@@ -24,10 +25,10 @@
                  xmlns:num="clr-namespace:Bonsai.Numerics;assembly=Bonsai.Numerics"
                  xmlns:ipy="clr-namespace:Bonsai.Scripting.IronPython;assembly=Bonsai.Scripting.IronPython"
                  xmlns:al="clr-namespace:Bonsai.Audio;assembly=Bonsai.Audio"
-                 xmlns:p4="clr-namespace:Bonsai.Harp.Expander;assembly=Bonsai.Harp.Expander"
+                 xmlns:p5="clr-namespace:Bonsai.Harp.Expander;assembly=Bonsai.Harp.Expander"
                  xmlns:io="clr-namespace:Bonsai.IO;assembly=Bonsai.System"
                  xmlns:bv="clr-namespace:BonVision;assembly=BonVision"
-                 xmlns:p5="clr-namespace:OpenTK;assembly=OpenTK"
+                 xmlns:p6="clr-namespace:OpenTK;assembly=OpenTK"
                  xmlns:viz="clr-namespace:Bonsai.Design.Visualizers;assembly=Bonsai.Design.Visualizers"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Workflow>
@@ -762,9 +763,9 @@
                             </Translation>
                           </Expression>
                           <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.DrawViewport.bonsai">
-                            <X>0</X>
+                            <X>0.668</X>
                             <Y>0</Y>
-                            <Width>0.25</Width>
+                            <Width>0.334</Width>
                             <Height>1</Height>
                           </Expression>
                           <Expression xsi:type="WorkflowOutput" />
@@ -875,9 +876,9 @@
                           <LocationY>0</LocationY>
                           <Layer>1</Layer>
                           <Angle>0</Angle>
-                          <ColorR>0.8</ColorR>
-                          <ColorG>0.8</ColorG>
-                          <ColorB>0.8</ColorB>
+                          <ColorR>0.3</ColorR>
+                          <ColorG>0.3</ColorG>
+                          <ColorB>0.3</ColorB>
                           <ColorA>0</ColorA>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
@@ -1126,11 +1127,119 @@
                   <Expression xsi:type="rx:PublishSubject">
                     <Name>BehaviorEvents</Name>
                   </Expression>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="DueTime" />
+                    <Property Name="Lower" />
+                    <Property Name="Upper" />
+                  </Expression>
+                  <Expression xsi:type="GroupWorkflow">
+                    <Name>SynchPulse</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="Lower" />
+                          <Property Name="Upper" />
+                        </Expression>
+                        <Expression xsi:type="rx:Defer">
+                          <Name>InterPulseInterval</Name>
+                          <Workflow>
+                            <Nodes>
+                              <Expression xsi:type="ExternalizedMapping">
+                                <Property Name="Lower" />
+                                <Property Name="Upper" />
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="p3:CreateContinuousUniform">
+                                  <p3:Lower>3</p3:Lower>
+                                  <p3:Upper>6</p3:Upper>
+                                </Combinator>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="p3:Sample" />
+                              </Expression>
+                              <Expression xsi:type="scr:ExpressionTransform">
+                                <scr:Expression>TimeSpan.FromSeconds(it)</scr:Expression>
+                              </Expression>
+                              <Expression xsi:type="PropertyMapping">
+                                <PropertyMappings>
+                                  <Property Name="DueTime" />
+                                </PropertyMappings>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="rx:Timer">
+                                  <rx:DueTime>PT4.348S</rx:DueTime>
+                                  <rx:Period>PT0S</rx:Period>
+                                </Combinator>
+                              </Expression>
+                              <Expression xsi:type="WorkflowOutput" />
+                            </Nodes>
+                            <Edges>
+                              <Edge From="0" To="1" Label="Source1" />
+                              <Edge From="1" To="2" Label="Source1" />
+                              <Edge From="2" To="3" Label="Source1" />
+                              <Edge From="3" To="4" Label="Source1" />
+                              <Edge From="4" To="5" Label="Source1" />
+                              <Edge From="5" To="6" Label="Source1" />
+                            </Edges>
+                          </Workflow>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Repeat" />
+                        </Expression>
+                        <Expression xsi:type="MulticastSubject">
+                          <Name>SynchPulse</Name>
+                        </Expression>
+                        <Expression xsi:type="rx:PublishSubject" TypeArguments="sys:Object">
+                          <rx:Name>SynchPulse</rx:Name>
+                        </Expression>
+                        <Expression xsi:type="beh:CreateMessage">
+                          <harp:MessageType>Write</harp:MessageType>
+                          <harp:Payload xsi:type="beh:CreateOutputSetPayload">
+                            <beh:OutputSet>DOPort0</beh:OutputSet>
+                          </harp:Payload>
+                        </Expression>
+                        <Expression xsi:type="MulticastSubject">
+                          <Name>BehaviorCommands</Name>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="DueTime" />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Delay">
+                            <rx:DueTime>PT0.1S</rx:DueTime>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="beh:CreateMessage">
+                          <harp:MessageType>Write</harp:MessageType>
+                          <harp:Payload xsi:type="beh:CreateOutputClearPayload">
+                            <beh:OutputClear>DOPort1</beh:OutputClear>
+                          </harp:Payload>
+                        </Expression>
+                        <Expression xsi:type="MulticastSubject">
+                          <Name>BehaviorCommands</Name>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="1" Label="Source1" />
+                        <Edge From="1" To="2" Label="Source1" />
+                        <Edge From="2" To="3" Label="Source1" />
+                        <Edge From="4" To="5" Label="Source1" />
+                        <Edge From="5" To="6" Label="Source1" />
+                        <Edge From="6" To="8" Label="Source1" />
+                        <Edge From="7" To="8" Label="Source2" />
+                        <Edge From="8" To="9" Label="Source1" />
+                        <Edge From="9" To="10" Label="Source1" />
+                        <Edge From="10" To="11" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="0" To="2" Label="Source1" />
                   <Edge From="1" To="2" Label="Source2" />
                   <Edge From="2" To="3" Label="Source1" />
+                  <Edge From="4" To="5" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -1469,7 +1578,7 @@ new(
                           </Expression>
                           <Expression xsi:type="Disable">
                             <Builder xsi:type="Combinator">
-                              <Combinator xsi:type="p3:ClonePylonGrab" />
+                              <Combinator xsi:type="p4:ClonePylonGrab" />
                             </Builder>
                           </Expression>
                           <Expression xsi:type="Disable">
@@ -1675,8 +1784,8 @@ new(
                     <Property Name="DeviceId" DisplayName="SideMouseID" Category="MouseID" />
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="p3:WinRawMouse">
-                      <p3:DeviceId>65603</p3:DeviceId>
+                    <Combinator xsi:type="p4:WinRawMouse">
+                      <p4:DeviceId>65599</p4:DeviceId>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="MemberSelector">
@@ -1702,8 +1811,8 @@ new(
                     <Property Name="DeviceId" DisplayName="ForwardMouseID" Category="MouseID" />
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="p3:WinRawMouse">
-                      <p3:DeviceId>65599</p3:DeviceId>
+                    <Combinator xsi:type="p4:WinRawMouse">
+                      <p4:DeviceId>65595</p4:DeviceId>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="MemberSelector">
@@ -3429,8 +3538,8 @@ it.Item4 as SampleRate)
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="cv:Crop">
                       <cv:RegionOfInterest>
-                        <cv:X>1</cv:X>
-                        <cv:Y>166</cv:Y>
+                        <cv:X>2</cv:X>
+                        <cv:Y>155</cv:Y>
                         <cv:Width>263</cv:Width>
                         <cv:Height>258</cv:Height>
                       </cv:RegionOfInterest>
@@ -3440,20 +3549,20 @@ it.Item4 as SampleRate)
                     <Combinator xsi:type="cv:WarpPerspective">
                       <cv:Source>
                         <cv:Point2f>
-                          <cv:X>25.4781246</cv:X>
-                          <cv:Y>4.566372</cv:Y>
+                          <cv:X>15.8895836</cv:X>
+                          <cv:Y>3.04424787</cv:Y>
                         </cv:Point2f>
                         <cv:Point2f>
-                          <cv:X>12.0541668</cv:X>
-                          <cv:Y>222.230087</cv:Y>
+                          <cv:X>8.90364552</cv:X>
+                          <cv:Y>233.392334</cv:Y>
                         </cv:Point2f>
                         <cv:Point2f>
-                          <cv:X>223.00209</cv:X>
-                          <cv:Y>248.613571</cv:Y>
+                          <cv:X>232.316666</cv:X>
+                          <cv:Y>252.672562</cv:Y>
                         </cv:Point2f>
                         <cv:Point2f>
-                          <cv:X>241.905212</cv:X>
-                          <cv:Y>16.99705</cv:Y>
+                          <cv:X>243.411972</cv:X>
+                          <cv:Y>9.8938055</cv:Y>
                         </cv:Point2f>
                       </cv:Source>
                       <cv:Destination>
@@ -3611,6 +3720,16 @@ it.Item4 as SampleRate)
                                 <Property Name="Selector" DisplayName="OtherChanel1" />
                               </Expression>
                               <Expression xsi:type="MemberSelector">
+                                <Selector>Item1</Selector>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="rx:Zip" />
+                              </Expression>
+                              <Expression xsi:type="Subtract" />
+                              <Expression xsi:type="ExternalizedMapping">
+                                <Property Name="Selector" DisplayName="OtherChannel2" />
+                              </Expression>
+                              <Expression xsi:type="MemberSelector">
                                 <Selector>Item3</Selector>
                               </Expression>
                               <Expression xsi:type="Combinator">
@@ -3630,7 +3749,7 @@ it.Item4 as SampleRate)
                               </Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="cv:Threshold">
-                                  <cv:ThresholdValue>56</cv:ThresholdValue>
+                                  <cv:ThresholdValue>4</cv:ThresholdValue>
                                   <cv:MaxValue>255</cv:MaxValue>
                                   <cv:ThresholdType>Binary</cv:ThresholdType>
                                 </Combinator>
@@ -3665,21 +3784,26 @@ it.Item4 as SampleRate)
                             <Edges>
                               <Edge From="0" To="2" Label="Source1" />
                               <Edge From="0" To="4" Label="Source1" />
+                              <Edge From="0" To="8" Label="Source1" />
                               <Edge From="1" To="2" Label="Source2" />
                               <Edge From="2" To="5" Label="Source1" />
                               <Edge From="3" To="4" Label="Source2" />
                               <Edge From="4" To="5" Label="Source2" />
                               <Edge From="5" To="6" Label="Source1" />
-                              <Edge From="6" To="7" Label="Source1" />
-                              <Edge From="7" To="8" Label="Source1" />
-                              <Edge From="8" To="10" Label="Source1" />
-                              <Edge From="9" To="10" Label="Source2" />
-                              <Edge From="10" To="12" Label="Source1" />
-                              <Edge From="11" To="12" Label="Source2" />
-                              <Edge From="12" To="13" Label="Source1" />
-                              <Edge From="13" To="14" Label="Source1" />
-                              <Edge From="14" To="15" Label="Source1" />
-                              <Edge From="15" To="16" Label="Source1" />
+                              <Edge From="6" To="9" Label="Source1" />
+                              <Edge From="7" To="8" Label="Source2" />
+                              <Edge From="8" To="9" Label="Source2" />
+                              <Edge From="9" To="10" Label="Source1" />
+                              <Edge From="10" To="11" Label="Source1" />
+                              <Edge From="11" To="12" Label="Source1" />
+                              <Edge From="12" To="14" Label="Source1" />
+                              <Edge From="13" To="14" Label="Source2" />
+                              <Edge From="14" To="16" Label="Source1" />
+                              <Edge From="15" To="16" Label="Source2" />
+                              <Edge From="16" To="17" Label="Source1" />
+                              <Edge From="17" To="18" Label="Source1" />
+                              <Edge From="18" To="19" Label="Source1" />
+                              <Edge From="19" To="20" Label="Source1" />
                             </Edges>
                           </Workflow>
                         </Expression>
@@ -3721,7 +3845,7 @@ it.Item4 as SampleRate)
                               </Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="cv:Threshold">
-                                  <cv:ThresholdValue>7</cv:ThresholdValue>
+                                  <cv:ThresholdValue>116</cv:ThresholdValue>
                                   <cv:MaxValue>255</cv:MaxValue>
                                   <cv:ThresholdType>Binary</cv:ThresholdType>
                                 </Combinator>
@@ -4010,12 +4134,12 @@ def process(value):
                       (value.Item1.Value.Item3.X, value.Item1.Value.Item3.Y)]
 
     # Original fixed xy coordinates of each point
-    original_points = [(211.7404, 181.3839),
-                       (136.9099, 20.61822), 
-                       (43.08751, 177.9345)]
+    original_points = [(210.3402, 176.9816),
+                       (138.6228, 15.38194), 
+                       (41.27085, 173.9976)]
 
     # Hard code center
-    centreX, centreY = (132, 131)
+    centreX, centreY = (132, 127)
 
     # Initialize a list to store the angles for each point
     angles = []
@@ -4040,7 +4164,7 @@ def process(value):
         angle = atan2(dy, dx) - atan2(orig_dy, orig_dx)
 
         # Offset the angle by +0.5 radians
-        angle = offset_angle(angle, 0.11)
+        angle = offset_angle(angle, 0)
 
         angles.append(angle)
 
@@ -4349,6 +4473,18 @@ def process(value):
                           <Name>PiezoSignal</Name>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>PiezoSignal</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="aeon:RangeThreshold">
+                            <aeon:Lower>65</aeon:Lower>
+                            <aeon:Upper xsi:nil="true" />
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="rx:PublishSubject">
+                          <Name>PiezoThreshold</Name>
+                        </Expression>
                       </Nodes>
                       <Edges>
                         <Edge From="0" To="1" Label="Source1" />
@@ -4356,6 +4492,8 @@ def process(value):
                         <Edge From="2" To="3" Label="Source1" />
                         <Edge From="3" To="4" Label="Source1" />
                         <Edge From="4" To="5" Label="Source1" />
+                        <Edge From="6" To="7" Label="Source1" />
+                        <Edge From="7" To="8" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
@@ -4712,8 +4850,8 @@ def process(value):
                             <Property Name="SampleRate" />
                           </Expression>
                           <Expression xsi:type="Combinator">
-                            <Combinator xsi:type="p4:ConfigureMagneticEncoder">
-                              <p4:SampleRate>SampleRate250Hz</p4:SampleRate>
+                            <Combinator xsi:type="p5:ConfigureMagneticEncoder">
+                              <p5:SampleRate>SampleRate250Hz</p5:SampleRate>
                             </Combinator>
                           </Expression>
                           <Expression xsi:type="MulticastSubject">
@@ -4722,8 +4860,8 @@ def process(value):
                           <Expression xsi:type="SubscribeSubject">
                             <Name>ExpanderEvents</Name>
                           </Expression>
-                          <Expression xsi:type="p4:MagneticEncoder">
-                            <p4:IncludeTimestamp>true</p4:IncludeTimestamp>
+                          <Expression xsi:type="p5:MagneticEncoder">
+                            <p5:IncludeTimestamp>true</p5:IncludeTimestamp>
                           </Expression>
                           <Expression xsi:type="MemberSelector">
                             <Selector>Value.Angle</Selector>
@@ -4838,7 +4976,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="StringProperty">
-                      <Value>C:\Users\Cricket Team\Desktop\data2\240716_R1_Shelter_loom1trest</Value>
+                      <Value>C:\Users\Cricket Team\Desktop\data2\240806_S2_CricketHab2</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="rx:ReplaySubject">
@@ -4916,9 +5054,9 @@ def process(value):
                           <Combinator xsi:type="rx:WithLatestFrom" />
                         </Expression>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p3:ModifyMessage">
-                            <p3:Address xsi:nil="true" />
-                            <p3:MessageTypeModified>Event</p3:MessageTypeModified>
+                          <Combinator xsi:type="p4:ModifyMessage">
+                            <p4:Address xsi:nil="true" />
+                            <p4:MessageTypeModified>Event</p4:MessageTypeModified>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
@@ -4938,9 +5076,9 @@ def process(value):
                           <Combinator xsi:type="rx:WithLatestFrom" />
                         </Expression>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p3:ModifyMessage">
-                            <p3:Address xsi:nil="true" />
-                            <p3:MessageTypeModified>Event</p3:MessageTypeModified>
+                          <Combinator xsi:type="p4:ModifyMessage">
+                            <p4:Address xsi:nil="true" />
+                            <p4:MessageTypeModified>Event</p4:MessageTypeModified>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="Combinator">
@@ -5000,15 +5138,21 @@ it.Item2 as Value)</scr:Expression>
                       <Property Name="Payload" Selector="Value" />
                     </PropertyMappings>
                   </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="harp:CreateMessage">
-                      <harp:MessageType>Write</harp:MessageType>
-                      <harp:Payload xsi:type="harp:CreateMessagePayload">
-                        <harp:Address>1</harp:Address>
-                        <harp:PayloadType>U8</harp:PayloadType>
-                        <harp:Value>12</harp:Value>
-                      </harp:Payload>
-                    </Combinator>
+                  <Expression xsi:type="Disable">
+                    <Builder xsi:type="Combinator">
+                      <Combinator xsi:type="harp:CreateMessage">
+                        <harp:MessageType>Write</harp:MessageType>
+                        <harp:Payload xmlns:q1="http://www.w3.org/2001/XMLSchema" xsi:type="q1:int">0</harp:Payload>
+                      </Combinator>
+                    </Builder>
+                  </Expression>
+                  <Expression xsi:type="harp:CreateMessage">
+                    <harp:MessageType>Write</harp:MessageType>
+                    <harp:Payload xsi:type="harp:CreateMessagePayload">
+                      <harp:Address>1</harp:Address>
+                      <harp:PayloadType>U8</harp:PayloadType>
+                      <harp:Value>12</harp:Value>
+                    </harp:Payload>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
                     <Name>TimestampStream</Name>
@@ -5017,9 +5161,9 @@ it.Item2 as Value)</scr:Expression>
                     <Combinator xsi:type="rx:WithLatestFrom" />
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="p3:ModifyMessage">
-                      <p3:Address xsi:nil="true" />
-                      <p3:MessageTypeModified>Write</p3:MessageTypeModified>
+                    <Combinator xsi:type="p4:ModifyMessage">
+                      <p4:Address xsi:nil="true" />
+                      <p4:MessageTypeModified>Write</p4:MessageTypeModified>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
@@ -5051,9 +5195,9 @@ it.Item2 as Value)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Disable">
                     <Builder xsi:type="Combinator">
-                      <Combinator xsi:type="p3:ModifyMessage">
-                        <p3:Address xsi:nil="true" />
-                        <p3:MessageTypeModified>Event</p3:MessageTypeModified>
+                      <Combinator xsi:type="p4:ModifyMessage">
+                        <p4:Address xsi:nil="true" />
+                        <p4:MessageTypeModified>Event</p4:MessageTypeModified>
                       </Combinator>
                     </Builder>
                   </Expression>
@@ -5091,9 +5235,9 @@ it.Item2 as Value)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Disable">
                     <Builder xsi:type="Combinator">
-                      <Combinator xsi:type="p3:ModifyMessage">
-                        <p3:Address xsi:nil="true" />
-                        <p3:MessageTypeModified>Event</p3:MessageTypeModified>
+                      <Combinator xsi:type="p4:ModifyMessage">
+                        <p4:Address xsi:nil="true" />
+                        <p4:MessageTypeModified>Event</p4:MessageTypeModified>
                       </Combinator>
                     </Builder>
                   </Expression>
@@ -5117,9 +5261,9 @@ it.Item2 as Value)</scr:Expression>
                     <Combinator xsi:type="rx:WithLatestFrom" />
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="p3:ModifyMessage">
-                      <p3:Address xsi:nil="true" />
-                      <p3:MessageTypeModified>Event</p3:MessageTypeModified>
+                    <Combinator xsi:type="p4:ModifyMessage">
+                      <p4:Address xsi:nil="true" />
+                      <p4:MessageTypeModified>Event</p4:MessageTypeModified>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
@@ -5142,9 +5286,9 @@ it.Item2 as Value)</scr:Expression>
                     <Combinator xsi:type="rx:WithLatestFrom" />
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="p3:ModifyMessage">
-                      <p3:Address xsi:nil="true" />
-                      <p3:MessageTypeModified>Event</p3:MessageTypeModified>
+                    <Combinator xsi:type="p4:ModifyMessage">
+                      <p4:Address xsi:nil="true" />
+                      <p4:MessageTypeModified>Event</p4:MessageTypeModified>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
@@ -5167,9 +5311,9 @@ it.Item2 as Value)</scr:Expression>
                     <Combinator xsi:type="rx:WithLatestFrom" />
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="p3:ModifyMessage">
-                      <p3:Address xsi:nil="true" />
-                      <p3:MessageTypeModified>Event</p3:MessageTypeModified>
+                    <Combinator xsi:type="p4:ModifyMessage">
+                      <p4:Address xsi:nil="true" />
+                      <p4:MessageTypeModified>Event</p4:MessageTypeModified>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
@@ -5201,9 +5345,9 @@ it.Item2 as Value)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Disable">
                     <Builder xsi:type="Combinator">
-                      <Combinator xsi:type="p3:ModifyMessage">
-                        <p3:Address xsi:nil="true" />
-                        <p3:MessageTypeModified>Event</p3:MessageTypeModified>
+                      <Combinator xsi:type="p4:ModifyMessage">
+                        <p4:Address xsi:nil="true" />
+                        <p4:MessageTypeModified>Event</p4:MessageTypeModified>
                       </Combinator>
                     </Builder>
                   </Expression>
@@ -5229,9 +5373,9 @@ it.Item2 as Value)</scr:Expression>
                     <Combinator xsi:type="rx:WithLatestFrom" />
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="p3:ModifyMessage">
-                      <p3:Address xsi:nil="true" />
-                      <p3:MessageTypeModified>Event</p3:MessageTypeModified>
+                    <Combinator xsi:type="p4:ModifyMessage">
+                      <p4:Address xsi:nil="true" />
+                      <p4:MessageTypeModified>Event</p4:MessageTypeModified>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
@@ -5254,9 +5398,9 @@ it.Item2 as Value)</scr:Expression>
                     <Combinator xsi:type="rx:WithLatestFrom" />
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="p3:ModifyMessage">
-                      <p3:Address xsi:nil="true" />
-                      <p3:MessageTypeModified>Event</p3:MessageTypeModified>
+                    <Combinator xsi:type="p4:ModifyMessage">
+                      <p4:Address xsi:nil="true" />
+                      <p4:MessageTypeModified>Event</p4:MessageTypeModified>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
@@ -5305,9 +5449,9 @@ it.Item2 as Value)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Disable">
                     <Builder xsi:type="Combinator">
-                      <Combinator xsi:type="p3:ModifyMessage">
-                        <p3:Address xsi:nil="true" />
-                        <p3:MessageTypeModified>Event</p3:MessageTypeModified>
+                      <Combinator xsi:type="p4:ModifyMessage">
+                        <p4:Address xsi:nil="true" />
+                        <p4:MessageTypeModified>Event</p4:MessageTypeModified>
                       </Combinator>
                     </Builder>
                   </Expression>
@@ -5325,59 +5469,60 @@ it.Item2 as Value)</scr:Expression>
                   <Edge From="7" To="8" Label="Source1" />
                   <Edge From="8" To="9" Label="Source1" />
                   <Edge From="9" To="10" Label="Source1" />
-                  <Edge From="10" To="12" Label="Source1" />
-                  <Edge From="11" To="12" Label="Source2" />
-                  <Edge From="12" To="13" Label="Source1" />
+                  <Edge From="10" To="11" Label="Source1" />
+                  <Edge From="11" To="13" Label="Source1" />
+                  <Edge From="12" To="13" Label="Source2" />
                   <Edge From="13" To="14" Label="Source1" />
-                  <Edge From="15" To="16" Label="Source1" />
-                  <Edge From="16" To="18" Label="Source1" />
-                  <Edge From="17" To="18" Label="Source2" />
-                  <Edge From="18" To="19" Label="Source1" />
+                  <Edge From="14" To="15" Label="Source1" />
+                  <Edge From="16" To="17" Label="Source1" />
+                  <Edge From="17" To="19" Label="Source1" />
+                  <Edge From="18" To="19" Label="Source2" />
                   <Edge From="19" To="20" Label="Source1" />
-                  <Edge From="21" To="22" Label="Source1" />
-                  <Edge From="22" To="24" Label="Source1" />
-                  <Edge From="23" To="24" Label="Source2" />
-                  <Edge From="24" To="25" Label="Source1" />
+                  <Edge From="20" To="21" Label="Source1" />
+                  <Edge From="22" To="23" Label="Source1" />
+                  <Edge From="23" To="25" Label="Source1" />
+                  <Edge From="24" To="25" Label="Source2" />
                   <Edge From="25" To="26" Label="Source1" />
-                  <Edge From="27" To="28" Label="Source1" />
-                  <Edge From="28" To="30" Label="Source1" />
-                  <Edge From="29" To="30" Label="Source2" />
-                  <Edge From="30" To="31" Label="Source1" />
+                  <Edge From="26" To="27" Label="Source1" />
+                  <Edge From="28" To="29" Label="Source1" />
+                  <Edge From="29" To="31" Label="Source1" />
+                  <Edge From="30" To="31" Label="Source2" />
                   <Edge From="31" To="32" Label="Source1" />
-                  <Edge From="33" To="34" Label="Source1" />
-                  <Edge From="34" To="36" Label="Source1" />
-                  <Edge From="35" To="36" Label="Source2" />
-                  <Edge From="36" To="37" Label="Source1" />
+                  <Edge From="32" To="33" Label="Source1" />
+                  <Edge From="34" To="35" Label="Source1" />
+                  <Edge From="35" To="37" Label="Source1" />
+                  <Edge From="36" To="37" Label="Source2" />
                   <Edge From="37" To="38" Label="Source1" />
-                  <Edge From="39" To="40" Label="Source1" />
-                  <Edge From="40" To="42" Label="Source1" />
-                  <Edge From="41" To="42" Label="Source2" />
-                  <Edge From="42" To="43" Label="Source1" />
+                  <Edge From="38" To="39" Label="Source1" />
+                  <Edge From="40" To="41" Label="Source1" />
+                  <Edge From="41" To="43" Label="Source1" />
+                  <Edge From="42" To="43" Label="Source2" />
                   <Edge From="43" To="44" Label="Source1" />
-                  <Edge From="45" To="46" Label="Source1" />
-                  <Edge From="46" To="48" Label="Source1" />
-                  <Edge From="47" To="48" Label="Source2" />
-                  <Edge From="48" To="49" Label="Source1" />
+                  <Edge From="44" To="45" Label="Source1" />
+                  <Edge From="46" To="47" Label="Source1" />
+                  <Edge From="47" To="49" Label="Source1" />
+                  <Edge From="48" To="49" Label="Source2" />
                   <Edge From="49" To="50" Label="Source1" />
-                  <Edge From="51" To="52" Label="Source1" />
-                  <Edge From="52" To="54" Label="Source1" />
-                  <Edge From="53" To="54" Label="Source2" />
-                  <Edge From="54" To="55" Label="Source1" />
+                  <Edge From="50" To="51" Label="Source1" />
+                  <Edge From="52" To="53" Label="Source1" />
+                  <Edge From="53" To="55" Label="Source1" />
+                  <Edge From="54" To="55" Label="Source2" />
                   <Edge From="55" To="56" Label="Source1" />
-                  <Edge From="57" To="58" Label="Source1" />
-                  <Edge From="58" To="60" Label="Source1" />
-                  <Edge From="59" To="60" Label="Source2" />
-                  <Edge From="60" To="61" Label="Source1" />
+                  <Edge From="56" To="57" Label="Source1" />
+                  <Edge From="58" To="59" Label="Source1" />
+                  <Edge From="59" To="61" Label="Source1" />
+                  <Edge From="60" To="61" Label="Source2" />
                   <Edge From="61" To="62" Label="Source1" />
-                  <Edge From="63" To="65" Label="Source1" />
-                  <Edge From="64" To="65" Label="Source2" />
-                  <Edge From="65" To="66" Label="Source1" />
+                  <Edge From="62" To="63" Label="Source1" />
+                  <Edge From="64" To="66" Label="Source1" />
+                  <Edge From="65" To="66" Label="Source2" />
                   <Edge From="66" To="67" Label="Source1" />
-                  <Edge From="68" To="69" Label="Source1" />
-                  <Edge From="69" To="71" Label="Source1" />
-                  <Edge From="70" To="71" Label="Source2" />
-                  <Edge From="71" To="72" Label="Source1" />
+                  <Edge From="67" To="68" Label="Source1" />
+                  <Edge From="69" To="70" Label="Source1" />
+                  <Edge From="70" To="72" Label="Source1" />
+                  <Edge From="71" To="72" Label="Source2" />
                   <Edge From="72" To="73" Label="Source1" />
+                  <Edge From="73" To="74" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -5562,9 +5707,9 @@ it.Item2 as Value)</scr:Expression>
               <Combinator xsi:type="rx:WithLatestFrom" />
             </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="p3:ModifyMessage">
-                <p3:Address xsi:nil="true" />
-                <p3:MessageTypeModified>Write</p3:MessageTypeModified>
+              <Combinator xsi:type="p4:ModifyMessage">
+                <p4:Address xsi:nil="true" />
+                <p4:MessageTypeModified>Write</p4:MessageTypeModified>
               </Combinator>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDevice.bonsai">
@@ -5580,9 +5725,9 @@ it.Item2 as Value)</scr:Expression>
               <Combinator xsi:type="rx:WithLatestFrom" />
             </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="p3:ModifyMessage">
-                <p3:Address xsi:nil="true" />
-                <p3:MessageTypeModified>Write</p3:MessageTypeModified>
+              <Combinator xsi:type="p4:ModifyMessage">
+                <p4:Address xsi:nil="true" />
+                <p4:MessageTypeModified>Write</p4:MessageTypeModified>
               </Combinator>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogHarpDevice.bonsai">
@@ -5605,9 +5750,9 @@ it.Item2 as Value)</scr:Expression>
             </Expression>
             <Expression xsi:type="Disable">
               <Builder xsi:type="Combinator">
-                <Combinator xsi:type="p3:ModifyMessage">
-                  <p3:Address xsi:nil="true" />
-                  <p3:MessageTypeModified>Write</p3:MessageTypeModified>
+                <Combinator xsi:type="p4:ModifyMessage">
+                  <p4:Address xsi:nil="true" />
+                  <p4:MessageTypeModified>Write</p4:MessageTypeModified>
                 </Combinator>
               </Builder>
             </Expression>
@@ -5645,7 +5790,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240716_R1_Shelter_loom1trest\2024-07-16T10-49-07\Looming\Looming_2024-07-16T10-49-07.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240806_S2_CricketHab2\2024-08-06T15-23-21\Looming\Looming_2024-08-06T15-23-21.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -5692,7 +5837,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240716_R1_Shelter_loom1trest\2024-07-16T10-49-07\YRotationAxis\YRotationAxis_2024-07-16T10-49-07.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240806_S2_CricketHab2\2024-08-06T15-23-21\YRotationAxis\YRotationAxis_2024-08-06T15-23-21.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -5733,7 +5878,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240716_R1_Shelter_loom1trest\2024-07-16T10-49-07\LEDOrientation\LEDOrientation_2024-07-16T10-49-07.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240806_S2_CricketHab2\2024-08-06T15-23-21\LEDOrientation\LEDOrientation_2024-08-06T15-23-21.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -5750,6 +5895,51 @@ it.Item2 as Value)</scr:Expression>
                   <Edge From="4" To="5" Label="Source1" />
                 </Edges>
               </Workflow>
+            </Expression>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="SubscribeSubject">
+                <Name>PiezoThreshold</Name>
+              </Builder>
+            </Expression>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="GroupWorkflow">
+                <Name>LogPiezoThreshold</Name>
+                <Workflow>
+                  <Nodes>
+                    <Expression xsi:type="WorkflowInput">
+                      <Name>Source1</Name>
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Name" />
+                    </Expression>
+                    <Expression xsi:type="IncludeWorkflow" Path="Extensions\FormatFileName.bonsai">
+                      <Name>PiezoThreshold</Name>
+                      <Extension>csv</Extension>
+                    </Expression>
+                    <Expression xsi:type="PropertyMapping">
+                      <PropertyMappings>
+                        <Property Name="FileName" />
+                      </PropertyMappings>
+                    </Expression>
+                    <Expression xsi:type="io:CsvWriter">
+                      <io:FileName>C:\Users\Cricket Team\Desktop\data2\240716_R7_Shelter_loom1testv\2024-07-22T11-31-15\LEDOrientation\LEDOrientation_2024-07-22T11-31-15.csv</io:FileName>
+                      <io:Append>false</io:Append>
+                      <io:Overwrite>false</io:Overwrite>
+                      <io:Suffix>None</io:Suffix>
+                      <io:IncludeHeader>true</io:IncludeHeader>
+                      <io:Selector>Item1</io:Selector>
+                    </Expression>
+                    <Expression xsi:type="WorkflowOutput" />
+                  </Nodes>
+                  <Edges>
+                    <Edge From="0" To="4" Label="Source1" />
+                    <Edge From="1" To="2" Label="Source1" />
+                    <Edge From="2" To="3" Label="Source1" />
+                    <Edge From="3" To="4" Label="Source2" />
+                    <Edge From="4" To="5" Label="Source1" />
+                  </Edges>
+                </Workflow>
+              </Builder>
             </Expression>
           </Nodes>
           <Edges>
@@ -5788,6 +5978,7 @@ it.Item2 as Value)</scr:Expression>
             <Edge From="50" To="51" Label="Source2" />
             <Edge From="51" To="52" Label="Source1" />
             <Edge From="53" To="54" Label="Source1" />
+            <Edge From="55" To="56" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -5995,7 +6186,7 @@ it.Item2 as Value)</scr:Expression>
                               <Expression xsi:type="ExternalizedMapping">
                                 <Property Name="Value" DisplayName="Ambient" />
                               </Expression>
-                              <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                              <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                                 <MemberName>Eye</MemberName>
                                 <Value>
                                   <X>1</X>
@@ -6027,7 +6218,7 @@ it.Item2 as Value)</scr:Expression>
                               <Expression xsi:type="ExternalizedMapping">
                                 <Property Name="Value" DisplayName="Diffuse" />
                               </Expression>
-                              <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                              <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                                 <MemberName>Eye</MemberName>
                                 <Value>
                                   <X>0</X>
@@ -6059,7 +6250,7 @@ it.Item2 as Value)</scr:Expression>
                               <Expression xsi:type="ExternalizedMapping">
                                 <Property Name="Value" DisplayName="Specular" />
                               </Expression>
-                              <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                              <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                                 <MemberName>Eye</MemberName>
                                 <Value>
                                   <X>0</X>
@@ -6403,11 +6594,11 @@ it.Y as Z)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-                    <TranslationX>0.7150001</TranslationX>
+                    <TranslationX>-0.684895039</TranslationX>
                     <TranslationY>-0.05</TranslationY>
-                    <TranslationZ>0.6916141</TranslationZ>
+                    <TranslationZ>0.645884335</TranslationZ>
                     <RotationZ>0</RotationZ>
-                    <RotationY>-77.5666046</RotationY>
+                    <RotationY>167.364548</RotationY>
                     <RotationX>0</RotationX>
                     <ScaleX>1</ScaleX>
                     <ScaleY>1</ScaleY>
@@ -6667,7 +6858,7 @@ it.Y as Z)</scr:Expression>
                             <p1:Position>
                               <p1:X>0</p1:X>
                               <p1:Y>0.3</p1:Y>
-                              <p1:Z>1.5</p1:Z>
+                              <p1:Z>-1.5</p1:Z>
                             </p1:Position>
                             <p1:Orientation>
                               <p1:X>0</p1:X>
@@ -6693,7 +6884,7 @@ it.Y as Z)</scr:Expression>
                             <p1:Position>
                               <p1:X>0</p1:X>
                               <p1:Y>0</p1:Y>
-                              <p1:Z>0.3</p1:Z>
+                              <p1:Z>-0.3</p1:Z>
                             </p1:Position>
                             <p1:Orientation>
                               <p1:X>0</p1:X>
@@ -6903,8 +7094,8 @@ it.Y as Z)</scr:Expression>
                               </Expression>
                               <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.RangeAnimation.bonsai">
                                 <Duration>1</Duration>
-                                <RangeBegin>1.5</RangeBegin>
-                                <RangeEnd>0.30000001192092896</RangeEnd>
+                                <RangeBegin>-1.5</RangeBegin>
+                                <RangeEnd>-0.30000001192092896</RangeEnd>
                               </Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="rx:CombineLatest" />
@@ -6918,8 +7109,8 @@ it.Y as Z)</scr:Expression>
                                 <Combinator xsi:type="p1:CreateVrElement">
                                   <p1:Position>
                                     <p1:X>0</p1:X>
-                                    <p1:Y>0.075</p1:Y>
-                                    <p1:Z>0.6</p1:Z>
+                                    <p1:Y>-3.88578059E-16</p1:Y>
+                                    <p1:Z>-0.3</p1:Z>
                                   </p1:Position>
                                   <p1:Orientation>
                                     <p1:X>0</p1:X>
@@ -6937,8 +7128,8 @@ it.Y as Z)</scr:Expression>
                               </Expression>
                               <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
                                 <TranslationX>0</TranslationX>
-                                <TranslationY>0.075</TranslationY>
-                                <TranslationZ>0.6</TranslationZ>
+                                <TranslationY>-3.88578059E-16</TranslationY>
+                                <TranslationZ>-0.3</TranslationZ>
                                 <RotationZ>0</RotationZ>
                                 <RotationY>0</RotationY>
                                 <RotationX>0</RotationX>
@@ -7773,7 +7964,7 @@ it.Y as Z)</scr:Expression>
                                   <Expression xsi:type="ExternalizedMapping">
                                     <Property Name="Value" DisplayName="Ambient" />
                                   </Expression>
-                                  <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                                  <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                                     <MemberName>Eye</MemberName>
                                     <Value>
                                       <X>1</X>
@@ -7805,7 +7996,7 @@ it.Y as Z)</scr:Expression>
                                   <Expression xsi:type="ExternalizedMapping">
                                     <Property Name="Value" DisplayName="Diffuse" />
                                   </Expression>
-                                  <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                                  <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                                     <MemberName>Eye</MemberName>
                                     <Value>
                                       <X>0</X>
@@ -7837,7 +8028,7 @@ it.Y as Z)</scr:Expression>
                                   <Expression xsi:type="ExternalizedMapping">
                                     <Property Name="Value" DisplayName="Specular" />
                                   </Expression>
-                                  <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                                  <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                                     <MemberName>Eye</MemberName>
                                     <Value>
                                       <X>0</X>
@@ -8067,7 +8258,7 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>-1</p1:X>
+                        <p1:X>1</p1:X>
                         <p1:Y>0</p1:Y>
                         <p1:Z>0</p1:Z>
                       </p1:Position>
@@ -8583,7 +8774,7 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
                       <gl:X>0</gl:X>
-                      <gl:Y>-1.35379267</gl:Y>
+                      <gl:Y>NaN</gl:Y>
                       <gl:Z>0</gl:Z>
                     </Combinator>
                   </Expression>
@@ -8629,13 +8820,13 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>0.7</p1:X>
+                        <p1:X>-0.699895144</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>-0.6916141</p1:Z>
+                        <p1:Z>-0.645884335</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
-                        <p1:Y>-1.35379267</p1:Y>
+                        <p1:Y>NaN</p1:Y>
                         <p1:Z>0</p1:Z>
                       </p1:Orientation>
                     </Combinator>
@@ -9255,7 +9446,7 @@ it.Y as Z)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="FloatProperty">
-                            <Value>0.001</Value>
+                            <Value>0.002</Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="Combinator">
@@ -9498,7 +9689,7 @@ Math.Abs(it.Item3 - it.Item1) &lt; Math.Pi ? (it.Item3 - it.Item1) : ((it.Item3 
               <Property Name="FileName" DisplayName="TrialListPath" />
             </Expression>
             <Expression xsi:type="io:CsvReader">
-              <io:FileName>TrialLogicCsv\LEDTest1.csv</io:FileName>
+              <io:FileName>TrialLogicCsv\stage1.2.csv</io:FileName>
               <io:ListSeparator />
               <io:ScanPattern>%s</io:ScanPattern>
               <io:SkipRows>1</io:SkipRows>
@@ -9587,7 +9778,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Index">
                     <Operand xsi:type="IntProperty">
-                      <Value>12</Value>
+                      <Value>5</Value>
                     </Operand>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -9619,8 +9810,8 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:CreatePoint2f">
-                            <cv:X>0.18</cv:X>
-                            <cv:Y>1.57079637</cv:Y>
+                            <cv:X>0.15</cv:X>
+                            <cv:Y>0</cv:Y>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="Combinator">
@@ -9831,8 +10022,8 @@ it[8] as PerturbMagnitude)</scr:Expression>
                               </Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="cv:CreatePoint2f">
-                                  <cv:X>0.1</cv:X>
-                                  <cv:Y>0.17453292</cv:Y>
+                                  <cv:X>2</cv:X>
+                                  <cv:Y>0</cv:Y>
                                 </Combinator>
                               </Expression>
                               <Expression xsi:type="MulticastSubject">
@@ -10052,8 +10243,8 @@ it[8] as PerturbMagnitude)</scr:Expression>
                               </Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="cv:CreatePoint2f">
-                                  <cv:X>-0</cv:X>
-                                  <cv:Y>0</cv:Y>
+                                  <cv:X>0.00222750381</cv:X>
+                                  <cv:Y>-0.002541975</cv:Y>
                                 </Combinator>
                               </Expression>
                               <Expression xsi:type="SubscribeSubject">
@@ -10077,7 +10268,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                               </Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="cv:CreatePoint2f">
-                                  <cv:X>-0</cv:X>
+                                  <cv:X>-0.00222750381</cv:X>
                                   <cv:Y>0</cv:Y>
                                 </Combinator>
                               </Expression>
@@ -10139,7 +10330,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="gl:Timer">
-                            <gl:DueTime>PT20S</gl:DueTime>
+                            <gl:DueTime>PT10S</gl:DueTime>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="IncludeWorkflow" Path="Extensions\CreateSoftwareEvent.bonsai">
@@ -10214,8 +10405,8 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:CreatePoint2f">
-                            <cv:X>-0</cv:X>
-                            <cv:Y>0</cv:Y>
+                            <cv:X>-0.000471706677</cv:X>
+                            <cv:Y>0.00233232742</cv:Y>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
@@ -10239,7 +10430,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:CreatePoint2f">
-                            <cv:X>-0</cv:X>
+                            <cv:X>0.000471706677</cv:X>
                             <cv:Y>0</cv:Y>
                           </Combinator>
                         </Expression>
@@ -10719,7 +10910,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                           <Expression xsi:type="ExternalizedMapping">
                             <Property Name="Value" DisplayName="Ambient" />
                           </Expression>
-                          <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                          <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                             <MemberName>Eye</MemberName>
                             <Value>
                               <X>1</X>
@@ -10751,7 +10942,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                           <Expression xsi:type="ExternalizedMapping">
                             <Property Name="Value" DisplayName="Diffuse" />
                           </Expression>
-                          <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                          <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                             <MemberName>Eye</MemberName>
                             <Value>
                               <X>0</X>
@@ -10783,7 +10974,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                           <Expression xsi:type="ExternalizedMapping">
                             <Property Name="Value" DisplayName="Specular" />
                           </Expression>
-                          <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                          <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                             <MemberName>Eye</MemberName>
                             <Value>
                               <X>0</X>
@@ -11114,7 +11305,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                           <Expression xsi:type="ExternalizedMapping">
                             <Property Name="Value" DisplayName="Ambient" />
                           </Expression>
-                          <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                          <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                             <MemberName>Eye</MemberName>
                             <Value>
                               <X>1</X>
@@ -11146,7 +11337,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                           <Expression xsi:type="ExternalizedMapping">
                             <Property Name="Value" DisplayName="Diffuse" />
                           </Expression>
-                          <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                          <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                             <MemberName>Eye</MemberName>
                             <Value>
                               <X>0</X>
@@ -11178,7 +11369,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                           <Expression xsi:type="ExternalizedMapping">
                             <Property Name="Value" DisplayName="Specular" />
                           </Expression>
-                          <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                          <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                             <MemberName>Eye</MemberName>
                             <Value>
                               <X>0</X>
@@ -11493,7 +11684,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                           <Expression xsi:type="ExternalizedMapping">
                             <Property Name="Value" DisplayName="Ambient" />
                           </Expression>
-                          <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                          <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                             <MemberName>Eye</MemberName>
                             <Value>
                               <X>1</X>
@@ -11525,7 +11716,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                           <Expression xsi:type="ExternalizedMapping">
                             <Property Name="Value" DisplayName="Diffuse" />
                           </Expression>
-                          <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                          <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                             <MemberName>Eye</MemberName>
                             <Value>
                               <X>0</X>
@@ -11557,7 +11748,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                           <Expression xsi:type="ExternalizedMapping">
                             <Property Name="Value" DisplayName="Specular" />
                           </Expression>
-                          <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                          <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                             <MemberName>Eye</MemberName>
                             <Value>
                               <X>0</X>
@@ -12120,7 +12311,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="Ambient" />
                         </Expression>
-                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
                             <X>1</X>
@@ -12152,7 +12343,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="Diffuse" />
                         </Expression>
-                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
                             <X>0</X>
@@ -12184,7 +12375,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="Specular" />
                         </Expression>
-                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
                             <X>0</X>
@@ -12523,7 +12714,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="Ambient" />
                         </Expression>
-                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
                             <X>1</X>
@@ -12555,7 +12746,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="Diffuse" />
                         </Expression>
-                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
                             <X>0</X>
@@ -12587,7 +12778,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="Specular" />
                         </Expression>
-                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
                             <X>0</X>
@@ -12933,7 +13124,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="Ambient" />
                         </Expression>
-                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
                             <X>1</X>
@@ -12965,7 +13156,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="Diffuse" />
                         </Expression>
-                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
                             <X>0</X>
@@ -12997,7 +13188,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="Specular" />
                         </Expression>
-                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
                             <X>0</X>
@@ -13343,7 +13534,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="Ambient" />
                         </Expression>
-                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
                             <X>1</X>
@@ -13375,7 +13566,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="Diffuse" />
                         </Expression>
-                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
                             <X>0</X>
@@ -13407,7 +13598,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                         <Expression xsi:type="ExternalizedMapping">
                           <Property Name="Value" DisplayName="Specular" />
                         </Expression>
-                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p5:Vector3">
+                        <Expression xsi:type="PropertySource" TypeArguments="gl:CreateLookAt,p6:Vector3">
                           <MemberName>Eye</MemberName>
                           <Value>
                             <X>0</X>
@@ -13616,7 +13807,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="BooleanProperty">
-                <Value>true</Value>
+                <Value>false</Value>
               </Combinator>
             </Expression>
             <Expression xsi:type="rx:Condition">
@@ -13890,10 +14081,14 @@ it[8] as PerturbMagnitude)</scr:Expression>
               <Name>OrientationAngle</Name>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
-            <Expression xsi:type="SubscribeSubject">
-              <Name>PulseLickport</Name>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="SubscribeSubject">
+                <Name>PulseLickport</Name>
+              </Builder>
             </Expression>
-            <Expression xsi:type="VisualizerMapping" />
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="VisualizerMapping" />
+            </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>BehaviorEvents</Name>
             </Expression>
@@ -13948,6 +14143,10 @@ it[8] as PerturbMagnitude)</scr:Expression>
               <viz:Max xsi:nil="true" />
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
+            <Expression xsi:type="SubscribeSubject">
+              <Name>PiezoThreshold</Name>
+            </Expression>
+            <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="viz:TableLayoutPanelBuilder">
               <viz:ColumnCount>2</viz:ColumnCount>
               <viz:RowCount>3</viz:RowCount>
@@ -13964,24 +14163,24 @@ it[8] as PerturbMagnitude)</scr:Expression>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
             <Edge From="1" To="2" Label="Source1" />
-            <Edge From="2" To="34" Label="Source1" />
+            <Edge From="2" To="36" Label="Source1" />
             <Edge From="3" To="4" Label="Source1" />
             <Edge From="4" To="5" Label="Source1" />
-            <Edge From="5" To="34" Label="Source2" />
+            <Edge From="5" To="36" Label="Source2" />
             <Edge From="6" To="7" Label="Source1" />
             <Edge From="7" To="8" Label="Source1" />
-            <Edge From="8" To="34" Label="Source3" />
+            <Edge From="8" To="36" Label="Source3" />
             <Edge From="9" To="10" Label="Source1" />
-            <Edge From="10" To="34" Label="Source4" />
+            <Edge From="10" To="36" Label="Source4" />
             <Edge From="11" To="12" Label="Source1" />
             <Edge From="12" To="13" Label="Source1" />
-            <Edge From="13" To="34" Label="Source5" />
+            <Edge From="13" To="36" Label="Source5" />
             <Edge From="14" To="15" Label="Source1" />
-            <Edge From="15" To="34" Label="Source6" />
+            <Edge From="15" To="36" Label="Source6" />
             <Edge From="16" To="17" Label="Source1" />
-            <Edge From="17" To="34" Label="Source7" />
+            <Edge From="17" To="36" Label="Source7" />
             <Edge From="18" To="19" Label="Source1" />
-            <Edge From="19" To="34" Label="Source8" />
+            <Edge From="19" To="36" Label="Source8" />
             <Edge From="20" To="21" Label="Source1" />
             <Edge From="21" To="22" Label="Source1" />
             <Edge From="22" To="23" Label="Source1" />
@@ -13995,8 +14194,10 @@ it[8] as PerturbMagnitude)</scr:Expression>
             <Edge From="30" To="31" Label="Source1" />
             <Edge From="31" To="32" Label="Source1" />
             <Edge From="32" To="33" Label="Source1" />
-            <Edge From="33" To="34" Label="Source9" />
+            <Edge From="33" To="36" Label="Source9" />
             <Edge From="34" To="35" Label="Source1" />
+            <Edge From="35" To="36" Label="Source10" />
+            <Edge From="36" To="37" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
