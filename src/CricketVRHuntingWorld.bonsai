@@ -1814,7 +1814,7 @@ new(
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p4:WinRawMouse">
-                      <p4:DeviceId>664076357</p4:DeviceId>
+                      <p4:DeviceId>65599</p4:DeviceId>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="MemberSelector">
@@ -1841,7 +1841,7 @@ new(
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p4:WinRawMouse">
-                      <p4:DeviceId>1163790739</p4:DeviceId>
+                      <p4:DeviceId>65595</p4:DeviceId>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="MemberSelector">
@@ -4183,7 +4183,7 @@ def process(value):
         angle = atan2(dy, dx) - atan2(orig_dy, orig_dx)
 
         # Offset the angle by +0.5 radians
-        angle = offset_angle(angle, 0)
+        angle = offset_angle(angle, 0.1)
 
         angles.append(angle)
 
@@ -4966,6 +4966,13 @@ def process(value):
                 </Workflow>
               </Builder>
             </Expression>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>ServoMotor</Name>
+              <Workflow>
+                <Nodes />
+                <Edges />
+              </Workflow>
+            </Expression>
           </Nodes>
           <Edges>
             <Edge From="9" To="10" Label="Source1" />
@@ -4995,7 +5002,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="StringProperty">
-                      <Value>C:\Users\Cricket Team\Desktop\data2\240814_S2_ReHab2_Cricket</Value>
+                      <Value>C:\Users\Cricket Team\Desktop\data2\240820_R7_Shelter_VR</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="rx:ReplaySubject">
@@ -5809,7 +5816,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240814_S2_ReHab2_Cricket\2024-08-14T15-22-15\Looming\Looming_2024-08-14T15-22-15.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240820_R7_Shelter_VR\2024-08-20T15-04-08\Looming\Looming_2024-08-20T15-04-08.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -5856,7 +5863,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240814_S2_ReHab2_Cricket\2024-08-14T15-22-15\YRotationAxis\YRotationAxis_2024-08-14T15-22-15.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240820_R7_Shelter_VR\2024-08-20T15-04-08\YRotationAxis\YRotationAxis_2024-08-20T15-04-08.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -5897,7 +5904,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240814_S2_ReHab2_Cricket\2024-08-14T15-22-15\LEDOrientation\LEDOrientation_2024-08-14T15-22-15.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240820_R7_Shelter_VR\2024-08-20T15-04-08\LEDOrientation\LEDOrientation_2024-08-20T15-04-08.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -6021,7 +6028,7 @@ it.Item2 as Value)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
                       <gl:X>0</gl:X>
-                      <gl:Y>0</gl:Y>
+                      <gl:Y>-0.07</gl:Y>
                       <gl:Z>0</gl:Z>
                     </Combinator>
                   </Expression>
@@ -6039,9 +6046,9 @@ it.Item2 as Value)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
-                      <gl:X>1</gl:X>
-                      <gl:Y>0.1</gl:Y>
-                      <gl:Z>1</gl:Z>
+                      <gl:X>3</gl:X>
+                      <gl:Y>0.13</gl:Y>
+                      <gl:Z>3</gl:Z>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="PropertyMapping">
@@ -6071,7 +6078,7 @@ it.Item2 as Value)</scr:Expression>
                           <Combinator xsi:type="gl:Translate">
                             <gl:Order>Prepend</gl:Order>
                             <gl:X>0</gl:X>
-                            <gl:Y>0</gl:Y>
+                            <gl:Y>-0.07</gl:Y>
                             <gl:Z>0</gl:Z>
                           </Combinator>
                         </Expression>
@@ -6140,9 +6147,9 @@ it.Item2 as Value)</scr:Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="gl:Scale">
                             <gl:Order>Prepend</gl:Order>
-                            <gl:X>1</gl:X>
-                            <gl:Y>0.1</gl:Y>
-                            <gl:Z>1</gl:Z>
+                            <gl:X>3</gl:X>
+                            <gl:Y>0.13</gl:Y>
+                            <gl:Z>3</gl:Z>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="Combinator">
@@ -6613,11 +6620,11 @@ it.Y as Z)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-                    <TranslationX>-0.679758847</TranslationX>
+                    <TranslationX>-2.401766</TranslationX>
                     <TranslationY>-0.05</TranslationY>
-                    <TranslationZ>0.6977987</TranslationZ>
+                    <TranslationZ>2.626833</TranslationZ>
                     <RotationZ>0</RotationZ>
-                    <RotationY>-70.33168</RotationY>
+                    <RotationY>-66.95258</RotationY>
                     <RotationX>0</RotationX>
                     <ScaleX>1</ScaleX>
                     <ScaleY>1</ScaleY>
@@ -6875,9 +6882,9 @@ it.Y as Z)</scr:Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p1:CreateVrElement">
                             <p1:Position>
-                              <p1:X>-1.5</p1:X>
+                              <p1:X>0</p1:X>
                               <p1:Y>0.3</p1:Y>
-                              <p1:Z>0</p1:Z>
+                              <p1:Z>-1.5</p1:Z>
                             </p1:Position>
                             <p1:Orientation>
                               <p1:X>0</p1:X>
@@ -6901,9 +6908,9 @@ it.Y as Z)</scr:Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p1:CreateVrElement">
                             <p1:Position>
-                              <p1:X>-0.3</p1:X>
+                              <p1:X>0</p1:X>
                               <p1:Y>0</p1:Y>
-                              <p1:Z>0</p1:Z>
+                              <p1:Z>-0.3</p1:Z>
                             </p1:Position>
                             <p1:Orientation>
                               <p1:X>0</p1:X>
@@ -7069,8 +7076,8 @@ it.Y as Z)</scr:Expression>
                               </Expression>
                               <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.RangeAnimation.bonsai">
                                 <Duration>1</Duration>
-                                <RangeBegin>-1.5</RangeBegin>
-                                <RangeEnd>-0.30000001192092896</RangeEnd>
+                                <RangeBegin>0</RangeBegin>
+                                <RangeEnd>0</RangeEnd>
                               </Expression>
                               <Expression xsi:type="SubscribeSubject">
                                 <Name>AnimationDuration</Name>
@@ -7113,8 +7120,8 @@ it.Y as Z)</scr:Expression>
                               </Expression>
                               <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.RangeAnimation.bonsai">
                                 <Duration>1</Duration>
-                                <RangeBegin>0</RangeBegin>
-                                <RangeEnd>0</RangeEnd>
+                                <RangeBegin>-1.5</RangeBegin>
+                                <RangeEnd>-0.30000001192092896</RangeEnd>
                               </Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="rx:CombineLatest" />
@@ -7127,9 +7134,9 @@ it.Y as Z)</scr:Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="p1:CreateVrElement">
                                   <p1:Position>
-                                    <p1:X>-0.3</p1:X>
+                                    <p1:X>0</p1:X>
                                     <p1:Y>-3.88578059E-16</p1:Y>
-                                    <p1:Z>0</p1:Z>
+                                    <p1:Z>-0.3</p1:Z>
                                   </p1:Position>
                                   <p1:Orientation>
                                     <p1:X>0</p1:X>
@@ -7146,9 +7153,9 @@ it.Y as Z)</scr:Expression>
                                 </PropertyMappings>
                               </Expression>
                               <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-                                <TranslationX>-0.3</TranslationX>
+                                <TranslationX>0</TranslationX>
                                 <TranslationY>-3.88578059E-16</TranslationY>
-                                <TranslationZ>0</TranslationZ>
+                                <TranslationZ>-0.3</TranslationZ>
                                 <RotationZ>0</RotationZ>
                                 <RotationY>0</RotationY>
                                 <RotationX>0</RotationX>
@@ -8793,7 +8800,7 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
                       <gl:X>0</gl:X>
-                      <gl:Y>-1.22703815</gl:Y>
+                      <gl:Y>-1.16731668</gl:Y>
                       <gl:Z>0</gl:Z>
                     </Combinator>
                   </Expression>
@@ -8839,13 +8846,13 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>-0.694758952</p1:X>
+                        <p1:X>-2.41676617</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>-0.6977987</p1:Z>
+                        <p1:Z>-2.626833</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
-                        <p1:Y>-1.22703815</p1:Y>
+                        <p1:Y>-1.16731668</p1:Y>
                         <p1:Z>0</p1:Z>
                       </p1:Orientation>
                     </Combinator>
@@ -12160,10 +12167,8 @@ it[8] as PerturbMagnitude)</scr:Expression>
             <Expression xsi:type="Annotation">
               <Text><![CDATA[This applies a upper boundary and sets alpha to zero when not in the shelter]]></Text>
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="scr:ExpressionTransform">
-                <scr:Expression>it &gt; 0.220 ? 0.30 : it </scr:Expression>
-              </Builder>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>it &gt; 0.220 ? 0.30 : it </scr:Expression>
             </Expression>
             <Expression xsi:type="scr:ExpressionTransform">
               <scr:Expression>it &lt; 0.175 ? 0 : it </scr:Expression>
@@ -12546,7 +12551,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="gl:CreateVector3">
                 <gl:X>0</gl:X>
-                <gl:Y>-0.099</gl:Y>
+                <gl:Y>-0.13</gl:Y>
                 <gl:Z>-0</gl:Z>
               </Combinator>
             </Expression>
@@ -12596,7 +12601,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                     <Combinator xsi:type="gl:Translate">
                       <gl:Order>Prepend</gl:Order>
                       <gl:X>0</gl:X>
-                      <gl:Y>-0.099</gl:Y>
+                      <gl:Y>-0.13</gl:Y>
                       <gl:Z>-0</gl:Z>
                     </Combinator>
                   </Expression>
@@ -12956,7 +12961,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="gl:CreateVector3">
                 <gl:X>0</gl:X>
-                <gl:Y>0.05</gl:Y>
+                <gl:Y>0.04</gl:Y>
                 <gl:Z>-0</gl:Z>
               </Combinator>
             </Expression>
@@ -13006,7 +13011,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                     <Combinator xsi:type="gl:Translate">
                       <gl:Order>Prepend</gl:Order>
                       <gl:X>0</gl:X>
-                      <gl:Y>0.05</gl:Y>
+                      <gl:Y>0.04</gl:Y>
                       <gl:Z>-0</gl:Z>
                     </Combinator>
                   </Expression>
@@ -13386,7 +13391,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
               <Combinator xsi:type="gl:CreateVector3">
                 <gl:X>0.05</gl:X>
                 <gl:Y>0.05</gl:Y>
-                <gl:Z>0.055</gl:Z>
+                <gl:Z>0.07</gl:Z>
               </Combinator>
             </Expression>
             <Expression xsi:type="PropertyMapping">
@@ -13487,7 +13492,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
                       <gl:Order>Prepend</gl:Order>
                       <gl:X>0.05</gl:X>
                       <gl:Y>0.05</gl:Y>
-                      <gl:Z>0.055</gl:Z>
+                      <gl:Z>0.07</gl:Z>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -13826,7 +13831,7 @@ it[8] as PerturbMagnitude)</scr:Expression>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="BooleanProperty">
-                <Value>false</Value>
+                <Value>true</Value>
               </Combinator>
             </Expression>
             <Expression xsi:type="rx:Condition">
