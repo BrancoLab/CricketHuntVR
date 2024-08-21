@@ -13,13 +13,13 @@
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
                  xmlns:p3="clr-namespace:Bonsai.Numerics.Distributions;assembly=Bonsai.Numerics"
                  xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
+                 xmlns:gli="clr-namespace:Bonsai.Shaders.Input;assembly=Bonsai.Shaders"
                  xmlns:beh="clr-namespace:Harp.Behavior;assembly=Harp.Behavior"
                  xmlns:aeon="clr-namespace:Aeon.Acquisition;assembly=Aeon.Acquisition"
                  xmlns:spk="clr-namespace:Bonsai.Spinnaker;assembly=Bonsai.Spinnaker"
                  xmlns:pylon="clr-namespace:Bonsai.Pylon;assembly=Bonsai.Pylon"
                  xmlns:p4="clr-namespace:;assembly=Extensions"
                  xmlns:vid="clr-namespace:Bonsai.Video;assembly=Bonsai.Video"
-                 xmlns:gli="clr-namespace:Bonsai.Shaders.Input;assembly=Bonsai.Shaders"
                  xmlns:dsp="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp"
                  xmlns:mx="clr-namespace:Bonsai.DAQmx;assembly=Bonsai.DAQmx"
                  xmlns:num="clr-namespace:Bonsai.Numerics;assembly=Bonsai.Numerics"
@@ -1149,49 +1149,61 @@
                           <Property Name="Lower" />
                           <Property Name="Upper" />
                         </Expression>
+                        <Expression xsi:type="rx:Defer">
+                          <Name>InterPulseInterval</Name>
+                          <Workflow>
+                            <Nodes>
+                              <Expression xsi:type="ExternalizedMapping">
+                                <Property Name="Lower" />
+                                <Property Name="Upper" />
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="p3:CreateContinuousUniform">
+                                  <p3:Lower>3</p3:Lower>
+                                  <p3:Upper>6</p3:Upper>
+                                </Combinator>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="p3:Sample" />
+                              </Expression>
+                              <Expression xsi:type="scr:ExpressionTransform">
+                                <scr:Expression>TimeSpan.FromSeconds(it)</scr:Expression>
+                              </Expression>
+                              <Expression xsi:type="PropertyMapping">
+                                <PropertyMappings>
+                                  <Property Name="DueTime" />
+                                </PropertyMappings>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="rx:Timer">
+                                  <rx:DueTime>PT5.365S</rx:DueTime>
+                                  <rx:Period>PT0S</rx:Period>
+                                </Combinator>
+                              </Expression>
+                              <Expression xsi:type="WorkflowOutput" />
+                            </Nodes>
+                            <Edges>
+                              <Edge From="0" To="1" Label="Source1" />
+                              <Edge From="1" To="2" Label="Source1" />
+                              <Edge From="2" To="3" Label="Source1" />
+                              <Edge From="3" To="4" Label="Source1" />
+                              <Edge From="4" To="5" Label="Source1" />
+                              <Edge From="5" To="6" Label="Source1" />
+                            </Edges>
+                          </Workflow>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Repeat" />
+                        </Expression>
+                        <Expression xsi:type="MulticastSubject">
+                          <Name>SynchPulse</Name>
+                        </Expression>
                         <Expression xsi:type="Disable">
-                          <Builder xsi:type="rx:Defer">
-                            <Name>InterPulseInterval</Name>
-                            <Workflow>
-                              <Nodes>
-                                <Expression xsi:type="ExternalizedMapping">
-                                  <Property Name="Lower" />
-                                  <Property Name="Upper" />
-                                </Expression>
-                                <Expression xsi:type="Combinator">
-                                  <Combinator xsi:type="p3:CreateContinuousUniform">
-                                    <p3:Lower>3</p3:Lower>
-                                    <p3:Upper>6</p3:Upper>
-                                  </Combinator>
-                                </Expression>
-                                <Expression xsi:type="Combinator">
-                                  <Combinator xsi:type="p3:Sample" />
-                                </Expression>
-                                <Expression xsi:type="scr:ExpressionTransform">
-                                  <scr:Expression>TimeSpan.FromSeconds(it)</scr:Expression>
-                                </Expression>
-                                <Expression xsi:type="PropertyMapping">
-                                  <PropertyMappings>
-                                    <Property Name="DueTime" />
-                                  </PropertyMappings>
-                                </Expression>
-                                <Expression xsi:type="Combinator">
-                                  <Combinator xsi:type="rx:Timer">
-                                    <rx:DueTime>PT5.008S</rx:DueTime>
-                                    <rx:Period>PT0S</rx:Period>
-                                  </Combinator>
-                                </Expression>
-                                <Expression xsi:type="WorkflowOutput" />
-                              </Nodes>
-                              <Edges>
-                                <Edge From="0" To="1" Label="Source1" />
-                                <Edge From="1" To="2" Label="Source1" />
-                                <Edge From="2" To="3" Label="Source1" />
-                                <Edge From="3" To="4" Label="Source1" />
-                                <Edge From="4" To="5" Label="Source1" />
-                                <Edge From="5" To="6" Label="Source1" />
-                              </Edges>
-                            </Workflow>
+                          <Builder xsi:type="Combinator">
+                            <Combinator xsi:type="rx:Timer">
+                              <rx:DueTime>PT0.5S</rx:DueTime>
+                              <rx:Period>PT0S</rx:Period>
+                            </Combinator>
                           </Builder>
                         </Expression>
                         <Expression xsi:type="Disable">
@@ -1204,17 +1216,51 @@
                             <Name>SynchPulse</Name>
                           </Builder>
                         </Expression>
+                        <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Int64">
+                          <rx:Name>Start_SyncPulse</rx:Name>
+                        </Expression>
+                        <Expression xsi:type="rx:SelectMany">
+                          <Workflow>
+                            <Nodes>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="rx:Timer">
+                                  <rx:DueTime>PT0.5S</rx:DueTime>
+                                  <rx:Period>PT0S</rx:Period>
+                                </Combinator>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="rx:Repeat" />
+                              </Expression>
+                              <Expression xsi:type="MulticastSubject">
+                                <Name>SynchPulse</Name>
+                              </Expression>
+                              <Expression xsi:type="WorkflowOutput" />
+                            </Nodes>
+                            <Edges>
+                              <Edge From="0" To="1" Label="Source1" />
+                              <Edge From="1" To="2" Label="Source1" />
+                              <Edge From="2" To="3" Label="Source1" />
+                            </Edges>
+                          </Workflow>
+                        </Expression>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="rx:Timer">
-                            <rx:DueTime>PT0.5S</rx:DueTime>
-                            <rx:Period>PT0S</rx:Period>
+                          <Combinator xsi:type="gli:KeyDown">
+                            <gli:Key>Space</gli:Key>
+                            <gli:Modifiers>Control</gli:Modifiers>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="rx:Repeat" />
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="IntProperty">
+                            <Value>0</Value>
+                          </Combinator>
                         </Expression>
                         <Expression xsi:type="MulticastSubject">
-                          <Name>SynchPulse</Name>
+                          <Name>Start_SyncPulse</Name>
                         </Expression>
                         <Expression xsi:type="rx:PublishSubject" TypeArguments="sys:Object">
                           <rx:Name>SynchPulse</rx:Name>
@@ -1254,12 +1300,16 @@
                         <Edge From="4" To="5" Label="Source1" />
                         <Edge From="5" To="6" Label="Source1" />
                         <Edge From="7" To="8" Label="Source1" />
-                        <Edge From="8" To="9" Label="Source1" />
-                        <Edge From="9" To="11" Label="Source1" />
-                        <Edge From="10" To="11" Label="Source2" />
+                        <Edge From="9" To="10" Label="Source1" />
+                        <Edge From="10" To="11" Label="Source1" />
                         <Edge From="11" To="12" Label="Source1" />
-                        <Edge From="12" To="13" Label="Source1" />
                         <Edge From="13" To="14" Label="Source1" />
+                        <Edge From="14" To="15" Label="Source1" />
+                        <Edge From="15" To="17" Label="Source1" />
+                        <Edge From="16" To="17" Label="Source2" />
+                        <Edge From="17" To="18" Label="Source1" />
+                        <Edge From="18" To="19" Label="Source1" />
+                        <Edge From="19" To="20" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
@@ -5002,7 +5052,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="StringProperty">
-                      <Value>C:\Users\Cricket Team\Desktop\data2\240820_R7_Shelter_VR</Value>
+                      <Value>C:\Users\Cricket Team\Desktop\data2\TTL_test_async</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="rx:ReplaySubject">
@@ -5816,7 +5866,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240820_R7_Shelter_VR\2024-08-20T15-04-08\Looming\Looming_2024-08-20T15-04-08.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\TTL_test_async\2024-08-21T11-23-27\Looming\Looming_2024-08-21T11-23-27.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -5863,7 +5913,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240820_R7_Shelter_VR\2024-08-20T15-04-08\YRotationAxis\YRotationAxis_2024-08-20T15-04-08.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\TTL_test_async\2024-08-21T11-23-27\YRotationAxis\YRotationAxis_2024-08-21T11-23-27.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -5904,7 +5954,7 @@ it.Item2 as Value)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\240820_R7_Shelter_VR\2024-08-20T15-04-08\LEDOrientation\LEDOrientation_2024-08-20T15-04-08.csv</io:FileName>
+                    <io:FileName>C:\Users\Cricket Team\Desktop\data2\TTL_test_async\2024-08-21T11-23-27\LEDOrientation\LEDOrientation_2024-08-21T11-23-27.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>false</io:Overwrite>
                     <io:Suffix>None</io:Suffix>
@@ -6620,11 +6670,11 @@ it.Y as Z)</scr:Expression>
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawTexturedModel.bonsai">
-                    <TranslationX>-2.401766</TranslationX>
+                    <TranslationX>1.0150001</TranslationX>
                     <TranslationY>-0.05</TranslationY>
-                    <TranslationZ>2.626833</TranslationZ>
+                    <TranslationZ>1</TranslationZ>
                     <RotationZ>0</RotationZ>
-                    <RotationY>-66.95258</RotationY>
+                    <RotationY>-66.46544</RotationY>
                     <RotationX>0</RotationX>
                     <ScaleX>1</ScaleX>
                     <ScaleY>1</ScaleY>
@@ -8800,7 +8850,7 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
                       <gl:X>0</gl:X>
-                      <gl:Y>-1.16731668</gl:Y>
+                      <gl:Y>-1.15986443</gl:Y>
                       <gl:Z>0</gl:Z>
                     </Combinator>
                   </Expression>
@@ -8846,13 +8896,13 @@ it.Y as Z)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p1:CreateVrElement">
                       <p1:Position>
-                        <p1:X>-2.41676617</p1:X>
+                        <p1:X>1</p1:X>
                         <p1:Y>0</p1:Y>
-                        <p1:Z>-2.626833</p1:Z>
+                        <p1:Z>-1</p1:Z>
                       </p1:Position>
                       <p1:Orientation>
                         <p1:X>0</p1:X>
-                        <p1:Y>-1.16731668</p1:Y>
+                        <p1:Y>-1.15986443</p1:Y>
                         <p1:Z>0</p1:Z>
                       </p1:Orientation>
                     </Combinator>
