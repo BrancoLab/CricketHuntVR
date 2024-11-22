@@ -13,6 +13,7 @@ Packages
 # Environments
 winpython
 
+.venv
 
 TODO.md
 src/Workflows/CricketVRHuntingWorld/__pycache__/*
