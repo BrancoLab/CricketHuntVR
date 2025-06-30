@@ -34,14 +34,3 @@ https://github.com/SainsburyWellcomeCentre/virt-hunt-drv
 
 - All payloads are of the type `Timestamped_<dataType>`. For the sake of brevity the `Timestamped` will be ommited from the payload's format.
 - Unless otherwise stated, timestamping is achieved using the latest available photodiode event (~1kHz) as a timestamp source.
-### TaskLogic
-
-  * `TaskLogic\TaskLogic_address.bin [HARP data format]`
-    | name       | address | payload   | attributes | description |
-    | ---------- | ------- | --------- | ---------- | ----------- |
-    | `trial_initiation` | `1` | `U8` | [trial_number] | Event timestamping the start of the trial. |
-    | `perturbation_onset` | `2` | `U8` | [0] | Event timestamping the cricket arm perturbation onset. |
-    | `trial_end` | `3` | `U8` | [0] | Event timestamping the end of the trial. |
-    | `cricket_eat_end` | `4` | `U8` | [0] | Event timestamping the end of the period animals are allowed to eat the cricket for. |
-    | `position_reset` | `11` | `float` [6] | [x,y,z,angle_x,angle_y,angle_z] | Whenever the position of the mouse is manually reset outputs an event containing the target position |
-    | `play_audio_stim` | `12` | `U8` | [0] | Event that signals the triggering of a sound playback |
